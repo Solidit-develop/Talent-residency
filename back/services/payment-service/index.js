@@ -1,6 +1,6 @@
 const express = require('express');
 
-const PORT = 3002;
+const PORT = 4002;
 const app = express();
 
 app.use(express.json());
