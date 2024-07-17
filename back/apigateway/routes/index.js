@@ -16,12 +16,10 @@ router.all('*', (req, res) => {
         return res.status(404).send({ message: 'Service not found' });
     } 
 
-    console.log("Host que se va a setear: " + config.host);
-
     axios({
         baseUrl: config.host,
         method: req.method,
-        url: `${serviceConfig.url}${path}`,
+        url: `${serviceConfig.host}:${serviceConfig.port}${path}`,
         //Validate how to pass headers
         data: req.body
     })
