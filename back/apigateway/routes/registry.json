@@ -2,9 +2,9 @@
     "services": {
         "users": {
             "apiName": "users",
-            "host": "http://localhost",
+            "host": "http://userservice",
             "port": "4001",
-            "url": "http://localhost:4001/"
+            "url": "http://localhost"
         },
         "payment": {
             "apiName": "payment",

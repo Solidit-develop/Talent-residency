@@ -14,6 +14,30 @@ services:
     networks:
       - app-network
 
+  userservice:
+    build:
+      context: ../services/user-service
+    environment:
+      - PORT=4001
+      - HOST=localhost
+    ports:
+      - "4001:4001"
+    networks:
+      - app-network
+
+  apigateway:
+    build:
+      context: ../apigateway
+    environment:
+      - PORT=4000
+      - HOST=localhost
+    ports:
+      - "4000:4000"
+    depends_on:
+      - userservice
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
