@@ -113,13 +113,22 @@ const controllerusuario={
             }else{
                 res.status(400).json({mesage:"El usuario ya existe"})
             }
+
             // res.status(200).json({mesaje:"Todo salio bein"})
         }catch(error){
             console.log("Error interno en el servidor")
             console.log(error)
             res.status(500).json({mesage:"Error interno en el servidor"})
         }
-    }  
+    },  
+
+    actualizardatos:async(req:Request, res:Response):Promise<void>=>{
+        try{
+            
+        }catch(error){
+
+        }
+    }
 };
 
 
