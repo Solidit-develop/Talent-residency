@@ -124,7 +124,7 @@ const controllerusuario={
 
     actualizardatos:async(req:Request, res:Response):Promise<void>=>{
         try{
-            
+            console.log("esto es una prueba para que se valla todo el repositorio")
         }catch(error){
 
         }
