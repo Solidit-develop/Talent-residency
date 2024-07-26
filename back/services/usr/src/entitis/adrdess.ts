@@ -12,6 +12,9 @@ export class Address {
     @Column({ type: 'varchar', length: 400, nullable: true })
     street_2: string; // `nullable: true` permite que esta columna sea opcional
 
+    @Column({ type:'varchar',length:200 })
+    localidad:string;
+
     @ManyToOne(() => Town, town => town.addresses)
     town: Town; // Relación muchos-a-uno con Town
 }

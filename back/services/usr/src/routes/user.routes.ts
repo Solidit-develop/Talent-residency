@@ -5,6 +5,7 @@ import usercontroller  from '../controllers/consulta.controller'
 const router= Router();
 
 router.get('/prueba',usercontroller.inicio_sesion);
-router.post('/prueba2',usercontroller.insertusuario);
-
+router.post('/insertar',usercontroller.insertusuario);
+router.put('/actualizar/:id',usercontroller.actualizarDatos);
+router.get('/todos',usercontroller.prueba);
 module.exports= router;
