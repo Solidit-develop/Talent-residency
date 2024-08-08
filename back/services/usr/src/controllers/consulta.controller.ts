@@ -45,14 +45,20 @@ const controllerusuario={
             
             let passwordhas = await bcryptjs.hash(password,8)
             const token = await generateRandomToken();
+            const encodedToken = encodeURIComponent(token);
             const tokenData = jwt.sign(
-                {name_state,zipcode,name_Town,street_1,street_2,localidad,name_user,lastname,email,password,age,phoneNumber},
-                "Secret",
+                {name_state,zipcode,name_Town,street_1,street_2,localidad,name_user,lastname,email,passwordhas,age,phoneNumber},
+                SECRET_KEY,
                 {expiresIn: "5h"}
             );
+            console.log("Se envio  este roken hash")
+            console.log(token)
+
+            console.log("Se envio el siguiente token")
+            console.log(tokenData)
 
             await transporter.sendMail({
-                from: `"Admin" <${gmail}>`, // Envia el correo
+                from: `"Talent-Residencity" <${gmail}>`, // Envia el correo
                 to: email, // Lista de los correos que lo recibirán
                 subject: "Verificación de seguridad.", // Este será el asunto
                 html: `
@@ -98,10 +104,10 @@ const controllerusuario={
                           <h1>Verificación de datos.</h1>
                           <img src="https://static.vecteezy.com/system/resources/previews/006/925/139/non_2x/play-button-white-color-lock-user-account-login-digital-design-logo-icon-free-photo.jpg" alt="Inicio de sesión">
                           <h3>Para concluir con el registro, valida en el siguiente campo.</h3>
-                          <a href="http://localhost:4001/usr/verificacion/${token}/${tokenData}">
+                          <a href="http://localhost:4001/usr/verificacion/${tokenData}">
                               <button id="aceptar">Aceptar</button>
                           </a>
-                          <a href="http://localhost:3200/api/login/cancelar/${token}">
+                          <a href="http://localhost:3200/api/login/cancelar/${encodedToken}">
                               <button id="cancelar">Cancelar</button> 
                           </a>
                       </body>
@@ -117,36 +123,74 @@ const controllerusuario={
     },
 
 
-   verificacion: async (req: Request, res: Response): Promise<void> => {
-       try {
-        console.log("Entro en primer try");
-         const {token} = req.params;
 
-         if (!token){
-            res.status(400).json({mesage:"token no resivido"});
-            return;
-         }
-   
-         try {
-            console.log("Entro en el segundo try");
-           // Verifica y decodifica el token
-           const decodedToken = jwt.verify(token, SECRET_KEY) as DecodedToken;
+        verificacion: async (req: Request, res: Response): Promise<void> => {
+          try {
+            // Obtén el token de los parámetros de la URL
+            const decodedToken = decodeURIComponent(req.params.token);
+      
+            if (!decodedToken) {
+              res.status(400).json({ message: "Token no recibido" });
+              return;
+            }
+            try {
+              // Verifica y decodifica el token
+              const token = jwt.verify(decodedToken, SECRET_KEY) as DecodedToken;
 
-           console.log(decodedToken.name_user,decodedToken.lastname);
-           // Aquí puedes hacer algo con los datos decodificados, como actualizar la base de datos
-           res.status(200).json({
-             message: 'Token verificado exitosamente',
-             data: decodedToken,
-           });
-         } catch (err) {
-            console.log(err)
-           res.status(404).json({message:"El token expiro"});
-         }
-       } catch (error) {
-        console.log(error);
-         res.status(500).json({ message: 'No fue posible conectar con el servidor.'});
-       }
-     },
+              console.log(token)
+              // Aquí puedes realizar acciones adicionales con los datos decodificados si es necesario
+              // Por ejemplo, actualizar la base de datos, o simplemente devolver los datos
+              console.log("codifico la impresion de que se va a imprimir")
+                console.log(token.name_user,token.lastname)
+              res.status(200).json({
+                message: 'Token verificado exitosamente',
+                data: token,
+              });
+              console.log("Se decodifico el token")
+            //   console.log(token)
+
+            } catch (err) {
+              // Si ocurre un error durante la verificación (token inválido o expirado)
+              console.log(err);
+              res.status(401).json({ message: "El token es inválido o ha expirado" });
+            }
+          } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'No fue posible conectar con el servidor.' });
+          }
+        },
+    
+
+
+//    verificacion: async (req: Request, res: Response): Promise<void> => {
+//        try {
+//         console.log("Entro en primer try");
+//          const {token} = req.params;
+
+//          if (!token){
+//             res.status(400).json({mesage:"token no resivido"});
+//             return;
+//          }
+//          try {
+//             console.log("Entro en el segundo try");
+//            // Verifica y decodifica el token
+//            const decodedToken = jwt.verify(token, SECRET_KEY) as DecodedToken;
+//         console.log("Salto la decodificacion")
+//            console.log(decodedToken.name_user,decodedToken.lastname);
+//            // Aquí puedes hacer algo con los datos decodificados, como actualizar la base de datos
+//            res.status(200).json({
+//              message: 'Token verificado exitosamente',
+//              data: decodedToken,
+//            });
+//          } catch (err) {
+//             console.log(err)
+//            res.status(404).json({message:"El token expiro"});
+//          }
+//        } catch (error) {
+//         console.log(error);
+//          res.status(500).json({ message: 'No fue posible conectar con el servidor.'});
+//        }
+//      },
     
     
 
@@ -156,7 +200,7 @@ const controllerusuario={
             const allUs= await repositoriuser.find()
             console.log(allUs)
             console.log("Pruebas");
-            res.status(200).json({mesage:"codigo procesado con exito"})
+            res.status(200).json(allUs)
         }catch(error){
             console.log(error);
             res.send(500).json({mesage:"error interno del servidor"})
