@@ -1,7 +1,8 @@
 import "reflect-metadata"
 import app from "./app"
 import { AppDataSource } from "./database"
-require ("dotenv").config({path:"./src/.env"})
+// require ("dotenv").config({path:"./src/.env"})
+import 'dotenv/config'
 
 async function  main (){
     try{

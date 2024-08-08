@@ -8,4 +8,6 @@ router.get('/prueba',usercontroller.inicio_sesion);
 router.post('/insertar',usercontroller.insertusuario);
 router.put('/actualizar/:id',usercontroller.actualizarDatos);
 router.get('/todos',usercontroller.prueba);
+router.post('/envioToken',usercontroller.registroUsuario)
+router.get('/verificacion/:token/:tokenData',usercontroller.verificacion)
 module.exports= router;
