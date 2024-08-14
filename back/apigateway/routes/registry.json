@@ -10,7 +10,7 @@
             "apiName": "payment",
             "host": "http://localhost",
             "port": "4002",
-            "url_local": "http://localhost:4002/"
+            "url_local": "http://localhost"
         }
     }
 }
