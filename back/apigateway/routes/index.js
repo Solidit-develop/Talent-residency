@@ -19,7 +19,7 @@ router.all('*', (req, res) => {
     axios({
         baseUrl: config.host,
         method: req.method,
-        url: `${serviceConfig.host}:${serviceConfig.port}/${path}`,
+        url: `${serviceConfig.url_local}:${serviceConfig.port}/${path}`,
         //Validate how to pass headers
         data: req.body
     })

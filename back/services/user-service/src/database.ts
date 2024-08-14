@@ -8,11 +8,11 @@ import { userTypes } from "./entitis/typesUsers";
 require ("dotenv").config({path:"./src/.env"})
 
 const DB_TYPE= process.env.DB_TYPE|| 'postgres'
-const host= process.env.DB_HOST
+const host= process.env.DB_HOST || 'localhost'
 const port = 5432
-const user= process.env.DB_USER
-const password = process.env.DB_PASSWORD
-const database= process.env.DB
+const user= process.env.DB_USER || 'myuser'
+const password = process.env.DB_PASSWORD || 'mypassword'
+const database= process.env.DB || 'mydatabase'
 
 export const AppDataSource = new DataSource({
     type: 'postgres',

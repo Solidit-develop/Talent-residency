@@ -4,6 +4,7 @@ import usercontroller  from '../controllers/consulta.controller'
 
 const router= Router();
 
+router.get('/ping', usercontroller.ping);
 router.get('/prueba',usercontroller.inicio_sesion);
 router.post('/insertar',usercontroller.insertusuario);
 router.put('/actualizar/:id',usercontroller.actualizarDatos);
