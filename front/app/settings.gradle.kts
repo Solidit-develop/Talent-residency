@@ -19,5 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ConectApp"
+rootProject.name = "ServiceSolidIT"
 include(":app")
+ 
