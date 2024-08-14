@@ -1,4 +1,4 @@
-package com.example.conectapp;
+package com.example.servicesolidit;
 
 import org.junit.Test;
 
