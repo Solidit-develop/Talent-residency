@@ -20,7 +20,7 @@ services:
     environment:
       - PORT=4001
       - HOST=localhost
-      - DB_HOST=host.docker.internal
+      - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
