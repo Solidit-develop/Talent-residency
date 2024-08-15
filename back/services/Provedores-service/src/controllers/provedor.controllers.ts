@@ -21,7 +21,10 @@ const controllerProvider = {
         try {
             const { correo } = req.body;
 
-            const {skills,experienceYears,workshopYear,workshopName,worckshopPhoneNumber
+            const {name_state,//tabla de state
+                zipcode,name_Town, // tabla de town
+                street_1,street_2,localidad, // tabla de address
+                skills,experienceYears,workshopYear,workshopName,worckshopPhoneNumber
             
             } = req.body;
 
@@ -56,9 +59,34 @@ const controllerProvider = {
                 //logica para cambiar el estatus
 
                 // se agregan la informacion actualizada (Agregar informacion del provedor)
+                let estado =  await repositoryState.findOne({where:{name_State:name_state}})
+                if(!estado){
+                    estado = new State();
+                    estado.name_State = name_state;
+                    await repositoryState.save(estado);
+                }
                 
+                let ciudad = await repositoryTowns.findOne({where:{name_Town:name_Town, zipCode:zipcode}})
+                if(!ciudad){
+                    ciudad= new Town();
+                    ciudad.name_Town= name_Town;
+                    ciudad.zipCode= zipcode;
+                    ciudad.state=estado;
+                    console.log(ciudad)
+                    await repositoryTowns.save(ciudad);
+                }
+                let addressentitits = await repositoryAddress.findOne({where:{street_1:street_1, street_2:street_2}})
+                if(!addressentitits){
+                addressentitits = new Address();
+                addressentitits.street_1=street_1;
+                addressentitits.street_2= street_2;
+                addressentitits.localidad=localidad;
+                addressentitits.town=ciudad;
+                await repositoryAddress.save(addressentitits);    
+                } 
 
-
+                let provedores = await repositoryProviders.findOne ({where:{}})
+                
                 
             }
 

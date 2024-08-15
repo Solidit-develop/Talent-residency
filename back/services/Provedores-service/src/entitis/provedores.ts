@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Address } from './adrdess'; // Nota: Cambié "adrdess" a "address"
+import { users } from './users';
 
 @Entity()
 export class Providers {
