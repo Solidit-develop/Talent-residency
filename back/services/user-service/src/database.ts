@@ -5,19 +5,22 @@ import { State } from "./entitis/state";
 import { Address } from "./entitis/adrdess";
 import { users } from "./entitis/users";
 import { userTypes } from "./entitis/typesUsers";
-require ("dotenv").config({path:"./src/.env"})
+import config from "./config";
 
-const DB_TYPE= process.env.DB_TYPE|| 'postgres'
-const host= process.env.DB_HOST
-const port = 5432
-const user= process.env.DB_USER
-const password = process.env.DB_PASSWORD
-const database= process.env.DB
+
+const DB_TYPE= config.db_type;
+const host = config.host;
+const port = config.port;
+const user = config.user;
+const password = config.password;
+const database = config.database;
+
+console.log("Variables: host" +host);
 
 export const AppDataSource = new DataSource({
     type: 'postgres',
     host: host,
-    port: port,
+    port: parseInt(port!),
     username: user,
     password: password,
     database: database,

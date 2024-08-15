@@ -20,6 +20,13 @@ services:
     environment:
       - PORT=4001
       - HOST=localhost
+      - DB_HOST=postgres
+      - DB_TYP=postgres
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+      - DB_PASSWORD=mypassword
+      - DB=mydatabase
+      - DB_PORT=5432
     ports:
       - "4001:4001"
     networks:

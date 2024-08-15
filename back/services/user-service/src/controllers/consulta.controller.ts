@@ -374,6 +374,10 @@ const controllerusuario={
         }    
     },
 
+    ping:async(req:Request, res:Response): Promise<void>=>{
+      res.send("pong");
+    },
+
     inicio_sesion:async(req:Request, res:Response):Promise<void>=>{
         try{
             const{email,password}=req.body
