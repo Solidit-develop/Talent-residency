@@ -15,7 +15,10 @@ const user = config.user;
 const password = config.password;
 const database = config.database;
 
-console.log("Variables: host" +host);
+console.log("Variables DB: host " +host);
+console.log("Variables DB: port " +port);
+console.log("Variables DB: user " +user);
+console.log("Variables DB: password " +password);
 
 export const AppDataSource = new DataSource({
     type: 'postgres',
