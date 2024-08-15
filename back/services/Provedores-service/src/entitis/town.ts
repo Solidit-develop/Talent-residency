@@ -14,8 +14,9 @@ export class Town {
     zipCode: string;
 
     @ManyToOne(() => State, state => state.towns)
-    state: State; // Relación muchos-a-uno con State
+    state: State; 
 
     @OneToMany(() => Address, address => address.town)
-    addresses: Address[]; // Relación uno-a-muchos con Address
+    addresses: Address[]; 
+
 }

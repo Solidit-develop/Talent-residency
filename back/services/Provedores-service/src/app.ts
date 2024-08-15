@@ -6,7 +6,5 @@ const app = express();
 app.use(morgan('dev'));
 app.use(express.json());
 
-app.use('/usr',require("./routes/user.routes"))
 
 export default app;
-
