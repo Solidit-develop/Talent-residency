@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".login">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:text="Iniciar sesión"
+            style="@style/Title"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_user"
+            style="@style/BoxTextLayoutNormal"
+            app:startIconDrawable="@drawable/correo"
+            android:hint="Usuario o correo electronico"
+            android:paddingTop="20dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/EditTextNormal"
+                android:inputType="textEmailAddress"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_password"
+            style="@style/BoxTextLayoutNormal"
+            app:startIconDrawable="@drawable/userpassword"
+            android:hint="Contraseña"
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/EditTextNormal"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_txt_forgot"
+            style="@style/ButtonText"
+            android:layout_marginStart="48dp"
+            android:text="¿Olvidaste tu contraseña?" />
+
+        <Button
+            android:id="@+id/btn_sing_in"
+            style="@style/ButtonNormal"
+            android:layout_marginTop="30dp"
+            android:text="Iniciar sesión" />
+
+        <Button
+            android:id="@+id/btn_sing_in_google"
+            style="@style/ButtonIconStart"
+            android:text="Iniciar sesión con Google"
+            app:icon="@drawable/logogoogle" />
+
+        <Button
+            android:id="@+id/btn_sing_in_facebook"
+            style="@style/ButtonIconStart"
+            android:text="Iniciar sesión con Facebook"
+            app:icon="@drawable/logofacebook" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_txt_register"
+            style="@style/ButtonText"
+            android:text="¿No tienes una cuenta? Regístrate aquí"
+            android:paddingTop="20dp"/>
+    </LinearLayout>
+
+</FrameLayout>
