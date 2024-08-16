@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".address">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="10dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:text="Cuál es tu dirección"
+            style="@style/Title"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_zip_code"
+            style="@style/BoxTextLayoutSmall"
+            android:hint="Codigo postal.">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/EditTextSmall"
+                android:inputType="text|number"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/container1"
+            android:hint="Estado"
+            style="@style/TextExtendLayout">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_state"
+                style="@style/AutoCompleteText"
+                android:paddingStart="15dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/container2"
+            android:hint="Ciudad o Municipio."
+            style="@style/TextExtendLayout">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_city"
+                style="@style/AutoCompleteText"
+                android:paddingStart="15dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_calle1"
+            style="@style/BoxTextLayoutSmall"
+            android:hint="Calle 1.">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/EditTextSmall"
+                android:inputType="text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_calle2"
+            style="@style/BoxTextLayoutSmall"
+            android:hint="Calle 2, (Opcional).">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/EditTextSmall"
+                android:inputType="text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_locality"
+            style="@style/BoxTextLayoutSmall"
+            android:hint="Localidad.">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/EditTextSmall"
+                android:inputType="text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_save"
+            style="@style/ButtonIconEnd"
+            android:text="Siguiente"
+            android:layout_marginTop="30dp"
+            app:icon="@drawable/siguiente"
+            />
+
+    </LinearLayout>
+
+</FrameLayout>
