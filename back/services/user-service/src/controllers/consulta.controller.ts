@@ -416,7 +416,7 @@ const controllerusuario={
     insertusuario:async(req:Request, res:Response):Promise<void>=>{
         try{
             
-            let descripcion = "usuario"
+            let descripcion = "Usuario"
             let value=false; // tabla de tipo de cliente
             
             const{name_state,//tabla de state
