@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_green_Light"
     tools:context=".MainActivity">
 
     <ImageView
@@ -43,13 +44,14 @@
         android:layout_marginEnd="30dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
-        android:backgroundTint="@color/md_theme_background">
+        android:backgroundTint="@color/bg_white">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentLogin"
-            android:name="com.example.servicesolidit.login"
+            android:name="com.example.servicesolidit.Login"
             android:layout_width="match_parent"
             android:layout_height="530dp"
+            android:backgroundTint="@color/bg_white"
             tools:layout="@layout/fragment_login"
             />
 

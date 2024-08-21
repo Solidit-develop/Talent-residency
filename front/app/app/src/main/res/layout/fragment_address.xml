@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".address">
+    tools:context=".Address">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -17,13 +17,13 @@
         android:gravity="center">
 
         <TextView
-            android:text="Cuál es tu dirección"
+            android:text="@string/value_txt_title_address"
             style="@style/Title"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txt_zip_code"
             style="@style/BoxTextLayoutSmall"
-            android:hint="Codigo postal.">
+            android:hint="@string/value_edtxt_zip_code">
 
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/EditTextSmall"
@@ -32,7 +32,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/container1"
-            android:hint="Estado"
+            android:hint="@string/value_edtxt_state"
             style="@style/TextExtendLayout">
 
             <AutoCompleteTextView
@@ -43,7 +43,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/container2"
-            android:hint="Ciudad o Municipio."
+            android:hint="@string/value_edtxt_city"
             style="@style/TextExtendLayout">
 
             <AutoCompleteTextView
@@ -55,7 +55,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txt_calle1"
             style="@style/BoxTextLayoutSmall"
-            android:hint="Calle 1.">
+            android:hint="@string/value_edtxt_street">
 
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/EditTextSmall"
@@ -65,7 +65,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txt_calle2"
             style="@style/BoxTextLayoutSmall"
-            android:hint="Calle 2, (Opcional).">
+            android:hint="@string/value_edtxt_street_two">
 
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/EditTextSmall"
@@ -75,7 +75,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txt_locality"
             style="@style/BoxTextLayoutSmall"
-            android:hint="Localidad.">
+            android:hint="@string/value_edtxt_locality">
 
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/EditTextSmall"
@@ -83,9 +83,9 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_save"
+            android:id="@+id/btn_siguiente"
             style="@style/ButtonIconEnd"
-            android:text="Siguiente"
+            android:text="@string/value_btn_next"
             android:layout_marginTop="30dp"
             app:icon="@drawable/siguiente"
             />
