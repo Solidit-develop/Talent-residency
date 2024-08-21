@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Address } from "./adrdess";
 import { userTypes } from "./typesUsers";
 import { Providers } from "./provedores";
@@ -31,5 +31,8 @@ export class users{
 
     @ManyToOne(()=>Address, adress=>adress.id_address)
     adress:Address
+
+    @OneToOne(()=>Providers, provider=>provider.user)
+    provedor:Providers
 
 }

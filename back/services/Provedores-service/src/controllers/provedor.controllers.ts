@@ -6,6 +6,7 @@ import { Providers } from "../entitis/provedores";
 import { Address } from "../entitis/adrdess";
 import { Town } from "../entitis/town";
 import { State } from "../entitis/state";
+import { skills } from "../entitis/skill";
 
 const repositoryTypeU = AppDataSource.getRepository(userTypes);
 const repositoryUser = AppDataSource.getRepository(users);
@@ -14,6 +15,7 @@ const repositoryTowns = AppDataSource.getRepository(Town);
 const repositoryState = AppDataSource.getRepository(State);
 const repositoryAddress = AppDataSource.getRepository(Address);
 const repositoryProviders = AppDataSource.getRepository(Providers);
+const repositoryskills = AppDataSource.getRepository(skills)
 
 const controllerProvider = {
 
@@ -45,15 +47,14 @@ const controllerProvider = {
 
     // complemento de informacion
 
-    infocomplete: async (req: Request, res: Response): Promise<void> => {
+infocomplete: async (req: Request, res: Response): Promise<void> => {
         try {
-            const { email } = req.body;
-
-            const {name_state,//tabla de state
-                zipcode,name_Town, // tabla de town
-                street_1,street_2,localidad, // tabla de address
-                skills,experienceYears,workshopName,worckshopPhoneNumber
-            
+            const {
+                email,
+                name_state, // Estado
+                zipcode, name_Town, // Ciudad
+                street_1, street_2, localidad, // Dirección
+                skill, experienceYears, workshopName, workshopPhoneNumber // Proveedor
             } = req.body;
 
             // Verificar que el correo esté presente en la solicitud
@@ -63,83 +64,103 @@ const controllerProvider = {
             }
 
             // Buscar el usuario por correo
-            let user = await repositoryUser.findOneBy({ email: email });
-            console.log(user)
+            const user = await repositoryUser.findOne({
+                where: { email },
+                relations: ['usertypes']
+            });
+
             // Verificar si el usuario existe
             if (!user) {
                 res.status(404).json({ mensaje: "Usuario no encontrado" });
                 return;
             }
 
-            // Buscar el tipo de usuario asociado al usuario encontrado
-            let typeUser = await repositoryTypeU.findOneBy({ usertypes: user.usertypes });
-            console.log(typeUser?.value);
-            // Verificar si el tipo de usuario existe
-
-
+            const userTypeId = user.usertypes ? user.usertypes.id_userType : null;
             
+            // Buscar el tipo de usuario asociado al usuario encontrado
+            const typeUser = userTypeId ? await repositoryTypeU.findOne({ where: { id_userType: userTypeId } }) : null;
+
+            // Verificar si el tipo de usuario existe
             if (!typeUser) {
-                console.log(typeUser)
                 res.status(404).json({ mensaje: "Tipo de usuario no encontrado" });
                 return;
-            }else {
-                // cambiamos el estatus 
-
-                console.log("Se cambia el tipo de usuario")
-                // const values = true;
-                // const descripcion = "Provedor"
-                // let tipousuario = new userTypes;
-                // tipousuario.value= values;
-                // tipousuario.descripcion=descripcion
-                // await repositoryTypeU.save(tipousuario);
-                //logica para cambiar el estatus
-
-                // se agregan la informacion actualizada (Agregar informacion del provedor)
-                let estado =  await repositoryState.findOne({where:{name_State:name_state}})
-                if(!estado){
-                    console.log("Se agrega un nuevo estado")
-                    // estado = new State();
-                    // estado.name_State = name_state;
-                    // await repositoryState.save(estado);
-                }
-                
-                //insertar la nueva ciudad
-                let ciudad = await repositoryTowns.findOne({where:{name_Town:name_Town, zipCode:zipcode}})
-                if(!ciudad){
-                    console.log("Se agrega una nueva ciudad")
-                    // ciudad= new Town();
-                    // ciudad.name_Town= name_Town;
-                    // ciudad.zipCode= zipcode;
-                    // ciudad.state=estado;
-                    // console.log(ciudad)
-                    // await repositoryTowns.save(ciudad);
-                }
-                //  se agrega la nuenva direccion
-                let addressentitits = await repositoryAddress.findOne({where:{street_1:street_1, street_2:street_2}})
-                if(!addressentitits){
-                    console.log("Se inserta una nueva direccion")
-                // addressentitits = new Address();
-                // addressentitits.street_1=street_1;
-                // addressentitits.street_2= street_2;
-                // addressentitits.localidad=localidad;
-                // addressentitits.town=ciudad;
-                // await repositoryAddress.save(addressentitits);    
-                } 
-                // insertar los provedores
-                let provedores = await repositoryProviders.findOne ({where:{skill:skills}})
-                if(!provedores){
-                    // provedores = new Providers();
-                    // provedores.skill= skills;
-                    // provedores.experienceYears= experienceYears;
-                    // provedores.workshopName = workshopName;
-                    // provedores.workshopPhoneNumber= worckshopPhoneNumber;
-                    
-                    // provedores.address= addressentitits;
-                    // await repositoryProviders.save(provedores);
-
-                    console.log("Se agrega un nuevo provedor")
-                }                
             }
+
+            // Cambiar el estatus del tipo de usuario
+            const values = true;
+            const descripcion = "Proveedor";
+            const tipoUsuario = new userTypes();
+            tipoUsuario.value = values;
+            tipoUsuario.descripcion = descripcion;
+            await repositoryTypeU.save(tipoUsuario);
+
+            // Agregar o actualizar el estado
+            let estado = await repositoryState.findOne({ where: { name_State: name_state } });
+            if (!estado) {
+                estado = new State();
+                estado.name_State = name_state;
+                await repositoryState.save(estado);
+            }
+
+            // Agregar o actualizar la ciudad
+            let ciudad = await repositoryTowns.findOne({
+                where: { name_Town, zipCode: zipcode }
+            });
+            if (!ciudad) {
+                ciudad = new Town();
+                ciudad.name_Town = name_Town;
+                ciudad.zipCode = zipcode;
+                ciudad.state = estado;
+                await repositoryTowns.save(ciudad);
+            }
+
+            // Agregar o actualizar la dirección
+            let address = await repositoryAddress.findOne({
+                where: { street_1, street_2, localidad }
+            });
+            if (!address) {
+                address = new Address();
+                address.street_1 = street_1;
+                address.street_2 = street_2;
+                address.localidad = localidad;
+                address.town = ciudad;
+                await repositoryAddress.save(address);
+            }
+
+            // Agregar o actualizar la habilidad
+            let skillEntity = await repositoryskills.findOne({ where: { name: skill } });
+            if (!skillEntity) {
+                skillEntity = new skills();
+                skillEntity.name = skill;
+                await repositoryskills.save(skillEntity);
+            }
+
+            // Agregar la nueva habilidad al proveedor sin actualizar el resto de la información
+            let proveedor = await repositoryProviders.findOne({
+                where: { workshopName },
+                relations: ['skills'] // Asegúrate de cargar la relación skills
+            });
+
+            if (proveedor) {
+                // Inicializar skills como un array vacío si es undefined
+                proveedor.skills = proveedor.skills || [];
+
+                // Solo agregar nuevas habilidades si no existen
+                if (!proveedor.skills.some(existingSkill => existingSkill.name === skillEntity.name)) {
+                    proveedor.skills.push(skillEntity);
+                    await repositoryProviders.save(proveedor); 
+                }
+            } else {
+                // Si el proveedor no existe, crea uno nuevo
+                proveedor = new Providers();
+                proveedor.experienceYears = experienceYears;
+                proveedor.workshopName = workshopName;
+                proveedor.workshopPhoneNumber = workshopPhoneNumber;
+                proveedor.address = address;
+                proveedor.skills = [skillEntity]; // Asociar habilidades al proveedor
+                await repositoryProviders.save(proveedor);
+            }
+
             // Responder con los datos encontrados
             res.status(200).json({ user, typeUser });
 

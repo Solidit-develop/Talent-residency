@@ -8,6 +8,7 @@ import { userTypes } from "./entitis/typesUsers";
 import { Providers } from "./entitis/provedores";
 // require ("dotenv").config({path:"./src/.env"})
 import 'dotenv/config'
+import { skills } from "./entitis/skill";
 
 
 const DB_TYPE= process.env.DB_TYPE|| 'postgres'
@@ -24,7 +25,7 @@ export const AppDataSource = new DataSource({
     username: user,
     password: password,
     database: database,
-    entities:[State,Town,Address,users,userTypes,Providers],
+    entities:[State,Town,Address,users,userTypes,Providers,skills],
     logging:true,
     synchronize:true 
 })
