@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".register">
+    tools:context=".Register">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -17,17 +17,17 @@
         android:gravity="center">
 
         <TextView
-            android:text="Bienvenido"
+            android:text="@string/value_txt_welcome"
             style="@style/Title"/>
 
         <TextView
-            android:text="Podrías proporcionarnos algunos datos."
+            android:text="@string/value_txt_subtitle"
             style="@style/Subtitle1"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txt_name"
             style="@style/BoxTextLayoutSmall"
-            android:hint="Nombre."
+            android:hint="@string/value_edtxt_Name"
             android:layout_marginTop="20dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -38,7 +38,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txt_lastname"
             style="@style/BoxTextLayoutSmall"
-            android:hint="Apellidos.">
+            android:hint="@string/value_edtxt_lastname">
 
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/EditTextSmall"
@@ -48,7 +48,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txt_phone_number"
             style="@style/BoxTextLayoutSmall"
-            android:hint="Número telefónico.">
+            android:hint="@string/value_edtxt_phone">
 
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/EditTextSmall"
@@ -58,7 +58,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txt_age"
             style="@style/BoxTextLayoutSmall"
-            android:hint="Edad.">
+            android:hint="@string/value_edtxt_age">
 
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/EditTextSmall"
@@ -68,7 +68,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txt_email"
             style="@style/BoxTextLayoutSmall"
-            android:hint="Correo electrónico.">
+            android:hint="@string/value_edtxt_email">
 
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/EditTextSmall"
@@ -79,7 +79,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_siguiente"
             style="@style/ButtonIconEnd"
-            android:text="Siguiente"
+            android:text="@string/value_btn_next"
             app:icon="@drawable/siguiente"
             android:layout_marginTop="20dp"/>
 

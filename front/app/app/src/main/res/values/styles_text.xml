@@ -64,6 +64,7 @@
     <style name="ButtonNormal" parent="Widget.Material3.Button">
         <item name="android:layout_width">250dp</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20dp</item>
         <item name="android:textColor">@color/txt_btn_white</item>
         <item name="backgroundTint">@color/bg_btn_grey</item>
         <item name="cornerRadius">10dp</item>
@@ -109,7 +110,7 @@
     <style name="ButtonText" parent="Widget.Material3.Button.TextButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/link</item>
+        <item name="android:textColor">@color/bg_btn_grey</item>
     </style>
 
 
@@ -132,10 +133,28 @@
         <item name="android:textColor">#666666</item> <!-- Color opcional -->
     </style>
 
+    <style name="Subtitle2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">@dimen/link</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">#666666</item> <!-- Color opcional -->
+    </style>
+
     <!-- *********************************  Botones estilo links  *******************************************88 -->
     <style name="Link">
         <item name="android:textSize">@dimen/link</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">#0F1638</item>
     </style>
+
+    <style name="MenuTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your theme here -->
+        <item name="colorPrimary">#D21B1B1B</item>
+        <item name="colorPrimaryVariant">#D2717171</item>
+        <item name="colorOnPrimary">#D2101010</item>
+        <item name="colorSecondary">#1F1F1F1F</item>
+    </style>
+
 </resources>
