@@ -27,6 +27,7 @@
             android:paddingTop="20dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etUser"
                 style="@style/EditTextNormal"
                 android:inputType="textEmailAddress"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -35,10 +36,11 @@
             android:id="@+id/txt_password"
             style="@style/BoxTextLayoutNormal"
             app:startIconDrawable="@drawable/userpassword"
-            android:hint="@string/value_password"
+            android:hint="@string/value_edtxt_password"
             app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPassword"
                 style="@style/EditTextNormal"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
