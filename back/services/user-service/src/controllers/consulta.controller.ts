@@ -43,7 +43,7 @@ const controllerusuario={
                 street_1,street_2,localidad, // tabla de address
                 name_user,lastname,email,password,age,phoneNumber //tabla de lo usuarios
             }=req.body;
-            const value = 1;
+            const value = false;
             const descripcion="usuario";
             let passwordhas = await bcryptjs.hash(password,8)
             const token = await generateRandomToken();
@@ -106,7 +106,7 @@ const controllerusuario={
                           <h1>Verificación de datos.</h1>
                           <img src="https://static.vecteezy.com/system/resources/previews/006/925/139/non_2x/play-button-white-color-lock-user-account-login-digital-design-logo-icon-free-photo.jpg" alt="Inicio de sesión">
                           <h3>Para concluir con el registro, valida en el siguiente campo.</h3>
-                          <a href="http://localhost:4001/usr/verificacion/${tokenData}">
+                          <a href="http://localhost:4001/verificacion/${tokenData}">
                               <button id="aceptar">Aceptar</button>
                           </a>
                           <a href="http://localhost:3200/api/login/cancelar/${encodedToken}">
@@ -172,7 +172,7 @@ const controllerusuario={
               } 
   
               let descripcion = "usuario"
-              let value=true;
+              let value=false;
   
               let estatus = await repositoritypeU.findOne({where:{descripcion:descripcion,value:value}})
               if(!estatus){
@@ -402,14 +402,6 @@ const controllerusuario={
             console.log(error);
         }
     },
-
-
-    
-
-
-
-
-
 
 
 

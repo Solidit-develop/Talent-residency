@@ -15,7 +15,9 @@ const repositoryTowns = AppDataSource.getRepository(Town);
 const repositoryState = AppDataSource.getRepository(State);
 const repositoryAddress = AppDataSource.getRepository(Address);
 const repositoryProviders = AppDataSource.getRepository(Providers);
-const repositoryskills = AppDataSource.getRepository(skills)
+const repositoryskills = AppDataSource.getRepository(skills);
+
+//cambiar el tipo de usuarios en la tabla de users
 
 const controllerProvider = {
 
@@ -64,7 +66,7 @@ infocomplete: async (req: Request, res: Response): Promise<void> => {
             }
 
             // Buscar el usuario por correo
-            const user = await repositoryUser.findOne({
+            let user = await repositoryUser.findOne({
                 where: { email },
                 relations: ['usertypes']
             });
@@ -89,10 +91,25 @@ infocomplete: async (req: Request, res: Response): Promise<void> => {
             // Cambiar el estatus del tipo de usuario
             const values = true;
             const descripcion = "Proveedor";
-            const tipoUsuario = new userTypes();
+
+
+            let tipoUsuario = await repositoryTypeU.findOne({where:{descripcion:descripcion,value:values}}) 
+            if(!tipoUsuario){
+                tipoUsuario = new userTypes();
             tipoUsuario.value = values;
             tipoUsuario.descripcion = descripcion;
             await repositoryTypeU.save(tipoUsuario);
+            }
+
+             //Actualizamos el tipo de usuario en la tabla de usuario
+           if(user){
+            user.usertypes=tipoUsuario
+            await repositoryUser.save(user)
+           }
+            
+
+
+            
 
             // Agregar o actualizar el estado
             let estado = await repositoryState.findOne({ where: { name_State: name_state } });
@@ -149,6 +166,7 @@ infocomplete: async (req: Request, res: Response): Promise<void> => {
                 if (!proveedor.skills.some(existingSkill => existingSkill.name === skillEntity.name)) {
                     proveedor.skills.push(skillEntity);
                     await repositoryProviders.save(proveedor); 
+                    
                 }
             } else {
                 // Si el proveedor no existe, crea uno nuevo
@@ -158,6 +176,7 @@ infocomplete: async (req: Request, res: Response): Promise<void> => {
                 proveedor.workshopPhoneNumber = workshopPhoneNumber;
                 proveedor.address = address;
                 proveedor.skills = [skillEntity]; // Asociar habilidades al proveedor
+                proveedor.user=user;
                 await repositoryProviders.save(proveedor);
             }
 

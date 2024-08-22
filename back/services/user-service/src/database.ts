@@ -15,6 +15,9 @@ const user = config.user;
 const password = config.password;
 const database = config.database;
 
+
+console.log(host,port,user,password,database)
+
 console.log("Variables: host" +host);
 
 export const AppDataSource = new DataSource({
