@@ -12,5 +12,6 @@ export class skills{
 
     @ManyToMany(()=> Providers, providers=>providers.skills)
     @JoinTable()
-    providers:Providers;
+    providers:Providers[];
 }
+

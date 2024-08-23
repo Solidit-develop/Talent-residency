@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, OneToOne, JoinColumn } from 'typeorm';
-import { Address } from './adrdess'; // Nota: Cambié "adrdess" a "address"
+import { Address } from './adrdess'; 
 import { users } from './users';
 import { skills } from './skill';
 
@@ -32,5 +32,3 @@ export class Providers {
     @JoinColumn()
     user:users
 }
-
-// checar la relacion entre Usuarios y provedores en el metodo donde se unen

@@ -49,7 +49,7 @@ const controllerProvider = {
 
     // complemento de informacion
 
-infocomplete: async (req: Request, res: Response): Promise<void> => {
+    infocomplete: async (req: Request, res: Response): Promise<void> => {
         try {
             const {
                 email,
@@ -107,10 +107,6 @@ infocomplete: async (req: Request, res: Response): Promise<void> => {
             await repositoryUser.save(user)
            }
             
-
-
-            
-
             // Agregar o actualizar el estado
             let estado = await repositoryState.findOne({ where: { name_State: name_state } });
             if (!estado) {
@@ -144,7 +140,7 @@ infocomplete: async (req: Request, res: Response): Promise<void> => {
                 await repositoryAddress.save(address);
             }
 
-            // Agregar o actualizar la habilidad
+            // Agregar la habilidad
             let skillEntity = await repositoryskills.findOne({ where: { name: skill } });
             if (!skillEntity) {
                 skillEntity = new skills();
@@ -187,9 +183,29 @@ infocomplete: async (req: Request, res: Response): Promise<void> => {
             console.error(error);
             res.status(500).json({ mensaje: "Error interno en el servidor" });
         }
-    }
+    },
 
-    // top segun sucalificacion 
+    eliminarHabilidad:async function name(req:Request,res:Response):Promise<void> {
+        try{
+            let correo= req.body.email
+            if(!correo){             
+                //eliminar aglunas habilidades de los usuarios
+                res.status(400).json({mesaje:"Se requiere el correo del usuario"})
+                return;
+            }
+            const usuario = await repositoryUser.findOne({
+                where :{email:correo}
+            });
+            console.log(usuario);
+
+            res.status(200).json("Usuario impreso");
+        }catch(error){
+            console.log("Hay un error", error)
+            res.status(500).json({mesaje:"hay un error"})
+        }
+        
+    }
+        // top segun sucalificacion 
 
 
 }
