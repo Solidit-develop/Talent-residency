@@ -8,6 +8,7 @@ import { Town } from "../entitis/town";
 import { State } from "../entitis/state";
 import { skills } from "../entitis/skill";
 
+
 const repositoryTypeU = AppDataSource.getRepository(userTypes);
 const repositoryUser = AppDataSource.getRepository(users);
 
@@ -189,28 +190,72 @@ const controllerProvider = {
         }
     },
 
-    eliminarHabilidad:async function name(req:Request,res:Response):Promise<void> {
-        try{
-            let correo= req.body.email
-            if(!correo){             
-                //eliminar aglunas habilidades de los usuarios
-                res.status(400).json({mesaje:"Se requiere el correo del usuario"})
+
+    // Eliminacion de usuarios
+
+
+
+    eliminarHabilidad: async function(req: Request, res: Response): Promise<void> {
+        try {
+            const { email, skills } = req.body;
+    
+    
+            const usuario = await repositoryUser.findOne({
+                where: { email: email }
+            });
+    
+
+            if (!usuario) {
+                res.status(404).json({ message: "User not found" });
                 return;
             }
-            const usuario = await repositoryUser.findOne({
-                where :{email:correo}
-            });
-            console.log(usuario);
+    
 
-            res.status(200).json("Usuario impreso");
-        }catch(error){
-            console.log("Hay un error", error)
-            res.status(500).json({mesaje:"hay un error"})
+            const proveedor = await repositoryProviders.findOneBy({
+                user: { id_user: usuario.id_user }
+            });
+    
+            if (!proveedor) {
+                res.status(404).json({ message: "Provider not found" });
+                return;
+            }
+    
+ 
+            const habilidad = await repositoryskills.findOne({
+                where: { name: skills }
+            });
+    
+
+            if (!habilidad) {
+                console.log("Skill not found:", skills);
+                res.status(404).json({ message: "Skill not found" });
+                return;
+            }
+    
+
+            console.log("ID de la habilidad:", habilidad.id_skills);
+            console.log("ID del proveedor:", proveedor.id_provider);
+    
+            // Eliminar la relación entre el proveedor y la habilidad
+            await AppDataSource
+                .createQueryBuilder()
+                .delete()
+                .from('skills_providers_providers')
+                .where("providersIdProvider = :id_provider", { id_provider: proveedor.id_provider })
+                .andWhere("skillsIdSkills = :id_skills", { id_skills: habilidad.id_skills })
+                .execute();
+    
+            res.status(200).json({ message: "Skill eliminada del proveedor" });
+        } catch (error) {
+            console.error("Error:", error);
+            res.status(500).json({ message: "Internal server error" });
         }
-        
     }
+
         // top segun sucalificacion 
 
+        
+        
 
 }
 
