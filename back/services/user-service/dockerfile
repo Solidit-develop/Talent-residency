@@ -3,6 +3,12 @@ FROM node:22.2.0 AS build
 
 ARG PORT
 ARG HOST
+ARG DB_HOST
+ARG DB_TYPE
+ARG DB_USER
+ARG DB_PASSWORD
+ARG DB
+ARG DB_PORT
 
 # Establece el directorio de trabajo
 WORKDIR /app
@@ -34,6 +40,12 @@ RUN npm install
 
 ENV PORT=$PORT
 ENV HOST=$HOST
+ENV DB_HOST=$DB_HOST
+ENV DB_TYPE=$DB_TYPE
+ENV DB_USER=$DB_USER
+ENV DB_PASSWORD=$DB_PASSWORD
+ENV DB=$DB
+ENV DB_PORT=$DB_PORT
 
 # Expone el puerto en el que la aplicación se ejecuta
 EXPOSE ${PORT}

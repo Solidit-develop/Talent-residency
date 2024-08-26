@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_green_Light"
     tools:context=".MainActivity">
 
     <ImageView
@@ -33,112 +34,26 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="530dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_gravity="center"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="190dp"
+        android:layout_marginTop="180dp"
         android:layout_marginEnd="30dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
-        android:backgroundTint="@color/md_theme_background">
+        android:backgroundTint="@color/bg_white">
 
-        <LinearLayout
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentLogin"
+            android:name="com.example.servicesolidit.Login"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="20dp"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Iniciar sesión"
-                android:textAlignment="center"
-                style="@style/Title"
-                android:layout_marginTop="20dp"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txt_user"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/correo"
-                android:hint="Usuario o correo electronico"
-                android:layout_marginTop="20dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txt_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/userpassword"
-                android:hint="Contraseña"
-                android:layout_marginTop="10dp"
-                app:endIconMode="password_toggle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
-                android:id="@+id/btn_txt_forgot"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="48dp"
-                android:text="¿Olvidaste tu contraseña?"
-                android:textColor="@color/link" />
-
-            <Button
-                android:id="@+id/btn_sing_in"
-                style="@style/Widget.Material3.Button.ElevatedButton"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/bg_btn_grey"
-                android:layout_marginTop="15dp"
-                android:text="Iniciar sesión"
-                android:textColor="@color/txt_btn_white" />
-
-            <Button
-                android:id="@+id/btn_sing_in_google"
-                style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/bg_btn_grey"
-                android:text="Iniciar sesión con Google"
-                android:textColor="@color/txt_btn_white"
-                app:icon="@drawable/logogoogle"
-                app:iconTint="@null"/>
-
-            <Button
-                android:id="@+id/btn_sing_in_facebook"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/bg_btn_grey"
-                android:text="Iniciar sesión con Google"
-                android:textColor="@color/txt_btn_white"
-                app:icon="@drawable/logofacebook"
-                app:iconTint="@null" />
-
-            <Button
-                android:id="@+id/btn_txt_register"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="¿No tienes una cuenta? Regístrate aquí"
-                android:textColor="@color/link" />
-
-        </LinearLayout>
+            android:layout_height="530dp"
+            android:backgroundTint="@color/bg_white"
+            tools:layout="@layout/fragment_login"
+            />
 
     </androidx.cardview.widget.CardView>
 

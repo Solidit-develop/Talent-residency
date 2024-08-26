@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/firstFragment"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:title="Casa"/>
+    <item
+        android:id="@+id/secondFragment"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Buscar"/>
+    <item
+        android:id="@+id/thirdFragment"
+        android:icon="@android:drawable/ic_media_next"
+        android:title="Perfil"/>
+</menu>
