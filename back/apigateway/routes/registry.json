@@ -6,9 +6,9 @@
             "port": "4001",
             "url_local": "http://localhost"
         },
-        "payment": {
+        "provider": {
             "apiName": "payment",
-            "host": "http://localhost",
+            "host": "http://providerservice",
             "port": "4002",
             "url_local": "http://localhost"
         }
