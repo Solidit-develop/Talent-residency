@@ -1,0 +1,58 @@
+# Usar una imagen base de Node.js
+FROM node:22.2.0 AS build
+
+ARG PORT
+ARG HOST
+ARG DB_HOST
+ARG DB_TYPE
+ARG DB_USER
+ARG DB_PASSWORD
+ARG DB
+ARG DB_PORT
+ARG EMAIL_USER
+ARG EMAIL_PASS
+
+# Establece el directorio de trabajo
+WORKDIR /app
+
+# Copia el archivo package.json y package-lock.json
+COPY package*.json ./
+
+# Instala las dependencias
+RUN npm install
+
+# Copia el resto de la aplicación
+COPY . .
+
+# Compila el código TypeScript a JavaScript
+RUN npm run build
+
+# Etapa 2: Ejecución
+FROM node:22.2.0
+
+# Establece el directorio de trabajo
+WORKDIR /app
+
+# Copia solamente los archivos necesarios desde la etapa de construcción
+COPY --from=build /app/package*.json ./
+COPY --from=build /app/dist ./dist
+
+# Instala solamente las dependencias de producción
+RUN npm install
+
+ENV PORT=$PORT
+ENV HOST=$HOST
+ENV DB_HOST=$DB_HOST
+ENV DB_TYPE=$DB_TYPE
+ENV DB_USER=$DB_USER
+ENV DB_PASSWORD=$DB_PASSWORD
+ENV DB=$DB
+ENV DB_PORT=$DB_PORT
+ENV EMAIL_USER=$EMAIL_USER
+ENV EMAIL_PASS=$EMAIL_PASS
+
+# Expone el puerto en el que la aplicación se ejecuta
+EXPOSE ${PORT}
+
+# Comando para ejecutar la aplicación
+CMD ["node", "dist/index.js"]

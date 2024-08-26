@@ -24,6 +24,7 @@ router.all('*', (req, res) => {
         data: req.body
     })
     .then(response => {
+        console.log("Response: "+ response);
         res.send(response.data);
     })
     .catch(error => {
