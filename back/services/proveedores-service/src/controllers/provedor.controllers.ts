@@ -47,6 +47,10 @@ const controllerProvider = {
        
     },
 
+    ping: async(req:Request, res:Response): Promise<void> => {
+        res.send("pong");
+    },
+
     // complemento de informacion
 
     infocomplete: async (req: Request, res: Response): Promise<void> => {
