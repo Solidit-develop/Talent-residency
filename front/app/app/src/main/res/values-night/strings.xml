@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="value_forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="value_user_or_email">Usuario o correo electronico</string>
+    <string name="value_edtxt_password">Contraseña</string>
+    <string name="value_btn_login">Iniciar sesión</string>
+    <string name="value_btn_login_google">Iniciar sesión con Google</string>
+    <string name="value_btn_login_facebook">Iniciar sesión con Facebook</string>
+    <string name="value_btn_register">¿No tienes una cuenta? Regístrate aquí</string>
+    <string name="value_txt_welcome">Bienvenido</string>
+    <string name="value_txt_subtitle">Podrías proporcionarnos algunos datos.</string>
+    <string name="value_edtxt_Name">Nombre.</string>
+    <string name="value_edtxt_lastname">Apellidos</string>
+    <string name="value_edtxt_phone">Número telefónico.</string>
+    <string name="value_edtxt_age">Edad.</string>
+    <string name="value_edtxt_email">Correo electrónico.</string>
+    <string name="value_btn_next">Siguiente</string>
+    <string name="value_txt_title_address">Cuál es tu dirección</string>
+    <string name="value_edtxt_zip_code">Codigo postal.</string>
+    <string name="value_edtxt_state">Estado</string>
+    <string name="value_edtxt_city">Ciudad o Municipio.</string>
+    <string name="value_edtxt_street">Calle 1.</string>
+    <string name="value_edtxt_street_two">Calle 2, (Opcional).</string>
+    <string name="value_edtxt_locality">Localidad.</string>
+    <string name="value_edtxt_password_confirm">Confirma tu contraseña</string>
+    <string name="value_btn_accept">Aceptar</string>
+    <string name="value_txt_privacy_policy">Asegúrate de poner una contraseña segura de al menos 8 caracteres incluyendo letras mayusculas, minusculas, numeros y caracteres especiales.</string>
+</resources>

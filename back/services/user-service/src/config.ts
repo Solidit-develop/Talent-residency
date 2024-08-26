@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 // Cargar las variables de entorno desde el archivo .env
 dotenv.config();
 
+console.log(" ");
+
 interface Config {
     db_type?: string;
     host?: string;
@@ -11,7 +13,6 @@ interface Config {
     password?: string;
     database?: string;
 }
-
 const config: Config = {
     db_type: process.env.DB_TYPE,
     host: process.env.DB_HOST,

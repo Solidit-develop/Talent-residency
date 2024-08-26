@@ -14,6 +14,27 @@ services:
     networks:
       - app-network
 
+  providerservice:
+    build:
+      context: ../services/proveedores-service
+    environment:
+      - PORT=4002
+      - HOST=localhost
+      - DB_HOST=postgres
+      - DB_TYP=postgres
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+      - DB=mydatabase
+      - DB_PORT=5432
+      - EMAIL_USER=devsolidit@gmail.com
+      - EMAIL_PASS=oskx bcdz odyk ilpu
+    ports:
+      - "4002:4002"
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
   userservice:
     build:
       context: ../services/user-service
