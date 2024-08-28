@@ -250,10 +250,105 @@ const controllerProvider = {
             console.error("Error:", error);
             res.status(500).json({ message: "Internal server error" });
         }
+    },
+
+        // top segun sucalificacion y la ubicacion
+    
+    // topCalificaciones: async function name(req:Request, res:Response) {
+    //     try{
+    //         const email= req.params.email
+    //         const id_user=  await repositoryUser.findOne({where:{email:email}})
+            
+    //         console.log("este es el usuario", id_user?.id_user)
+
+            
+            
+    //         if(!id_user){
+    //             console.log("No se encontro el usuario")
+    //             res.status(404).json({message:"No se encontro el usuario proporcionado"})
+    //              return;
+    //         }
+
+    //           //sacar la ubicacion del usuario
+
+    //         const ubicacion = await repositoryUser.createQueryBuilder("users")
+    //         .leftJoinAndSelect("users.adress","address")
+    //         .leftJoinAndSelect("address.town","town")
+    //         .leftJoinAndSelect("town.state","state")
+    //         .where("user.email = :email",{id_user:id_user.id_user})
+    //         .getMany();
+
+    //         console.log("Ubicacion del usuario")
+    //         console.log(ubicacion);
+
+    //         res.status(200).json({message:"todo bien"})
+
+    //         //sacar la ubicacion del provedor y compararla con la del usuario
+    //         // Sacar el promedio y ponerlo de manera asc
+            
+    //         //si no existe en la localidad sacar a nivel estado
+
+    //     }
+    //     catch(error){
+    //         console.log(error)
+    //         console.log("error")
+    //         res.status(500).json({message:"Error interno"})
+    //     }
+    // }
+
+    topCalificaciones: async function (req: Request, res: Response) {
+    try {
+        const email = req.params.email;
+        const id_user = await repositoryUser.findOne({ where: { email: email } });
+
+        console.log("Este es el usuario", id_user?.id_user);
+
+        if (!id_user) {
+            console.log("No se encontró el usuario");
+            res.status(404).json({ message: "No se encontró el usuario proporcionado" });
+            return;
+        }
+
+        // Sacar la ubicación del usuario
+        const ubicacion = await repositoryUser.createQueryBuilder("users")
+            .leftJoinAndSelect("users.adress", "address")
+            .leftJoinAndSelect("address.town", "town")
+            .leftJoinAndSelect("town.state", "state")
+            .where("users.email = :email", { email: id_user.email })
+            .getOne();
+
+        if (!ubicacion) {
+            res.status(404).json({ message: "No se encontró la ubicación del usuario" });
+            return;
+        }
+        console.log("")
+        console.log("Ubicación del usuario:");
+        console.log(ubicacion.adress.localidad);
+
+        // ubicacion del usuario
+        const localidadUsuario=  ubicacion.adress.localidad
+
+        // Lógica adicional para sacar la ubicación del proveedor y compararla con la del usuario
+
+        const proveedores = await repositoryProviders.createQueryBuilder("providers")
+        .leftJoinAndSelect("providers.address","address")
+        .leftJoinAndSelect("address.town", "town")
+        .leftJoinAndSelect("town.state", "state")
+        .where("Address.localidad= :localidad",{localidad:localidadUsuario}).getMany();
+
+
+        console.log("Este son los provedores que estan en la localidad")
+        
+        console.log(proveedores)
+    res.status(200).json({ message: "Todo bien"});
+        
+        // Sacar el promedio y ordenarlo de manera ascendente
+        // Si no existe en la localidad, sacarlo a nivel estado
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error interno" });
     }
-
-        // top segun sucalificacion 
-
+}
         
         
 

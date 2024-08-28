@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Town } from './town';
 import { Providers } from './provedores'; // Nota: Cambié "providers" a "Providers"
+import { users } from './users';
 
 @Entity()
 export class Address {
@@ -18,6 +19,9 @@ export class Address {
 
     @ManyToOne(() => Town, town => town.addresses)
     town: Town;
+
+    @OneToMany(()=> users, users=>users.adress)
+    users:users[];
 
     @OneToMany(() => Providers, providers => providers.address)
     providers: Providers[];

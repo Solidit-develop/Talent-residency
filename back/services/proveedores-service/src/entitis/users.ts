@@ -30,7 +30,7 @@ export class users {
     @ManyToOne(() => userTypes, usertypes => usertypes.id_userType)
     usertypes: userTypes;
 
-    @ManyToOne(() => Address, adress => adress.id_address)
+    @ManyToOne(() => Address, adress => adress.users)
     adress: Address;
 
     @OneToOne(() => Providers, provider => provider.user)
