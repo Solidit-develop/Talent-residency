@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { State } from './state'; 
+import { State } from './state';
 import { Address } from './adrdess';
 
 @Entity()
@@ -14,9 +14,9 @@ export class Town {
     zipCode: string;
 
     @ManyToOne(() => State, state => state.towns)
-    state: State; 
+    state: State;
 
     @OneToMany(() => Address, address => address.town)
-    addresses: Address[]; 
+    addresses: Address[];
 
 }
