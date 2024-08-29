@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.servicesolidit.R;
-import com.example.servicesolidit.Register;
+import com.example.servicesolidit.RegisterFlow.Register;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class Login extends Fragment implements LoginView {
