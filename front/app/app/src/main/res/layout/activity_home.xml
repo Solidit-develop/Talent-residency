@@ -1,49 +1,84 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/grey_normal"
     tools:context=".Home">
 
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/content_toolbar"
-        app:menu="@menu/bottom_navigation"
-        android:layout_alignParentTop="true">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Toolbar"
-            android:textAlignment="center"
-            style="@style/Title"/>
-    </androidx.appcompat.widget.Toolbar>
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/frame_container"
+    <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_house"
-        android:layout_below="@+id/content_toolbar"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        android:background="@color/bg_white"
+        android:id="@+id/main1">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:elevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/bottom_navigation"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        app:labelVisibilityMode="selected"
-        style="@style/BottomNavigation"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true">
 
-</RelativeLayout>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/menu_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/toolbar_gradient"
+                app:menu="@menu/menu_head">
+            </androidx.appcompat.widget.Toolbar>
+
+            <ImageView
+                android:id="@+id/icon_menu"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignBottom="@+id/menu_toolbar"
+                android:layout_alignParentStart="@+id/menu_toolbar"
+                android:layout_alignParentTop="@+id/menu_toolbar"
+                android:layout_alignParentEnd="@+id/menu_toolbar"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/menu"
+                android:scaleType="fitXY"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/frame_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_house"
+                android:layout_below="@+id/menu_toolbar"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/fragment_container_profile"/>
+
+            <!-- BottomNavigationView en la parte inferior -->
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottom_navigation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:elevation="10dp"
+                android:translationZ="10dp"
+                app:menu="@menu/bottom_navigation"
+                app:labelVisibilityMode="selected"
+                style="@style/BottomNavigation"/>
+        </RelativeLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:id="@+id/slide_drawn"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/fragment_head_drawn"
+            app:menu="@menu/menu_slide"
+            android:layout_above="@+id/bottom_navigation"
+            android:elevation="10dp"
+            android:background="@drawable/radius_frame"/>
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</LinearLayout>

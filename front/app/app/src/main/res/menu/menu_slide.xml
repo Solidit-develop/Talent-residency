@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/item_message"
+            android:icon="@drawable/correo"
+            android:title="Mensajes"/>
+        <item
+            android:id="@+id/item_appointment"
+            android:icon="@drawable/libreta"
+            android:title="Citas agendadas"/>
+        <item
+            android:id="@+id/item_agreements"
+            android:icon="@drawable/apreton_de_manos"
+            android:title="Acuerdos pendientes"/>
+        <item
+            android:id="@+id/item_record"
+            android:icon="@drawable/lista"
+            android:title="Historial"/>
+        <item
+            android:id="@+id/item_view_edit"
+            android:icon="@drawable/lineaslapiz"
+            android:title="Ver y editar servicios"/>
+        <item
+            android:id="@+id/item_publish_service"
+            android:icon="@drawable/user_corbata"
+            android:title="Publicar servicio"/>
+        <item
+            android:id="@+id/item_wallet"
+            android:icon="@drawable/cartera"
+            android:title="Cartera"/>
+        <item
+            android:id="@+id/item_support"
+            android:icon="@drawable/soporte"
+            android:title="Soporte tecnico"/>
+
+    </group>
+
+</menu>

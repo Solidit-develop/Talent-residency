@@ -2,11 +2,19 @@ package com.example.servicesolidit;
 
 import android.os.Bundle;
 
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+
+import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.navigation.NavigationView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,10 +63,61 @@ public class Profile extends Fragment {
         }
     }
 
+    private Button btnCustomer;
+    private Button btnProvider;
+    private MaterialButtonToggleGroup buttonToggleGroup;
+    private ImageView btnMenu;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+
+    private final PersonalData personalData = new PersonalData();
+    private final BussinesData bussinesData = new BussinesData();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        btnCustomer = view.findViewById(R.id.btn_customer);
+        btnProvider = view.findViewById(R.id.btn_provider);
+        buttonToggleGroup = view.findViewById(R.id.toggleButton);
+
+        drawerLayout = view.findViewById(R.id.main2);
+        navigationView = view.findViewById(R.id.slide_drawn);
+        btnMenu = view.findViewById(R.id.icon_image_menu);
+
+        btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
+        buttonToggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            if (isChecked){
+               checkButtonData(isChecked,checkedId);
+            }
+        });
+
+        return view;
+    }
+  
+    public void checkButtonData (boolean isChecked,int checkedId){
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+
+        if (checkedId == R.id.btn_customer){
+            PersonalData personalData = new PersonalData();
+            transaction.replace(R.id.fragment_container,personalData);
+            transaction.addToBackStack(null);
+            transaction.remove(bussinesData);
+            transaction.commit();
+        } if (checkedId == R.id.btn_provider){
+            BussinesData bussinesData = new BussinesData();
+            transaction.replace(R.id.fragment_container,bussinesData);
+            transaction.addToBackStack(null);
+            transaction.remove(personalData);
+            transaction.commit();
+        }
     }
 }
