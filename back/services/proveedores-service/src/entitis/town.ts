@@ -1,3 +1,5 @@
+//towns
+
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { State } from './state';
 import { Address } from './adrdess';
@@ -13,7 +15,7 @@ export class Town {
     @Column({ type: 'varchar', length: 10 })
     zipCode: string;
 
-    @ManyToOne(() => State, state => state.towns)
+    @ManyToOne(() => State, state => state.town)
     state: State;
 
     @OneToMany(() => Address, address => address.town)

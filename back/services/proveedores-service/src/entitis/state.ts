@@ -1,3 +1,5 @@
+//state
+
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Town } from './town';
 
@@ -10,5 +12,5 @@ export class State {
     name_State: string;
 
     @OneToMany(() => Town, town => town.state)
-    towns: Town[]; // Relación uno-a-muchos con Town
+    town: Town[]; // Relación uno-a-muchos con Town
 }
