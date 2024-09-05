@@ -1,3 +1,5 @@
+//controllers
+
 import { Request, Response } from "express";
 import { AppDataSource } from "../database";
 import { userTypes } from "../entitis/typesUsers";
@@ -7,6 +9,7 @@ import { Address } from "../entitis/adrdess";
 import { Town } from "../entitis/town";
 import { State } from "../entitis/state";
 import { skills } from "../entitis/skill";
+
 
 const repositoryTypeU = AppDataSource.getRepository(userTypes);
 const repositoryUser = AppDataSource.getRepository(users);
@@ -47,12 +50,13 @@ const controllerProvider = {
        
     },
 
+    // prueva de coneccion 
     ping: async(req:Request, res:Response): Promise<void> => {
         res.send("pong");
     },
 
     // complemento de informacion
-
+    
     infocomplete: async (req: Request, res: Response): Promise<void> => {
         try {
             const {
@@ -153,32 +157,29 @@ const controllerProvider = {
             }
 
             // Agregar la nueva habilidad al proveedor sin actualizar el resto de la información
+
             let proveedor = await repositoryProviders.findOne({
                 where: { workshopName },
                 relations: ['skills'] // Asegúrate de cargar la relación skills
             });
 
-            if (proveedor) {
-                // Inicializar skills como un array vacío si es undefined
-                proveedor.skills = proveedor.skills || [];
-
-                // Solo agregar nuevas habilidades si no existen
-                if (!proveedor.skills.some(existingSkill => existingSkill.name === skillEntity.name)) {
-                    proveedor.skills.push(skillEntity);
-                    await repositoryProviders.save(proveedor); 
-                    
+                if(workshopName != proveedor?.workshopName && workshopPhoneNumber !=proveedor?.workshopPhoneNumber){
+                    console.log("Este es el provedor")
+                    console.log(proveedor)
+                    proveedor = new Providers();
+                    proveedor.experienceYears = experienceYears;
+                    proveedor.workshopName = workshopName;
+                    proveedor.workshopPhoneNumber = workshopPhoneNumber;
+                    proveedor.address = address;
+                    proveedor.skills = [skillEntity]; // Asociar habilidades al proveedor
+                    proveedor.user=user;
+                    await repositoryProviders.save(proveedor);
+                    console.log("Se regidstro el usuario")
+                }else{
+                    res.status(400).json({message:"provedor ya existe con el numero o con el nombre de tienda"})
+                    return;
                 }
-            } else {
-                // Si el proveedor no existe, crea uno nuevo
-                proveedor = new Providers();
-                proveedor.experienceYears = experienceYears;
-                proveedor.workshopName = workshopName;
-                proveedor.workshopPhoneNumber = workshopPhoneNumber;
-                proveedor.address = address;
-                proveedor.skills = [skillEntity]; // Asociar habilidades al proveedor
-                proveedor.user=user;
-                await repositoryProviders.save(proveedor);
-            }
+
 
             // Responder con los datos encontrados
             res.status(200).json({ user, typeUser });
@@ -189,28 +190,240 @@ const controllerProvider = {
         }
     },
 
-    eliminarHabilidad:async function name(req:Request,res:Response):Promise<void> {
-        try{
-            let correo= req.body.email
-            if(!correo){             
-                //eliminar aglunas habilidades de los usuarios
-                res.status(400).json({mesaje:"Se requiere el correo del usuario"})
+    // Eliminacion de habilidades
+
+    eliminarHabilidad: async function(req: Request, res: Response): Promise<void> {
+        try {
+            const { email, skills } = req.body;
+    
+    
+            const usuario = await repositoryUser.findOne({
+                where: { email: email }
+            });
+    
+
+            if (!usuario) {
+                res.status(404).json({ message: "User not found" });
                 return;
             }
-            const usuario = await repositoryUser.findOne({
-                where :{email:correo}
-            });
-            console.log(usuario);
+    
 
-            res.status(200).json("Usuario impreso");
+            const proveedor = await repositoryProviders.findOneBy({
+                user: { id_user: usuario.id_user }
+            });
+    
+            if (!proveedor) {
+                res.status(404).json({ message: "Provider not found" });
+                return;
+            }
+    
+ 
+            const habilidad = await repositoryskills.findOne({
+                where: { name: skills }
+            });
+    
+
+            if (!habilidad) {
+                console.log("Skill not found:", skills);
+                res.status(404).json({ message: "Skill not found" });
+                return;
+            }
+    
+
+            console.log("ID de la habilidad:", habilidad.id_skills);
+            console.log("ID del proveedor:", proveedor.id_provider);
+    
+            // Eliminar la relación entre el proveedor y la habilidad
+            await AppDataSource
+                .createQueryBuilder()
+                .delete()
+                .from('skills_providers_providers')
+                .where("providersIdProvider = :id_provider", { id_provider: proveedor.id_provider })
+                .andWhere("skillsIdSkills = :id_skills", { id_skills: habilidad.id_skills })
+                .execute();
+    
+            res.status(200).json({ message: "Skill eliminada del proveedor" });
+        } catch (error) {
+            console.error("Error:", error);
+            res.status(500).json({ message: "Internal server error" });
+        }
+    },
+
+        // top segun sucalificacion y la ubicacion
+  
+    topCalificaciones: async function (req: Request, res: Response) {
+    try {
+        const email = req.params.email;
+        const id_user = await repositoryUser.findOne({ where: { email: email } });
+
+        console.log("Este es el usuario", id_user?.id_user);
+
+        if (!id_user) {
+            console.log("No se encontró el usuario");
+            res.status(404).json({ message: "No se encontró el usuario proporcionado" });
+            return;
+        }
+
+        // Sacar la ubicación del usuario
+        const ubicacion = await repositoryUser.createQueryBuilder("users")
+            .leftJoinAndSelect("users.adress", "address")
+            .leftJoinAndSelect("address.town", "town")
+            .leftJoinAndSelect("town.state", "state")
+            .where("users.email = :email", { email: id_user.email })
+            .getOne();
+
+        if (!ubicacion) {
+            res.status(404).json({ message: "No se encontró la ubicación del usuario" });
+            return;
+        }
+
+        console.log("")
+        console.log("Ubicación del usuario:");
+        console.log(ubicacion.adress.town.state.name_State);
+
+        console.log(ubicacion);
+
+        // ubicacion del usuario
+        const localidadUsuario=  ubicacion.adress.localidad
+
+        // Lógica adicional para sacar la ubicación del proveedor y compararla con la del usuario
+
+        const proveedores = await repositoryProviders.createQueryBuilder("providers")
+        .leftJoinAndSelect("providers.user","user")
+        .leftJoinAndSelect("user.usertypes","usertypes")
+        .leftJoinAndSelect("providers.address","address")
+        .leftJoinAndSelect("address.town", "town")
+        .leftJoinAndSelect("town.state", "state")
+        .where("Address.localidad= :localidad",{localidad:localidadUsuario}).getMany();
+
+        console.log("Este es la informacion del provedor")
+        console.log(proveedores);
+        console.log("Aqui termina la informacion del provedor")
+        if (!proveedores){
+            console.log("No se encientran provedores en tu zona")
+            res.status(404).json({message:"No hay provedorores cerca de tu zona"})
+        }
+
+        // console.log("Este son los provedores que estan en la localidad")        
+        // console.log(proveedores)
+        res.status(200).json({ proveedores});
+        
+            // Sacar el promedio y ordenarlo de manera ascendente
+            // Si no existe en la localidad, sacarlo a nivel estado
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Error interno" });
+        }
+    },
+
+    //todos los provedores disponibles
+    
+    provedores:async function name(req:Request, res:Response) {
+        try{
+            const proveedores = await repositoryProviders.createQueryBuilder("providers")
+        .leftJoinAndSelect("providers.address","address")
+        .leftJoinAndSelect("address.town", "town")
+        .leftJoinAndSelect("town.state", "state")
+        .getMany();
+
+        console.log("Todos los provedores")
+        console.log(proveedores)
+        res.status(200).json(proveedores)
+
         }catch(error){
-            console.log("Hay un error", error)
-            res.status(500).json({mesaje:"hay un error"})
+            console.log(error)
+            res.status(500).json({mesage:"Hay un erro dentro del cervidor"})
+            console.log("Hay un error interno en el servidor")
+        }
+
+    },
+
+    // scrooll de home
+    scroll:async function name(req:Request, res:Response) {
+      try{
+        let {beet,twen} = req.params
+
+                // Convertir el callback a string en caso de que sea un número
+        
+            if(typeof beet ==="string" || typeof beet ==="number" && typeof twen==="string" || typeof twen ==="number" ){
+             const inicio = /^[0-9]+$/.test(beet.toString());
+             const final = /^[0-9]+$/.test(twen.toString());
+             const resprovedor=[];
+
+                 if (inicio && final){
+                     console.log("Son numero")
+
+                    const provedores = await repositoryProviders.createQueryBuilder("providers")
+                    .leftJoinAndSelect("providers.address","address")
+                    .leftJoinAndSelect("address.town", "town")
+                    .leftJoinAndSelect("town.state", "state")
+                    .getMany();
+                    
+
+                    const ini = parseInt(beet)
+                    const fin = parseInt(twen)
+                    console.log("inicio del siclo con los parametros");
+
+                    console.log(ini, fin);
+
+                    if(ini>fin){
+                        res.status(400).json({message:"No fue posible estructiurar la peticion"})
+                        console.log("El colback esta mal estructurado")
+                        return
+                    }
+
+                    for(let i =ini; i<=fin; i++){
+                       const resultado = provedores[i]
+                       resprovedor.push(resultado)
+                    }
+                    console.log(resprovedor)
+                    res.status(200).json(resprovedor)
+
+                 }else{
+                    res.status(400).json({message:"El colback no es compatible"})
+                     console.log("Tienen letras")
+                     return;
+                 }
+            }
+
+        // console.log(beet, twen)
+        // res.status(200).json({message:"Salio todo bien"})
+        
+      } catch(error){
+        console.log(error)
+        res.status(500).json({message:"Error interno en servidor"})
         }
         
-    }
-        // top segun sucalificacion 
+    },     
 
+    // info de 1 provedor
+
+    profiele:async function name(req:Request, res:Response) {
+
+
+        try{
+
+        const id_provider= req.params.id;
+        const proveedores = await repositoryProviders.createQueryBuilder("providers")
+        .leftJoinAndSelect("providers.user","user")
+        .leftJoinAndSelect("providers.address","address")
+        .leftJoinAndSelect("address.town", "town")
+        .leftJoinAndSelect("town.state", "state")
+        .where("Providers.id_provider=:id_provider",{id_provider:id_provider})
+        .getOne();
+
+        console.log(proveedores)
+
+
+        res.status(200).json({proveedores})
+
+        }catch(error){
+            console.log(error)
+            res.status(500).json({message:"Error interno del servidor"})
+            
+        } 
+
+    }
 
 }
 
