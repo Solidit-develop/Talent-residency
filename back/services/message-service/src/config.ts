@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 console.log(" ");
+console.log("Estas son las variables de entorno")
+// console.log(process.env)
 
 interface Config {
     db_type?: string;
