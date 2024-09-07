@@ -41,6 +41,7 @@ public class Login extends Fragment implements LoginView {
                 String username = etUser.getText().toString();
                 String password = etPassword.getText().toString();
                 Toast.makeText(v.getContext(), "Login called with: "+username+" y "+password, Toast.LENGTH_SHORT).show();
+                showProgress();
                 presenter.login(username, password);
             }
         });
