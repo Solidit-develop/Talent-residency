@@ -1,7 +1,8 @@
-import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Address } from "./adrdess";
 import { userTypes } from "./typesUsers";
 import { Providers } from "./provedores";
+import { Conversation } from "./conversation";
 import { appointment } from "./appointment";
 
 @Entity()
@@ -39,4 +40,6 @@ export class users {
     @OneToMany(()=>appointment, appointment=>appointment.users)
     appointment:appointment[];
 
+    // @OneToMany(()=> Conversation,Conversation=> Conversation.user)
+    // conversation:Conversation;
 }

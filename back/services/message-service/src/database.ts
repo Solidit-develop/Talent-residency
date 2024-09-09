@@ -1,4 +1,4 @@
-import { Providers } from "./entitis/provedores";
+// import { Providers } from "./entitis/provedores";
 // import { Type } from "typescript";
 import { users } from "./entitis/users";
 
@@ -8,13 +8,13 @@ import { DataSource } from "typeorm";
 import { userTypes } from "./entitis/typesUsers";
 import { Messages } from "./entitis/messages";
 import { Conversation } from "./entitis/conversation";
-import { State } from "./entitis/state";
-import { Town } from "./entitis/town";
-import { Address } from "./entitis/adrdess";
-import { skills } from "./entitis/skill";
-import { review } from "./entitis/review";
-import { appointment } from "./entitis/appointment";
-import { statusAppointment } from "./entitis/statusAppointment";
+// import { State } from "./entitis/state";
+// import { Town } from "./entitis/town";
+// import { Address } from "./entitis/adrdess";
+// import { skills } from "./entitis/skill";
+// import { review } from "./entitis/review";
+// import { appointment } from "./entitis/appointment";
+// import { statusAppointment } from "./entitis/statusAppointment";
 
 
 
@@ -33,8 +33,8 @@ export const AppDataSource = new DataSource({
     password:password,
     username:user,
     database:database,
-    entities:[Messages,Conversation,State,Town,Address,users,userTypes,Providers,skills,review,appointment,statusAppointment],
+    entities:[Messages,Conversation,users,userTypes],
     logging:true,
-    synchronize:true    
+    synchronize:false    
 
 })

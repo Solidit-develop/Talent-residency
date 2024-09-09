@@ -19,11 +19,12 @@ export class Conversation{
     @JoinColumn()
     id_userDestino:users
 
-    @ManyToOne(()=>users,users=>users.conversation)
-    user:users
+    // @ManyToOne(()=>users,users=>users.conversation)
+    // user:users
 
     @OneToMany(()=>Messages,Messages=>Messages.conversation)
     messages:Messages[];
+
 
 }
 
