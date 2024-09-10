@@ -36,6 +36,7 @@ interface DecodedToken {
   
   const SECRET_KEY = 'Secret';
 const controllerusuario={
+  
     registroUsuario:async(req:Request,res:Response):Promise<void>=>{
         try{
             const{name_state,//tabla de state
@@ -97,8 +98,8 @@ const controllerusuario={
                               }
                               img {
                                   padding: 1px 1px;
-                                  width: 200px;  /* Ancho deseado en píxeles */
-                                  height: 200px; /* Altura deseada en píxeles */
+                                  inline-size: 200px;  /* Ancho deseado en píxeles */
+                                  block-size: 200px; /* Altura deseada en píxeles */
                               }
                           </style>
                       </head>
@@ -210,7 +211,7 @@ const controllerusuario={
                   }
                   .container {
                     text-align: center;
-                    margin-top: 100px;
+                    margin-block-start: 100px;
                   }
                   .success-message {
                     background-color: #4CAF50;
@@ -219,7 +220,7 @@ const controllerusuario={
                     border-radius: 10px;
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                     font-size: 24px;
-                    width: 300px;
+                    inline-size: 300px;
                     margin: 0 auto;
                   }
                 </style>
@@ -251,7 +252,7 @@ const controllerusuario={
           }
           .container {
             text-align: center;
-            margin-top: 100px;
+            margin-block-start: 100px;
           }
           .success-message {
             background-color: #cfd441;
@@ -260,7 +261,7 @@ const controllerusuario={
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             font-size: 24px;
-            width: 300px;
+            inline-size: 300px;
             margin: 0 auto;
           }
         </style>
@@ -296,7 +297,7 @@ const controllerusuario={
           }
           .container {
             text-align: center;
-            margin-top: 100px;
+            margin-block-start: 100px;
           }
           .success-message {
             background-color: #a61a1a;
@@ -305,7 +306,7 @@ const controllerusuario={
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             font-size: 24px;
-            width: 300px;
+            inline-size: 300px;
             margin: 0 auto;
           }
         </style>
@@ -325,49 +326,18 @@ const controllerusuario={
             console.log(error);
             res.status(500).json({ message: 'No fue posible conectar con el servidor.' });
           }
-        },
-    
-
-
-//    verificacion: async (req: Request, res: Response): Promise<void> => {
-//        try {
-//         console.log("Entro en primer try");
-//          const {token} = req.params;
-
-//          if (!token){
-//             res.status(400).json({mesage:"token no resivido"});
-//             return;
-//          }
-//          try {
-//             console.log("Entro en el segundo try");
-//            // Verifica y decodifica el token
-//            const decodedToken = jwt.verify(token, SECRET_KEY) as DecodedToken;
-//         console.log("Salto la decodificacion")
-//            console.log(decodedToken.name_user,decodedToken.lastname);
-//            // Aquí puedes hacer algo con los datos decodificados, como actualizar la base de datos
-//            res.status(200).json({
-//              message: 'Token verificado exitosamente',
-//              data: decodedToken,
-//            });
-//          } catch (err) {
-//             console.log(err)
-//            res.status(404).json({message:"El token expiro"});
-//          }
-//        } catch (error) {
-//         console.log(error);
-//          res.status(500).json({ message: 'No fue posible conectar con el servidor.'});
-//        }
-//      },
-    
-    
-
-   prueba:async(req:Request,res:Response):Promise<void>=>{
+    },
+  
+   usrRegis:async(req:Request,res:Response):Promise<void>=>{
 
         try{
-            const allUs= await repositoriuser.find()
-            console.log(allUs)
-            console.log("Pruebas");
-            res.status(200).json(allUs)
+          const usuarios = await repositoriuser.createQueryBuilder("users")
+            .leftJoinAndSelect("users.adress", "address")
+            .leftJoinAndSelect("address.town", "town")
+            .leftJoinAndSelect("town.state", "state")
+            .getMany();
+            console.log("Se Encontraron todos los usuarios");
+            res.status(200).json(usuarios)
         }catch(error){
             console.log(error);
             res.send(500).json({mesage:"error interno del servidor"})
@@ -402,8 +372,6 @@ const controllerusuario={
             console.log(error);
         }
     },
-
-
 
     insertusuario:async(req:Request, res:Response):Promise<void>=>{
         try{
@@ -481,10 +449,6 @@ const controllerusuario={
             res.status(500).json({mesage:"Error interno en el servidor"})
         }
     },
-
-
-    
-    
     
     actualizarDatos: async (req: Request, res: Response): Promise<void> => {
         try {
@@ -566,9 +530,40 @@ const controllerusuario={
             console.error("Error al actualizar los datos:", error);
             res.status(500).json({ message: "Error interno del servidor" });
         }
-    }
+    },
 
+    miInfo:async (req:Request, res:Response):Promise<void> => {
+      try{
+        const email = req.params.email
+
+        if(!email){
+          console.log("Flato mandar el email")
+          res.status(404).json({message:"No se encontro el email"})
+          return;
+        }
+        const usuarios = await repositoriuser.createQueryBuilder("users")
+        .leftJoinAndSelect("users.adress", "address")
+        .leftJoinAndSelect("address.town", "town")
+        .leftJoinAndSelect("town.state", "state")
+        .where("users.email = :email", { email: email })
+        .getOne();
+      
         
+
+        if(!usuarios){
+          console.log("No se encontro el usuario deseado")
+          res.status(404).json({message:"No se encontro el usuario"})
+          return;
+        }
+        console.log("Se Encontraron todos los usuarios");
+        res.status(200).json(usuarios)
+
+      }catch(error){
+        console.log(error);
+        res.status(500).json({message:"Hay un error dentro del servidor"})
+
+      }
+    }
 
 };
 
