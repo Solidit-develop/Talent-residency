@@ -12,26 +12,18 @@ export class Conversation{
     creationDate:Date
 
     @ManyToOne(()=>users,users=>users.id_user)
-    @JoinColumn()
+    @JoinColumn({name:"idUserOrigenIdUser"})
     id_userOrigen:users
 
-    @ManyToOne(()=>users,users=>users.id_user)
-    @JoinColumn()
-    id_userDestino:users
+    @Column({type:'int'})
+    id_userDestino:number
 
-    @ManyToOne(()=>users,users=>users.conversation)
-    user:users
+
+    // @ManyToOne(()=>users,users=>users.conversation)
+    // user:users
 
     @OneToMany(()=>Messages,Messages=>Messages.conversation)
     messages:Messages[];
 
 }
 
-
-
-// tomcat 
-// dataservices
-// srepits
-// datavertions
-
-// ruta user/Sap/sid/dataservices/

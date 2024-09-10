@@ -32,17 +32,70 @@ const controllermessages={
     // inivcio de conversacion
 
     conversacion:async(req:Request, res:Response):Promise<void>=>{
-        const {id_logued,id_dest}= req.params
-        const date = "La hora actual" //hora en cual fue iniciada la converzacion
-        const {contect, dendDate}= req.body //sendDare fecha de los mensajes
-        
-        //logica para verificar si existe una relacion entre ambos usuarios
-        // const conversacion = await repositoryuser
-        // .createQueryBuilder("users")
-        // // .leftJoinAndSelect()
-        //logica para estar insertando
-        
+        try{
+            let {id_logued,id_dest}= req.params
+            // const date = "La hora actual" //hora en cual fue iniciada la converzacion
+            const {contect, sendDate,date}= req.body //sendDare fecha de los mensajes
+            const user_log = parseInt(id_logued)
+            const user_des= parseInt(id_dest);
+            
+           
+    
+            const existe = await repositorycoversation.createQueryBuilder("conversation")
+            .leftJoinAndSelect("conversation.id_userOrigen", "userOrigen")  // Relación con el usuario que inició la conversación
+            .leftJoinAndSelect("conversation.messages", "messages")  // Relación con los mensajes
+            .where("conversation.id_userOrigen = :id_userOrigen", { id_userOrigen: id_logued })  // Filtrar por usuario origen
+            .andWhere("conversation.id_userDestino = :id_userDestino", { id_userDestino: id_dest }) 
+            .orWhere("conversation.id_userOrigen = :id_userOrigen", { id_userOrigen: id_logued })
+            .andWhere("conversation.id_userOrigen = :id_userOrigen", { id_userOrigen: id_logued }) // Filtrar por usuario destino
+            .getOne();
 
+            const usuario = await repositoryuser.findOne({where:{id_user:user_log}})
+            if(!usuario){
+                res.status(404).json({message:"No se encontro el usuario"})
+                return;
+            }
+
+            if (!existe){
+                console.log("No existe creando la relacion")
+                let conversation = new Conversation();
+                conversation.id_userOrigen=usuario;
+                conversation.id_userDestino= user_des;
+                conversation.creationDate=date;
+                await repositorycoversation.save(conversation)
+
+                let mensaje = new Messages();
+                mensaje.contect= contect;
+                mensaje.senddate= sendDate
+                mensaje.conversation=conversation;
+                 await repsitorymesages.save(mensaje)
+                console.log("Se regisdtro con exito el mensaje")
+
+            }else{
+                let mensaje = new Messages();
+                mensaje.contect= contect;
+                mensaje.senddate= sendDate
+                mensaje.conversation=existe;
+                 await repsitorymesages.save(mensaje)
+                console.log("Se regisdtro con exito el mensaje")
+            }
+
+           
+            
+            
+            
+            res.status(200).json({message:"mensaje guardado con exito"})
+        }catch(error){
+
+            console.log("Hay un error en el servidor ")
+            console.log(error)
+            res.status(500).json({Message:"Hay un error interno en el servidor"})
+
+        }
+
+     
+        
+        
     }
 
 

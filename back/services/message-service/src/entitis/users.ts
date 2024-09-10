@@ -31,8 +31,8 @@ export class users {
     @ManyToOne(() => userTypes, usertypes => usertypes.id_userType)
     usertypes: userTypes;
 
-    @OneToMany(()=> Conversation,Conversation=> Conversation.user)
-    conversation:Conversation;
+    // @OneToMany(()=> Conversation,Conversation=> Conversation.user)
+    // conversation:Conversation;
     
     // @ManyToOne(() => Address, adress => adress.users)
     // adress: Address;
