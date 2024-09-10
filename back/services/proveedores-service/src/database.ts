@@ -12,6 +12,9 @@ import config from "./config";
 import { review } from "./entitis/review";
 import { appointment } from "./entitis/appointment";
 import { statusAppointment } from "./entitis/statusAppointment";
+import { Conversation } from "./entitis/conversation";
+import { Messages } from "./entitis/messages";
+
 
 const DB_TYPE= config.db_type
 const host= config.host
@@ -27,7 +30,7 @@ export const AppDataSource = new DataSource({
     username: user,
     password: password,
     database: database,
-    entities:[State,Town,Address,users,userTypes,Providers,skills,review,appointment,statusAppointment],
+    entities:[State,Town,Address,users,userTypes,Providers,skills,review,appointment,statusAppointment,Conversation,Messages],
     logging:true,
     synchronize:true 
 })
