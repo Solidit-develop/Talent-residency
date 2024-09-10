@@ -7,8 +7,11 @@ import com.example.servicesolidit.Model.Dtos.User;
 import com.example.servicesolidit.Model.Dtos.UserRegisterModel;
 import com.example.servicesolidit.Model.Responses.RegisterResponseDto;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ApiService {
@@ -17,4 +20,8 @@ public interface ApiService {
 
     @POST("users/envioToken")
     Call<RegisterResponseDto> register(@Body UserRegisterModel user);
+
+    @GET("users/prueba")
+    Call<List<UserRegisterModel>> getAllClients();
+
 }

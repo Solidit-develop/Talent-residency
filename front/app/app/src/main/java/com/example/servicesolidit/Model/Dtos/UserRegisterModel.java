@@ -2,8 +2,8 @@ package com.example.servicesolidit.Model.Dtos;
 
 public class UserRegisterModel {
 
-    private String name_user;
-    private String lastname;
+    private String name_User;
+    private String lasname;
     private String email;
     private String password;
     private int age;
@@ -18,8 +18,8 @@ public class UserRegisterModel {
     // Constructor
     public UserRegisterModel(String name_user, String lastname, String email, String password, int age, String phoneNumber,
                              String street_1, String street_2, String localidad, String name_Town, String name_state, String zipcode) {
-        this.name_user = name_user;
-        this.lastname = lastname;
+        this.name_User = name_user;
+        this.lasname = lastname;
         this.email = email;
         this.password = password;
         this.age = age;
@@ -34,19 +34,19 @@ public class UserRegisterModel {
 
     // Getters and Setters
     public String getName_user() {
-        return name_user;
+        return name_User;
     }
 
     public void setName_user(String name_user) {
-        this.name_user = name_user;
+        this.name_User = name_user;
     }
 
     public String getLastname() {
-        return lastname;
+        return lasname;
     }
 
     public void setLastname(String lastname) {
-        this.lastname = lastname;
+        this.lasname = lastname;
     }
 
     public String getEmail() {
@@ -128,4 +128,5 @@ public class UserRegisterModel {
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
+
 }

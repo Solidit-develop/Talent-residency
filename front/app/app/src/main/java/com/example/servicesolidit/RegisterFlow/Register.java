@@ -15,6 +15,8 @@ import com.example.servicesolidit.Address;
 import com.example.servicesolidit.Model.Dtos.UserRegisterModel;
 import com.example.servicesolidit.R;
 
+import java.util.List;
+
 
 public class Register extends Fragment implements RegisterView{
 
@@ -47,6 +49,7 @@ public class Register extends Fragment implements RegisterView{
             );
             presenter.register(userRequest);
             showProgress();
+            presenter.getAllClientes();
         });
         return view;
     }
@@ -75,5 +78,13 @@ public class Register extends Fragment implements RegisterView{
     @Override
     public void onRegisterError(String message) {
         Toast.makeText(this.getContext(), "Error message: "+message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGetAllClientsSuccess(List<UserRegisterModel> clients) {
+        hideProgress();
+        for (UserRegisterModel cliente : clients){
+            Toast.makeText(this.getContext(), "Cliente: " + cliente.getName_user() + " " + cliente.getLastname() + "  "+ cliente.getEmail(), Toast.LENGTH_LONG).show();
+        }
     }
 }
