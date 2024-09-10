@@ -2,19 +2,25 @@ package com.example.servicesolidit;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,6 +78,7 @@ public class Profile extends Fragment {
 
     private final PersonalData personalData = new PersonalData();
     private final BussinesData bussinesData = new BussinesData();
+    private final Map<Integer, Runnable> navigationAction = new HashMap<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,6 +105,39 @@ public class Profile extends Fragment {
                checkButtonData(isChecked,checkedId);
             }
         });
+
+        navigationAction.put(R.id.item_message, ()->{
+            Toast.makeText(this.getContext(), "Hola desde mensajes", Toast.LENGTH_SHORT).show();
+        });
+        navigationAction.put(R.id.item_appointment, ()->{
+            Toast.makeText(this.getContext(), "Hola desde citas", Toast.LENGTH_SHORT).show();
+        });
+        navigationAction.put(R.id.item_agreements, () -> {
+            Toast.makeText(this.getContext(), "Hola desde acuerdos", Toast.LENGTH_SHORT).show();
+        });
+        navigationAction.put(R.id.item_record, () -> {
+            Toast.makeText(this.getContext(), "Hola desde historial", Toast.LENGTH_SHORT).show();
+        });
+        navigationAction.put(R.id.item_view_edit, () -> {
+            Toast.makeText(this.getContext(), "Hola desde ver y editar servicios", Toast.LENGTH_SHORT).show();
+        });
+        navigationAction.put(R.id.item_publish_service, () -> {
+            Toast.makeText(this.getContext(), "Hola desde publicar servicio", Toast.LENGTH_SHORT).show();
+        });
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Runnable action = navigationAction.get(item.getItemId());
+                if(action !=null){
+                    action.run();
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
         return view;
     }

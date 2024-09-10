@@ -17,14 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:id="@+id/toolbar_profile"
-                android:background="#61000000">
-            </Toolbar>
-
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
@@ -33,6 +25,74 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/logoimagen"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="460dp"
+                android:layout_below="@+id/img_profile"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="-20dp"
+                android:layout_gravity="center"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp"
+                android:backgroundTint="@color/bg_white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/content_button"
+                    android:gravity="center">
+
+
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/toggleButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        app:singleSelection="true">
+
+                        <Button
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:id="@+id/btn_customer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DATOS PERSONALES"
+                            android:textStyle="bold"
+                            android:elevation="2dp"/>
+
+                        <Button
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:id="@+id/btn_provider"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DATOS DE NEGOCIO"
+                            android:textStyle="bold"
+                            android:elevation="2dp"/>
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+                </LinearLayout>
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragment_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:paddingTop="50dp"/>
+
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:id="@+id/toolbar_profile"
+                android:background="#BF000000">
+            </Toolbar>
 
             <ImageView
                 android:id="@+id/icon_image_menu"
@@ -67,61 +127,8 @@
                 android:layout_alignStart="@+id/toolbar_profile"
                 android:layout_alignTop="@+id/toolbar_profile"
                 android:layout_alignEnd="@+id/toolbar_profile"
-                android:padding="10dp"/>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="460dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="center"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="10dp"
-                android:backgroundTint="@color/bg_white">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/content_button"
-                    android:gravity="center">
-                    <com.google.android.material.button.MaterialButtonToggleGroup
-                        android:id="@+id/toggleButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        app:singleSelection="true">
-
-                        <Button
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:id="@+id/btn_customer"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="DATOS PERSONALES"
-                            android:textStyle="bold"
-                            android:elevation="2dp"/>
-
-                        <Button
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:id="@+id/btn_provider"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="DATOS DE NEGOCIO"
-                            android:textStyle="bold"
-                            android:elevation="2dp"/>
-                    </com.google.android.material.button.MaterialButtonToggleGroup>
-                </LinearLayout>
-
-                <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/fragment_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="430dp"
-                    android:layout_marginTop="20dp"
-                    android:backgroundTint="@color/dark_text"
-                    android:paddingTop="50dp"/>
-
-            </androidx.cardview.widget.CardView>
-
+                android:padding="10dp"
+                android:textColor="@color/bg_white"/>
         </RelativeLayout>
 
         <com.google.android.material.navigation.NavigationView

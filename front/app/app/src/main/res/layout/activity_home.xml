@@ -1,18 +1,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/main_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/grey_normal"
-    tools:context=".Home">
+    tools:context=".HomeFlow.Home">
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg_white"
-        android:id="@+id/main1">
+        android:id="@+id/drawer_home">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -24,8 +24,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/toolbar_gradient"
-                app:menu="@menu/menu_head">
-            </androidx.appcompat.widget.Toolbar>
+                app:menu="@menu/menu_head"
+                style="@style/AppTheme"
+                app:title=" "/>
 
             <ImageView
                 android:id="@+id/icon_menu"
@@ -46,12 +47,15 @@
                 android:layout_height="match_parent"
                 tools:layout="@layout/fragment_house"
                 android:layout_below="@+id/menu_toolbar"
+                android:layout_above="@+id/bottom_navigation"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
             <androidx.fragment.app.FragmentContainerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/fragment_container_profile"/>
+                android:layout_marginBottom="-5dp"
+                android:id="@+id/fragment_container_profile"
+                android:layout_above="@+id/bottom_navigation"/>
 
             <!-- BottomNavigationView en la parte inferior -->
             <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -62,8 +62,6 @@ public class PersonalData extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_personal_data, container, false);
-        txtPrueba = view.findViewById(R.id.prueba);
-        txtPrueba.setShadowLayer(4,0,2, android.R.color.black);
         return view;
     }
 }

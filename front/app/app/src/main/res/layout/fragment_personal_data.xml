@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".PersonalData"
     android:padding="10dp">
 
@@ -20,40 +21,85 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/prueba"
+                android:id="@+id/txt_inf_personal"
+                android:text="Informacion personal"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:textColor="@color/dark_text"/>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/FilledTextField"
+                android:id="@+id/txt_filled_name"
+                android:hint="@string/value_edtxt_Name"
+                android:paddingTop="10dp"
+                app:endIconDrawable="@drawable/edit">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/TextInput"
+                    android:background="@drawable/filled_text_field_gradient"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/FilledTextField"
+                android:id="@+id/txt_filled_lastname"
+                android:hint="@string/value_edtxt_lastname"
+                android:paddingTop="10dp"
+                app:endIconDrawable="@drawable/edit"                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/TextInput"
+                    android:background="@drawable/filled_text_field_gradient"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_contacts"
+                android:padding="5dp"
                 android:text="Medios de contacto"
                 android:textStyle="bold"
                 android:textSize="20dp"
                 android:textColor="@color/dark_text"/>
 
+
+
             <com.google.android.material.textfield.TextInputLayout
-                style="?attr/textInputFilledStyle"
+                style="@style/FilledTextField"
                 android:id="@+id/txt_filled_phone_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Numero de telefono"
-                android:paddingTop="10dp">
+                android:hint="Numero de telefono."
+                android:paddingTop="10dp"
+                app:endIconDrawable="@drawable/edit">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/TextInput"
+                    android:background="@drawable/filled_text_field_gradient"
                     />
-
             </com.google.android.material.textfield.TextInputLayout>
+
+
 
             <com.google.android.material.textfield.TextInputLayout
-                style="?attr/textInputFilledStyle"
+                style="@style/FilledTextField"
                 android:id="@+id/txt_filled_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:hint="@string/value_edtxt_email"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp"
+                app:endIconDrawable="@drawable/edit">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/TextInput"
+                    android:background="@drawable/filled_text_field_gradient"
                     />
             </com.google.android.material.textfield.TextInputLayout>
+
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -65,20 +111,33 @@
                 android:textSize="20dp"
                 android:textColor="@color/dark_text"/>
 
+
+
             <com.google.android.material.textfield.TextInputLayout
-                style="?attr/textInputFilledStyle"
+                style="@style/FilledTextField"
                 android:id="@+id/txt_filled_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:hint="Ubicación"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp"
+                app:endIconDrawable="@drawable/edit">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/TextInput"
+                    android:background="@drawable/filled_text_field_gradient"
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/FilledTextField"
+                android:id="@+id/prueba"
+                android:hint="Ubicación"
+                android:paddingTop="10dp"
+                app:endIconDrawable="@drawable/edit">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/TextInput"
+                    android:background="@drawable/filled_text_field_gradient"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

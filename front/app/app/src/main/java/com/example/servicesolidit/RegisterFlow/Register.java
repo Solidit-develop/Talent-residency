@@ -48,7 +48,6 @@ public class Register extends Fragment implements RegisterView{
             presenter.register(userRequest);
             showProgress();
         });
-
         return view;
     }
 
