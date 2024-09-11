@@ -1,10 +1,8 @@
 package com.example.servicesolidit.LoginFlow;
 
-import android.util.Log;
-
-import com.example.servicesolidit.Model.LoginResponse;
-import com.example.servicesolidit.Model.User;
-import com.example.servicesolidit.Network.LoginService;
+import com.example.servicesolidit.Model.Responses.LoginResponse;
+import com.example.servicesolidit.Model.Dtos.User;
+import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
 
 import retrofit2.Call;
@@ -13,11 +11,11 @@ import retrofit2.Response;
 
 public class LoginPresenter {
     private LoginView view;
-    private LoginService service;
+    private ApiService service;
 
     public LoginPresenter(LoginView view) {
         this.view = view;
-        this.service = RetrofitClient.getClient().create(LoginService.class);
+        this.service = RetrofitClient.getClient().create(ApiService.class);
     }
 
     public void login(String username, String password) {
