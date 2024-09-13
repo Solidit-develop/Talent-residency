@@ -47,7 +47,7 @@ services:
       - DB_PASSWORD=mypassword
       - DB=mydatabase
       - DB_PORT=5432
-      - BaseAddress=187.132.135.145
+      - BaseAddress=http://187.132.135.145:4000/api/v1/users
     ports:
       - "4001:4001"
     depends_on:
