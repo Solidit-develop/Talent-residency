@@ -497,7 +497,7 @@ const controllerusuario = {
       const userId = parseInt(req.params.id, 10);
 
       if (isNaN(userId)) {
-        res.status(400).json({ message: "ID de usuario inválido" });
+        res.status(400).json(ResponseModel.errorResponse(400, "El usuario no existe"));
         return;
       }
       const {
@@ -560,16 +560,16 @@ const controllerusuario = {
 
         console.log("Usuario ya actualizado");
         console.log(usuario);
-        res.json(usuario);
+        res.json(ResponseModel.successResponse(usuario));
         console.log("Usuario actualizado correctamente");
       } else {
-        res.status(404).json({ message: "Usuario no encontrado" });
+        res.status(404).json(ResponseModel.errorResponse(400, "Usuario no encontrado"));
       }
 
 
     } catch (error) {
       console.error("Error al actualizar los datos:", error);
-      res.status(500).json({ message: "Error interno del servidor" });
+      res.status(500).json(ResponseModel.errorResponse(500, `Error interno: ${error}`));
     }
   }
 
