@@ -4,33 +4,29 @@ import { Messages } from "./messages";
 
 
 @Entity()
-export class Conversation{
+export class Conversation {
     @PrimaryGeneratedColumn()
-    id_conversation:number
-    
-    @Column({type:"date"})
-    creationDate:Date
+    id_conversation: number
 
-    @ManyToOne(()=>users,users=>users.id_user)
+    @Column({ type: "date" })
+    creationDate: Date
+
+    @ManyToOne(() => users, users => users.id_user)
     @JoinColumn()
-    id_userOrigen:users
+    id_userOrigen: users
 
-    @ManyToOne(()=>users,users=>users.id_user)
-    @JoinColumn()
-    id_userDestino:users
+    @Column({ type: 'int' })
+    id_userDestino: number
 
-    // @ManyToOne(()=>users,users=>users.conversation)
-    // user:users
-
-    @OneToMany(()=>Messages,Messages=>Messages.conversation)
-    messages:Messages[];
+    @OneToMany(() => Messages, Messages => Messages.conversation)
+    messages: Messages[];
 
 
 }
 
 
 
-// tomcat 
+// tomcat
 // dataservices
 // srepits
 // datavertions

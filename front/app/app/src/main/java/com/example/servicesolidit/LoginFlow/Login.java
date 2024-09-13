@@ -1,4 +1,4 @@
-package com.example.servicesolidit;
+package com.example.servicesolidit.LoginFlow;
 
 import android.os.Bundle;
 
@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.servicesolidit.LoginFlow.LoginPresenter;
-import com.example.servicesolidit.LoginFlow.LoginView;
+import com.example.servicesolidit.R;
+import com.example.servicesolidit.RegisterFlow.Register;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class Login extends Fragment implements LoginView {
@@ -38,6 +38,7 @@ public class Login extends Fragment implements LoginView {
                 String username = etUser.getText().toString();
                 String password = etPassword.getText().toString();
                 Toast.makeText(v.getContext(), "Login called with: "+username+" y "+password, Toast.LENGTH_SHORT).show();
+                showProgress();
                 presenter.login(username, password);
             }
         });

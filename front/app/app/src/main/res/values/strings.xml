@@ -13,7 +13,7 @@
     <string name="value_txt_welcome">Bienvenido</string>
     <string name="value_txt_subtitle">Podrías proporcionarnos algunos datos.</string>
     <string name="value_edtxt_Name">Nombre.</string>
-    <string name="value_edtxt_lastname">Apellidos</string>
+    <string name="value_edtxt_lastname">Apellidos.</string>
     <string name="value_edtxt_phone">Número telefónico.</string>
     <string name="value_edtxt_age">Edad.</string>
     <string name="value_edtxt_email">Correo electrónico.</string>
