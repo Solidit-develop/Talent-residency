@@ -11,6 +11,7 @@ import generateRandomToken from "../mail/tokengenerator"
 import jwt from "jsonwebtoken"
 
 import { ResponseModel } from "../models/responseDto";
+import config from "../config";
 
 const repositoriState = AppDataSource.getRepository(State);
 const repositoriTown = AppDataSource.getRepository(Town);
@@ -47,7 +48,7 @@ const controllerusuario = {
     // const baseAddress = "http://localhost:4000/api/v1/users"
 
     // DeployConfig - ApiGateway Deploy
-    const baseAddress = "http://187.132.135.145:4000/api/v1/users"
+    const baseAddress = config.baseAddress
 
     console.log("BaseAddress: ", baseAddress);
     try {
