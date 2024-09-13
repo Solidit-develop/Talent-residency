@@ -1,4 +1,4 @@
-package com.example.servicesolidit.Model;
+package com.example.servicesolidit.Model.Responses;
 
 public class LoginResponse {
     private boolean success;

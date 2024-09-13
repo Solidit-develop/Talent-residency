@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp"
+    tools:context=".BussinesData">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_provider"
+                android:text="Datos de Negocio"
+                android:textStyle="bold"
+                android:textSize="30dp"
+                android:textColor="@color/dark_text"/>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_inf_personal"
+                android:text="Informacion personal"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:textColor="@color/dark_text"/>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/FilledTextField"
+                android:id="@+id/txt_filled_name_bussines"
+                android:hint="@string/value_edtxt_Name"
+                android:paddingTop="10dp"
+                app:endIconDrawable="@drawable/edit">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/TextInput"
+                    android:background="@drawable/filled_text_field_gradient"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_contacts"
+                android:padding="5dp"
+                android:text="Medios de contacto"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:textColor="@color/dark_text"/>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/FilledTextField"
+                android:id="@+id/txt_filled_phone_number"
+                android:hint="Numero de telefono."
+                android:paddingTop="10dp"
+                app:endIconDrawable="@drawable/edit">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/TextInput"
+                    android:background="@drawable/filled_text_field_gradient"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/FilledTextField"
+                android:id="@+id/txt_filled_email"
+                android:hint="@string/value_edtxt_email"
+                android:paddingTop="10dp"
+                app:endIconDrawable="@drawable/edit">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/TextInput"
+                    android:background="@drawable/filled_text_field_gradient"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_location"
+                android:padding="5dp"
+                android:text="Ubicación"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:textColor="@color/dark_text"/>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/FilledTextField"
+                android:id="@+id/txt_filled_location"
+                android:hint="Ubicación"
+                android:paddingTop="10dp"
+                app:endIconDrawable="@drawable/edit">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/TextInput"
+                    android:background="@drawable/filled_text_field_gradient"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</FrameLayout>
