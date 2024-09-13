@@ -1,7 +1,5 @@
 package com.example.servicesolidit.Network;
 
-import android.util.Log;
-
 import com.example.servicesolidit.Utils.Constants;
 
 import retrofit2.Retrofit;
@@ -12,18 +10,11 @@ public class RetrofitClient {
 
     public static Retrofit getClient() {
         if (retrofit == null) {
-            try {
-                retrofit = new Retrofit.Builder()
-                        .baseUrl(Constants.BASE_URL)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-            }catch (Exception e){
-                e.printStackTrace();
-                Log.e("ERROR", "Falla del retrofit: " + e);
-            }
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(Constants.BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
         }
-
         return retrofit;
-
     }
 }
