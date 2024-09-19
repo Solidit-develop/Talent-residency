@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.servicesolidit.HomeFlow.Home;
 import com.example.servicesolidit.LoginFlow.Login;
@@ -78,11 +79,14 @@ public class Password extends Fragment implements RegisterView {
 
     @Override
     public void showProgress() {
+        Toast.makeText(getContext(), "LoadingStarts", Toast.LENGTH_SHORT).show();
+
         Log.i("PasswordClass", "Should show progress bar");
     }
 
     @Override
     public void hideProgress() {
+        Toast.makeText(getContext(), "LoadingEnds", Toast.LENGTH_SHORT).show();
         Log.i("PasswordClass", "Should hide progress bar");
     }
 
@@ -90,7 +94,7 @@ public class Password extends Fragment implements RegisterView {
     public void onRegisterSuccess(String message) {
         hideProgress();
         Log.i("PasswordClass", "Should show alert with message: " + message);
-
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         Login loginFragment = new Login();
         FragmentTransaction transactionRegister = getParentFragmentManager().beginTransaction();
         transactionRegister.replace(R.id.fragmentLogin, loginFragment);

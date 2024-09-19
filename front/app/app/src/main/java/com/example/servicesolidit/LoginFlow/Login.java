@@ -98,6 +98,7 @@ public class Login extends Fragment implements LoginView {
     public void onLoginError(String message) {
         hideProgress();
         Log.i("LoginClass","Login Error with message: " + message);
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
 

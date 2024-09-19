@@ -35,7 +35,7 @@ public class LoginPresenter {
                     view.onLoginSuccess(loginResponse);
 
                 } else {
-                    String responseError = "Error control";
+                    String responseError = "Usuario o contraseña inválidos";
                     view.onLoginError(responseError);
                 }
             }
