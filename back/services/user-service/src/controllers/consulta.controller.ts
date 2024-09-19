@@ -120,7 +120,7 @@ const controllerusuario = {
                           <h1>Verificación de datos.</h1>
                           <img src="https://static.vecteezy.com/system/resources/previews/006/925/139/non_2x/play-button-white-color-lock-user-account-login-digital-design-logo-icon-free-photo.jpg" alt="Inicio de sesión">
                           <h3>Para concluir con el registro, valida en el siguiente campo.</h3>
-                          <a href="${baseAddress}/verificacion/${tokenData}">
+                          <a href="${baseAddress}/validate/${tokenData}">
                               <button id="aceptar">Aceptar</button>
                           </a>
                           <a href="http://localhost:3200/api/login/cancelar/${encodedToken}">
