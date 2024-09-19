@@ -1,10 +1,19 @@
 package com.example.servicesolidit.Model.Responses;
 
 public class RegisterResponseDto extends ResponseDto {
-    public RegisterResponseDto(int code){
+    public String response;
+    public RegisterResponseDto(int code, boolean success, String response){
+        super();
         this.code = code;
+        this.success = success;
+        this.response = response;
     }
-    public int getCode(){
-        return this.code;
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
     }
 }

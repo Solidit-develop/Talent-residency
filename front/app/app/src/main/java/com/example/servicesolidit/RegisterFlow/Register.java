@@ -13,28 +13,33 @@ import android.widget.Toast;
 
 import com.example.servicesolidit.Address;
 import com.example.servicesolidit.Model.Dtos.UserRegisterModel;
+import com.example.servicesolidit.Model.Requests.RegisterRequestDto;
 import com.example.servicesolidit.R;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 
 public class Register extends Fragment implements RegisterView{
 
     private Button btnSiguiente;
     private RegisterPresenter presenter;
+    private TextInputLayout etEmail;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register, container, false);
-        btnSiguiente = view.findViewById(R.id.btn_siguiente);
-        presenter = new RegisterPresenter(this);
 
+        btnSiguiente = view.findViewById(R.id.btn_siguiente);
+        etEmail = view.findViewById(R.id.txt_email_input);
+        presenter = new RegisterPresenter(this);
         btnSiguiente.setOnClickListener(v -> {
             // Se debe crear el objeto a partir de  para mandarlo al presenter
-            UserRegisterModel userRequest = new UserRegisterModel(
+            String mail = etEmail.getEditText().getText().toString();
+            RegisterRequestDto userRequest = new RegisterRequestDto(
                     "Jach",
                     "Sanches Altamirano",
-                    "sohawac782@chaladas.com",
+                    mail,
                     "Hola1234",
                     24,
                     "7712276783",
@@ -65,6 +70,7 @@ public class Register extends Fragment implements RegisterView{
     public void onRegisterSuccess(String message) {
         hideProgress();
         Toast.makeText(this.getContext(), "RegisterSuccess: "+ message, Toast.LENGTH_SHORT).show();
+
         Address registerFragment = new Address();
         FragmentTransaction transactionTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transactionTransaction.replace(R.id.fragmentLogin, registerFragment);

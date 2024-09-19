@@ -1,7 +1,12 @@
 package com.example.servicesolidit.LoginFlow;
 
+import android.util.Log;
+
+import com.example.servicesolidit.Model.Requests.LoginRequestDto;
 import com.example.servicesolidit.Model.Responses.LoginResponse;
 import com.example.servicesolidit.Model.Dtos.User;
+import com.example.servicesolidit.Model.Responses.LoginResponseDto;
+import com.example.servicesolidit.Model.Responses.UserInfoDto;
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
 
@@ -19,23 +24,23 @@ public class LoginPresenter {
     }
 
     public void login(String username, String password) {
-        view.showProgress();
-        Call<LoginResponse> call = service.login(new User(username, password));
-        call.enqueue(new Callback<LoginResponse>() {
+        Call<LoginResponseDto> call = service.login(new LoginRequestDto(username, password));
+        call.enqueue(new Callback<LoginResponseDto>() {
             @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                view.hideProgress();
+            public void onResponse(Call<LoginResponseDto> call, Response<LoginResponseDto> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    view.onLoginSuccess(response.body().getMessage());
+                    UserInfoDto loginResponse = response.body().getResponse();
+                    Log.i("LoginPresenter", loginResponse.getNameUser());
+                    view.onLoginSuccess(loginResponse);
+
                 } else {
-                    view.onLoginError("Login failed");
+                    String responseError = response.body().getResponseMessage();
+                    view.onLoginError(responseError);
                 }
             }
 
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                System.out.println("Error on failure: " + t.getMessage());
-                view.hideProgress();
+            public void onFailure(Call<LoginResponseDto> call, Throwable t) {
                 view.onLoginError(t.getMessage());
             }
         });

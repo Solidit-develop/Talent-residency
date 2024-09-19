@@ -66,11 +66,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_email"
+            android:id="@+id/txt_email_input"
             style="@style/BoxTextLayoutSmall"
             android:hint="@string/value_edtxt_email">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_email_edit"
                 style="@style/EditTextSmall"
                 android:inputType="textEmailAddress"/>
         </com.google.android.material.textfield.TextInputLayout>

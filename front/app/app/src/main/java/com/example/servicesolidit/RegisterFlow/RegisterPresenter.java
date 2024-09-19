@@ -3,6 +3,7 @@ package com.example.servicesolidit.RegisterFlow;
 import com.example.servicesolidit.LoginFlow.LoginView;
 import com.example.servicesolidit.Model.Dtos.User;
 import com.example.servicesolidit.Model.Dtos.UserRegisterModel;
+import com.example.servicesolidit.Model.Requests.RegisterRequestDto;
 import com.example.servicesolidit.Model.Responses.LoginResponse;
 import com.example.servicesolidit.Model.Responses.RegisterResponseDto;
 import com.example.servicesolidit.Network.ApiService;
@@ -21,7 +22,7 @@ public class RegisterPresenter {
         this.service = RetrofitClient.getClient().create(ApiService.class);
     }
 
-    public void register(UserRegisterModel userRequest) {
+    public void register(RegisterRequestDto userRequest) {
         view.showProgress();
         Call<RegisterResponseDto> call = service.register(userRequest);
         call.enqueue(new Callback<RegisterResponseDto>() {
@@ -29,15 +30,15 @@ public class RegisterPresenter {
             public void onResponse(Call<RegisterResponseDto> call, Response<RegisterResponseDto> response) {
                 view.hideProgress();
                 if (response.isSuccessful() && response.body() != null) {
-                    view.onRegisterSuccess("Code: "+ response.body().getCode());
+                    view.onRegisterSuccess("Se ha enviado un correo para confirmar su identidad");
                 } else {
-                    view.onRegisterError("Login failed");
+                    view.onRegisterError("Register failed");
                 }
             }
 
             @Override
             public void onFailure(Call<RegisterResponseDto> call, Throwable t) {
-                System.out.println("Error on failure: " + t.getMessage());
+                System.out.println("Error on register: " + t.getMessage());
                 view.hideProgress();
                 view.onRegisterError(t.getMessage());
             }
