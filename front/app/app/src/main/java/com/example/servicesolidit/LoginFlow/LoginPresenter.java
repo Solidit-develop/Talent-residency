@@ -28,13 +28,14 @@ public class LoginPresenter {
         call.enqueue(new Callback<LoginResponseDto>() {
             @Override
             public void onResponse(Call<LoginResponseDto> call, Response<LoginResponseDto> response) {
+
                 if (response.isSuccessful() && response.body() != null) {
                     UserInfoDto loginResponse = response.body().getResponse();
                     Log.i("LoginPresenter", loginResponse.getNameUser());
                     view.onLoginSuccess(loginResponse);
 
                 } else {
-                    String responseError = response.body().getResponseMessage();
+                    String responseError = "Error control";
                     view.onLoginError(responseError);
                 }
             }

@@ -25,7 +25,7 @@
             style="@style/Subtitle1"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_name"
+            android:id="@+id/txt_name_input"
             style="@style/BoxTextLayoutSmall"
             android:hint="@string/value_edtxt_Name"
             android:layout_marginTop="20dp">
@@ -36,7 +36,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_lastname"
+            android:id="@+id/txt_lastname_input"
             style="@style/BoxTextLayoutSmall"
             android:hint="@string/value_edtxt_lastname">
 
@@ -46,7 +46,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_phone_number"
+            android:id="@+id/txt_phone_number_input"
             style="@style/BoxTextLayoutSmall"
             android:hint="@string/value_edtxt_phone">
 
@@ -56,7 +56,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_age"
+            android:id="@+id/txt_age_input"
             style="@style/BoxTextLayoutSmall"
             android:hint="@string/value_edtxt_age">
 

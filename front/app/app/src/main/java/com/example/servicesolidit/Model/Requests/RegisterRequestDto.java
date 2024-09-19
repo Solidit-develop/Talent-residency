@@ -14,6 +14,10 @@ public class RegisterRequestDto {
     private String name_state;
     private String zipcode;
 
+    public RegisterRequestDto(){
+
+    }
+
     // Constructor
     public RegisterRequestDto(String name_user, String lastname, String email, String password, int age, String phoneNumber,
                              String street_1, String street_2, String localidad, String name_Town, String name_state, String zipcode) {

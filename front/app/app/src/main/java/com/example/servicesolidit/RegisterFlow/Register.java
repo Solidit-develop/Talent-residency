@@ -9,21 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.example.servicesolidit.Address;
-import com.example.servicesolidit.Model.Dtos.UserRegisterModel;
 import com.example.servicesolidit.Model.Requests.RegisterRequestDto;
 import com.example.servicesolidit.R;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 
-public class Register extends Fragment implements RegisterView{
+public class Register extends Fragment{
 
     private Button btnSiguiente;
-    private RegisterPresenter presenter;
-    private TextInputLayout etEmail;
+    private TextInputLayout etEmail, etName, etLastName, etPhone, etAge;
+    // Nombre, apellidos, telefono, edad,
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,55 +28,39 @@ public class Register extends Fragment implements RegisterView{
         View view = inflater.inflate(R.layout.fragment_register, container, false);
 
         btnSiguiente = view.findViewById(R.id.btn_siguiente);
+
         etEmail = view.findViewById(R.id.txt_email_input);
-        presenter = new RegisterPresenter(this);
+        etName = view.findViewById(R.id.txt_name_input);
+        etLastName = view.findViewById(R.id.txt_lastname_input);
+        etPhone = view.findViewById(R.id.txt_phone_number_input);
+        etAge = view.findViewById(R.id.txt_age_input);
+
         btnSiguiente.setOnClickListener(v -> {
             // Se debe crear el objeto a partir de  para mandarlo al presenter
             String mail = etEmail.getEditText().getText().toString();
-            RegisterRequestDto userRequest = new RegisterRequestDto(
-                    "Jach",
-                    "Sanches Altamirano",
-                    mail,
-                    "Hola1234",
-                    24,
-                    "7712276783",
-                    "calle 3",
-                    "calle 4",
-                    "San Pedro Cholula",
-                    "Zavaleta",
-                    "Puebla",
-                    "739283"
-            );
-            presenter.register(userRequest);
-            showProgress();
+            String name = etName.getEditText().getText().toString();
+            String lastName = etLastName.getEditText().getText().toString();
+            String age = etAge.getEditText().getText().toString();
+            String phone = etPhone.getEditText().getText().toString();
+
+            RegisterRequestDto userRequest = new RegisterRequestDto();
+
+            userRequest.setName_user(name);
+            userRequest.setLastname(lastName);
+            userRequest.setAge(Integer.parseInt(age));
+            userRequest.setPhoneNumber(phone);
+            userRequest.setEmail(mail);
+
+            navigateToSecondRegistry(userRequest);
         });
         return view;
     }
 
-    @Override
-    public void showProgress() {
-        Toast.makeText(this.getContext(), "ShowProgress", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void hideProgress() {
-        Toast.makeText(this.getContext(), "HideProgress", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onRegisterSuccess(String message) {
-        hideProgress();
-        Toast.makeText(this.getContext(), "RegisterSuccess: "+ message, Toast.LENGTH_SHORT).show();
-
-        Address registerFragment = new Address();
+    public void navigateToSecondRegistry(RegisterRequestDto request) {
+        Address registerFragment = new Address(request);
         FragmentTransaction transactionTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transactionTransaction.replace(R.id.fragmentLogin, registerFragment);
         transactionTransaction.addToBackStack(null);
         transactionTransaction.commit();
-    }
-
-    @Override
-    public void onRegisterError(String message) {
-        Toast.makeText(this.getContext(), "Error message: "+message, Toast.LENGTH_SHORT).show();
     }
 }
