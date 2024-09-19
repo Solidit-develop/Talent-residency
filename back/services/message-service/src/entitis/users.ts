@@ -1,9 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Address } from "./adrdess";
+// import { Address } from "./adrdess";
 import { userTypes } from "./typesUsers";
-import { Providers } from "./provedores";
+// import { Providers } from "./provedores";
 import { Conversation } from "./conversation";
-import { appointment } from "./appointment";
+// import { appointment } from "./appointment";
 
 @Entity()
 export class users {
@@ -31,15 +31,19 @@ export class users {
     @ManyToOne(() => userTypes, usertypes => usertypes.id_userType)
     usertypes: userTypes;
 
-    @ManyToOne(() => Address, adress => adress.users)
-    adress: Address;
-
-    @OneToOne(() => Providers, provider => provider.user)
-    provedor: Providers;
-
-    @OneToMany(()=>appointment, appointment=>appointment.users)
-    appointment:appointment[];
-
     // @OneToMany(()=> Conversation,Conversation=> Conversation.user)
     // conversation:Conversation;
+    
+    // @ManyToOne(() => Address, adress => adress.users)
+    // adress: Address;
+
+    // @OneToOne(() => Providers, provider => provider.user)
+    // provedor: Providers;
+
+    // @OneToMany(()=>appointment, appointment=>appointment.users)
+    // appointment:appointment[];
+
+    // @OneToMany(()=>Conversation,Conversation=>Conversation.user)
+    
+    // conversation:Conversation[];
 }

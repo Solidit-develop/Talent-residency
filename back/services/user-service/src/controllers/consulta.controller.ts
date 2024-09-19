@@ -111,8 +111,8 @@ const controllerusuario = {
                               }
                               img {
                                   padding: 1px 1px;
-                                  width: 200px;  /* Ancho deseado en píxeles */
-                                  height: 200px; /* Altura deseada en píxeles */
+                                  inline-size: 200px;  /* Ancho deseado en píxeles */
+                                  block-size: 200px; /* Altura deseada en píxeles */
                               }
                           </style>
                       </head>
@@ -224,7 +224,7 @@ const controllerusuario = {
                   }
                   .container {
                     text-align: center;
-                    margin-top: 100px;
+                    margin-block-start: 100px;
                   }
                   .success-message {
                     background-color: #4CAF50;
@@ -233,7 +233,7 @@ const controllerusuario = {
                     border-radius: 10px;
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                     font-size: 24px;
-                    width: 300px;
+                    inline-size: 300px;
                     margin: 0 auto;
                   }
                 </style>
@@ -265,7 +265,7 @@ const controllerusuario = {
           }
           .container {
             text-align: center;
-            margin-top: 100px;
+            margin-block-start: 100px;
           }
           .success-message {
             background-color: #cfd441;
@@ -274,7 +274,7 @@ const controllerusuario = {
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             font-size: 24px;
-            width: 300px;
+            inline-size: 300px;
             margin: 0 auto;
           }
         </style>
@@ -310,7 +310,7 @@ const controllerusuario = {
           }
           .container {
             text-align: center;
-            margin-top: 100px;
+            margin-block-start: 100px;
           }
           .success-message {
             background-color: #a61a1a;
@@ -319,7 +319,7 @@ const controllerusuario = {
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             font-size: 24px;
-            width: 300px;
+            inline-size: 300px;
             margin: 0 auto;
           }
         </style>

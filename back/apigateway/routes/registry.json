@@ -7,9 +7,15 @@
             "url_local": "http://localhost"
         },
         "provider": {
-            "apiName": "payment",
+            "apiName": "provider",
             "host": "http://providerservice",
             "port": "4002",
+            "url_local": "http://localhost"
+        },
+        "message":{
+            "apiName": "message",
+            "host": "http://messageservice",
+            "port": "4004",
             "url_local": "http://localhost"
         }
     }
