@@ -10,9 +10,6 @@ export class Providers {
     @PrimaryGeneratedColumn()
     id_provider: number;
 
-    @Column({ type: 'varchar', length: 200 })
-    skill: string;
-
     @Column({ type: 'varchar', length: 50 })
     experienceYears: string;
 
