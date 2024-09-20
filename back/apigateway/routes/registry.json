@@ -2,15 +2,21 @@
     "services": {
         "users": {
             "apiName": "users",
-            "host": "http://localhost",
+            "host": "http://userservice",
             "port": "4001",
-            "url": "http://localhost:4001/"
+            "url_local": "http://localhost"
         },
-        "payment": {
-            "apiName": "payment",
-            "host": "http://localhost",
+        "provider": {
+            "apiName": "provider",
+            "host": "http://providerservice",
             "port": "4002",
-            "url": "http://localhost:4002/"
+            "url_local": "http://localhost"
+        },
+        "message":{
+            "apiName": "message",
+            "host": "http://messageservice",
+            "port": "4004",
+            "url_local": "http://localhost"
         }
     }
 }
