@@ -49,7 +49,9 @@ router.all('*', upload.single("image"), (req, res) => {
     if (req.body) {
         console.log("Body correcto");
         Object.keys(req.body).forEach((key) => {
+            console.log("Key: " + key, "input: " + req.body[key]);
             form.append(key, req.body[key]);
+            console.log("Body on ag: ", req.body);
         });
     }
 
@@ -59,9 +61,6 @@ router.all('*', upload.single("image"), (req, res) => {
         url: `${serviceConfig.host}:${serviceConfig.port}/${path}`,
         //Validate how to pass headers
         data: form, // Pasamos el FormData con los archivos y otros datos
-        headers: {
-            ...form.getHeaders(), // Asegúrate de incluir los encabezados de FormData
-        },
     })
     .then(response => {
         console.log("Response: "+ response.data);

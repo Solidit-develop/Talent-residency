@@ -399,6 +399,11 @@ const controllerusuario = {
     try {
       const { email, password } = req.body
       console.log("Try to login email ", email);
+      console.log("body: ", req.body);
+      if (!req.body) {
+        res.send(ResponseModel.errorResponse(400, "Error al enviar la solicitud: " + req.body));
+        throw new Error();
+      }
       let usuario = await repositoriuser.findOne({ where: { email: email } })
       let contrahas = String(usuario?.password)
 
