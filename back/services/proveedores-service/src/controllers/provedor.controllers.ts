@@ -9,6 +9,8 @@ import { Address } from "../entitis/adrdess";
 import { Town } from "../entitis/town";
 import { State } from "../entitis/state";
 import { skills } from "../entitis/skill";
+import { ResponseModel } from "../models/responseDto";
+
 
 
 const repositoryTypeU = AppDataSource.getRepository(userTypes);
@@ -341,12 +343,12 @@ const controllerProvider = {
                 .getMany();
 
             console.log("Todos los provedores")
-            console.log(proveedores)
-            res.status(200).json(proveedores)
+            console.log(ResponseModel.successResponse(proveedores))
+            res.status(200).json(ResponseModel.successResponse(proveedores))
 
         } catch (error) {
             console.log(error)
-            res.status(500).json({ mesage: "Hay un erro dentro del cervidor" })
+            res.status(500).json(ResponseModel.errorResponse(500, "Ha ocurrido un error en el servidor"))
             console.log("Hay un error interno en el servidor")
         }
 
