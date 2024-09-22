@@ -61,10 +61,20 @@ router.all('*', upload.single("image"), (req, res) => {
         url: `${serviceConfig.host}:${serviceConfig.port}/${path}`,
         //Validate how to pass headers
         data: form, // Pasamos el FormData con los archivos y otros datos
+                responseType: 'arraybuffer',  // Cambiar a arraybuffer para manejar datos binarios
+
     })
     .then(response => {
-        console.log("Response: "+ response.data);
-        res.send(response.data);
+       // Configurar el tipo de contenido según la respuesta del microservicio
+        res.setHeader('Content-Type', response.headers['content-type'] || 'application/octet-stream');
+
+        // Si el encabezado 'Content-Disposition' está presente, configurarlo
+        if (response.headers['content-disposition']) {
+            res.setHeader('Content-Disposition', response.headers['content-disposition']);
+        }
+
+        // Enviar el archivo binario
+        res.send(response.data);  // Enviar directamente el contenido binario
     })
     .catch(error => {
         console.log("Error: " + error);

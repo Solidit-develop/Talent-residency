@@ -35,11 +35,11 @@ const serviceImages = {
             pathToSave = __dirname;
         }
 
-        // const pathToFind = path.join(pathToSave, '../routes/uploads/');
+        //const pathToFind = path.join(pathToSave, '../routes/uploads/');
         const pathToFind = path.join(pathToSave, '/uploads/');
-        console.log("PTF: " + pathToFind);
-        res.sendFile(pathToFind + id);
-
+        const result = pathToFind + id;
+        console.log("PTF: " + result);
+        res.sendFile(result);
     }
 }
 export default serviceImages;

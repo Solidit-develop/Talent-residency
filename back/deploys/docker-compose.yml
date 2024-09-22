@@ -28,7 +28,7 @@ services:
       - DB_PASSWORD=mypassword
       - DB=mydatabase
       - DB_PORT=5432
-      - BaseAddress=http://187.132.135.145:4000/api/v1/images
+      - BaseAddress=http://localhost:4000/api/v1/images
       - PathToSave=DEV
     depends_on:
       - postgres
@@ -89,7 +89,7 @@ services:
       - DB_PASSWORD=mypassword
       - DB=mydatabase
       - DB_PORT=5432
-      - BaseAddress=http://187.132.135.145:4000/api/v1/users
+      - BaseAddress=http://localhost:4000/api/v1/users
     ports:
       - "4001:4001"
     depends_on:
