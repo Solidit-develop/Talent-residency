@@ -50,7 +50,9 @@ router.all('*', upload.single("image"), (req, res) => {
         console.log("Body correcto");
         Object.keys(req.body).forEach((key) => {
             console.log("Key: " + key, "input: " + req.body[key]);
-            form.append(key, req.body[key]);
+            const cadena = JSON.stringify(req.body[key]);
+            console.log("Cadena to req: " + cadena);
+            form.append(key, cadena);
             console.log("Body on ag: ", req.body);
         });
     }
