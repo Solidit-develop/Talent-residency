@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".RegisterFlow.Register">
+    tools:context=".UpdateLocation">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -12,54 +12,18 @@
         android:layout_height="match_parent"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:paddingBottom="20dp"
+        android:paddingBottom="10dp"
         android:orientation="vertical"
         android:gravity="center">
 
         <TextView
-            android:text="@string/value_txt_welcome"
+            android:text="Cual es tu nueva dirección"
             style="@style/Title"/>
 
-        <TextView
-            android:text="@string/value_txt_subtitle"
-            style="@style/Subtitle1"/>
-
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_name_input"
+            android:id="@+id/txt_zip_code"
             style="@style/BoxTextLayoutSmall"
-            android:hint="@string/value_edtxt_Name"
-            android:layout_marginTop="20dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                style="@style/EditTextSmall"
-                android:inputType="textPersonName"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_lastname_input"
-            style="@style/BoxTextLayoutSmall"
-            android:hint="@string/value_edtxt_lastname">
-
-            <com.google.android.material.textfield.TextInputEditText
-                style="@style/EditTextSmall"
-                android:inputType="textPersonName"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_phone_number"
-            style="@style/BoxTextLayoutSmall"
-            android:hint="@string/value_edtxt_phone">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtxt_phone_number"
-                style="@style/EditTextSmall"
-                android:inputType="text|number"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_age_input"
-            style="@style/BoxTextLayoutSmall"
-            android:hint="@string/value_edtxt_age">
+            android:hint="@string/value_edtxt_zip_code">
 
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/EditTextSmall"
@@ -67,23 +31,64 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_email_input"
-            style="@style/BoxTextLayoutSmall"
-            android:hint="@string/value_edtxt_email">
+            android:id="@+id/container1"
+            android:hint="@string/value_edtxt_state"
+            style="@style/TextExtendLayout">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_email_edit"
-                style="@style/EditTextSmall"
-                android:inputType="textEmailAddress"/>
+            <AutoCompleteTextView
+                android:id="@+id/spinner_state"
+                style="@style/AutoCompleteText"
+                android:paddingStart="15dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/container2"
+            android:hint="@string/value_edtxt_city"
+            style="@style/TextExtendLayout">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_city"
+                style="@style/AutoCompleteText"
+                android:paddingStart="15dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_calle1"
+            style="@style/BoxTextLayoutSmall"
+            android:hint="@string/value_edtxt_street">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/EditTextSmall"
+                android:inputType="text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_calle2"
+            style="@style/BoxTextLayoutSmall"
+            android:hint="@string/value_edtxt_street_two">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/EditTextSmall"
+                android:inputType="text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_locality"
+            style="@style/BoxTextLayoutSmall"
+            android:hint="@string/value_edtxt_locality">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/EditTextSmall"
+                android:inputType="text"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_siguiente"
+            android:id="@+id/btn_save_addres"
             style="@style/ButtonIconEnd"
-            android:text="@string/value_btn_next"
-            app:icon="@drawable/siguiente"
-            android:layout_marginTop="20dp"/>
+            android:text="Guardar"
+            android:layout_marginTop="30dp"
+            app:icon="@drawable/save"
+            />
 
     </LinearLayout>
 
