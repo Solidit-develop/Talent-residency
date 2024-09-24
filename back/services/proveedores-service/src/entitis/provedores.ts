@@ -25,6 +25,9 @@ export class Providers {
     @ManyToMany(() => skills, skills => skills.providers)
     skills: skills[]
 
+    @Column({ type: 'varchar', length: 200, nullable: true }) // Permitir nulos
+    descripcion: string;
+
     // aqui tiene la llave foranea
     @OneToOne(() => users, user => user.provedor)
     @JoinColumn()

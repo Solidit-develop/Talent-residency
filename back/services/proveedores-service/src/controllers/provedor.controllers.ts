@@ -1,6 +1,6 @@
 //controllers
 
-import { Request, Response } from "express";
+import { json, Request, Response } from "express";
 import { AppDataSource } from "../database";
 import { userTypes } from "../entitis/typesUsers";
 import { users } from "../entitis/users";
@@ -9,6 +9,8 @@ import { Address } from "../entitis/adrdess";
 import { Town } from "../entitis/town";
 import { State } from "../entitis/state";
 import { skills } from "../entitis/skill";
+import { ResponseModel } from "../models/responseDto";
+
 
 
 const repositoryTypeU = AppDataSource.getRepository(userTypes);
@@ -28,12 +30,16 @@ const controllerProvider = {
 
     statusUsuario: async (req: Request, res: Response): Promise<void> => {
 
-        const { email } = req.body
-        let id_user = await repositoryUser.findOne({ where: { email: email }, relations: ['usertypes'] })
-        console.log("este es el usuario")
-        console.log(id_user)
+        const correo = req.body.email
+        console.log("parametro")
+        console.log(correo);
 
-        if (id_user != null) {
+
+        let id_user = await repositoryUser.findOne({ where: { email: correo }, relations: ['usertypes'] })
+
+
+
+        if (id_user != undefined) {
             console.log("Sí se encontró");
             console.log(id_user.usertypes); // Accede a usertypes del usuario
 
@@ -56,29 +62,22 @@ const controllerProvider = {
     },
 
     // complemento de informacion
-    /**
-    {
-        "email": "ejemplo",
-        "name_state": "Hidalgo",
-        "zip-code": "45789",
-        "name_Town": "Urbi",
-        "street_1": "Baykal",
-        "street_2": "Erne",
-        "localidad": "Villa del Campo",
-        "skill": "Plomeria",
-        "experienceYears": "25",
-        "workshopName": "PlomeSmile",
-        "workshopPhoneNumber": "4567891212"
-    }
-     */
+
     infocomplete: async (req: Request, res: Response): Promise<void> => {
         try {
             const {
                 email,
                 name_state, // Estado
-                zipcode, name_Town, // Ciudad
-                street_1, street_2, localidad, // Dirección
-                skill, experienceYears, workshopName, workshopPhoneNumber // Proveedor
+                zipcode,
+                name_Town, // Ciudad
+                street_1,
+                street_2,
+                localidad, // Dirección
+                skill,
+                experienceYears,
+                workshopName,
+                workshopPhoneNumber,
+                detalles // Proveedor
             } = req.body;
 
             // Verificar que el correo esté presente en la solicitud
@@ -114,8 +113,7 @@ const controllerProvider = {
             const values = true;
             const descripcion = "Proveedor";
 
-
-            let tipoUsuario = await repositoryTypeU.findOne({ where: { descripcion: descripcion, value: values } })
+            let tipoUsuario = await repositoryTypeU.findOne({ where: { descripcion, value: values } });
             if (!tipoUsuario) {
                 tipoUsuario = new userTypes();
                 tipoUsuario.value = values;
@@ -123,11 +121,9 @@ const controllerProvider = {
                 await repositoryTypeU.save(tipoUsuario);
             }
 
-            //Actualizamos el tipo de usuario en la tabla de usuario
-            if (user) {
-                user.usertypes = tipoUsuario
-                await repositoryUser.save(user)
-            }
+            // Actualizamos el tipo de usuario en la tabla de usuario
+            user.usertypes = tipoUsuario;
+            await repositoryUser.save(user);
 
             // Agregar o actualizar el estado
             let estado = await repositoryState.findOne({ where: { name_State: name_state } });
@@ -162,41 +158,62 @@ const controllerProvider = {
                 await repositoryAddress.save(address);
             }
 
-            // Agregar la habilidad
-            let skillEntity = await repositoryskills.findOne({ where: { name: skill } });
-            if (!skillEntity) {
-                skillEntity = new skills();
-                skillEntity.name = skill;
-                await repositoryskills.save(skillEntity);
+            // Manejo de habilidades
+            const habilidades = Object.entries(skill); // Obtiene pares [key, value]
+            let skillsToSave: skills[] = [];
+
+            for (const [key, value] of habilidades) {
+                if (typeof value === 'string') { // Verifica si es un string
+                    let skillEntity = await repositoryskills.findOne({ where: { name: value } });
+
+                    if (!skillEntity) {
+                        skillEntity = new skills();
+                        skillEntity.name = value;  // Asignar el valor de la habilidad
+                        console.log("Estas son las habilidades nuevas que se guardarán:", skillEntity);
+                        await repositoryskills.save(skillEntity)
+                        skillsToSave.push(skillEntity); // Si decides guardar más tarde
+                    } else {
+                        console.log("No se guardó el valor de", value);
+                    }
+
+                    // Mostrar el valor asociado a la habilidad
+                    console.log("Clave:", key, "Valor:", value);
+                    if (skillEntity) {
+                        skillsToSave.push(skillEntity);
+                    }
+                } else {
+                    console.error(`El valor para la clave ${key} no es un string:`, value);
+                }
             }
+            console.log("---------------------------------------------------");
 
-            // Agregar la nueva habilidad al proveedor sin actualizar el resto de la información
 
+            // Agregar la nueva habilidad al proveedor
             let proveedor = await repositoryProviders.findOne({
                 where: { workshopName },
                 relations: ['skills'] // Asegúrate de cargar la relación skills
             });
 
-            if (workshopName != proveedor?.workshopName && workshopPhoneNumber != proveedor?.workshopPhoneNumber) {
-                console.log("Este es el provedor")
-                console.log(proveedor)
+
+
+            if (!proveedor) {
                 proveedor = new Providers();
                 proveedor.experienceYears = experienceYears;
                 proveedor.workshopName = workshopName;
                 proveedor.workshopPhoneNumber = workshopPhoneNumber;
                 proveedor.address = address;
-                proveedor.skills = [skillEntity]; // Asociar habilidades al proveedor
+                proveedor.descripcion = detalles;
+                proveedor.skills = skillsToSave; // Asociar habilidades al proveedor
                 proveedor.user = user;
                 await repositoryProviders.save(proveedor);
-                console.log("Se regidstro el usuario")
+                console.log("Se registró el usuario");
             } else {
-                res.status(400).json({ message: "provedor ya existe con el numero o con el nombre de tienda" })
+                res.status(400).json({ message: "Proveedor ya existe con el número o con el nombre de tienda" });
                 return;
             }
-
-
             // Responder con los datos encontrados
-            res.status(200).json({ user, typeUser });
+            res.json({ message: "Todo bien" });
+            console.log("Todas las habilidades", email, skill);
 
         } catch (error) {
             console.error(error);
@@ -204,7 +221,6 @@ const controllerProvider = {
         }
     },
 
-    // Eliminacion de habilidades
 
     eliminarHabilidad: async function (req: Request, res: Response): Promise<void> {
         try {
@@ -341,12 +357,12 @@ const controllerProvider = {
                 .getMany();
 
             console.log("Todos los provedores")
-            console.log(proveedores)
-            res.status(200).json(proveedores)
+            console.log(ResponseModel.successResponse(proveedores))
+            res.status(200).json(ResponseModel.successResponse(proveedores))
 
         } catch (error) {
             console.log(error)
-            res.status(500).json({ mesage: "Hay un erro dentro del cervidor" })
+            res.status(500).json(ResponseModel.errorResponse(500, "Ha ocurrido un error en el servidor"))
             console.log("Hay un error interno en el servidor")
         }
 

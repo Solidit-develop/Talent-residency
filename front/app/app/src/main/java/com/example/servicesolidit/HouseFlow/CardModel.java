@@ -7,6 +7,26 @@ public class CardModel {
     private String description;
     private String location;
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setNameBussines(String nameBussines) {
+        this.nameBussines = nameBussines;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public CardModel(){
+
+    }
+
     public CardModel(String imageUrl, String nameBussines, String description, String location){
         this.imageUrl = imageUrl;
         this.nameBussines = nameBussines;

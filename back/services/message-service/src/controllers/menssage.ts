@@ -10,6 +10,7 @@ const repsitorymesages = AppDataSource.getRepository(Messages);
 const repositorycoversation = AppDataSource.getRepository(Conversation)
 
 
+
 const controllermessages={
 
     ping: async(req:Request, res:Response): Promise<void> => {
@@ -18,6 +19,7 @@ const controllermessages={
 
     usuarios:async (req:Request, res:Response):Promise<void>=>{
        try{
+
         const usuarios = await repositoryuser.find();
         console.log(usuarios)
         res.status(200).json({usuarios})
@@ -98,6 +100,7 @@ const controllermessages={
                     console.log("Mensaje registrado con éxito:", mensaje);
                 }
     
+                
             } else {
                 // Si ya existe la conversación, agregar el mensaje a la conversación existente
                 console.log("Existe la conversación:", existe);

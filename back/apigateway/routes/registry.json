@@ -17,6 +17,12 @@
             "host": "http://messageservice",
             "port": "4004",
             "url_local": "http://localhost"
+        },
+        "images":{
+            "apiName": "images",
+            "host": "http://imagesservice",
+            "port": "4009",
+            "url_local": "http://localhost"
         }
     }
 }
