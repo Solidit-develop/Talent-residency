@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".CustomerToProviderView">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/img_profile_view"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logoimagen"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/content_options"
+            android:hint="Hola"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:background="@color/bg_green_Light"
+            android:padding="10dp"
+            android:layout_marginBottom="-10dp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/content_options"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_below="@+id/img_profile_view"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/round_layout_top">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_conversation"
+                android:text="Inicia una conversacion"
+                android:paddingStart="10dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="10dp"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textAlignment="textStart"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_card_top"
+                android:backgroundTint="@color/bg_green_Light"
+                android:layout_gravity="center"
+                android:elevation="10dp"
+                android:translationZ="6dp"
+                android:translationX="-2dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingStart="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txt_mensaje"
+                        android:text="Ecribir un mensaje"
+                        android:padding="10dp"
+                        android:textColor="@color/dark_normal"
+                        android:textSize="12dp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txt_mensaje_description"
+                        android:text="Deseas enviar un mensaje al provedor"
+                        android:padding="10dp"
+                        android:textColor="@color/dark_normal"
+                        android:textSize="16dp"
+                        android:textStyle="bold"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btn_send_message"
+                        android:text="Deseas enviar un mensaje"
+                        android:layout_marginStart="5dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp"
+                        android:background="@color/dark_normal"
+                        android:paddingTop="10dp"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_inf_bussines"
+                android:text="Informacion de negocios"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:textSize="20dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:elevation="6dp"
+                android:translationZ="6dp"
+                android:translationX="-2dp"
+                android:background="@drawable/round_card_top"
+                android:backgroundTint="@color/bg_green_Light">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/FilledTextField"
+                    android:id="@+id/txt_filled_email"
+                    android:hint="@string/value_edtxt_email"
+                    app:endIconDrawable="@drawable/correo"
+                    app:endIconTint="@color/dark_normal">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/TextInput"
+                        android:background="@color/bg_green_Light"
+                        android:textColor="@color/dark_normal"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:elevation="6dp"
+                android:translationZ="6dp"
+                android:translationX="-2dp"
+                android:background="@drawable/round_card_top"
+                android:backgroundTint="@color/bg_green_Light">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/FilledTextField"
+                    android:id="@+id/txt_loaction"
+                    android:hint="Ubicación"
+                    app:endIconDrawable="@drawable/ubicacion"
+                    app:endIconTint="@color/dark_normal">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/TextInput"
+                        android:background="@color/bg_green_Light"
+                        android:textColor="@color/dark_normal"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</FrameLayout>

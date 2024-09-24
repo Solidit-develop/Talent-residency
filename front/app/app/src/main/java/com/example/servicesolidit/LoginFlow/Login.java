@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.example.servicesolidit.Model.Responses.UserInfoDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.RegisterFlow.Register;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
 import okhttp3.internal.concurrent.Task;
@@ -32,6 +34,8 @@ public class Login extends Fragment implements LoginView {
     private Button btnRegister;
     private TextInputEditText etUser;
     private TextInputEditText etPassword;
+    private TextInputLayout etPasswordLayout;
+    private Boolean passwordToggleEnabled = false;
     private LoginPresenter presenter;
     private TextView btnLogin;
     private ProgressBar loadingItem;
@@ -44,11 +48,28 @@ public class Login extends Fragment implements LoginView {
         btnRegister = view.findViewById(R.id.btnGoToRegister);
         etUser = view.findViewById(R.id.etUser);
         etPassword = view.findViewById(R.id.etPassword);
+        etPasswordLayout = view.findViewById(R.id.txt_password);
         btnLogin = view.findViewById(R.id.btnLogin);
         loadingItem = view.findViewById(R.id.loading_item_login);
 
         presenter = new LoginPresenter(this);
 
+        etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        etPasswordLayout.setEndIconDrawable(R.drawable.eye_visibility_off);
+        etPasswordLayout.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(passwordToggleEnabled){
+                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    etPasswordLayout.setEndIconDrawable(R.drawable.eye_visibility_off);
+                }else{
+                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    etPasswordLayout.setEndIconDrawable(R.drawable.eye_visibility);
+                }
+                passwordToggleEnabled = !passwordToggleEnabled;
+                etPassword.setSelection(etPassword.getText().length());
+            }
+        });
         return view;
     }
 
