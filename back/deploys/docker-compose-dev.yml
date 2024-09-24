@@ -1,5 +1,5 @@
 version: "3.8"
-#test para levantar el volumen de imagenes unicamente con el ms de imagenes
+
 services:
   postgres:
     image: postgres:13
@@ -13,29 +13,6 @@ services:
       - postgres-data:/var/lib/postgresql/data
     networks:
       - app-network
-
-  imagesservice:
-    build:
-      context: ../services/images-service
-    ports:
-      - "4009:4009"
-    environment:
-      - PORT=4009
-      - HOST=localhost
-      - DB_HOST=postgres
-      - DB_TYP=postgres
-      - DB_USER=myuser
-      - DB_PASSWORD=mypassword
-      - DB=mydatabase
-      - DB_PORT=5432
-      - BaseAddress=http://187.132.135.145:4000/api/v1/images
-      - PathToSave=DEV
-    depends_on:
-      - postgres
-    networks:
-      - app-network
-    volumes:
-      - images-data:/var/lib/images/data/uploads
 
   providerservice:
     build:
@@ -116,4 +93,3 @@ networks:
 
 volumes:
   postgres-data:
-  images-data:
