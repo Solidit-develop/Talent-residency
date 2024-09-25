@@ -80,6 +80,10 @@ const controllerProvider = {
                 detalles // Proveedor
             } = req.body;
 
+            console.log("En provider service");
+            console.log(req.body);
+
+
             // Verificar que el correo esté presente en la solicitud
             if (!email) {
                 res.status(400).json({ mensaje: "El correo es requerido" });
