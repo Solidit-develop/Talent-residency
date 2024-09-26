@@ -61,139 +61,127 @@ const controllerProvider = {
 
         // complemento de informacion
 
-    infocomplete: async (req: Request, res: Response): Promise<void> => {
-        try {
-            const {
-                email,
-                name_state, // Estado
-                zipcode,
-                name_Town, // Ciudad
-                street_1,
-                street_2,
-                localidad, // Dirección
-                skill,
-                experienceYears,
-                workshopName,
-                workshopPhoneNumber,
-                detalles // Proveedor
-            } = req.body;
-    
-            // Verificar que el correo esté presente en la solicitud
-            if (!email) {
-                res.status(400).json({ mensaje: "El correo es requerido" });
-                return;
-            }
-    
-            // Buscar el usuario por correo
-            let user = await repositoryUser.findOne({
-                where: { email },
-                relations: ['usertypes']
-            });
-    
-            // Verificar si el usuario existe
-            if (!user) {
-                res.status(404).json({ mensaje: "Usuario no encontrado" });
-                return;
-            }
-    
-            const userTypeId = user.usertypes ? user.usertypes.id_userType : null;
-    
-            // Buscar el tipo de usuario asociado al usuario encontrado
-            const typeUser = userTypeId ? await repositoryTypeU.findOne({ where: { id_userType: userTypeId } }) : null;
-    
-            // Verificar si el tipo de usuario existe
-            if (!typeUser) {
-                res.status(404).json({ mensaje: "Tipo de usuario no encontrado" });
-                return;
-            }
-    
-            // Cambiar el estatus del tipo de usuario
-            const values = true;
-            const descripcion = "Proveedor";
-    
-            let tipoUsuario = await repositoryTypeU.findOne({ where: { descripcion, value: values } });
-            if (!tipoUsuario) {
-                tipoUsuario = new userTypes();
-                tipoUsuario.value = values;
-                tipoUsuario.descripcion = descripcion;
-                await repositoryTypeU.save(tipoUsuario);
-            }
-    
-            // Actualizamos el tipo de usuario en la tabla de usuario
-            user.usertypes = tipoUsuario;
-            await repositoryUser.save(user);
-    
-            // Agregar o actualizar el estado
-            let estado = await repositoryState.findOne({ where: { name_State: name_state } });
-            if (!estado) {
-                estado = new State();
-                estado.name_State = name_state;
-                await repositoryState.save(estado);
-            }
-    
-            // Agregar o actualizar la ciudad
-            let ciudad = await repositoryTowns.findOne({
-                where: { name_Town, zipCode: zipcode }
-            });
-            if (!ciudad) {
-                ciudad = new Town();
-                ciudad.name_Town = name_Town;
-                ciudad.zipCode = zipcode;
-                ciudad.state = estado;
-                await repositoryTowns.save(ciudad);
-            }
-    
-            // Agregar o actualizar la dirección
-            let address = await repositoryAddress.findOne({
-                where: { street_1, street_2, localidad }
-            });
-            if (!address) {
-                address = new Address();
-                address.street_1 = street_1;
-                address.street_2 = street_2;
-                address.localidad = localidad;
-                address.town = ciudad;
-                await repositoryAddress.save(address);
-            }
-    
-            // Manejo de habilidades
-            const habilidades = Object.entries(skill); // Obtiene pares [key, value]
-            let skillsToSave: skills[] = [];
-    
-            for (const [key, value] of habilidades) {
-                if (typeof value === 'string') { // Verifica si es un string
-                    let skillEntity = await repositoryskills.findOne({ where: { name: value } });
-    
-                    if (!skillEntity) {
-                        skillEntity = new skills();
-                        skillEntity.name = value;  // Asignar el valor de la habilidad
-                        console.log("Estas son las habilidades nuevas que se guardarán:", skillEntity);
-                        await repositoryskills.save(skillEntity)
-                        skillsToSave.push(skillEntity); // Si decides guardar más tarde
-                    } else {
-                        console.log("No se guardó el valor de", value);
-                    }
-    
-                    // Mostrar el valor asociado a la habilidad
-                    console.log("Clave:", key, "Valor:", value);
-                    if (skillEntity) {
-                        skillsToSave.push(skillEntity);
-                    }
-                } else {
-                    console.error(`El valor para la clave ${key} no es un string:`, value);
+        infocomplete: async (req: Request, res: Response): Promise<void> => {
+            try {
+                const {
+                    email,
+                    name_state, // Estado
+                    zipcode,
+                    name_Town, // Ciudad
+                    street_1,
+                    street_2,
+                    localidad, // Dirección
+                    skill, // Habilidades
+                    experienceYears,
+                    workshopName,
+                    workshopPhoneNumber,
+                    detalles // Descripción del Proveedor
+                } = req.body;
+        
+                // Verificar que el correo esté presente en la solicitud
+                if (!email) {
+                    res.status(400).json({ mensaje: "El correo es requerido" });
+                    return;
                 }
-            }
-            console.log("---------------------------------------------------");
-
-
-            // Agregar la nueva habilidad al proveedor
-            let proveedor = await repositoryProviders.findOne({
-                where: { workshopName },
-                relations: ['skills'] // Asegúrate de cargar la relación skills
-            });
-
-
-
+        
+                // Buscar el usuario por correo
+                let user = await repositoryUser.findOne({
+                    where: { email },
+                    relations: ['usertypes']
+                });
+        
+                // Verificar si el usuario existe
+                if (!user) {
+                    res.status(404).json({ mensaje: "Usuario no encontrado" });
+                    return;
+                }
+        
+                const userTypeId = user.usertypes ? user.usertypes.id_userType : null;
+        
+                // Buscar el tipo de usuario asociado al usuario encontrado
+                const typeUser = userTypeId ? await repositoryTypeU.findOne({ where: { id_userType: userTypeId } }) : null;
+        
+                // Verificar si el tipo de usuario existe
+                if (!typeUser) {
+                    res.status(404).json({ mensaje: "Tipo de usuario no encontrado" });
+                    return;
+                }
+        
+                // Cambiar el estatus del tipo de usuario a 'Proveedor'
+                const values = true;
+                const descripcion = "Proveedor";
+        
+                let tipoUsuario = await repositoryTypeU.findOne({ where: { descripcion, value: values } });
+                if (!tipoUsuario) {
+                    tipoUsuario = new userTypes();
+                    tipoUsuario.value = values;
+                    tipoUsuario.descripcion = descripcion;
+                    await repositoryTypeU.save(tipoUsuario);
+                }
+        
+                // Actualizamos el tipo de usuario en la tabla de usuario
+                user.usertypes = tipoUsuario;
+                await repositoryUser.save(user);
+        
+                // Agregar o actualizar el estado
+                let estado = await repositoryState.findOne({ where: { name_State: name_state } });
+                if (!estado) {
+                    estado = new State();
+                    estado.name_State = name_state;
+                    await repositoryState.save(estado);
+                }
+        
+                // Agregar o actualizar la ciudad
+                let ciudad = await repositoryTowns.findOne({
+                    where: { name_Town, zipCode: zipcode }
+                });
+                if (!ciudad) {
+                    ciudad = new Town();
+                    ciudad.name_Town = name_Town;
+                    ciudad.zipCode = zipcode;
+                    ciudad.state = estado;
+                    await repositoryTowns.save(ciudad);
+                }
+        
+                // Agregar o actualizar la dirección
+                let address = await repositoryAddress.findOne({
+                    where: { street_1, street_2, localidad }
+                });
+                if (!address) {
+                    address = new Address();
+                    address.street_1 = street_1;
+                    address.street_2 = street_2;
+                    address.localidad = localidad;
+                    address.town = ciudad;
+                    await repositoryAddress.save(address);
+                }
+        
+                // Manejo de habilidades
+                const habilidades = Object.entries(skill);
+                let skillsToSave: skills[] = [];
+        
+                for (const [key, value] of habilidades) {
+                    if (typeof value === 'string') {
+                        let skillEntity = await repositoryskills.findOne({ where: { name: value } });
+        
+                        if (!skillEntity) {
+                            skillEntity = new skills();
+                            skillEntity.name = value;
+                            await repositoryskills.save(skillEntity);
+                        }
+                        
+                        skillsToSave.push(skillEntity);
+                    } else {
+                        console.error(`El valor para la clave ${key} no es un string:`, value);
+                    }
+                }
+        
+                // Agregar o actualizar proveedor
+                let proveedor = await repositoryProviders.findOne({
+                    where: { workshopName },
+                    relations: ['skills']
+                });
+        
                 if (!proveedor) {
                     proveedor = new Providers();
                     proveedor.experienceYears = experienceYears;
@@ -201,24 +189,20 @@ const controllerProvider = {
                     proveedor.workshopPhoneNumber = workshopPhoneNumber;
                     proveedor.address = address;
                     proveedor.descripcion = detalles;
-                    proveedor.skills = skillsToSave; // Asociar habilidades al proveedor
+                    proveedor.skills = skillsToSave;
                     proveedor.user = user;
                     await repositoryProviders.save(proveedor);
-                    console.log("Se registró el usuario");
+                    res.json({ message: "Proveedor registrado con éxito" });
                 } else {
-                    res.status(400).json({ message: "Proveedor ya existe con el número o con el nombre de tienda" });
-                    return;
+                    res.status(400).json({ message: "Proveedor ya existe con ese nombre de taller" });
                 }
-            // Responder con los datos encontrados
-            res.json({ message: "Todo bien" });
-            console.log("Todas las habilidades", email, skill);
-    
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ mensaje: "Error interno en el servidor" });
-        }
-    },
-    
+        
+            } catch (error) {
+                console.error(error);
+                res.status(500).json({ mensaje: "Error interno en el servidor" });
+            }
+        },
+        
 
     eliminarHabilidad: async function(req: Request, res: Response): Promise<void> {
         try {
