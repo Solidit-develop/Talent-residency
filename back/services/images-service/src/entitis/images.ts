@@ -1,19 +1,19 @@
-import { Column, Entity, JoinTable, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-import { imgenRelation } from "./imagesRelation";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { imagesRelation } from "./imagesRelation";
 
 @Entity()
-export class images{
-    
+export class images {
+
     @PrimaryGeneratedColumn()
-    id_mesages:number;
+    id_images: number;
 
-    @Column({type:"varchar"})
-    urlLocation:string;
+    @Column({ type: "varchar", length: 255 })
+    urlLocation: string;
 
-    @Column({type:"varchar"})
-    description:string;
+    @Column({ type: "varchar", length: 255 })
+    funcionality: string;
 
-    @OneToMany(()=>imgenRelation,imgenRelation=>imgenRelation.images)
-    imgenRelation:imgenRelation;
-
+    // Relación de uno a muchos con imagesRelation
+    @OneToMany(() => imagesRelation, imagesRelation => imagesRelation.images)
+    imagesRelation: imagesRelation[];  // Debe ser un array
 }

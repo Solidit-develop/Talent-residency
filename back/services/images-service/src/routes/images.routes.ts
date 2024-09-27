@@ -39,5 +39,7 @@ const router = Router();
 router.get('/ping', serviceImages.ping);
 router.post('/upload', upload.single('image'), serviceImages.uploadImage);
 router.get('/print/:id', serviceImages.print);
+router.post('/upload/:tableToUpload', serviceImages.uploadInformation);
+router.get('/print/:table/:idUsedOn/:funcionality', serviceImages.obtainInformation);
 
 module.exports = router;

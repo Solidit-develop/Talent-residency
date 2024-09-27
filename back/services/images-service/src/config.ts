@@ -8,7 +8,7 @@ console.log(" ");
 interface Config {
     db_type?: string;
     host?: string;
-    port?: string;
+    db_port?: string;
     user?: string;
     password?: string;
     database?: string;
@@ -18,7 +18,7 @@ interface Config {
 const config: Config = {
     db_type: process.env.DB_TYPE,
     host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    db_port: process.env.DB_PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB,
