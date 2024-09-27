@@ -73,16 +73,12 @@ const controllerProvider = {
                 street_1,
                 street_2,
                 localidad, // Dirección
-                skill,
+                skill, // Habilidades
                 experienceYears,
                 workshopName,
                 workshopPhoneNumber,
-                detalles // Proveedor
+                detalles // Descripción del Proveedor
             } = req.body;
-
-            console.log("En provider service");
-            console.log(req.body);
-
 
             // Verificar que el correo esté presente en la solicitud
             if (!email) {
@@ -113,7 +109,7 @@ const controllerProvider = {
                 return;
             }
 
-            // Cambiar el estatus del tipo de usuario
+            // Cambiar el estatus del tipo de usuario a 'Proveedor'
             const values = true;
             const descripcion = "Proveedor";
 
@@ -163,42 +159,30 @@ const controllerProvider = {
             }
 
             // Manejo de habilidades
-            const habilidades = Object.entries(skill); // Obtiene pares [key, value]
+            const habilidades = Object.entries(skill);
             let skillsToSave: skills[] = [];
 
             for (const [key, value] of habilidades) {
-                if (typeof value === 'string') { // Verifica si es un string
+                if (typeof value === 'string') {
                     let skillEntity = await repositoryskills.findOne({ where: { name: value } });
 
                     if (!skillEntity) {
                         skillEntity = new skills();
-                        skillEntity.name = value;  // Asignar el valor de la habilidad
-                        console.log("Estas son las habilidades nuevas que se guardarán:", skillEntity);
-                        await repositoryskills.save(skillEntity)
-                        skillsToSave.push(skillEntity); // Si decides guardar más tarde
-                    } else {
-                        console.log("No se guardó el valor de", value);
+                        skillEntity.name = value;
+                        await repositoryskills.save(skillEntity);
                     }
 
-                    // Mostrar el valor asociado a la habilidad
-                    console.log("Clave:", key, "Valor:", value);
-                    if (skillEntity) {
-                        skillsToSave.push(skillEntity);
-                    }
+                    skillsToSave.push(skillEntity);
                 } else {
                     console.error(`El valor para la clave ${key} no es un string:`, value);
                 }
             }
-            console.log("---------------------------------------------------");
 
-
-            // Agregar la nueva habilidad al proveedor
+            // Agregar o actualizar proveedor
             let proveedor = await repositoryProviders.findOne({
                 where: { workshopName },
-                relations: ['skills'] // Asegúrate de cargar la relación skills
+                relations: ['skills']
             });
-
-
 
             if (!proveedor) {
                 proveedor = new Providers();
@@ -207,23 +191,20 @@ const controllerProvider = {
                 proveedor.workshopPhoneNumber = workshopPhoneNumber;
                 proveedor.address = address;
                 proveedor.descripcion = detalles;
-                proveedor.skills = skillsToSave; // Asociar habilidades al proveedor
+                proveedor.skills = skillsToSave;
                 proveedor.user = user;
                 await repositoryProviders.save(proveedor);
-                console.log("Se registró el usuario");
+                res.json({ message: "Proveedor registrado con éxito" });
             } else {
-                res.status(400).json({ message: "Proveedor ya existe con el número o con el nombre de tienda" });
-                return;
+                res.status(400).json({ message: "Proveedor ya existe con ese nombre de taller" });
             }
-            // Responder con los datos encontrados
-            res.json({ message: "Todo bien" });
-            console.log("Todas las habilidades", email, skill);
 
         } catch (error) {
             console.error(error);
             res.status(500).json({ mensaje: "Error interno en el servidor" });
         }
     },
+
 
 
     eliminarHabilidad: async function (req: Request, res: Response): Promise<void> {
