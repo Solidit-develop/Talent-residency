@@ -64,6 +64,9 @@ const controllerProvider = {
     // complemento de informacion
 
     infocomplete: async (req: Request, res: Response): Promise<void> => {
+
+        console.log("Request body:" + req.body);
+
         try {
             const {
                 email,
@@ -79,6 +82,8 @@ const controllerProvider = {
                 workshopPhoneNumber,
                 detalles // Descripción del Proveedor
             } = req.body;
+
+            console.log("Skills: " + skill);
 
             // Verificar que el correo esté presente en la solicitud
             if (!email) {
@@ -159,7 +164,7 @@ const controllerProvider = {
             }
 
             // Manejo de habilidades
-            const habilidades = Object.entries(skill);
+            const habilidades = Object.entries(JSON.parse(skill));
             let skillsToSave: skills[] = [];
 
             for (const [key, value] of habilidades) {
@@ -414,7 +419,6 @@ const controllerProvider = {
     // info de 1 provedor
 
     profiele: async function name(req: Request, res: Response) {
-
 
         try {
 
