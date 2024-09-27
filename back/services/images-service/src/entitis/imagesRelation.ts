@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { images } from "./images";
 
 @Entity()
@@ -14,5 +14,6 @@ export class imagesRelation {
 
     // Relación de muchos a uno con images
     @ManyToOne(() => images, images => images.imagesRelation)
+    @JoinColumn({ name: "id_images" })
     images: images;  // Clave foránea que apunta a la tabla images
 }

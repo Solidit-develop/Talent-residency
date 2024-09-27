@@ -54,28 +54,62 @@ const serviceImages = {
     },
 
     obtainInformation: async (req: Request, res: Response): Promise<void> => {
-        const { table, idUsedOn, funcionality } = req.params
+        const { table, idUsedOn, funcionality } = req.params;
+        const id = parseInt(idUsedOn);
+        let errorMessage: string | null = null; // Mensaje de error inicial
+        var resultImage: images | null = new images();
 
+        // Buscar la relación de imagen
         const resultImageRelation = await repoImagesRelation.findOne({
-            where:
-            {
-                idUsedOn: parseInt(idUsedOn),
-                tableToRelation: table
-            }
+            where: {
+                idUsedOn: id,
+                tableToRelation: table // Agregar validación para la tabla
+            },
+            relations: ['images'] // Carga la relación `images`
         });
 
-        const idImageToFind = resultImageRelation?.images.id_images;
+        // Validación de resultImageRelation
+        if (!resultImageRelation) {
+            errorMessage = "No se encontró la relación de imagen para el id proporcionado.";
+        } else {
+            console.log("Id to find: " + id);
+            console.log("Table result: " + resultImageRelation?.tableToRelation);
 
-        const resultImage = await repoImages.findOne({
-            where: {
-                id_images: idImageToFind,
-                funcionality: funcionality
+            const idImageToFind = resultImageRelation.images?.id_images; // Usar el encadenamiento opcional
+
+            // Validación de idImageToFind
+            if (!idImageToFind) {
+                errorMessage = "No se encontró el ID de la imagen en la relación.";
+            } else {
+                resultImage = await repoImages.findOne({
+                    where: {
+                        id_images: idImageToFind,
+                        funcionality: funcionality
+                    }
+                });
+
+                // Validación de resultImage
+                if (!resultImage) {
+                    errorMessage = "No se encontró la imagen correspondiente a la funcionalidad proporcionada.";
+                }
+                // Construir la respuesta final
+
+
             }
-        })
 
+        }
+        const response = {
+            table,
+            idUsedOn,
+            funcionality,
+            message: errorMessage || null, // Agregar el mensaje de error si existe
+            imageName: resultImage?.urlLocation || null // Usar el encadenamiento opcional
+        };
 
-        res.json({ table, idUsedOn, funcionality, "imageName": resultImage?.urlLocation });
+        // Devolver la respuesta
+        res.json(response);
     },
+
 
     print: async (req: Request, res: Response): Promise<void> => {
         const id = req.params.id;
