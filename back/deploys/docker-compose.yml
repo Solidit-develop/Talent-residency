@@ -103,6 +103,7 @@ services:
     environment:
       - PORT=4000
       - HOST=localhost
+      - URL_HOST=DEV
     ports:
       - "4000:4000"
     depends_on:

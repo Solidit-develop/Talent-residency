@@ -6,6 +6,9 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +27,11 @@ public class Password extends Fragment implements RegisterView {
 
     private Button btnConfirm;
     private TextInputLayout etPassword;
+    private TextInputEditText edtxtPassword;
     private TextInputLayout etConfirmPassword;
+    private TextInputEditText edtxtConfirmPassword;
+    private Boolean passwordToggleEnabled = false;
+
     private RegisterRequestDto request;
     private RegisterPresenter presenter;
 
@@ -41,8 +48,50 @@ public class Password extends Fragment implements RegisterView {
         View view = inflater.inflate(R.layout.fragment_password, container, false);
         btnConfirm = view.findViewById(R.id.btn_confirm);
         etPassword = view.findViewById(R.id.txt_password_input);
+        edtxtPassword = view.findViewById(R.id.edtxt_password_fp);
         etConfirmPassword = view.findViewById(R.id.txt_confirm_password_input);
+        edtxtConfirmPassword = view.findViewById(R.id.edtxt_conf_pass_fp);
         presenter = new RegisterPresenter(this);
+
+
+        //////////////metodos para controlar los toogles de las cajas de texto ////////////////////////
+
+        edtxtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        etPassword.setEndIconDrawable(R.drawable.eye_visibility_off);
+        etPassword.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(passwordToggleEnabled){
+                    edtxtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    etPassword.setEndIconDrawable(R.drawable.eye_visibility_off);
+                }else{
+                    edtxtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    etPassword.setEndIconDrawable(R.drawable.eye_visibility);
+                }
+                passwordToggleEnabled = !passwordToggleEnabled;
+                edtxtPassword.setSelection(edtxtPassword.getText().length());
+            }
+        });
+
+
+        edtxtConfirmPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        etConfirmPassword.setEndIconDrawable(R.drawable.eye_visibility_off);
+        etConfirmPassword.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(passwordToggleEnabled){
+                    edtxtConfirmPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    etConfirmPassword.setEndIconDrawable(R.drawable.eye_visibility_off);
+                }else{
+                    edtxtConfirmPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    etConfirmPassword.setEndIconDrawable(R.drawable.eye_visibility);
+                }
+                passwordToggleEnabled = !passwordToggleEnabled;
+                edtxtConfirmPassword.setSelection(edtxtConfirmPassword.getText().length());
+            }
+        });
+
+        //logica para el boton de confirmar Dto
 
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -28,6 +28,9 @@ const upload = multer({storage}); // Multer para manejar los archivos en la soli
  * Filter and redirect the routes to the microservices
  */
 router.all('*', upload.single("image"), (req, res) => {
+
+    
+
     const [ , , , service, ...pathParts] = req.originalUrl.split('/');
     const path = pathParts.join('/');
     const serviceConfig = services[service];
@@ -47,21 +50,44 @@ router.all('*', upload.single("image"), (req, res) => {
 
     // Agregar otros datos del body, si existen
     if (req.body) {
-        console.log("Body correcto");
+        console.log("Body correcto on AG");
+        console.log(req.body);
         Object.keys(req.body).forEach((key) => {
-            console.log("Key: " + key, "input: " + req.body[key]);
-            form.append(key, req.body[key]);
-            console.log("Body on ag: ", req.body);
+            const value = req.body[key];
+            // Verificar si el valor es un objeto o un array
+            // Si el valor es un objeto, lo convertimos a JSON string
+            if (typeof value === 'object' && value !== null) {
+                valueToAdd = JSON.stringify(value)
+                console.log("En if con key: " + key + " y value: " + valueToAdd);
+                form.append(key, valueToAdd);
+            } else {
+                console.log("En else con key: " + key + " y value: " + value);
+                form.append(key, value);
+            }
         });
     }
+
+    console.log("Form data values: " + JSON.stringify(form));
+
+    // Asignación del host según el ambiente a desplegar
+    var ambiente = config.url_host;
+    var host_to_deploy = "";
+    if(ambiente=="DEV"){
+        host_to_deploy = serviceConfig.host
+    }
+    if(ambiente=="LOCAL"){
+        host_to_deploy = serviceConfig.url_local
+    }
+
+    console.log("Ambiente: " + ambiente + " HOST: " + host_to_deploy);
 
     axios({
         baseUrl: config.host,
         method: req.method,
-        url: `${serviceConfig.host}:${serviceConfig.port}/${path}`,
+        url: `${host_to_deploy}:${serviceConfig.port}/${path}`,
         //Validate how to pass headers
         data: form, // Pasamos el FormData con los archivos y otros datos
-                responseType: 'arraybuffer',  // Cambiar a arraybuffer para manejar datos binarios
+        responseType: 'arraybuffer',  // Cambiar a arraybuffer para manejar datos binarios
 
     })
     .then(response => {
