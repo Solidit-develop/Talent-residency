@@ -1,6 +1,6 @@
 import { json, Request } from "express";
 import { Response } from "express";
-import { Repository } from "typeorm";
+import { JoinColumn, Repository } from "typeorm";
 import { AppDataSource } from "../database";
 
 import { appointment } from "../entitis/appointment";
@@ -79,40 +79,59 @@ const controllerAppointment ={
     
     
     cancelar: async (req: Request, res: Response): Promise<void> => {
-        try{
-
-            let { id_provider, id_customer } = req.params;
-
-             const prov = Number(id_provider)
-             const cus = Number(id_customer )
-             
-            console.log("Numeros de colback");
-            console.log(prov,cus);
-
+        try {
+            const { id_provider, id_customer } = req.params;
+            const { creationDate } = req.body;
+    
+            const prov = Number(id_provider);
+            const cus = Number(id_customer);
+    
+            console.log("Números de callback:", prov, cus);
+    
             const relacion = await repositoryappointment.createQueryBuilder("appointment")
-            .leftJoinAndSelect("appointment.providers","Providers")
-            .leftJoinAndSelect("appointment.users","users")
-            .where("users.id_user=id_user",{id_user:cus})
-            .andWhere("Providers.id_provider=id_provider",{id_provider:prov})
-            .getOne();
-
-            // logica para cambiar el estatus del appointment
-             console.log("Relacion de usuarios");
-
-            //  if(relacion){
-            //     // relacion="Cancelado" 
-            //     // acuerdo.statusAppointment
-            //  }
-             console.log(relacion);
-
-             res.status(200).json({mesage:"actualizacion existosa"})
-
-        }catch(error) {
-            res.status(500).json({message:"Error interno"})
+                .leftJoinAndSelect("appointment.providers", "Providers")
+                .leftJoinAndSelect("appointment.users", "users")
+                .where("users.id_user = :id_user", { id_user: cus })
+                .andWhere("Providers.id_provider = :id_provider", { id_provider: prov })
+                .getOne();
+    
+            console.log("Relación de usuarios:", relacion);
+    
+            // Verificar si la relación existe y si la fecha coincide
+            if (relacion && relacion.creationDate === creationDate) {
+                relacion.statusAppointment = "Cancelado"; // Cambia correctamente el estatus
+                await repositoryappointment.save(relacion);
+                res.status(200).json({ message: "Actualización exitosa" });
+            } else {
+                res.status(400).json({ message: "No se encontró la relación o la fecha no coincide" });
+            }
+        } catch (error) {
+            res.status(500).json({ message: "Error interno" });
             console.log(error);
         }
+    },
 
-    }
+    consulta:async(req:Request, res:Response):Promise<void>=>{
+        try{
+            const {id_provider}=req.params
+            const prov = Number(id_provider);
+            const Verificar = await repositoryappointment.createQueryBuilder("appointment")
+            .leftJoinAndSelect("appointment.providers", "Providers")
+            .where("Providers.id_provider = :id_provider", { id_provider: prov })
+            .getMany();
+            console.log("Consulta")
+            console.log(Verificar);
+    
+        res.status(200).json({Verificar})
+        }catch(error){
+            console.log(error)
+            res.status(500).json({message:"Error de dentro del servidor"})
+        }
+
+    },
+    
+
+    
     
 
 }

@@ -6,5 +6,7 @@ const router = Router()
 router.get("/ping",controllerAppointment.prueba);
 router.post("/cita/:id_provider/:id_customer",controllerAppointment.cita);
 router.post("/relacion/:id_provider/:id_customer",controllerAppointment.cancelar);
+router.get("/consulta/:id_provider",controllerAppointment.consulta)
+
 
 module.exports= router;
