@@ -1,6 +1,10 @@
 package com.example.servicesolidit.LoginFlow;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +27,7 @@ import com.example.servicesolidit.HomeFlow.Home;
 import com.example.servicesolidit.Model.Responses.UserInfoDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.RegisterFlow.Register;
+import com.example.servicesolidit.Utils.Constants;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
@@ -70,7 +75,29 @@ public class Login extends Fragment implements LoginView {
                 etPassword.setSelection(etPassword.getText().length());
             }
         });
+
+        validateAlreadyLogged();
         return view;
+    }
+
+    public void validateAlreadyLogged(){
+        try {
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.MY_PREFERENCES, MODE_PRIVATE);
+
+            int userIdLogged = sharedPreferences.getInt(Constants.GET_LOGGED_USER_ID,0);
+            Boolean isAlreadyLogged = sharedPreferences.getBoolean(Constants.IS_LOGGED, false);
+            Log.i("LoginClass", "Valor de userIdLogged: " + userIdLogged);
+            Log.i("LoginClass", "Valor de isAlReadyLogged: " + isAlreadyLogged);
+            if (userIdLogged!=0 && isAlreadyLogged) {
+                UserInfoDto alreadyLogged = new UserInfoDto();
+                alreadyLogged.setIdUser(userIdLogged);
+                GoToHome(alreadyLogged, true);
+            }else{
+                Log.i("LoginClass", "Not shared preferences found");
+            }
+        }catch (Exception e){
+            Log.i("LoginClass", "Error: "+ e.getMessage());
+        }
     }
 
     @Override
@@ -112,7 +139,7 @@ public class Login extends Fragment implements LoginView {
         String json = gson.toJson(userInfoDto);
         Log.i("LoginClass","Login Success with userData: " + json);
         Log.i("LoginClass","ShouldGoToHome");
-        GoToHome();
+        GoToHome(userInfoDto, false);
     }
 
     @Override
@@ -123,9 +150,26 @@ public class Login extends Fragment implements LoginView {
     }
 
 
-    public void GoToHome(){
+    public void GoToHome(UserInfoDto userToLoadInfo, boolean alreadyLogged){
+        Log.i("LoginClass", "alreadLogged on call to go to home: " + alreadyLogged);
+        if(!alreadyLogged){
+            saveUserLoggedInfo(userToLoadInfo);
+        }
         Intent intent = new Intent(getContext(), Home.class);
         startActivity(intent);
+    }
+
+    public void saveUserLoggedInfo(UserInfoDto userInfoDto){
+        try {
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(Constants.IS_LOGGED, true);
+            editor.putInt(Constants.GET_LOGGED_USER_ID, userInfoDto.getIdUser());
+            editor.apply();
+            Log.i("LoginClass", "Saved success id: " + userInfoDto.getIdUser());
+        }catch (Exception e){
+            Log.i("LoginClass", "Error on save preferences");
+        }
     }
 
     public void GoToRegister(){
