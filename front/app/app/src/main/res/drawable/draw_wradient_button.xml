@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Definición del degradado -->
+    <gradient
+        android:angle="0"
+        android:startColor="#141414"
+        android:endColor="#45464E"
+        android:type="linear" />
+
+    <!-- Definición del borde redondeado -->
+    <corners android:radius="5dp" />
+</shape>

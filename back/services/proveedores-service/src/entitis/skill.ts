@@ -3,15 +3,15 @@ import { Providers } from "./provedores";
 
 @Entity()
 
-export class skills{
+export class skills {
     @PrimaryGeneratedColumn()
     id_skills: number;
 
-    @Column({type:'varchar', length: 200})
-    name:string;
+    @Column({ type: 'varchar', length: 200 })
+    name: string;
 
-    @ManyToMany(()=> Providers, providers=>providers.skills)
+    @ManyToMany(() => Providers, providers => providers.skills)
     @JoinTable()
-    providers:Providers[];
+    providers: Providers[];
 }
 

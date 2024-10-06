@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Address">
+    tools:context=".RegisterFlow.Address">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -26,6 +26,7 @@
             android:hint="@string/value_edtxt_zip_code">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtxt_zip_code"
                 style="@style/EditTextSmall"
                 android:inputType="text|number"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -83,7 +84,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_siguiente"
+            android:id="@+id/btn_siguiente_address"
             style="@style/ButtonIconEnd"
             android:text="@string/value_btn_next"
             android:layout_marginTop="30dp"
