@@ -18,6 +18,12 @@
             "port": "4004",
             "url_local": "http://localhost"
         },
+        "relational":{
+            "apiName": "relational",
+            "host": "http://relationalservice",
+            "port": "4008",
+            "url_local": "http://localhost"
+        },
         "images":{
             "apiName": "images",
             "host": "http://imagesservice",
