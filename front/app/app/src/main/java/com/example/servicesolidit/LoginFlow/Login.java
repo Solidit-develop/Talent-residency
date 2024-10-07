@@ -16,10 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.servicesolidit.HomeFlow.Home;
+import com.example.servicesolidit.MessageFlow.MessageActivity;
+import com.example.servicesolidit.MessageFlow.MessageAdapter;
 import com.example.servicesolidit.Model.Responses.UserInfoDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.RegisterFlow.Register;
@@ -31,13 +34,13 @@ import okhttp3.internal.concurrent.Task;
 
 public class Login extends Fragment implements LoginView {
 
-    private Button btnRegister;
-    private TextInputEditText etUser;
-    private TextInputEditText etPassword;
+    private TextInputEditText edtUser, edtPassword;
     private TextInputLayout etPasswordLayout;
     private Boolean passwordToggleEnabled = false;
     private LoginPresenter presenter;
-    private TextView btnLogin;
+    private Button btnForgot;
+    private Button btnLogin;
+    private Button btnRegister;
     private ProgressBar loadingItem;
 
     @Override
@@ -45,29 +48,31 @@ public class Login extends Fragment implements LoginView {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+
+        edtUser = view.findViewById(R.id.edtxt_User);
+        edtPassword = view.findViewById(R.id.edtxt_Password);
+        etPasswordLayout = view.findViewById(R.id.txt_password_layout);
+        btnForgot = view.findViewById(R.id.btn_forgot);
+        btnLogin = view.findViewById(R.id.btn_login);
         btnRegister = view.findViewById(R.id.btnGoToRegister);
-        etUser = view.findViewById(R.id.etUser);
-        etPassword = view.findViewById(R.id.etPassword);
-        etPasswordLayout = view.findViewById(R.id.txt_password);
-        btnLogin = view.findViewById(R.id.btnLogin);
         loadingItem = view.findViewById(R.id.loading_item_login);
 
         presenter = new LoginPresenter(this);
 
-        etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        edtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         etPasswordLayout.setEndIconDrawable(R.drawable.eye_visibility_off);
         etPasswordLayout.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(passwordToggleEnabled){
-                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    edtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     etPasswordLayout.setEndIconDrawable(R.drawable.eye_visibility_off);
                 }else{
-                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    edtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     etPasswordLayout.setEndIconDrawable(R.drawable.eye_visibility);
                 }
                 passwordToggleEnabled = !passwordToggleEnabled;
-                etPassword.setSelection(etPassword.getText().length());
+                edtPassword.setSelection(edtPassword.getText().length());
             }
         });
         return view;
@@ -77,13 +82,20 @@ public class Login extends Fragment implements LoginView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        btnForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GoToForgot();
+            }
+        });
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showProgress();
                 Log.i("LoginClass","Should try loging");
-                String username = etUser.getText().toString();
-                String password = etPassword.getText().toString();
+                String username = edtUser.getText().toString();
+                String password = edtPassword.getText().toString();
                 Log.i("LoginClass","Login called with: "+username+" y "+password );
                 presenter.login(username, password);
             }
@@ -137,6 +149,18 @@ public class Login extends Fragment implements LoginView {
             transactionRegister.commit();
         }catch (Exception e){
             Log.i("LoginClass", "Error on go to register fragment: " + e.getMessage());
+        }
+    }
+
+    public  void GoToForgot(){
+        try {
+            MessageActivity messageActivity = new MessageActivity();
+            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_prueba_mensaje, messageActivity);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }catch (Exception e){
+
         }
     }
 }

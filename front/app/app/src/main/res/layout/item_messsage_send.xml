@@ -12,6 +12,6 @@
         android:layout_height="wrap_content"
         android:background="@color/bg_btn_grey"
         android:padding="10dp"
-        android:textColor="@android:color/white"/>
+        android:textColor="@color/bg_white"/>
 
 </LinearLayout>
