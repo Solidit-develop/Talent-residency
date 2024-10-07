@@ -420,6 +420,20 @@ const controllerusuario = {
     }
   },
 
+  obtainInformation: async (req: Request, res: Response): Promise<void> => {
+    var response;
+    try {
+      let userIdToFind = parseInt(req.params.idToFind);
+      console.log("ID TO FIND: " + userIdToFind);
+      let usuario = await repositoriuser.findOne({ where: { id_user: userIdToFind } })
+      response = usuario;
+    } catch (e) {
+      response = e;
+    }
+
+    res.status(200).json(ResponseModel.successResponse(response))
+  },
+
   insertusuario: async (req: Request, res: Response): Promise<void> => {
     try {
 
