@@ -1,6 +1,13 @@
 import { Request, Response } from "express";
 import config from "../config";
 import path from "path";
+import { AppDataSource } from "../database";
+import { images } from "../entitis/images";
+import { imagesRelation } from "../entitis/imagesRelation";
+
+const repoImages = AppDataSource.getRepository(images);
+const repoImagesRelation = AppDataSource.getRepository(imagesRelation);
+
 const serviceImages = {
     ping: async (req: Request, res: Response): Promise<void> => {
         res.send("pong")
@@ -17,7 +24,7 @@ const serviceImages = {
             console.log("Should ends here");
             message = "No file uploaded.";
         }
-        const imageUrl = `${baseAddress}/uploads/${fileName}`;
+        const imageUrl = `${fileName}`;
         console.log("Should ends");
         message = imageUrl;
         res.send({ "response": message });
@@ -28,15 +35,16 @@ const serviceImages = {
         console.log("Find the url:" + id);
         var onLocalSave = config.pathToSave;
         var pathToSave = "";
-
+        var pathToFind = "";
+        /*** Change line to test on local */
         if (onLocalSave == "DEV") {
             pathToSave = "/var/lib/images/data";
+            pathToFind = path.join(pathToSave, '/uploads/');
         } else {
             pathToSave = __dirname;
+            pathToFind = path.join(pathToSave, '../routes/uploads/');
         }
 
-        //const pathToFind = path.join(pathToSave, '../routes/uploads/');
-        const pathToFind = path.join(pathToSave, '/uploads/');
         const result = pathToFind + id;
         console.log("PTF: " + result);
         res.sendFile(result);

@@ -37,6 +37,27 @@ services:
     volumes:
       - images-data:/var/lib/images/data/uploads
 
+  relationalservice:
+    build:
+      context: ../services/relational-service
+    ports:
+      - "4008:4008"
+    environment:
+      - PORT=4008
+      - HOST=localhost
+      - DB_HOST=postgres
+      - DB_TYP=postgres
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+      - DB=mydatabase
+      - DB_PORT=5432
+      - BaseAddress=http://187.132.135.145:4000/api/v1/images
+      - PathToSave=DEV
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
   providerservice:
     build:
       context: ../services/proveedores-service
@@ -103,6 +124,7 @@ services:
     environment:
       - PORT=4000
       - HOST=localhost
+      - URL_HOST=DEV
     ports:
       - "4000:4000"
     depends_on:
