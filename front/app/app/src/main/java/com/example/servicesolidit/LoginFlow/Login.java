@@ -85,12 +85,23 @@ public class Login extends Fragment implements LoginView {
             SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.MY_PREFERENCES, MODE_PRIVATE);
 
             int userIdLogged = sharedPreferences.getInt(Constants.GET_LOGGED_USER_ID,0);
-            Boolean isAlreadyLogged = sharedPreferences.getBoolean(Constants.IS_LOGGED, false);
+            boolean isAlreadyLogged = sharedPreferences.getBoolean(Constants.IS_LOGGED, false);
+            String userEmailLogged = sharedPreferences.getString(Constants.GET_EMAIL_USER, "");
+            String userNameLogged = sharedPreferences.getString(Constants.GET_NAME_USER, "");
+
+
             Log.i("LoginClass", "Valor de userIdLogged: " + userIdLogged);
             Log.i("LoginClass", "Valor de isAlReadyLogged: " + isAlreadyLogged);
-            if (userIdLogged!=0 && isAlreadyLogged) {
+            Log.i("LoginClass", "Valor de userEmailLogged: " + userEmailLogged);
+            Log.i("LoginClass", "Valor de userNameLogged: " + userNameLogged);
+
+            if (userIdLogged!=0 &&
+                    isAlreadyLogged &&
+                    !userEmailLogged.isEmpty() &&
+                    !userNameLogged.isEmpty()) {
                 UserInfoDto alreadyLogged = new UserInfoDto();
                 alreadyLogged.setIdUser(userIdLogged);
+                alreadyLogged.setEmail(userEmailLogged);
                 GoToHome(alreadyLogged, true);
             }else{
                 Log.i("LoginClass", "Not shared preferences found");
@@ -154,6 +165,7 @@ public class Login extends Fragment implements LoginView {
         Log.i("LoginClass", "alreadLogged on call to go to home: " + alreadyLogged);
         if(!alreadyLogged){
             saveUserLoggedInfo(userToLoadInfo);
+            Log.i("LoginClass", "Info saved on Go To Home");
         }
         Intent intent = new Intent(getContext(), Home.class);
         startActivity(intent);
@@ -165,6 +177,8 @@ public class Login extends Fragment implements LoginView {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(Constants.IS_LOGGED, true);
             editor.putInt(Constants.GET_LOGGED_USER_ID, userInfoDto.getIdUser());
+            editor.putString(Constants.GET_EMAIL_USER, userInfoDto.getEmail());
+            editor.putString(Constants.GET_NAME_USER, userInfoDto.getNameUser());
             editor.apply();
             Log.i("LoginClass", "Saved success id: " + userInfoDto.getIdUser());
         }catch (Exception e){

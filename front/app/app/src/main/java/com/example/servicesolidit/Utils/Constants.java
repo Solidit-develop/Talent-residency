@@ -8,4 +8,6 @@ public abstract class Constants {
     public static String MY_PREFERENCES = "MyPreferences";
     public static String IS_LOGGED = "IsLogged";
     public static String GET_LOGGED_USER_ID = "LoggedUserId";
+    public static String GET_EMAIL_USER = "LoggedUserEmail";
+    public static String GET_NAME_USER = "LoggedUserName";
 }
