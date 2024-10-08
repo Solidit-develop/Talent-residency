@@ -19,6 +19,6 @@ jobs:
           cd ${{ secrets.WORK_DIR }}
           git fetch
           git pull
-          git checkout ${{secrets.DEPLOY_BRANCH }}
+          git checkout ${{ secrets.DEPLOY_BRANCH }}
           docker-compose up --build --force-recreate -d
           exit
