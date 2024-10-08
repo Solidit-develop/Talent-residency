@@ -1,6 +1,10 @@
 package com.example.servicesolidit.LoginFlow;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,6 +30,7 @@ import com.example.servicesolidit.MessageFlow.MessageAdapter;
 import com.example.servicesolidit.Model.Responses.UserInfoDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.RegisterFlow.Register;
+import com.example.servicesolidit.Utils.Constants;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
@@ -75,7 +80,40 @@ public class Login extends Fragment implements LoginView {
                 edtPassword.setSelection(edtPassword.getText().length());
             }
         });
+
+        validateAlreadyLogged();
         return view;
+    }
+
+    public void validateAlreadyLogged(){
+        try {
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.MY_PREFERENCES, MODE_PRIVATE);
+
+            int userIdLogged = sharedPreferences.getInt(Constants.GET_LOGGED_USER_ID,0);
+            boolean isAlreadyLogged = sharedPreferences.getBoolean(Constants.IS_LOGGED, false);
+            String userEmailLogged = sharedPreferences.getString(Constants.GET_EMAIL_USER, "");
+            String userNameLogged = sharedPreferences.getString(Constants.GET_NAME_USER, "");
+
+
+            Log.i("LoginClass", "Valor de userIdLogged: " + userIdLogged);
+            Log.i("LoginClass", "Valor de isAlReadyLogged: " + isAlreadyLogged);
+            Log.i("LoginClass", "Valor de userEmailLogged: " + userEmailLogged);
+            Log.i("LoginClass", "Valor de userNameLogged: " + userNameLogged);
+
+            if (userIdLogged!=0 &&
+                    isAlreadyLogged &&
+                    !userEmailLogged.isEmpty() &&
+                    !userNameLogged.isEmpty()) {
+                UserInfoDto alreadyLogged = new UserInfoDto();
+                alreadyLogged.setIdUser(userIdLogged);
+                alreadyLogged.setEmail(userEmailLogged);
+                GoToHome(alreadyLogged, true);
+            }else{
+                Log.i("LoginClass", "Not shared preferences found");
+            }
+        }catch (Exception e){
+            Log.i("LoginClass", "Error: "+ e.getMessage());
+        }
     }
 
     @Override
@@ -124,7 +162,7 @@ public class Login extends Fragment implements LoginView {
         String json = gson.toJson(userInfoDto);
         Log.i("LoginClass","Login Success with userData: " + json);
         Log.i("LoginClass","ShouldGoToHome");
-        GoToHome();
+        GoToHome(userInfoDto, false);
     }
 
     @Override
@@ -135,9 +173,29 @@ public class Login extends Fragment implements LoginView {
     }
 
 
-    public void GoToHome(){
+    public void GoToHome(UserInfoDto userToLoadInfo, boolean alreadyLogged){
+        Log.i("LoginClass", "alreadLogged on call to go to home: " + alreadyLogged);
+        if(!alreadyLogged){
+            saveUserLoggedInfo(userToLoadInfo);
+            Log.i("LoginClass", "Info saved on Go To Home");
+        }
         Intent intent = new Intent(getContext(), Home.class);
         startActivity(intent);
+    }
+
+    public void saveUserLoggedInfo(UserInfoDto userInfoDto){
+        try {
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(Constants.IS_LOGGED, true);
+            editor.putInt(Constants.GET_LOGGED_USER_ID, userInfoDto.getIdUser());
+            editor.putString(Constants.GET_EMAIL_USER, userInfoDto.getEmail());
+            editor.putString(Constants.GET_NAME_USER, userInfoDto.getNameUser());
+            editor.apply();
+            Log.i("LoginClass", "Saved success id: " + userInfoDto.getIdUser());
+        }catch (Exception e){
+            Log.i("LoginClass", "Error on save preferences");
+        }
     }
 
     public void GoToRegister(){

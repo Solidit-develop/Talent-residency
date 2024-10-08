@@ -24,6 +24,10 @@ public class UserInfoDto {
     @SerializedName("phoneNumber")
     private String phoneNumber;
 
+    public UserInfoDto(){
+
+    }
+
     public UserInfoDto(int idUser, String nameUser, String lastname, String email, String password, int age, String phoneNumber) {
         this.idUser = idUser;
         this.nameUser = nameUser;
