@@ -1,5 +1,8 @@
 package com.example.servicesolidit.HouseFlow;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,6 +18,7 @@ import com.example.servicesolidit.HomeFlow.HomePresenter;
 import com.example.servicesolidit.HomeFlow.HomeView;
 import com.example.servicesolidit.Model.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.R;
+import com.example.servicesolidit.Utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +49,19 @@ public class House extends Fragment implements HomeView {
         recyclerView.setAdapter(adapter);
         showProgres();
         presenter.feed("0", "10");
+        ReadShared();
         return view;
     }
 
+    public void ReadShared(){
+        try {
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.MY_PREFERENCES, MODE_PRIVATE);
+            String userIdLogged = sharedPreferences.getString(Constants.GET_LOGGED_USER_ID, "");
+            Log.i("HouseClass", "El valor id del user almacenado es: " + userIdLogged);
+        }catch (Exception e){
+            Log.i("HouseClass", "Error on read shared: " + e.getMessage());
+        }
+    }
 
     @Override
     public void showProgres() {
@@ -84,7 +98,7 @@ public class House extends Fragment implements HomeView {
             modelFromResponse.setLocation(item.getAddress().getLocalidad());
             modelFromResponse.setNameBussines(item.getWorkshopName());
             modelFromResponse.setDescription("Con " + item.getExperienceYears() + " años de experiencia");
-            modelFromResponse.setImageUrl("https://img.freepik.com/fotos-premium/pico-montana-nevada-galaxia-estrellada-majestad-ia-generativa_1038396-50.jpg");
+            modelFromResponse.setImageUrl("http://189.190.247.80:4000/api/v1/images/print/1726996926660-mydatabase-public.png");
             listToPrint.add(modelFromResponse);
         }
         return listToPrint;
