@@ -15,7 +15,8 @@ jobs:
         username: ${{ secrets.SSH_USERNAME }}
         password: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.SSH_PORT }}
-        script: cd ${{ secrets.WORK_DIR }}
+        script: |
+          cd ${{ secrets.WORK_DIR }}
           git fetch
           git pull
           git checkout ${{secrets.DEPLOY_BRANCH }}
