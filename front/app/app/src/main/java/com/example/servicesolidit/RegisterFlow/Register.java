@@ -20,11 +20,10 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class Register extends Fragment{
 
-    private Button btnSiguiente;
-    private TextInputLayout etEmail, etName, etLastName, etPhone, etAge;
-    // Nombre, apellidos, telefono, edad,
+    private TextInputLayout etName, etLastName, etEmail, etPhone, etAge;
+    private TextInputEditText edtName, edtLastname, edtEmail, edtAge, edtPhoneNumber;
 
-    private TextInputEditText edtEmail, edtName, edtLastname, edtAge, edtPhoneNumber;
+    private Button btnSiguiente;
 
 
     @Override
@@ -34,12 +33,13 @@ public class Register extends Fragment{
 
         btnSiguiente = view.findViewById(R.id.btn_siguiente);
 
-        etEmail = view.findViewById(R.id.txt_email_input_layout);
-        edtEmail = view.findViewById(R.id.edtxt_email);
+
         etName = view.findViewById(R.id.txt_name_input_layout);
         edtName = view.findViewById(R.id.edtxt_name);
         etLastName = view.findViewById(R.id.txt_lastname_input_layout);
         edtLastname = view.findViewById(R.id.edtxt_lastname);
+        etEmail = view.findViewById(R.id.txt_email_input_layout);
+        edtEmail = view.findViewById(R.id.edtxt_email);
         etPhone = view.findViewById(R.id.txt_phone_number_layout);
         edtPhoneNumber = view.findViewById(R.id.edtxt_phone_number);
         etAge = view.findViewById(R.id.txt_age_input_layout);
@@ -95,6 +95,7 @@ public class Register extends Fragment{
         });
 
         btnSiguiente.setOnClickListener(v -> {
+
             // Se debe crear el objeto a partir de  para mandarlo al presenter
             String mail = etEmail.getEditText().getText().toString();
             String name = etName.getEditText().getText().toString();

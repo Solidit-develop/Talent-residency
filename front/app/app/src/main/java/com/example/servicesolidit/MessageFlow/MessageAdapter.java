@@ -1,5 +1,6 @@
 package com.example.servicesolidit.MessageFlow;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private static final int VIEW_TYPE_RECEIVED = 1;
     private static final int VIEW_TYPE_SENT = 2;
+
+    private static  final String TAG_MESSAGE_ADAPTER = "TAG MESSAGE ADAPTER";
 
     private List<MessageDto> messages;
     private int userId;
@@ -53,8 +56,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         MessageDto message = messages.get(position);
         if (holder instanceof ReceivedMessageViewHolder) {
             ((ReceivedMessageViewHolder) holder).bind(message);
+            Log.d("TAG", "PRUEBA ADAPTER if: " + message);
         } else {
             ((SentMessageViewHolder) holder).bind(message);
+            Log.d("TAG", "PRUEBA ADAPTER else: " + message);
         }
     }
 

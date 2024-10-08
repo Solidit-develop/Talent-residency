@@ -38,6 +38,8 @@ public class MessageActivity extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private static final String TAG = "TEST_PRUEBA";
+
     private RecyclerView recyclerView;
     private MessageAdapter adapter;
     private List<MessageDto> messageList = new ArrayList<>();
@@ -98,18 +100,22 @@ public class MessageActivity extends Fragment {
                 if (response.isSuccessful() && response.body() != null){
                     for (ConversationDto resultado : response.body().getResultados()) {
                         messageList.addAll(resultado.getMessage());
+                        Log.d("TAG", "PRUEBA: " + call);
                     }
 
                     adapter = new MessageAdapter(messageList, idOrigen);
                     recyclerView.setAdapter(adapter);
+
                 }else {
                     //manejo del error
+                    Toast.makeText(getContext(), "EXCEPTION: " + response.body().getResultados(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<MessagesResponseDto> call, Throwable t) {
                 //manejo de errores
+                Toast.makeText(getContext(), "EXCEPTION: " + t, Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -85,7 +85,7 @@ public class Login extends Fragment implements LoginView {
         btnForgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GoToForgot();
+
             }
         });
 
@@ -152,15 +152,4 @@ public class Login extends Fragment implements LoginView {
         }
     }
 
-    public  void GoToForgot(){
-        try {
-            MessageActivity messageActivity = new MessageActivity();
-            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_prueba_mensaje, messageActivity);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }catch (Exception e){
-
-        }
-    }
 }
