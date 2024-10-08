@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Register">
+    tools:context=".RegisterFlow.Register">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -25,7 +25,7 @@
             style="@style/Subtitle1"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_name"
+            android:id="@+id/txt_name_input"
             style="@style/BoxTextLayoutSmall"
             android:hint="@string/value_edtxt_Name"
             android:layout_marginTop="20dp">
@@ -36,7 +36,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_lastname"
+            android:id="@+id/txt_lastname_input"
             style="@style/BoxTextLayoutSmall"
             android:hint="@string/value_edtxt_lastname">
 
@@ -51,12 +51,13 @@
             android:hint="@string/value_edtxt_phone">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtxt_phone_number"
                 style="@style/EditTextSmall"
                 android:inputType="text|number"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_age"
+            android:id="@+id/txt_age_input"
             style="@style/BoxTextLayoutSmall"
             android:hint="@string/value_edtxt_age">
 
@@ -66,11 +67,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_email"
+            android:id="@+id/txt_email_input"
             style="@style/BoxTextLayoutSmall"
             android:hint="@string/value_edtxt_email">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_email_edit"
                 style="@style/EditTextSmall"
                 android:inputType="textEmailAddress"/>
         </com.google.android.material.textfield.TextInputLayout>
