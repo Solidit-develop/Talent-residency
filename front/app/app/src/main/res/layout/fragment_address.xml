@@ -21,7 +21,7 @@
             style="@style/Title"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_zip_code"
+            android:id="@+id/txt_zip_code_layout"
             style="@style/BoxTextLayoutSmall"
             android:hint="@string/value_edtxt_zip_code">
 
