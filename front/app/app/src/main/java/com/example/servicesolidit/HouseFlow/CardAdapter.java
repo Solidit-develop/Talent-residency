@@ -1,11 +1,13 @@
 package com.example.servicesolidit.HouseFlow;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,6 +50,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
         holder.description.setSelected(true);
         holder.location.setSelected(true);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TEST_CARDADAPTER","clickaste aqui: " + card.getIdProvider());
+            }
+        });
     }
 
     @Override
@@ -67,7 +76,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             nameBussines =itemView.findViewById(R.id.txt_name_bussines);
             description = itemView.findViewById(R.id.txt_description);
             location = itemView.findViewById(R.id.txt_location);
-
         }
     }
 }

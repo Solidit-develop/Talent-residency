@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.servicesolidit.HeadDrawn;
 import com.example.servicesolidit.HouseFlow.House;
+import com.example.servicesolidit.MessageFlow.MessageActivity;
 import com.example.servicesolidit.ProfileFlow.Profile;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Search;
@@ -98,6 +99,7 @@ public class Home extends AppCompatActivity{
         //************************  metodos para el mapeo del slide de izquierda - derecha  ***************************************/
         navigationActions.put(R.id.item_message, () -> {
             Toast.makeText(this, "Hola desde mensajes", Toast.LENGTH_SHORT).show();
+            GoToMessage();
         });
         navigationActions.put(R.id.item_appointment, () -> {
             Toast.makeText(this, "Hola desde citas", Toast.LENGTH_SHORT).show();
@@ -175,5 +177,13 @@ public class Home extends AppCompatActivity{
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void GoToMessage (){
+        MessageActivity messageActivity = new MessageActivity();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_content_home, messageActivity);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
