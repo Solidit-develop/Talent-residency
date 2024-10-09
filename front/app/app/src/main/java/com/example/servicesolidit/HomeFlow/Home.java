@@ -2,7 +2,6 @@ package com.example.servicesolidit.HomeFlow;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,8 +20,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.servicesolidit.HeadDrawn;
 import com.example.servicesolidit.HouseFlow.House;
-import com.example.servicesolidit.Model.Responses.Feed.ProviderResponseDto;
-import com.example.servicesolidit.Profile;
+import com.example.servicesolidit.ProfileFlow.Profile;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Search;
 import com.example.servicesolidit.Utils.Constants;
