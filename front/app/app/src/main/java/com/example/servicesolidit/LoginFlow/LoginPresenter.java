@@ -3,8 +3,6 @@ package com.example.servicesolidit.LoginFlow;
 import android.util.Log;
 
 import com.example.servicesolidit.Model.Requests.LoginRequestDto;
-import com.example.servicesolidit.Model.Responses.LoginResponse;
-import com.example.servicesolidit.Model.Dtos.User;
 import com.example.servicesolidit.Model.Responses.LoginResponseDto;
 import com.example.servicesolidit.Model.Responses.UserInfoDto;
 import com.example.servicesolidit.Network.ApiService;

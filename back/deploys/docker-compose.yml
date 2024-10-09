@@ -111,6 +111,7 @@ services:
       - DB=mydatabase
       - DB_PORT=5432
       - BaseAddress=http://187.132.135.145:4000/api/v1/users
+      - Ambiente=DEV
     ports:
       - "4001:4001"
     depends_on:

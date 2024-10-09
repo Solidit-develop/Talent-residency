@@ -12,6 +12,7 @@ import jwt from "jsonwebtoken"
 
 import { ResponseModel } from "../models/responseDto";
 import config from "../config";
+import { ProviderService } from "../Services/provider-service";
 
 const repositoriState = AppDataSource.getRepository(State);
 const repositoriTown = AppDataSource.getRepository(Town);
@@ -393,7 +394,7 @@ const controllerusuario = {
   },
 
   /**
-   * TODO: Select the info to return
+   * TODO: Delete password from fields to return
    */
   inicio_sesion: async (req: Request, res: Response): Promise<void> => {
     try {
@@ -421,17 +422,28 @@ const controllerusuario = {
   },
 
   obtainInformation: async (req: Request, res: Response): Promise<void> => {
+    const providerService = new ProviderService();
     var response;
+    let userIdToFind = req.params.idToFind;
+    console.log("ID TO FIND: " + userIdToFind);
+
     try {
-      let userIdToFind = parseInt(req.params.idToFind);
-      console.log("ID TO FIND: " + userIdToFind);
-      let usuario = await repositoriuser.findOne({ where: { id_user: userIdToFind } })
-      response = usuario;
+      response = await providerService.getUserInfo(userIdToFind)
+        .then(resp => {
+          console.log("Response on promise controller: " + JSON.stringify(resp));
+          return resp;
+        })
+        .catch(error => {
+          console.log("Error on promise controller: " + error);
+        });
+      console.log("Response del service: " + response);
     } catch (e) {
       response = e;
+      console.log("Error: " + response);
     }
 
-    res.status(200).json(ResponseModel.successResponse(response))
+    console.log("Response on finish controller: " + response);
+    res.status(200).json(response);
   },
 
   insertusuario: async (req: Request, res: Response): Promise<void> => {
