@@ -46,11 +46,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_phone_number_input"
+            android:id="@+id/txt_phone_number"
             style="@style/BoxTextLayoutSmall"
             android:hint="@string/value_edtxt_phone">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtxt_phone_number"
                 style="@style/EditTextSmall"
                 android:inputType="text|number"/>
         </com.google.android.material.textfield.TextInputLayout>

@@ -4,13 +4,12 @@ import { users } from './users';
 import { Conversation } from './conversation';
 import { skills } from './skill';
 import { appointment } from './appointment';
+import { agrements } from './agrements';
 
 @Entity()
 export class Providers {
     @PrimaryGeneratedColumn()
     id_provider: number;
-
-
 
     @Column({ type: 'varchar', length: 50 })
     experienceYears: string;
@@ -38,5 +37,7 @@ export class Providers {
     @OneToMany(() => appointment, appointment => appointment.providers)
     appointment: appointment[];
 
+    @OneToMany(()=> agrements, agrements=>agrements.providers)
+    agrements:agrements;
 
 }

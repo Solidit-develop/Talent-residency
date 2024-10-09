@@ -1,6 +1,7 @@
 package com.example.servicesolidit.HomeFlow;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.servicesolidit.HeadDrawn;
 import com.example.servicesolidit.HouseFlow.House;
+import com.example.servicesolidit.Model.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.Profile;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Search;
@@ -27,7 +29,7 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Home extends AppCompatActivity {
+public class Home extends AppCompatActivity{
 
     private final HeadDrawn headDrawn = new HeadDrawn();
 
@@ -162,5 +164,4 @@ public class Home extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

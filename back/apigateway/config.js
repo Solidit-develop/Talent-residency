@@ -5,5 +5,6 @@ dotenv.config();
 
 module.exports = {
   port: process.env.PORT || 4000,
-  host: process.env.HOST || localhost
+  host: process.env.HOST || localhost,
+  url_host: process.env.URL_HOST || localhost
 };

@@ -399,6 +399,11 @@ const controllerusuario = {
     try {
       const { email, password } = req.body
       console.log("Try to login email ", email);
+      console.log("body: ", req.body);
+      if (!req.body) {
+        res.send(ResponseModel.errorResponse(400, "Error al enviar la solicitud: " + req.body));
+        throw new Error();
+      }
       let usuario = await repositoriuser.findOne({ where: { email: email } })
       let contrahas = String(usuario?.password)
 
@@ -413,6 +418,20 @@ const controllerusuario = {
       res.status(500).json(ResponseModel.errorResponse(500, "Error interno"))
       console.log(error);
     }
+  },
+
+  obtainInformation: async (req: Request, res: Response): Promise<void> => {
+    var response;
+    try {
+      let userIdToFind = parseInt(req.params.idToFind);
+      console.log("ID TO FIND: " + userIdToFind);
+      let usuario = await repositoriuser.findOne({ where: { id_user: userIdToFind } })
+      response = usuario;
+    } catch (e) {
+      response = e;
+    }
+
+    res.status(200).json(ResponseModel.successResponse(response))
   },
 
   insertusuario: async (req: Request, res: Response): Promise<void> => {
