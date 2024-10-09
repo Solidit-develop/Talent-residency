@@ -56,7 +56,7 @@ public class House extends Fragment implements HomeView {
     public void ReadShared(){
         try {
             SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.MY_PREFERENCES, MODE_PRIVATE);
-            String userIdLogged = sharedPreferences.getString(Constants.GET_LOGGED_USER_ID, "");
+            int userIdLogged = sharedPreferences.getInt(Constants.GET_LOGGED_USER_ID, 0);
             Log.i("HouseClass", "El valor id del user almacenado es: " + userIdLogged);
         }catch (Exception e){
             Log.i("HouseClass", "Error on read shared: " + e.getMessage());

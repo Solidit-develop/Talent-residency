@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.servicesolidit.ProfileFlow.Profile;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HeadDrawn#newInstance} factory method to
