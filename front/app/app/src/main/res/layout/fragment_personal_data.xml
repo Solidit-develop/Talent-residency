@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".PersonalData"
+    tools:context=".ProfileFlow.PersonalData"
     android:padding="10dp">
 
     <!-- TODO: Update blank fragment layout -->
@@ -38,6 +38,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInput"
+                    android:id="@+id/tiet_name"
+                    android:editable="false"
                     android:background="@drawable/filled_text_field_gradient"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -53,6 +55,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInput"
+                    android:id="@+id/tiet_lastname"
+                    android:editable="false"
                     android:background="@drawable/filled_text_field_gradient"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -80,6 +84,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInput"
+                    android:id="@+id/tiet_phoneNumber"
+                    android:editable="false"
                     android:background="@drawable/filled_text_field_gradient"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -95,6 +101,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInput"
+                    android:id="@+id/tiet_email"
+                    android:editable="false"
                     android:background="@drawable/filled_text_field_gradient"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -122,6 +130,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInput"
+                    android:id="@+id/tiet_town"
+                    android:editable="false"
                     android:background="@drawable/filled_text_field_gradient"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -135,6 +145,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInput"
+                    android:id="@+id/tiet_city"
+                    android:editable="false"
                     android:background="@drawable/filled_text_field_gradient"
                     />
             </com.google.android.material.textfield.TextInputLayout>
