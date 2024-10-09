@@ -88,8 +88,9 @@ public class MessageActivity extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view_messages);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        int idOrigen = 1; //usuario logueado
-        int idDestino = 2; //usuario destino
+        //parametros que mando para la url
+        int idOrigen = 2; //usuario logueado
+        int idDestino = 1; //usuario destino
 
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
         Call<MessagesResponseDto> call = apiService.getMessages(idOrigen,idDestino);
