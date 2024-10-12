@@ -12,10 +12,10 @@ export class appointment {
     @PrimaryGeneratedColumn()
     id_appointment: number
 
-    @Column({ type: 'time',nullable: true })
+    @Column({ type: 'date',nullable: true })
     creationDate: Date | null;
 
-    @Column({ type: 'time',nullable: true  })
+    @Column({ type: 'date',nullable: true  })
     apointmentDate: Date | null;
 
     @Column({ type: 'varchar' })

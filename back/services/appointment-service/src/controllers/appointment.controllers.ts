@@ -29,45 +29,51 @@ const controllerAppointment ={
         try {
             const { id_provider, id_customer } = req.params;
             let { appointmentLocation, appointmentDate, creationDate, statusAppointment } = req.body;
-            
+    
             console.log("Parámetros que llegan:");
             console.log({ appointmentLocation, appointmentDate, creationDate, statusAppointment, id_provider, id_customer });
     
-            // Buscar el cliente
+            
             const cliente = await repositoryusers.findOne({ where: { id_user: Number(id_customer) } });
             console.log("Este es el cliente:", cliente);
     
-            // Buscar el proveedor
+           
             const proveedor = await repositoryproviders.findOne({ where: { id_provider: Number(id_provider) } });
             console.log("Esto es el proveedor:", proveedor);
     
-            // Validar que existan los datos necesarios
+            
             if (!proveedor || !cliente || !creationDate || !appointmentDate) {
                 console.log("Se necesitan datos para continuar.");
                 res.status(404).json({ message: "No se encontraron usuarios o faltan datos obligatorios." });
                 return;
             }
     
-            const date = new Date(creationDate)
-             creationDate = date.toISOString().split('T')[0];
-             appointmentDate = date.toISOString().split('T')[0];
-
-            // Crear nueva cita
+            
+            const creationDateObj = new Date(creationDate);
+            const appointmentDateObj = new Date(appointmentDate);
+    
+            
+            if (isNaN(creationDateObj.getTime()) || isNaN(appointmentDateObj.getTime())) {
+                console.log("Las fechas proporcionadas no son válidas.");
+                res.status(400).json({ message: "El formato de fecha no es válido." });
+                return;
+            }
+    
+           
             const cita = new appointment();
             cita.providers = proveedor;
             cita.users = cliente;
-            cita.creationDate = creationDate;
-            cita.apointmentDate = appointmentDate;
+            cita.creationDate = creationDateObj;  // Directamente como tipo Date
+            cita.apointmentDate = appointmentDateObj;  
             cita.AppointmentLocation = appointmentLocation;
             cita.statusAppointment = statusAppointment;
-
-            console.log("CitasA guardadas")
-            console.log(cita.creationDate, cita.apointmentDate)
+    
+            console.log("Citas guardadas");
+            console.log(cita.creationDate, cita.apointmentDate);
     
             // Guardar la cita
             await repositoryappointment.save(cita);
-
-
+    
             console.log("Se agendó una nueva cita con éxito.");
             res.status(200).json({ message: "Se registró la cita con éxito." });
     
@@ -78,6 +84,7 @@ const controllerAppointment ={
     },
     
     
+
     cancelar: async (req: Request, res: Response): Promise<void> => {
         try {
             const { id_provider, id_customer } = req.params;
@@ -99,7 +106,7 @@ const controllerAppointment ={
     
             // Verificar si la relación existe y si la fecha coincide
             if (relacion && relacion.creationDate === creationDate) {
-                relacion.statusAppointment = "Cancelado"; // Cambia correctamente el estatus
+                relacion.statusAppointment = "Cancelado"; // Cambia  correctamente el estatus
                 await repositoryappointment.save(relacion);
                 res.status(200).json({ message: "Actualización exitosa" });
             } else {
