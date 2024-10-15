@@ -27,62 +27,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MessageActivity#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MessageActivity extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private static final String TAG = "TEST_PRUEBA";
-
     private RecyclerView recyclerView;
     private MessageAdapter adapter;
     private List<MessageDto> messageList = new ArrayList<>();
     private CardAdapter cardAdapter;
 
     private CardAdapter adapterCard;
-    private int idProvider;
+    private int idDestino;
+    private int idOrigen;
 
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public MessageActivity() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MessageActivity.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MessageActivity newInstance(String param1, String param2) {
-        MessageActivity fragment = new MessageActivity();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public MessageActivity(int origen, int destino){
+        this.idOrigen = origen;
+        this.idDestino=destino;
     }
 
     @Override
@@ -94,8 +51,8 @@ public class MessageActivity extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //parametros que mando para la url
-        int idOrigen = 1; //usuario logueado
-        int idDestino = 2; //usuario destino
+        int idOrigen = this.idOrigen; //usuario logueado
+        int idDestino = this.idDestino; //usuario destino
 
 
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);

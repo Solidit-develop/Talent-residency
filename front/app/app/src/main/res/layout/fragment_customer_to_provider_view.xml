@@ -4,10 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".CustomerToProviderView"
+    tools:context=".ProviderInformationFlow.CustomerToProvider"
     android:background="@color/bg_white">
-
-    <!-- TODO: Update blank fragment layout -->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -99,9 +97,19 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/btn_send_message"
-                        android:text="Deseas enviar un mensaje"
+                        android:id="@+id/btnStartNewMessage"
+                        android:visibility="gone"
+                        android:text="Incia una nueva conversación"
                         android:layout_marginStart="5dp"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:id="@+id/btnGoToConversation"
+                        android:text="Continua con tu conversación"
+                        android:layout_marginStart="5dp"/>
+
 
                     <TextView
                         android:layout_width="match_parent"

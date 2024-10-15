@@ -99,7 +99,6 @@ public class Home extends AppCompatActivity{
         //************************  metodos para el mapeo del slide de izquierda - derecha  ***************************************/
         navigationActions.put(R.id.item_message, () -> {
             Toast.makeText(this, "Hola desde mensajes", Toast.LENGTH_SHORT).show();
-            GoToMessage();
         });
 
         navigationActions.put(R.id.item_appointment, () -> {
@@ -183,13 +182,4 @@ public class Home extends AppCompatActivity{
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public void GoToMessage (){
-        MessageActivity messageActivity = new MessageActivity();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_content_home, messageActivity);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
 }

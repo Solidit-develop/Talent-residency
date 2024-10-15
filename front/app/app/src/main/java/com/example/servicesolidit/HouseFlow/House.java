@@ -14,14 +14,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.servicesolidit.HomeFlow.HomePresenter;
 import com.example.servicesolidit.HomeFlow.HomeView;
 import com.example.servicesolidit.Model.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
-import com.example.servicesolidit.VisitProvider;
+import com.example.servicesolidit.ProviderInformationFlow.VisitProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,10 +110,7 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
     }
 
     public void onCardClick(int idProvider){
-        VisitProvider visitProvider = new VisitProvider();
-        Bundle args = new Bundle();
-        args.putInt("idProvider", idProvider);
-        visitProvider.setArguments(args);
+        VisitProvider visitProvider = new VisitProvider(idProvider);
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_content_visit_provider, visitProvider);
