@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.servicesolidit.HouseFlow.CardAdapter;
 import com.example.servicesolidit.Model.Responses.Messages.ConversationDto;
 import com.example.servicesolidit.Model.Responses.Messages.MessageDto;
 import com.example.servicesolidit.Model.Responses.Messages.MessagesResponseDto;
@@ -43,6 +44,10 @@ public class MessageActivity extends Fragment {
     private RecyclerView recyclerView;
     private MessageAdapter adapter;
     private List<MessageDto> messageList = new ArrayList<>();
+    private CardAdapter cardAdapter;
+
+    private CardAdapter adapterCard;
+    private int idProvider;
 
 
     // TODO: Rename and change types of parameters
@@ -89,8 +94,9 @@ public class MessageActivity extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //parametros que mando para la url
-        int idOrigen = 2; //usuario logueado
-        int idDestino = 1; //usuario destino
+        int idOrigen = 1; //usuario logueado
+        int idDestino = 2; //usuario destino
+
 
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
         Call<MessagesResponseDto> call = apiService.getMessages(idOrigen,idDestino);

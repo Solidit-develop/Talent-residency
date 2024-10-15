@@ -20,13 +20,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.servicesolidit.HomeFlow.Home;
-import com.example.servicesolidit.MessageFlow.MessageActivity;
-import com.example.servicesolidit.MessageFlow.MessageAdapter;
 import com.example.servicesolidit.Model.Responses.UserInfoDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.RegisterFlow.Register;
@@ -47,6 +43,9 @@ public class Login extends Fragment implements LoginView {
     private Button btnLogin;
     private Button btnRegister;
     private ProgressBar loadingItem;
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

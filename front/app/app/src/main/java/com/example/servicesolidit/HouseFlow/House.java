@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,12 +21,13 @@ import com.example.servicesolidit.HomeFlow.HomeView;
 import com.example.servicesolidit.Model.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
+import com.example.servicesolidit.VisitProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class House extends Fragment implements HomeView {
+public class House extends Fragment implements HomeView, CardAdapter.OnCardClickListener {
 
     private RecyclerView recyclerView;
     private CardAdapter adapter;
@@ -46,7 +48,7 @@ public class House extends Fragment implements HomeView {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         cardList = new ArrayList<>();
-        adapter = new CardAdapter(cardList, this.getContext());
+        adapter = new CardAdapter(cardList, this.getContext(), this);
         recyclerView.setAdapter(adapter);
         showProgres();
         presenter.feed("0", "10");
@@ -88,7 +90,7 @@ public class House extends Fragment implements HomeView {
     public void printFeed(ArrayList<ProviderResponseDto> feedResponse){
         Log.i("HouseClass", "Feed Loaded with: " + feedResponse.get(1).getIdProvider());
         cardList = this.getCardListFromResponse(feedResponse);
-        adapter = new CardAdapter(cardList, this.getContext());
+        adapter = new CardAdapter(cardList, this.getContext(),this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -106,5 +108,17 @@ public class House extends Fragment implements HomeView {
         }
 
         return listToPrint;
+    }
+
+    public void onCardClick(int idProvider){
+        VisitProvider visitProvider = new VisitProvider();
+        Bundle args = new Bundle();
+        args.putInt("idProvider", idProvider);
+        visitProvider.setArguments(args);
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_content_visit_provider, visitProvider);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +77,12 @@ public class VisitProvider extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+
+        Bundle args = getArguments();
+        if (args != null){
+            int idProvider =args.getInt("idProvider");
+            Log.d("TEST_VISIT_PROVIDER", "idProvider recibido: " + idProvider);
+        }
 
         return view;
     }

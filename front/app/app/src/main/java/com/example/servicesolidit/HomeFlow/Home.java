@@ -101,18 +101,23 @@ public class Home extends AppCompatActivity{
             Toast.makeText(this, "Hola desde mensajes", Toast.LENGTH_SHORT).show();
             GoToMessage();
         });
+
         navigationActions.put(R.id.item_appointment, () -> {
             Toast.makeText(this, "Hola desde citas", Toast.LENGTH_SHORT).show();
         });
+
         navigationActions.put(R.id.item_agreements, () -> {
             Toast.makeText(this, "Hola desde acuerdos", Toast.LENGTH_SHORT).show();
         });
+
         navigationActions.put(R.id.item_record, () -> {
             Toast.makeText(this, "Hola desde historial", Toast.LENGTH_SHORT).show();
         });
+
         navigationActions.put(R.id.item_view_edit, () -> {
             Toast.makeText(this, "Hola desde ver y editar servicios", Toast.LENGTH_SHORT).show();
         });
+
         navigationActions.put(R.id.item_publish_service, () -> {
             Toast.makeText(this, "Hola desde publicar servicio", Toast.LENGTH_SHORT).show();
         });
@@ -186,4 +191,5 @@ public class Home extends AppCompatActivity{
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
 }
