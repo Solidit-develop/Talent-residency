@@ -1,7 +1,8 @@
 import { Column, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 // import { statusAppointment } from "./statusAppointment";
 import { agrements } from "./agrements";
-
+import { users } from "./users";
+import { Providers } from "./provedores";
 @Entity()
 
 export class appointment {
@@ -23,5 +24,11 @@ export class appointment {
 
     @OneToMany(()=>agrements,agrements=>agrements.appointment)
     agrements:agrements;
+
+    @ManyToOne(()=> users,users=>users.appointment )
+    users:users
+
+    @ManyToOne(() => Providers, providers => providers.appointment)
+    providers: Providers;
     
 } 

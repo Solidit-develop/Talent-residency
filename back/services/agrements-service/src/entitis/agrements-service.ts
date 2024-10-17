@@ -20,3 +20,6 @@ export class agrements_service{
     @ManyToOne(()=>agrements,agrements=>agrements.agrements_service)
     agrements:agrements;
 } 
+
+
+

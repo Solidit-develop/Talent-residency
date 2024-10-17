@@ -5,6 +5,7 @@ import { agrements_service } from "./entitis/agrements-service";
 import { appointment } from "./entitis/appointment";
 import { Providers } from "./entitis/provedores";
 import { serviceStatus } from "./entitis/servicesStatus";
+import { users } from "./entitis/users";
 
 
 import 'dotenv/config'
@@ -24,7 +25,7 @@ export const AppDataSource = new DataSource({
     username: user,
     password: password,
     database: database,
-    entities:[agrements,agrements_service,appointment,Providers,serviceStatus],
+    entities:[agrements,agrements_service,appointment,Providers,serviceStatus,users],
     logging:true,
     synchronize:false 
 })

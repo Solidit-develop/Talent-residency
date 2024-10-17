@@ -6,6 +6,6 @@ const app = express();
 app.use(morgan('dev'));
 app.use(express.json());
 
-// app.use(require("./routers/provedor.routes"))
+app.use(require("./routes/agrements.routes"));
 
 export default app;

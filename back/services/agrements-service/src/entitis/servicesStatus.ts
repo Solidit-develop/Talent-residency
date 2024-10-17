@@ -14,5 +14,6 @@ export class serviceStatus{
     value:string
 
     @OneToMany(()=>agrements_service,service=>service.serviceStatus)
-    status:agrements_service;
+    status:agrements_service[];
 }
+

@@ -9,9 +9,6 @@ export class Providers {
     @PrimaryGeneratedColumn()
     id_provider: number;
 
-    // @Column({ type: 'varchar', length: 200 })
-    // skill: string;
-
     @Column({ type: 'varchar', length: 50 })
     experienceYears: string;
 
@@ -21,10 +18,11 @@ export class Providers {
     @Column({ type: 'varchar', length: 20 })
     workshopPhoneNumber: string;
 
-    // aqui tiene la llave foranea
-
-
     @OneToMany(()=> agrements, agrements=>agrements.providers)
     agrements:agrements;
+
+    @OneToMany(() => appointment, appointment => appointment.providers)
+    appointment: appointment[];
+
 
 }
