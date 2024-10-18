@@ -98,6 +98,52 @@ services:
     networks:
       - app-network
 
+
+
+
+    agremenst:
+    build:
+      context: ../services/agremenst-service
+    environment:
+      - PORT=4010
+      - HOST=localhost
+      - DB_HOST=postgres
+      - DB_TYP=postgres
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+      - DB=mydatabase
+      - DB_PORT=5432
+    ports:
+      - "4004:4004"
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+      
+
+ appointment:
+    build:
+      context: ../services/appointment-service
+    environment:
+      - PORT=4007
+      - HOST=localhost
+      - DB_HOST=postgres
+      - DB_TYP=postgres
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+      - DB=mydatabase
+      - DB_PORT=5432
+    ports:
+      - "4004:4004"
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+
+
+
   userservice:
     build:
       context: ../services/user-service
