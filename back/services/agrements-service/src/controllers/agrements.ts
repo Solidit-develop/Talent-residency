@@ -50,7 +50,6 @@ const controlleragrements ={
     
                 if (cita && prov) {
                     console.log("Se encontró la relación");
-    
                     const acuerdo = new agrements(); // Asegúrate de que el nombre de la clase esté en mayúscula
                     acuerdo.description = descripcion;
                     acuerdo.creationDate = creationDate;
@@ -102,41 +101,47 @@ const controlleragrements ={
      .where("providers.id_provider = :id_provider", { id_provider: id_pr })
      .getMany();
 
-    //  const result = {
-    //     citas: citas.map((cita: { users: { id_user: any; name_User: any; lasname: any; email: any; age: any; phoneNumber: any }; agrements: any[] }) => ({
-    //         users: {
-    //             id_user: cita.users.id_user,
-    //             name_User: cita.users.name_User,
-    //             lasname: cita.users.lasname,
-    //             email: cita.users.email,
-    //             age: cita.users.age,
-    //             phoneNumber: cita.users.phoneNumber,
-    //         },
-    //         agrements: cita.agrements.map((acuerdo: { id_agements: any; description: any; creationDate: any; agrements_service: any[] }) => ({
-    //             id_agements: acuerdo.id_agements,
-    //             description: acuerdo.description,
-    //             creationDate: acuerdo.creationDate,
-    //             agrements_service: acuerdo.agrements_service.map((servicio: { id_agrements_service: any; description: any; creationDate: any; serviceStatus: { id_serviceStatus: any; description: any; value: any } }) => ({
-    //                 id_agrements_service: servicio.id_agrements_service,
-    //                 description: servicio.description,
-    //                 creationDate: servicio.creationDate,
-    //                 serviceStatus: {
-    //                     id_serviceStatus: servicio.serviceStatus.id_serviceStatus,
-    //                     description: servicio.serviceStatus.description,
-    //                     value: servicio.serviceStatus.value,
-    //                 },
-    //             })),
-    //         })),
-    //     })),
-    // };
-    
-    if(!cita){
+     if(cita.length<=0){
         console.log("No se encontraron las citas")
-        res.status(400).json({message:"no se entontraron citas"})
-        
+        res.status(404).json({message:"no se entontraron citas"})
+        return
     }
-    res.status(200).json({citas:cita})
 
+    const mappedCitas = cita.map(cita => ({
+        idAppointment: cita.id_appointment,
+        creationDate: cita.creationDate,
+        appointmentDate: cita.apointmentDate,
+        appointmentLocation: cita.AppointmentLocation,
+        statusAppointment: cita.statusAppointment,
+        user: {
+          idUser: cita.users.id_user,
+          name: cita.users.name_User,
+          lastName: cita.users.lasname,
+          phoneNumber: cita.users.phoneNumber
+        },
+        agreements: cita.agrements.map((agreement: { id_agements: any; description: any; creationDate: any; agrements_service: any[] }) => ({
+          idAgreement: agreement.id_agements,
+          description: agreement.description,
+          creationDate: agreement.creationDate,
+          
+          agreementsService: agreement.agrements_service.map((service: { id_agrements_service: any; description: any; creationDate: any; serviceStatus: { id_serviceStatus: any; description: any; value: any } }) => ({
+            idAgreementService: service.id_agrements_service,
+            description: service.description,
+            creationDate: service.creationDate,
+
+            serviceStatus: {
+              idServiceStatus: service.serviceStatus.id_serviceStatus,
+              description: service.serviceStatus.description,
+              value: service.serviceStatus.value
+            }
+          }))
+        }))
+      }));
+
+    console.log(mappedCitas);
+    
+
+    res.status(200).json({citas:mappedCitas})
     }
     
 }

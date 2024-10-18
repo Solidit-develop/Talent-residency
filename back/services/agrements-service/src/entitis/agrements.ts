@@ -5,6 +5,7 @@ import { agrements_service } from "./agrements-service";
 @Entity()
 
 export class agrements{
+    [x: string]: any;
     @PrimaryGeneratedColumn()
     id_agements:number
 
