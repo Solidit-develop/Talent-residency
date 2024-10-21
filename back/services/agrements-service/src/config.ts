@@ -12,18 +12,16 @@ interface Config {
     user?: string;
     password?: string;
     database?: string;
-    baseAddress?: string;
-    pathToSave?: string;
+    port?: string;
 }
 const config: Config = {
     db_type: process.env.DB_TYPE,
     host: process.env.DB_HOST,
-    db_port: process.env.DB_PORT,
+    port: process.env.PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB,
-    baseAddress: process.env.BaseAddress,
-    pathToSave: process.env.PathToSave
+    db_port: process.env.DB_PORT
 };
 
 export default config;

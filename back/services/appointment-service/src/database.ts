@@ -1,8 +1,9 @@
 import { DataSource } from "typeorm";
 import  config  from "./config";
-import { Address } from "./entitis/adrdess";
-import { State } from "./entitis/state";
-import { Town } from "./entitis/town";
+import { appointment } from "./entitis/appointment";
+import { Providers } from "./entitis/provedores";
+import { users } from "./entitis/users";
+
 const DB_TYPE= config.db_type;
 const host = config.host;
 const port = config.port;
@@ -18,7 +19,7 @@ export const AppDataSource = new DataSource({
  username:user,
  password:password,
  database:database,
-//  entities:[State,Town,Address],
+ entities:[appointment,Providers,users],
  logging:true,
- synchronize:true
+ synchronize:false
 })

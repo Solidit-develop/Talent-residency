@@ -1,10 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, OneToOne, JoinColumn, OneToMany } from 'typeorm';
-import { Address } from './adrdess';
 import { users } from './users';
-import { Conversation } from './conversation';
-import { skills } from './skill';
 import { appointment } from './appointment';
-import { agrements } from './agrements';
 
 @Entity()
 export class Providers {
@@ -20,12 +16,6 @@ export class Providers {
     @Column({ type: 'varchar', length: 20 })
     workshopPhoneNumber: string;
 
-    @ManyToOne(() => Address, address => address.providers)
-    address: Address;
-
-    @ManyToMany(() => skills, skills => skills.providers)
-    skills: skills[]
-
     @Column({ type: 'varchar', length: 200, nullable: true }) // Permitir nulos
     descripcion: string;
 
@@ -37,7 +27,5 @@ export class Providers {
     @OneToMany(() => appointment, appointment => appointment.providers)
     appointment: appointment[];
 
-    @OneToMany(()=> agrements, agrements=>agrements.providers)
-    agrements:agrements;
 
 }

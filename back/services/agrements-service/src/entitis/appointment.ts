@@ -1,10 +1,8 @@
 import { Column, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 // import { statusAppointment } from "./statusAppointment";
-import { review } from "./review";
-import { Providers } from "./provedores";
-import { users } from "./users";
 import { agrements } from "./agrements";
-
+import { users } from "./users";
+import { Providers } from "./provedores";
 @Entity()
 
 export class appointment {
@@ -21,19 +19,16 @@ export class appointment {
     @Column({ type: 'varchar' })
     AppointmentLocation: string
 
-    @OneToMany(() => review, revie => revie.appointment)
-    revie: review[];
-
     @Column({type:'varchar'})
     statusAppointment:string;
 
-    @ManyToOne(() => Providers, providers => providers.appointment)
-    providers: Providers;
-
-    @ManyToOne(()=> users,users=>users.appointment )
-    users:users;
-
     @OneToMany(()=>agrements,agrements=>agrements.appointment)
     agrements:agrements;
+
+    @ManyToOne(()=> users,users=>users.appointment )
+    users:users
+
+    @ManyToOne(() => Providers, providers => providers.appointment)
+    providers: Providers;
     
 } 
