@@ -20,7 +20,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.servicesolidit.HeadDrawn;
 import com.example.servicesolidit.HouseFlow.House;
-import com.example.servicesolidit.MessageFlow.MessageActivity;
 import com.example.servicesolidit.ProfileFlow.Profile;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Search;

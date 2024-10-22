@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.servicesolidit.MessageFlow.MessageActivity;
+import com.example.servicesolidit.MessageFlow.Message;
 import com.example.servicesolidit.Model.Responses.Messages.ConversationDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
@@ -89,9 +89,9 @@ public class CustomerToProvider extends Fragment implements CustomerToProviderVi
     }
 
     public void GoToMessage (int origen, int destino){
-        MessageActivity messageActivity = new MessageActivity(origen, destino);
+        Message message = new Message(origen, destino);
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_content_home, messageActivity);
+        transaction.replace(R.id.fragment_content_home, message);
         transaction.addToBackStack(null);
         transaction.commit();
     }
