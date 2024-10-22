@@ -36,7 +36,8 @@ public class VisitProvider extends Fragment {
             public void onClick(View v) {
                 CustomerToProvider fragmentProviderView = new CustomerToProvider(idProviderToLoad);
                 FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container_provider_view,fragmentProviderView);
+                fragmentTransaction.replace(R.id.fragment_content_visit_provider,fragmentProviderView);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });

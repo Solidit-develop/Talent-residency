@@ -112,7 +112,7 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
     public void onCardClick(int idProvider){
         VisitProvider visitProvider = new VisitProvider(idProvider);
 
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_content_visit_provider, visitProvider);
         transaction.addToBackStack(null);
         transaction.commit();

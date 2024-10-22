@@ -90,8 +90,8 @@ public class CustomerToProvider extends Fragment implements CustomerToProviderVi
 
     public void GoToMessage (int origen, int destino){
         Message message = new Message(origen, destino);
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_content_home, message);
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_content_visit_provider, message);
         transaction.addToBackStack(null);
         transaction.commit();
     }
