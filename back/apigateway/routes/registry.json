@@ -36,9 +36,9 @@
             "port": "4009",
             "url_local": "http://localhost"
         },
-        "agremenst":{
-            "apiName": "agremenst",
-            "host": "http://agremenst",
+        "agrements":{
+            "apiName": "agrements",
+            "host": "http://agrements",
             "port": "4010",
             "url_local": "http://localhost"
         }
