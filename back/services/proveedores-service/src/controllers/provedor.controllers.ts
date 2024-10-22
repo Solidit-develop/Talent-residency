@@ -164,53 +164,51 @@ const controllerProvider = {
             }
 
             // Manejo de habilidades
-            const habilidades = Object.entries(JSON.parse(skill));
-            let skillsToSave: skills[] = [];
+            const habilidades = skill;
+            const skillsToSave: skills[] = [];
 
-            for (const [key, value] of habilidades) {
-                if (typeof value === 'string') {
-                    let skillEntity = await repositoryskills.findOne({ where: { name: value } });
+    for (const [key, value] of Object.entries(habilidades)) {
+        if (typeof value === 'string') {
+            let skillEntity = await repositoryskills.findOne({ where: { name: value } });
 
-                    if (!skillEntity) {
-                        skillEntity = new skills();
-                        skillEntity.name = value;
-                        await repositoryskills.save(skillEntity);
-                    }
-
-                    skillsToSave.push(skillEntity);
-                } else {
-                    console.error(`El valor para la clave ${key} no es un string:`, value);
-                }
+            if (!skillEntity) {
+                skillEntity = new skills();
+                skillEntity.name = value;
+                await repositoryskills.save(skillEntity);
             }
 
-            // Agregar o actualizar proveedor
-            let proveedor = await repositoryProviders.findOne({
-                where: { workshopName },
-                relations: ['skills']
-            });
+            skillsToSave.push(skillEntity);
+        } else {
+            console.error(`El valor para la clave "${key}" no es un string:`, value);
+        }
+    }
 
-            if (!proveedor) {
-                proveedor = new Providers();
-                proveedor.experienceYears = experienceYears;
-                proveedor.workshopName = workshopName;
-                proveedor.workshopPhoneNumber = workshopPhoneNumber;
-                proveedor.address = address;
-                proveedor.descripcion = detalles;
-                proveedor.skills = skillsToSave;
-                proveedor.user = user;
-                await repositoryProviders.save(proveedor);
-                res.json({ message: "Proveedor registrado con éxito" });
-            } else {
-                res.status(400).json({ message: "Proveedor ya existe con ese nombre de taller" });
-            }
+    // Agregar o actualizar proveedor
+    let proveedor = await repositoryProviders.findOne({
+        where: { workshopName },
+        relations: ['skills']
+    });
 
+    if (!proveedor) {
+        proveedor = new Providers();
+        proveedor.experienceYears = experienceYears; // Convertir a número
+        proveedor.workshopName = workshopName;
+        proveedor.workshopPhoneNumber = workshopPhoneNumber;
+        proveedor.address = address;
+        proveedor.descripcion = detalles;
+        proveedor.skills = skillsToSave;
+        proveedor.user = user;
+        await repositoryProviders.save(proveedor);
+        res.json({ message: "Proveedor registrado con éxito" });
+    } else {
+        res.status(400).json({ message: "Proveedor ya existe con ese nombre de taller" });
+    }
+ 
         } catch (error) {
             console.error(error);
             res.status(500).json({ mensaje: "Error interno en el servidor" });
         }
     },
-
-
 
     eliminarHabilidad: async function (req: Request, res: Response): Promise<void> {
         try {
