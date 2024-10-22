@@ -37,26 +37,26 @@ services:
     volumes:
       - images-data:/var/lib/images/data/uploads
 
-  # relationalservice:
-  #   build:
-  #     context: ../services/relational-service
-  #   ports:
-  #     - "4008:4008"
-  #   environment:
-  #     - PORT=4008
-  #     - HOST=localhost
-  #     - DB_HOST=postgres
-  #     - DB_TYP=postgres
-  #     - DB_USER=myuser
-  #     - DB_PASSWORD=mypassword
-  #     - DB=mydatabase
-  #     - DB_PORT=5432
-  #     - BaseAddress=http://187.132.135.145:4000/api/v1/images
-  #     - PathToSave=DEV
-  #   depends_on:
-  #     - postgres
-  #   networks:
-  #     - app-network
+  relationalservice:
+    build:
+      context: ../services/relational-service
+    ports:
+      - "4008:4008"
+    environment:
+      - PORT=4008
+      - HOST=localhost
+      - DB_HOST=postgres
+      - DB_TYP=postgres
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+      - DB=mydatabase
+      - DB_PORT=5432
+      - BaseAddress=http://187.132.135.145:4000/api/v1/images
+      - PathToSave=DEV
+    depends_on:
+      - postgres
+    networks:
+      - app-network
 
   providerservice:
     build:
@@ -98,12 +98,9 @@ services:
     networks:
       - app-network
 
-
-
-
   agremenst:
     build:
-      context: ../services/agrements-service
+      context: ../services/agremenst-service
     environment:
       - PORT=4010
       - HOST=localhost
@@ -114,7 +111,7 @@ services:
       - DB=mydatabase
       - DB_PORT=5432
     ports:
-      - "4010:4010"
+      - "4004:4004"
     depends_on:
       - postgres
     networks:
@@ -133,12 +130,11 @@ services:
       - DB=mydatabase
       - DB_PORT=5432
     ports:
-      - "4007:4007"
+      - "4004:4004"
     depends_on:
       - postgres
     networks:
       - app-network
-
 
   userservice:
     build:
@@ -153,7 +149,6 @@ services:
       - DB=mydatabase
       - DB_PORT=5432
       - BaseAddress=http://187.132.135.145:4000/api/v1/users
-      - Ambiente=DEV
     ports:
       - "4001:4001"
     depends_on:
