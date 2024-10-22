@@ -421,7 +421,7 @@ const controllerProvider = {
         try {
 
             const id_provider = req.params.id;
-            const proveedores = await repositoryProviders.createQueryBuilder("providers")
+            const proveedores = await repositoryProviders.createQueryBuilder("users")
                 .leftJoinAndSelect("providers.user", "user")
                 .leftJoinAndSelect("providers.address", "address")
                 .leftJoinAndSelect("address.town", "town")
@@ -440,6 +440,33 @@ const controllerProvider = {
 
         }
 
+    },
+
+    userProfile: async function (req: Request, res: Response) {
+        try {
+            let message;
+            const id_user = req.params.id;
+            const userInfo = await repositoryUser.createQueryBuilder("users")
+                .leftJoinAndSelect("users.adress", "address")
+                .leftJoinAndSelect("address.town", "town")
+                .leftJoinAndSelect("town.state", "state")
+                .where("users.id_user = :id", { id: id_user })
+                .getOne();
+
+            message = userInfo;
+
+            if (!userInfo) {
+                message = "User not found";
+            }
+
+            console.log("Response en providers: " + message);
+            res.status(200).json(ResponseModel.successResponse(message));
+
+        } catch (error) {
+            console.log(error)
+            res.status(500).json(ResponseModel.errorResponse(500, "Ocurrió un error con el servidor. " + error));
+
+        }
     }
 
 }

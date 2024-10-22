@@ -11,5 +11,6 @@ router.get('/services/baner/:email', controllerProvider.topCalificaciones);
 router.get('/todos/services/feed', controllerProvider.provedores);
 router.get('/croll/:beet/:twen', controllerProvider.scroll)
 router.get('/provider/profile/:id', controllerProvider.profiele)
+router.get('/users/profile/:id', controllerProvider.userProfile)
 
 module.exports = router

@@ -1,11 +1,12 @@
 package com.example.servicesolidit.HomeFlow;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -19,10 +20,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.servicesolidit.HeadDrawn;
 import com.example.servicesolidit.HouseFlow.House;
-import com.example.servicesolidit.Model.Responses.Feed.ProviderResponseDto;
-import com.example.servicesolidit.Profile;
+import com.example.servicesolidit.ProfileFlow.Profile;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Search;
+import com.example.servicesolidit.Utils.Constants;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -74,6 +75,17 @@ public class Home extends AppCompatActivity{
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
+
+        View header = navigationView.getHeaderView(0);
+        TextView userNameOnHeader = header.findViewById(R.id.txt_name_user_logged_on_header);
+        TextView emailOnHeader = header.findViewById(R.id.txt_mail_user_logged_on_header);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.MY_PREFERENCES, MODE_PRIVATE);
+        String userNameFromShared = sharedPreferences.getString(Constants.GET_NAME_USER, "");
+        String emailFromShared = sharedPreferences.getString(Constants.GET_EMAIL_USER, "");
+
+        userNameOnHeader.setText(userNameFromShared);
+        emailOnHeader.setText(emailFromShared);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override

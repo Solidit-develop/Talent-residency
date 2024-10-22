@@ -1,0 +1,24 @@
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+jobs:
+  run_pull:
+    name: run pull
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh
+      uses: appleboy/ssh-action@v1.1.0
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        password: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd ${{ secrets.WORK_DIR }}
+          git fetch
+          git pull
+          git checkout ${{ secrets.DEPLOY_BRANCH }}
+          docker compose up --build --force-recreate -d
+          exit
