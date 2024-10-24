@@ -4,13 +4,15 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="start"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="3dp"
     android:padding="2dp">
 
     <TextView
         android:id="@+id/message_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/bg_green_Light"
+        android:background="@drawable/round_text_received"
         android:padding="10dp"
         android:textColor="@android:color/black"/>
 

@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.example.servicesolidit.Model.Responses.UserInfoProfileDto;
 import com.example.servicesolidit.R;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 public class PersonalData extends Fragment {
     private TextView txtPrueba;

@@ -33,12 +33,14 @@ public class ProfilePresenter {
 
                 } else {
                     String responseError = "Usuario o contraseña inválidos";
+                    Log.i("ProfilePresenter", responseError);
                     view.onLoadProfileError(responseError);
                 }
             }
 
             @Override
             public void onFailure(Call<UserInfoProfileResponseDto> call, Throwable t) {
+                Log.i("ProfilePresenter", t.getMessage());
                 view.onLoadProfileError(t.getMessage());
             }
         });

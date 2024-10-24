@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.servicesolidit.HomeFlow.Home;
@@ -35,6 +36,8 @@ public class Password extends Fragment implements RegisterView {
     private RegisterRequestDto request;
     private RegisterPresenter presenter;
 
+    private ProgressBar progressBar;
+
     public Password(RegisterRequestDto requestDto){
         this.request = requestDto;
     }
@@ -42,20 +45,17 @@ public class Password extends Fragment implements RegisterView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_password, container, false);
         btnConfirm = view.findViewById(R.id.btn_confirm);
         etPassword = view.findViewById(R.id.txt_password_input);
         edtxtPassword = view.findViewById(R.id.edtxt_password_fp);
         etConfirmPassword = view.findViewById(R.id.txt_confirm_password_input);
         edtxtConfirmPassword = view.findViewById(R.id.edtxt_conf_pass_fp);
+        progressBar = view.findViewById(R.id.progress_item);
         presenter = new RegisterPresenter(this);
 
 
-        //////////////metodos para controlar los toogles de las cajas de texto ////////////////////////
-
+        // Switch toggle control
         edtxtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         etPassword.setEndIconDrawable(R.drawable.eye_visibility_off);
         etPassword.setEndIconOnClickListener(new View.OnClickListener() {
@@ -91,52 +91,36 @@ public class Password extends Fragment implements RegisterView {
             }
         });
 
-        //logica para el boton de confirmar Dto
-
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String password = etPassword.getEditText().getText().toString();
                 String confirmPassword = etConfirmPassword.getEditText().getText().toString();
 
-                try {
-                    isValidaPassword(password, confirmPassword);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+                if(isValidaPassword(password, confirmPassword)){
+                    request.setPassword(password);
+                    showProgress();
+                    presenter.register(request);
+                }else{
+                    Toast.makeText(requireContext(), "Las contraseñas ingresadas no coinciden", Toast.LENGTH_SHORT).show();
                 }
-
-                request.setPassword(password);
-
-                showProgress();
-                presenter.register(request);
-
             }
         });
-
         return view;
-
-
     }
 
-    private void isValidaPassword(String password, String confirmPassword) throws Exception {
-        if(!password.equals(confirmPassword)){
-            // TODO: Manejar el flujo por not match password
-            Log.i("PasswordClass", "Alerta por error de contraseñas diferentes");
-            throw new Exception("Error por match de password field");
-        }
+    private boolean isValidaPassword(String password, String confirmPassword) {
+        return password.equals(confirmPassword);
     }
 
     @Override
     public void showProgress() {
-        Toast.makeText(getContext(), "LoadingStarts", Toast.LENGTH_SHORT).show();
-
-        Log.i("PasswordClass", "Should show progress bar");
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        Toast.makeText(getContext(), "LoadingEnds", Toast.LENGTH_SHORT).show();
-        Log.i("PasswordClass", "Should hide progress bar");
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -153,6 +137,6 @@ public class Password extends Fragment implements RegisterView {
 
     @Override
     public void onRegisterError(String message) {
-        Log.i("PasswordClass", "Should show alert with error: " + message);
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }
