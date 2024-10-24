@@ -44,9 +44,6 @@ public class Login extends Fragment implements LoginView {
     private Button btnRegister;
     private ProgressBar loadingItem;
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,6 +81,39 @@ public class Login extends Fragment implements LoginView {
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        btnForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Implementar funcionalidad de recuperación de contraseña
+            }
+        });
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProgress();
+                Log.i("LoginClass","Should try loging");
+                String username = edtUser.getText().toString();
+                String password = edtPassword.getText().toString();
+                Log.i("LoginClass","Login called with: "+username+" y "+password );
+                presenter.login(username, password);
+            }
+        });
+
+        btnRegister.setOnClickListener(v->{
+            Log.i("LoginClass", "Should go to register fragment");
+            GoToRegister();
+        });
+    }
+
+    /**
+     * Method to validate if there are shared preference of logged user
+     * already saved to show login or home views.
+     */
     public void validateAlreadyLogged(){
         try {
             SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.MY_PREFERENCES, MODE_PRIVATE);
@@ -115,45 +145,25 @@ public class Login extends Fragment implements LoginView {
         }
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        btnForgot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showProgress();
-                Log.i("LoginClass","Should try loging");
-                String username = edtUser.getText().toString();
-                String password = edtPassword.getText().toString();
-                Log.i("LoginClass","Login called with: "+username+" y "+password );
-                presenter.login(username, password);
-            }
-        });
-
-        btnRegister.setOnClickListener(v->{
-            Log.i("LoginClass", "Should go to register fragment");
-            GoToRegister();
-        });
-    }
-
+    /**
+     * Method to hide progress view.
+     */
     @Override
     public void showProgress() {
         loadingItem.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Method to show progress view.
+     */
     @Override
     public void hideProgress() {
         loadingItem.setVisibility(View.GONE);
     }
 
+    /**
+     * Method to handle login success action.
+     */
     @Override
     public void onLoginSuccess(UserInfoDto userInfoDto) {
         hideProgress();
@@ -164,6 +174,9 @@ public class Login extends Fragment implements LoginView {
         GoToHome(userInfoDto, false);
     }
 
+    /**
+     * Method to handle login error action.
+     */
     @Override
     public void onLoginError(String message) {
         hideProgress();
@@ -171,7 +184,9 @@ public class Login extends Fragment implements LoginView {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-
+    /**
+     * Method to replace login activity to HomeActivity.
+     */
     public void GoToHome(UserInfoDto userToLoadInfo, boolean alreadyLogged){
         Log.i("LoginClass", "alreadLogged on call to go to home: " + alreadyLogged);
         if(!alreadyLogged){
@@ -182,6 +197,10 @@ public class Login extends Fragment implements LoginView {
         startActivity(intent);
     }
 
+    /**
+     * Method to save the user logged info on shared preferences
+     * TODO: Refactor to extract this method to utils
+     */
     public void saveUserLoggedInfo(UserInfoDto userInfoDto){
         try {
             SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
@@ -197,6 +216,9 @@ public class Login extends Fragment implements LoginView {
         }
     }
 
+    /**
+     * Method to replace login fragment to start register fragment
+     */
     public void GoToRegister(){
         try {
             Register registerFragment = new Register();
