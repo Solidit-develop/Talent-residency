@@ -101,7 +101,7 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
             modelFromResponse.setNameBussines(item.getWorkshopName());
             modelFromResponse.setDescription("Con " + item.getExperienceYears() + " años de experiencia");
             modelFromResponse.setIdProvider(item.getIdProvider());
-            modelFromResponse.setImageUrl("http://189.190.215.79:4000/api/v1/images/print/1726996926660-mydatabase-public.png");
+            modelFromResponse.setImageUrl("http://189.190.226.148:4000/api/v1/images/print/1726996926660-mydatabase-public.png");
             listToPrint.add(modelFromResponse);
 
         }
