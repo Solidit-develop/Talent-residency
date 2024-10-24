@@ -13,15 +13,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.servicesolidit.Model.Requests.RegisterRequestDto;
 import com.example.servicesolidit.R;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class Address extends Fragment {
 
     private RegisterRequestDto requestFromRegistry;
+    private Button btnSiguiente;
+
+    // Spinners (AutoCompleteTextView)
+    private AutoCompleteTextView spinnerState, spinnerCity;
+    private TextInputEditText edtxtZipCode, edtxtStreet1, edtxtStreet2, edtxtLocality;
+
+
     public Address(RegisterRequestDto requestDto){
         this.requestFromRegistry = requestDto;
     }
@@ -31,78 +42,148 @@ public class Address extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private Button btnSiguiente;
-    private TextInputEditText edtxtZipCode;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_address, container, false);
+
+        // Inicializar vistas
         btnSiguiente = view.findViewById(R.id.btn_siguiente_address);
         edtxtZipCode = view.findViewById(R.id.edtxt_zip_code);
+        edtxtStreet1 = view.findViewById(R.id.edtxt_calle1);
+        edtxtStreet2 = view.findViewById(R.id.edtxt_calle2);
+        edtxtLocality = view.findViewById(R.id.edtxt_locality);
+        spinnerState = view.findViewById(R.id.spinner_state);
+        spinnerCity = view.findViewById(R.id.spinner_city);
 
+        // Llenar spinners
+        cargarOpcionesSpinners();
+
+        // Limitar el código postal a 5 dígitos
         edtxtZipCode.addTextChangedListener(new TextWatcher() {
 
             private boolean isUpdating = false;
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (isUpdating) {
-                    return;
-                }
-
+                if (isUpdating) return;
                 isUpdating = true;
 
-                // Remover cualquier caracter que no sea un número
+                // Remover caracteres que no sean números
                 String cleanText = s.toString().replaceAll("[^\\d]", "");
 
-                // Limitar la entrada a 5 dígitos
+                // Limitar a 5 dígitos
                 if (cleanText.length() > 5) {
                     cleanText = cleanText.substring(0, 5);
                 }
 
                 edtxtZipCode.setText(cleanText);
-                edtxtZipCode.setSelection(cleanText.length());  // Colocar el cursor al final
-
+                edtxtZipCode.setSelection(cleanText.length());
                 isUpdating = false;
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
-            }
+            public void afterTextChanged(Editable s) {}
         });
 
+        // Mostrar información del objeto request
         Log.i("AddressClass", "Inicializado: " + requestFromRegistry.getLastname());
 
-        btnSiguiente.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // zipCode
-                // state
-                // municipio
-                // st1
-                // st2
-                // localidad
-                // TODO: Llenar información desde los editText como en registryOne
-                requestFromRegistry.setZipcode("43480");
-                requestFromRegistry.setName_state("Hidalgo");
-                requestFromRegistry.setName_Town("Tenango de Doria");
-                requestFromRegistry.setStreet_1("Valle San Miguel Villa");
-                requestFromRegistry.setStreet_2("Lago Baykal");
-                requestFromRegistry.setLocalidad("Urbi");
+        // Botón siguiente
+        btnSiguiente.setOnClickListener(v -> {
+            if (validarCampos()) {
+                // Asignar valores de los campos al request si la validación es exitosa
+                requestFromRegistry.setZipcode(edtxtZipCode.getText().toString());
+                requestFromRegistry.setName_state(spinnerState.getText().toString());
+                requestFromRegistry.setName_Town(spinnerCity.getText().toString());
+                requestFromRegistry.setStreet_1(edtxtStreet1.getText().toString());
+                requestFromRegistry.setStreet_2(edtxtStreet2.getText().toString());
+                requestFromRegistry.setLocalidad(edtxtLocality.getText().toString());
 
                 navigateToThirdRegistry(requestFromRegistry);
+            } else {
+                Toast.makeText(requireContext(), "Por favor, completa todos los campos correctamente", Toast.LENGTH_SHORT).show();
             }
         });
 
         return view;
+    }
+
+    /**
+     * Método para validar los campos del formulario.
+     *
+     * @return true si todos los campos son válidos, false de lo contrario.
+     */
+    private boolean validarCampos() {
+        boolean esValido = true;
+
+        // Validar código postal
+        if (edtxtZipCode.getText().toString().trim().isEmpty()) {
+            edtxtZipCode.setError("El código postal es obligatorio");
+            esValido = false;
+        } else {
+            edtxtZipCode.setError(null);
+        }
+
+        // Validar estado
+        if (spinnerState.getText().toString().trim().isEmpty()) {
+            spinnerState.setError("El estado es obligatorio");
+            esValido = false;
+        } else {
+            spinnerState.setError(null);
+        }
+
+        // Validar ciudad
+        if (spinnerCity.getText().toString().trim().isEmpty()) {
+            spinnerCity.setError("La ciudad es obligatoria");
+            esValido = false;
+        } else {
+            spinnerCity.setError(null);
+        }
+
+        // Validar calle 1
+        if (edtxtStreet1.getText().toString().trim().isEmpty()) {
+            edtxtStreet1.setError("La calle 1 es obligatoria");
+            esValido = false;
+        } else {
+            edtxtStreet1.setError(null);
+        }
+
+        // Validar localidad
+        if (edtxtLocality.getText().toString().trim().isEmpty()) {
+            edtxtLocality.setError("La localidad es obligatoria");
+            esValido = false;
+        } else {
+            edtxtLocality.setError(null);
+        }
+
+        return esValido;
+    }
+
+    /**
+     * Método para cargar las opciones predeterminadas en los spinners.
+     */
+    private void cargarOpcionesSpinners() {
+        // Opciones de estado
+        String[] estados = new String[] {"Hidalgo", "Ciudad de México", "Jalisco"};
+        ArrayAdapter<String> adapterEstados = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                estados
+        );
+        spinnerState.setAdapter(adapterEstados);
+
+        // Opciones de ciudad (ejemplo para ciudades de Hidalgo)
+        String[] ciudades = new String[] {"Pachuca", "Tulancingo", "Tula"};
+        ArrayAdapter<String> adapterCiudades = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                ciudades
+        );
+        spinnerCity.setAdapter(adapterCiudades);
     }
 
     public void navigateToThirdRegistry(RegisterRequestDto request){

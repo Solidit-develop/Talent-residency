@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,19 +14,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.servicesolidit.HomeFlow.HomePresenter;
 import com.example.servicesolidit.HomeFlow.HomeView;
 import com.example.servicesolidit.Model.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
+import com.example.servicesolidit.ProviderInformationFlow.VisitProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class House extends Fragment implements HomeView {
+public class House extends Fragment implements HomeView, CardAdapter.OnCardClickListener {
 
     private RecyclerView recyclerView;
     private CardAdapter adapter;
@@ -46,7 +47,7 @@ public class House extends Fragment implements HomeView {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         cardList = new ArrayList<>();
-        adapter = new CardAdapter(cardList, this.getContext());
+        adapter = new CardAdapter(cardList, this.getContext(), this);
         recyclerView.setAdapter(adapter);
         showProgres();
         presenter.feed("0", "10");
@@ -88,7 +89,7 @@ public class House extends Fragment implements HomeView {
     public void printFeed(ArrayList<ProviderResponseDto> feedResponse){
         Log.i("HouseClass", "Feed Loaded with: " + feedResponse.get(1).getIdProvider());
         cardList = this.getCardListFromResponse(feedResponse);
-        adapter = new CardAdapter(cardList, this.getContext());
+        adapter = new CardAdapter(cardList, this.getContext(),this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -100,11 +101,20 @@ public class House extends Fragment implements HomeView {
             modelFromResponse.setNameBussines(item.getWorkshopName());
             modelFromResponse.setDescription("Con " + item.getExperienceYears() + " años de experiencia");
             modelFromResponse.setIdProvider(item.getIdProvider());
-            modelFromResponse.setImageUrl("http://189.190.215.79:4000/api/v1/images/print/1726996926660-mydatabase-public.png");
+            modelFromResponse.setImageUrl("http://189.190.226.148:4000/api/v1/images/print/1726996926660-mydatabase-public.png");
             listToPrint.add(modelFromResponse);
 
         }
 
         return listToPrint;
+    }
+
+    public void onCardClick(int idProvider){
+        VisitProvider visitProvider = new VisitProvider(idProvider);
+
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_content_visit_provider, visitProvider);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.servicesolidit.R;
@@ -21,10 +21,19 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     private List<CardModel> cardList;
     private Context context;
+    private FragmentManager fragmentManager;
+    private OnCardClickListener listener;
 
-    public CardAdapter(List<CardModel> cardList, Context context){
+    public interface OnCardClickListener {
+        void onCardClick(int idProvider);
+    }
+
+
+    public CardAdapter(List<CardModel> cardList, Context context, OnCardClickListener listener){
         this.cardList = cardList;
         this.context = context;
+        this.listener = listener;
+
     }
 
     @NonNull
@@ -55,6 +64,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             @Override
             public void onClick(View v) {
                 Log.d("TEST_CARDADAPTER","clickaste aqui: " + card.getIdProvider());
+                listener.onCardClick(card.getIdProvider());
             }
         });
     }
@@ -78,4 +88,5 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             location = itemView.findViewById(R.id.txt_location);
         }
     }
+
 }

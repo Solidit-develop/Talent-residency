@@ -32,13 +32,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        // Retorna el tipo de vista basado en el ID del remitente
-
-        Log.d("TEST_ADAPTER", "traer el id del remitente" + messages.get(position).getIdDest());
-
-        return messages.get(position).getIdDest() == userId ? VIEW_TYPE_RECEIVED : VIEW_TYPE_SENT;
-
-
+        Log.i("MessageAdapter", "Pintar como enviado: " + messages.get(position).isSent());
+        return messages.get(position).isSent() ? VIEW_TYPE_RECEIVED : VIEW_TYPE_SENT;
     }
 
     @NonNull
@@ -46,13 +41,16 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         try {
             if (viewType == VIEW_TYPE_RECEIVED) {
+                Log.i("MessageAdapter", "ocvh: True");
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_received, parent, false);
                 return new ReceivedMessageViewHolder(view);
             } else {
+                Log.i("MessageAdapter", "ocvh: False");
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_messsage_send, parent, false);
                 return new SentMessageViewHolder(view);
             }
         }catch (Exception e){
+            Log.i("MessageAdapter", "Error on Catch: "+ e.getMessage());
             return null;
         }
     }

@@ -16,4 +16,10 @@
         android:elevation="10dp"
         tools:listitem="@layout/item_card" />
 
+    <androidx.fragment.app.FragmentContainerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_content_visit_provider"
+        android:elevation="10dp"/>
+
 </FrameLayout>
