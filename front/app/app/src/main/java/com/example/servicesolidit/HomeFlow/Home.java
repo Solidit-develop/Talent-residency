@@ -145,12 +145,7 @@ public class Home extends AppCompatActivity{
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment = fragmentMap.get(item.getItemId());
             if (fragment != null) {
-                if (fragment != thirdFragment){
-                    loadFragment(fragment);
-
-                }if (fragment == thirdFragment){
-                    loadFragmentProfile(fragment);
-                }
+                loadFragment(fragment);
                 return true;
             }
             return false;
@@ -160,13 +155,6 @@ public class Home extends AppCompatActivity{
     public void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, fragment);
-        transaction.remove(thirdFragment);
-        transaction.commit();
-
-    }
-    public void loadFragmentProfile (Fragment fragment){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container_profile, fragment);
         transaction.commit();
     }
 

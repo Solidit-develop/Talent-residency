@@ -37,9 +37,6 @@ public class Profile extends Fragment implements ProfileView{
     private Button btnCustomer;
     private Button btnProvider;
     private MaterialButtonToggleGroup buttonToggleGroup;
-    private ImageView btnMenu;
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
     private ProgressBar itemLoad;
     private TextView nameProfileHeader;
 
@@ -61,52 +58,9 @@ public class Profile extends Fragment implements ProfileView{
         itemLoad = view.findViewById(R.id.load_item_profile);
         nameProfileHeader = view.findViewById(R.id.txt_name_profile);
 
-        drawerLayout = view.findViewById(R.id.main2);
-        navigationView = view.findViewById(R.id.slide_drawn);
-        btnMenu = view.findViewById(R.id.icon_image_menu);
-
-        btnMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
-
         buttonToggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if (isChecked){
                checkButtonData(isChecked,checkedId);
-            }
-        });
-
-        navigationAction.put(R.id.item_message, ()->{
-            Toast.makeText(this.getContext(), "Hola desde mensajes", Toast.LENGTH_SHORT).show();
-        });
-        navigationAction.put(R.id.item_appointment, ()->{
-            Toast.makeText(this.getContext(), "Hola desde citas", Toast.LENGTH_SHORT).show();
-        });
-        navigationAction.put(R.id.item_agreements, () -> {
-            Toast.makeText(this.getContext(), "Hola desde acuerdos", Toast.LENGTH_SHORT).show();
-        });
-        navigationAction.put(R.id.item_record, () -> {
-            Toast.makeText(this.getContext(), "Hola desde historial", Toast.LENGTH_SHORT).show();
-        });
-        navigationAction.put(R.id.item_view_edit, () -> {
-            Toast.makeText(this.getContext(), "Hola desde ver y editar servicios", Toast.LENGTH_SHORT).show();
-        });
-        navigationAction.put(R.id.item_publish_service, () -> {
-            Toast.makeText(this.getContext(), "Hola desde publicar servicio", Toast.LENGTH_SHORT).show();
-        });
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Runnable action = navigationAction.get(item.getItemId());
-                if(action !=null){
-                    action.run();
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                    return true;
-                }
-                return false;
             }
         });
 
