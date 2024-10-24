@@ -18,6 +18,12 @@
             "port": "4004",
             "url_local": "http://localhost"
         },
+        "appointment":{
+            "apiName": "appointment",
+            "host": "http://appointment",
+            "port": "4007",
+            "url_local": "http://localhost"
+        },
         "relational":{
             "apiName": "relational",
             "host": "http://relationalservice",
@@ -28,6 +34,12 @@
             "apiName": "images",
             "host": "http://imagesservice",
             "port": "4009",
+            "url_local": "http://localhost"
+        },
+        "agrements":{
+            "apiName": "agrements",
+            "host": "http://agrements",
+            "port": "4010",
             "url_local": "http://localhost"
         }
     }
