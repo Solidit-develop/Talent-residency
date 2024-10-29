@@ -197,7 +197,7 @@ const controllerusuario = {
           await repositoritypeU.save(estatus)
         }
 
-        let usert = await repositoriuser.findOne({ where: [{ name_User: token.name_user }, { email: token.email }] })
+        let usert = await repositoriuser.findOne({ where: { email: token.email } })
         if (!usert) {
           console.log(token.passwordhas);
           usert = new users();

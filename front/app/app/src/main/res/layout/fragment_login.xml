@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".LoginFlow.Login">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <ProgressBar
             android:id="@+id/loading_item_login"
@@ -17,26 +17,23 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:visibility="gone"/>
-
         <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:orientation="vertical"
-        android:gravity="center">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:orientation="vertical"
+            android:gravity="center">
 
             <TextView
                 android:text="@string/value_login"
                 style="@style/Title"/>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txt_user_layout"
                 style="@style/BoxTextLayoutNormal"
                 app:startIconDrawable="@drawable/correo"
                 android:hint="@string/value_user_or_email"
                 android:paddingTop="20dp">
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtxt_User"
                     style="@style/EditTextNormal"
@@ -49,7 +46,6 @@
                 app:startIconDrawable="@drawable/userpassword"
                 android:hint="@string/value_edtxt_password"
                 app:endIconMode="password_toggle">
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtxt_Password"
                     style="@style/EditTextNormal"
@@ -62,19 +58,19 @@
                 android:layout_marginStart="48dp"
                 android:text="@string/value_forgot_password" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_login"
                 style="@style/ButtonNormal"
                 android:layout_marginTop="30dp"
                 android:text="@string/value_btn_login" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_sing_in_google"
                 style="@style/ButtonIconStart"
                 android:text="@string/value_btn_login_google"
                 app:icon="@drawable/logogoogle" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_sing_in_facebook"
                 style="@style/ButtonIconStart"
                 android:text="@string/value_btn_login_facebook"
@@ -86,7 +82,5 @@
                 android:text="@string/value_btn_register"
                 android:paddingTop="20dp"/>
         </LinearLayout>
-
     </RelativeLayout>
-
 </FrameLayout>

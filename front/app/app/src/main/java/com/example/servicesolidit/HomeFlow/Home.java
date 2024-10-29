@@ -1,5 +1,8 @@
 package com.example.servicesolidit.HomeFlow;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,6 +23,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.servicesolidit.HeadDrawn;
 import com.example.servicesolidit.HouseFlow.House;
+import com.example.servicesolidit.LoginFlow.Login;
 import com.example.servicesolidit.ProfileFlow.Profile;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Search;
@@ -99,18 +103,23 @@ public class Home extends AppCompatActivity{
         navigationActions.put(R.id.item_message, () -> {
             Toast.makeText(this, "Hola desde mensajes", Toast.LENGTH_SHORT).show();
         });
+
         navigationActions.put(R.id.item_appointment, () -> {
             Toast.makeText(this, "Hola desde citas", Toast.LENGTH_SHORT).show();
         });
+
         navigationActions.put(R.id.item_agreements, () -> {
             Toast.makeText(this, "Hola desde acuerdos", Toast.LENGTH_SHORT).show();
         });
+
         navigationActions.put(R.id.item_record, () -> {
             Toast.makeText(this, "Hola desde historial", Toast.LENGTH_SHORT).show();
         });
+
         navigationActions.put(R.id.item_view_edit, () -> {
             Toast.makeText(this, "Hola desde ver y editar servicios", Toast.LENGTH_SHORT).show();
         });
+
         navigationActions.put(R.id.item_publish_service, () -> {
             Toast.makeText(this, "Hola desde publicar servicio", Toast.LENGTH_SHORT).show();
         });
@@ -136,12 +145,7 @@ public class Home extends AppCompatActivity{
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment = fragmentMap.get(item.getItemId());
             if (fragment != null) {
-                if (fragment != thirdFragment){
-                    loadFragment(fragment);
-
-                }if (fragment == thirdFragment){
-                    loadFragmentProfile(fragment);
-                }
+                loadFragment(fragment);
                 return true;
             }
             return false;
@@ -151,13 +155,6 @@ public class Home extends AppCompatActivity{
     public void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, fragment);
-        transaction.remove(thirdFragment);
-        transaction.commit();
-
-    }
-    public void loadFragmentProfile (Fragment fragment){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container_profile, fragment);
         transaction.commit();
     }
 
@@ -167,11 +164,21 @@ public class Home extends AppCompatActivity{
         return true;
     }
 
+    /**
+     * Method to configure options icon.
+     * @param item selected.
+     * @return true or false.
+     */
+    @SuppressLint("ApplySharedPref")
     @Override
     public boolean onOptionsItemSelected (@NonNull MenuItem item){
-        if (item.getItemId() == R.id.configuration) {
-            // Acción cuando se selecciona el ícono de engranaje
-            Toast.makeText(this, "Configuración seleccionada", Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.item_log_out) {
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.commit();
+            Intent loginActivity = new Intent(getApplicationContext(), Login.class);
+            startActivity(loginActivity);
             return true;
         }
         return super.onOptionsItemSelected(item);

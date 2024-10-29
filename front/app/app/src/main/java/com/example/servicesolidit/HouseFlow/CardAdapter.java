@@ -1,6 +1,7 @@
 package com.example.servicesolidit.HouseFlow;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.servicesolidit.R;
@@ -19,10 +21,19 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     private List<CardModel> cardList;
     private Context context;
+    private FragmentManager fragmentManager;
+    private OnCardClickListener listener;
 
-    public CardAdapter(List<CardModel> cardList, Context context){
+    public interface OnCardClickListener {
+        void onCardClick(int idProvider);
+    }
+
+
+    public CardAdapter(List<CardModel> cardList, Context context, OnCardClickListener listener){
         this.cardList = cardList;
         this.context = context;
+        this.listener = listener;
+
     }
 
     @NonNull
@@ -48,6 +59,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
         holder.description.setSelected(true);
         holder.location.setSelected(true);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TEST_CARDADAPTER","clickaste aqui: " + card.getIdProvider());
+                listener.onCardClick(card.getIdProvider());
+            }
+        });
     }
 
     @Override
@@ -67,7 +86,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             nameBussines =itemView.findViewById(R.id.txt_name_bussines);
             description = itemView.findViewById(R.id.txt_description);
             location = itemView.findViewById(R.id.txt_location);
-
         }
     }
+
 }
