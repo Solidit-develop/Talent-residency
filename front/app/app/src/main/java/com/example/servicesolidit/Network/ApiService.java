@@ -4,12 +4,15 @@ package com.example.servicesolidit.Network;
 
 import com.example.servicesolidit.Model.Requests.LoginRequestDto;
 import com.example.servicesolidit.Model.Requests.RegisterRequestDto;
+import com.example.servicesolidit.Model.Responses.Conversatoins.ConversationResponseDto;
 import com.example.servicesolidit.Model.Responses.Feed.FeedResponseDto;
 import com.example.servicesolidit.Model.Responses.LoginResponseDto;
 import com.example.servicesolidit.Model.Responses.Messages.MessagesResponseDto;
 import com.example.servicesolidit.Model.Responses.RegisterResponseDto;
 import com.example.servicesolidit.Model.Responses.UserInfoProfileDto;
 import com.example.servicesolidit.Model.Responses.UserInfoProfileResponseDto;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -32,4 +35,7 @@ public interface ApiService {
 
     @GET("message/mensajes/{idOrigen}/{idDestino}")
     Call<MessagesResponseDto> getMessages(@Path("idOrigen") int idOrigen, @Path("idDestino") int idDestino);
+
+    @GET("message/mensajes/{idLogged}")
+    Call<List<ConversationResponseDto>> getConversations(@Path("idLogged")int idLogged);
 }

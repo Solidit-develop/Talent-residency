@@ -52,11 +52,8 @@ public class Message extends Fragment implements MessageView{
         //parametros que mando para la url
         int idOrigen = this.idOrigen; //usuario logueado
         int idDestino = this.idDestino; //usuario destino
-
         this.onShowProgress();
         this.presenter.loadConversation(idOrigen, idDestino);
-
-
         return view;
     }
 
