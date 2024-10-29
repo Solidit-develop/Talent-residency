@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn,Timestamp } from "typeorm";
 import { Conversation } from "./conversation";
 
 @Entity()
@@ -9,8 +9,8 @@ export class Messages{
     @Column({type:"varchar" })
     contect:string
 
-    @Column({type:"date"})
-    senddate:Date
+    @Column({type:"timestamp without time zone",nullable: true })
+    senddate:Timestamp | null
 
     @ManyToOne(()=>Conversation,Conversation=>Conversation.messages)
     @JoinColumn()
