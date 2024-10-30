@@ -1,5 +1,5 @@
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { appointment } from "./appointment";
+import { Column, Entity, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { interaccion } from "./interaccion";
 
 @Entity()
 
@@ -16,7 +16,6 @@ export class review {
     @Column({ type: 'varchar' })
     image: string
 
-    @ManyToOne(() => appointment, appointmen => appointmen.revie)
-    appointment: review;
-
+    @OneToOne(()=>interaccion,interaccion=>interaccion.review)
+    interaccion:interaccion
 }

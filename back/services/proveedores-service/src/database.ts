@@ -17,6 +17,7 @@ import { Messages } from "./entitis/messages";
 import { agrements } from "./entitis/agrements";
 import { agrements_service } from "./entitis/agrements-service";
 import { serviceStatus } from "./entitis/servicesStatus";
+import { interaccion } from "./entitis/interaccion";
 
 
 const DB_TYPE= config.db_type
@@ -33,7 +34,8 @@ export const AppDataSource = new DataSource({
     username: user,
     password: password,
     database: database,
-    entities:[State,Town,Address,users,userTypes,Providers,skills,review,appointment,Conversation,Messages,agrements,agrements_service,serviceStatus],
+    entities:[State,Town,Address,users,userTypes,Providers,skills,review,appointment,Conversation,Messages,agrements,agrements_service,serviceStatus,interaccion],
     logging:true,
     synchronize:true 
+    
 })
