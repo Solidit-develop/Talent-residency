@@ -25,8 +25,8 @@ export const AppDataSource = new DataSource({
     username:user,
     database:database,
     entities:[review,users,appointment,Providers,interaccion],
-    // logging: ["error", "schema"],
-    logging:true,
+    logging: ["error", "schema"],
+    // logging:true,
     synchronize:false    
 
 })
