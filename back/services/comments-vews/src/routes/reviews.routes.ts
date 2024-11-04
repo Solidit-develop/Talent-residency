@@ -6,7 +6,7 @@ const router = Router();
 router.get('/', controllersReview.ping);
 
 router.post('/registro/:id_logued/:id_dest', controllersReview.registro);
-router.get('/consulta/:id_logued/:id_dest', controllersReview.consulta);
-
-
+router.get('/consulta/:id_logued/:id_dest', controllersReview.consultaUno);
+router.get('/consulta/:id_logued',controllersReview.ConsultaTodos);
+router.put('/edit/:id_logued/:id_dest',controllersReview.edit);
 module.exports = router;
