@@ -1,11 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 
-import { appointment } from './appointment';
-import { agrements } from './agrements';
 import { users } from './users';
 
-@Entity()
+import { appointment } from './appointment';
 
+@Entity()
 export class Providers {
     @PrimaryGeneratedColumn()
     id_provider: number;
@@ -19,14 +18,15 @@ export class Providers {
     @Column({ type: 'varchar', length: 20 })
     workshopPhoneNumber: string;
 
-    @OneToMany(()=> agrements, agrements=>agrements.providers)
-    agrements:agrements;
+    @Column({ type: 'varchar', length: 200, nullable: true }) // Permitir nulos
+    descripcion: string;
 
-    @OneToMany(() => appointment, appointment => appointment.providers)
-    appointment: appointment[];
-
+    // aqui tiene la llave foranea
     @OneToOne(() => users, user => user.provedor)
     @JoinColumn()
     user: users
+
+    @OneToMany(() => appointment, appointment => appointment.providers)
+    appointment: appointment[];
 
 }
