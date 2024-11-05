@@ -157,6 +157,29 @@ services:
     networks:
       - app-network
 
+
+  comments-vews:
+    build:
+      context: ../services/comments-vews
+    environment:
+      - PORT=4011
+      - HOST=localhost
+      - DB_HOST=postgres
+      - DB_TYP=postgres
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+      - DB=mydatabase
+      - DB_PORT=5432
+      - BaseAddress=http://189.190.226.148:4000/api/v1/users
+      - Ambiente=DEV
+    ports:
+      - "4011:4011"
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+
   apigateway:
     build:
       context: ../apigateway

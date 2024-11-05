@@ -19,7 +19,7 @@ interface Config {
 const config: Config = {
     db_type: process.env.DB_TYPE,
     host: process.env.DB_HOST,
-    port: process.env.portserver,
+    port: process.env.PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB,

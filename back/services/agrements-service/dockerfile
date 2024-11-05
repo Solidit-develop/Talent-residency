@@ -20,6 +20,9 @@ COPY package*.json ./
 # Instala las dependencias
 RUN npm install
 
+#instala typescrip si no lo contiene
+RUN npm install -g typescript
+
 # Copia el resto de la aplicación
 COPY . .
 
