@@ -67,14 +67,15 @@ public class Conversation extends Fragment implements AdapterConversation.OnConv
     @Override
     public void onConversationClick(String conversationId) {
         // Cambia al fragmento de conversación usando el id
-        Toast.makeText(requireContext(), "Funcionalidad pendiente", Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), "Funcionalidad pendiente: Navegar a la conversación " + conversationId, Toast.LENGTH_SHORT).show();
         /*int idOrigen = 1;
-        int idDestino = 2;
-        Message messageView = new Message(idOrigen, idDestino);
+        int idDestino = 2;*/
+        Log.i("ConversationClass", "Si va a salir");
+        Message messageView = new Message(this.idLogged, Integer.parseInt(conversationId));
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_content_visit_provider, messageView);
+        transaction.replace(R.id.frame_container, messageView);
         transaction.addToBackStack(null);
-        transaction.commit();*/
+        transaction.commit();
     }
 
     @Override

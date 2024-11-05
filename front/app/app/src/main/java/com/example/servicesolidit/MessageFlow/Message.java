@@ -38,6 +38,7 @@ public class Message extends Fragment implements MessageView{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.i("MessageClass", "Init view");
         View view = inflater.inflate(R.layout.fragment_message_activity, container, false);
         recyclerView = view.findViewById(R.id.recycler_view_messages);
 
@@ -54,6 +55,7 @@ public class Message extends Fragment implements MessageView{
         int idDestino = this.idDestino; //usuario destino
         this.onShowProgress();
         this.presenter.loadConversation(idOrigen, idDestino);
+        Log.i("MessageClass", "End init view");
         return view;
     }
 
