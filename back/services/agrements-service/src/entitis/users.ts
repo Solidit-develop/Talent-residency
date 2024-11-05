@@ -32,6 +32,6 @@ export class users {
     @OneToMany(()=>appointment, appointment=>appointment.users)
     appointment:appointment[];
 
-    // @OneToMany(()=> Conversation,Conversation=> Conversation.user)
-    // conversation:Conversation;
+    @OneToOne(() => Providers, provider => provider.user)
+    provedor: Providers;
 }

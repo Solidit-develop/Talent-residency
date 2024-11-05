@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, OneToOne
 
 import { appointment } from './appointment';
 import { agrements } from './agrements';
+import { users } from './users';
 
 @Entity()
 
@@ -24,5 +25,8 @@ export class Providers {
     @OneToMany(() => appointment, appointment => appointment.providers)
     appointment: appointment[];
 
+    @OneToOne(() => users, user => user.provedor)
+    @JoinColumn()
+    user: users
 
 }

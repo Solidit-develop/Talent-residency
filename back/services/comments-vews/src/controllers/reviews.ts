@@ -117,6 +117,8 @@ const controllersReview={
                 apellido:verificar.users.lasname,
                 origenComoUser:verificar.interaccion.origenEmitidoComoUser,
                 calificacion:{
+                id_revire:verificar.interaccion.review.id_review,
+                id_interaccion:verificar.interaccion.id_interaccion,
                 calificacion:verificar.interaccion.review.calificacion,
                 comentario:verificar.interaccion.review.comment,
                 imagen:verificar.interaccion.review.image
@@ -157,10 +159,13 @@ const controllersReview={
                 console.log("Estro a la funcion")
 
                 const desfragment =verificar.map(verificar=>({
+
                     Nombre:verificar.users.name_User,
                     apellido:verificar.users.lasname,
                     origenComoUser:verificar.interaccion.origenEmitidoComoUser,
                     calificacion:{
+                    id_review:verificar.interaccion.review.id_review,
+                    id_interaccion:verificar.interaccion.id_interaccion,
                     calificacion:verificar.interaccion.review.calificacion,
                     comentario:verificar.interaccion.review.comment,
                     imagen:verificar.interaccion.review.image
@@ -223,6 +228,37 @@ const controllersReview={
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Error interno en el servidor" });
+        }
+    },
+
+    eliminar:async(req:Request,res:Response):Promise<void>=>{
+
+        try{
+
+            const {id_interaccion, id_review}=req.params
+
+            await AppDataSource.createQueryBuilder()
+            .delete()
+            .from("interaccion")
+            .where("interaccion.id_interaccion=:id_interaccion",{id_interaccion:id_interaccion})
+            .execute()
+
+            console.log("Se ellimino con exito los datos de review con el id",id_review);
+            console.log("Se elimino con exito los datos de interaccion con el id", id_interaccion);
+
+
+            await AppDataSource.createQueryBuilder()
+            .delete()
+            .from("review")
+            .where("review.id_review=:id_review",{id_review:id_review})
+            .execute();
+
+            res.status(200).json({message:"Eliminado con exito"})
+           
+
+        }catch(error){
+            console.log(error)
+            res.status(500).json("Error interno")
         }
     }
 
