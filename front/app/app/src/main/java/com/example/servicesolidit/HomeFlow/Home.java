@@ -4,7 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,11 +25,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.servicesolidit.ConversationFlow.Conversation;
 import com.example.servicesolidit.HeadDrawn;
 import com.example.servicesolidit.HouseFlow.House;
 import com.example.servicesolidit.LoginFlow.Login;
+import com.example.servicesolidit.Model.Requests.RegisterRequestDto;
 import com.example.servicesolidit.ProfileFlow.Profile;
 import com.example.servicesolidit.R;
+import com.example.servicesolidit.RegisterFlow.Address;
 import com.example.servicesolidit.Search;
 import com.example.servicesolidit.Utils.Constants;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -67,7 +74,7 @@ public class Home extends AppCompatActivity{
 
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        loadFragment(firstFragment);
+        navigateTo(firstFragment);
 
         toolbar = findViewById(R.id.menu_toolbar);
         setSupportActionBar(toolbar);
@@ -101,7 +108,8 @@ public class Home extends AppCompatActivity{
 
         //************************  metodos para el mapeo del slide de izquierda - derecha  ***************************************/
         navigationActions.put(R.id.item_message, () -> {
-            Toast.makeText(this, "Hola desde mensajes", Toast.LENGTH_SHORT).show();
+            Conversation conversationFragment = new Conversation();
+            this.navigateTo(conversationFragment);
         });
 
         navigationActions.put(R.id.item_appointment, () -> {
@@ -145,22 +153,23 @@ public class Home extends AppCompatActivity{
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment = fragmentMap.get(item.getItemId());
             if (fragment != null) {
-                loadFragment(fragment);
+                navigateTo(fragment);
                 return true;
             }
             return false;
         }
     };
 
-    public void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
-        transaction.commit();
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_head, menu);
+        // Cambiar el color de texto de los ítems
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            SpannableString s = new SpannableString(item.getTitle());
+            s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
+            item.setTitle(s);
+        }
         return true;
     }
 
@@ -177,10 +186,22 @@ public class Home extends AppCompatActivity{
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.clear();
             editor.commit();
-            Intent loginActivity = new Intent(getApplicationContext(), Login.class);
+            Intent loginActivity = new Intent(this, Login.class);
             startActivity(loginActivity);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Method to load a new fragment from the slide menu.
+     * @param fragmentDestiny is the fragment to navigate.
+     */
+    public void navigateTo(Fragment fragmentDestiny) {
+        Log.i("HomeClass", "Start slide transaction fragment");
+        FragmentTransaction transactionTransaction = this.getSupportFragmentManager().beginTransaction();
+        transactionTransaction.replace(R.id.frame_container, fragmentDestiny);
+        transactionTransaction.addToBackStack(null);
+        transactionTransaction.commit();
     }
 }
