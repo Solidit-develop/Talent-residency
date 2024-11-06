@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/toolbar_gradient"
                 app:menu="@menu/menu_head"
-                style="@style/AppTheme"
+                android:backgroundTint="@color/bg_btn_grey"
                 app:title=" "/>
 
             <ImageView

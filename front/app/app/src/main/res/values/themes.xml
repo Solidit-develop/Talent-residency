@@ -52,7 +52,7 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.BottomNavigationView" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.BottomNavigationView" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/dark_normal</item>
         <item name="colorPrimaryVariant">@color/grey_light_bakground</item>
     </style>
