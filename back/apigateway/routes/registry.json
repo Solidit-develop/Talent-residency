@@ -41,6 +41,12 @@
             "host": "http://agrements",
             "port": "4010",
             "url_local": "http://localhost"
+        },
+        "comments-vews":{
+            "apiName": "comments-vews",
+            "host": "http://comments-vews",
+            "port": "4011",
+            "url_local": "http://localhost"
         }
     }
 }

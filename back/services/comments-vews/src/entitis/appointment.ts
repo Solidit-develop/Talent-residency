@@ -3,7 +3,6 @@ import { Column, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGene
 
 import { Providers } from "./provedores";
 import { users } from "./users";
-import { agrements } from "./agrements";
 import { interaccion } from "./interaccion";
 
 @Entity()
@@ -31,11 +30,7 @@ export class appointment {
     @ManyToOne(()=> users,users=>users.appointment )
     users:users;
 
-    @OneToMany(()=>agrements,agrements=>agrements.appointment)
-    agrements:agrements;
-
     @OneToOne(()=>interaccion,interaccion=>interaccion.appointment)
-    
     interaccion:interaccion
 
 
