@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.servicesolidit.MessageFlow.Message;
@@ -25,10 +27,13 @@ import com.example.servicesolidit.Utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Conversation extends Fragment implements AdapterConversation.OnConversationClickListener, ConversationView{
 
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private TextView noConversationView;
     private List<ConversationDto> conversations;
     private ConversationPresenter presenter;
     private AdapterConversation adapter;
@@ -41,14 +46,13 @@ public class Conversation extends Fragment implements AdapterConversation.OnConv
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_conversation, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewConversations);
-
-        // Lista de conversaciones de ejemplo
+        progressBar = view.findViewById(R.id.conversationProgressBar);
+        noConversationView = view.findViewById(R.id.noConversationView);
         conversations = new ArrayList<>();
         adapter = new AdapterConversation(conversations, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Añade más conversaciones...
         presenter = new ConversationPresenter(this);
         this.showProgress();
         this.idLogged = getLoggedId();
@@ -57,7 +61,7 @@ public class Conversation extends Fragment implements AdapterConversation.OnConv
     }
 
     public int getLoggedId(){
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.MY_PREFERENCES, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences(Constants.MY_PREFERENCES, MODE_PRIVATE);
         int userIdLogged = sharedPreferences.getInt(Constants.GET_LOGGED_USER_ID, 0);
         Log.i("ConversationClass", "IdLogged: " + userIdLogged);
         return  userIdLogged;
@@ -66,11 +70,6 @@ public class Conversation extends Fragment implements AdapterConversation.OnConv
 
     @Override
     public void onConversationClick(String conversationId) {
-        // Cambia al fragmento de conversación usando el id
-        Toast.makeText(requireContext(), "Funcionalidad pendiente: Navegar a la conversación " + conversationId, Toast.LENGTH_SHORT).show();
-        /*int idOrigen = 1;
-        int idDestino = 2;*/
-        Log.i("ConversationClass", "Si va a salir");
         Message messageView = new Message(this.idLogged, Integer.parseInt(conversationId));
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, messageView);
@@ -80,40 +79,49 @@ public class Conversation extends Fragment implements AdapterConversation.OnConv
 
     @Override
     public void showProgress() {
-        Log.i("ConversationClass", "ShowProgress");
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        Log.i("ConversationClass", "HideProgress");
+        progressBar.setVisibility(View.GONE);
     }
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onConversationSucess(List<ConversationResponseDto> response) {
-        Log.i("ConversationClass", "Response: " + response.get(0).getMessages().get(0).getContent());
-        List<ConversationDto> conversationList = new ArrayList<>();
-        for (int i=0; i<response.size(); i++)  {
-            ConversationResponseDto conver = response.get(i);
-            ConversationDto converResult = new ConversationDto(
-                    String.valueOf(conver.getInteract().getDestinationId()),
-                    conver.getInteract().getName(),
-                    "profileImageUrl",
-                    conver.getMessages().get(0).getContent(),
-                    conver.getMessages().get(0).getSendDate()
-                    );
-            conversationList.add(converResult);
-        }
-        this.conversations.clear();
-        this.conversations.addAll(conversationList);
+        if(!response.isEmpty()) {
+            Log.i("ConversationClass", "Response: " + response.get(0).getMessages().get(0).getContent());
+            noConversationView.setVisibility(View.GONE);
+            List<ConversationDto> conversationList = new ArrayList<>();
+            for (int i = 0; i < response.size(); i++) {
+                ConversationResponseDto conver = response.get(i);
+                ConversationDto converResult = new ConversationDto(
+                        String.valueOf(conver.getInteract().getDestinationId()),
+                        conver.getInteract().getName(),
+                        "profileImageUrl",
+                        conver.getMessages().get(0).getContent(),
+                        conver.getMessages().get(0).getSendDate()
+                );
+                conversationList.add(converResult);
+            }
+            this.conversations.clear();
+            this.conversations.addAll(conversationList);
 
-        adapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
+        }else{
+            //Load empty conversations view
+            noConversationView.setVisibility(View.VISIBLE);
+            Log.i("ConversationClass", "Load not conversation view");
+        }
 
         this.hideProgress();
     }
 
     @Override
     public void onConversationFail(String error) {
+        hideProgress();
+        Toast.makeText(requireContext(), "Ocurrió un error al cargar la conversación", Toast.LENGTH_SHORT).show();
         Log.i("ConversationClass", "Error: " + error);
     }
 }

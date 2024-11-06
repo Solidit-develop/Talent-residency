@@ -14,6 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.servicesolidit.HomeFlow.HomePresenter;
 import com.example.servicesolidit.HomeFlow.HomeView;
@@ -32,6 +35,8 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
     private CardAdapter adapter;
     private List<CardModel> cardList;
     private HomePresenter presenter;
+    private ProgressBar progressBar;
+    private TextView noItemView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,7 +45,8 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
         View view = inflater.inflate(R.layout.fragment_house, container, false);
         presenter = new HomePresenter(this);
 
-
+        noItemView = view.findViewById(R.id.noItemsView);
+        progressBar = view.findViewById(R.id.houseProgressBar);
         recyclerView = view.findViewById(R.id.recyclerView);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
 
@@ -67,17 +73,29 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
 
     @Override
     public void showProgres() {
+        progressBar.setVisibility(View.VISIBLE);
         Log.i("HouseClass", "Should show progress");
     }
 
     @Override
     public void hideProgess() {
+        progressBar.setVisibility(View.GONE);
         Log.i("HouseClass", "Should hide progress");
     }
 
     @Override
     public void onFeedSuccess(ArrayList<ProviderResponseDto> feedResponse) {
-        printFeed(feedResponse);
+        if(!feedResponse.isEmpty()){
+            recyclerView.setVisibility(View.VISIBLE);
+            noItemView.setVisibility(View.GONE);
+            printFeed(feedResponse);
+            Log.i("HouseClass", "SomeFound");
+        }else{
+            //Load emtpy view elements
+            Log.i("HouseClass", "NotFoud");
+            noItemView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
         hideProgess();
     }
 
@@ -95,25 +113,27 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
 
     private List<CardModel> getCardListFromResponse(ArrayList<ProviderResponseDto> feedResponse) {
         List<CardModel> listToPrint = new ArrayList<CardModel>();
-        for (ProviderResponseDto item: feedResponse) {
-            CardModel modelFromResponse = new CardModel();
-            modelFromResponse.setLocation(item.getAddress().getLocalidad());
-            modelFromResponse.setNameBussines(item.getWorkshopName());
-            modelFromResponse.setDescription("Con " + item.getExperienceYears() + " años de experiencia");
-            modelFromResponse.setIdProvider(item.getIdProvider());
-            modelFromResponse.setImageUrl(Constants.BASE_URL+"images/print/1726996926660-mydatabase-public.png");
-            listToPrint.add(modelFromResponse);
 
+        if(feedResponse.isEmpty()){
+            Toast.makeText(requireContext(), "No se encontraron vendedores", Toast.LENGTH_SHORT).show();
+        }else {
+            for (ProviderResponseDto item : feedResponse) {
+                CardModel modelFromResponse = new CardModel();
+                modelFromResponse.setLocation(item.getAddress().getLocalidad());
+                modelFromResponse.setNameBussines(item.getWorkshopName());
+                modelFromResponse.setDescription("Con " + item.getExperienceYears() + " años de experiencia");
+                modelFromResponse.setIdProvider(item.getIdProvider());
+                modelFromResponse.setImageUrl(Constants.BASE_URL + "images/print/1726996926660-mydatabase-public.png");
+                listToPrint.add(modelFromResponse);
+            }
         }
-
         return listToPrint;
     }
 
     public void onCardClick(int idProvider){
         VisitProvider visitProvider = new VisitProvider(idProvider);
-
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_content_visit_provider, visitProvider);
+        transaction.replace(R.id.frame_container, visitProvider);
         transaction.addToBackStack(null);
         transaction.commit();
     }

@@ -74,7 +74,7 @@ public class Home extends AppCompatActivity{
 
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        loadFragment(firstFragment);
+        navigateTo(firstFragment);
 
         toolbar = findViewById(R.id.menu_toolbar);
         setSupportActionBar(toolbar);
@@ -153,18 +153,12 @@ public class Home extends AppCompatActivity{
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment = fragmentMap.get(item.getItemId());
             if (fragment != null) {
-                loadFragment(fragment);
+                navigateTo(fragment);
                 return true;
             }
             return false;
         }
     };
-
-    public void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
-        transaction.commit();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
