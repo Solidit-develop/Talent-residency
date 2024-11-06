@@ -7,6 +7,8 @@ import { interaccion } from "../entitis/interaccion";
 import { Providers } from "../entitis/provedores";
 import { review } from "../entitis/review";
 import { appointment } from "../entitis/appointment";
+
+import {ImagenService} from "../services/imagenService"
 // import { images } from "../entitis/images";
 // import { imagesRelation } from "../entitis/imagesRelation";
 
@@ -22,6 +24,11 @@ const controllersReview={
 
     ping: async(req:Request, res:Response): Promise<void> => {
         res.send("pong");
+    },
+
+    pruebaConexion:async(req:Request, res:Response): Promise<void>=>{
+        const conexion = new ImagenService();
+        
     },
 
 
