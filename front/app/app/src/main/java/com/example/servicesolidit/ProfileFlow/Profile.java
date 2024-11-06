@@ -31,6 +31,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Profile extends Fragment implements ProfileView{
 
@@ -73,7 +74,7 @@ public class Profile extends Fragment implements ProfileView{
     }
 
     public int getIdLogged(){
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.MY_PREFERENCES, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences(Constants.MY_PREFERENCES, MODE_PRIVATE);
         int userIdLogged = sharedPreferences.getInt(Constants.GET_LOGGED_USER_ID, 0);
         Log.i("ProfileClass", "IdLogged: " + userIdLogged);
         return userIdLogged;
@@ -85,8 +86,7 @@ public class Profile extends Fragment implements ProfileView{
     }
   
     public void checkButtonData (boolean isChecked,int checkedId){
-
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
 
         if (checkedId == R.id.btn_customer){
             transaction.replace(R.id.fragment_container,personalData);
