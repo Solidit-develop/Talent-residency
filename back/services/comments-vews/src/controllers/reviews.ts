@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { users } from "../entitis/users";
 import { AppDataSource } from "../database";
-import { QueryBuilder, Repository, Timestamp, View } from "typeorm";
+import { Any, QueryBuilder, Repository, Timestamp, View } from "typeorm";
 import { interaccion } from "../entitis/interaccion";
 import { Providers } from "../entitis/provedores";
 import { review } from "../entitis/review";
@@ -26,10 +26,6 @@ const controllersReview={
         res.send("pong");
     },
 
-    pruebaConexion:async(req:Request, res:Response): Promise<void>=>{
-        const conexion = new ImagenService();
-        
-    },
 
 
     registro:async(req:Request, res:Response):Promise<void>=>{
@@ -37,7 +33,12 @@ const controllersReview={
 
             const {id_logued, id_dest}=req.params
 
-            const {origenComoUser, calificacion, commentario,id_imageRelation}= req.body
+            const {origenComoUser, calificacion, commentario,id_imageRelation,
+                //requst para las imagenes
+                funcionality, urlLocation, idUsedOn, table
+            }= req.body
+
+
             // const id =  Number(id_appointment)
 
                 const verificar = await reppsitoryappointment.createQueryBuilder("appointment")
@@ -50,15 +51,15 @@ const controllersReview={
                 .getOne();
                 
                 console.log("Este es el registro----------------------------")
-                console.log(verificar)
+                // console.log(verificar)
 
                 const id_app = verificar?.id_appointment;
 
                 console.log("Este es el id de appointment-----------------------------------")
                 console.log(id_app)
 
-                if(verificar){
-                    // console.log("Esta es la calificacion que se le dio a este usuario")
+                if(id_app){
+                    console.log("Esta es la calificacion que se le dio a este usuario")
                     // console.log(verificar);
                     console.log("Se debuelve el nombre junto con la calificacion que se le dio ")
                     res.status(200).json(verificar)
@@ -78,6 +79,9 @@ const controllersReview={
                         comentario.calificacion=calificacion;
                         comentario.image=id_imageRelation;
                         await repositoryreview.save(comentario)
+
+                        const conexion = new ImagenService();
+                        await conexion.PostImage({funcionality,urlLocation,idUsedOn},table)
     
                         const interaction= new interaccion();
                         interaction.origenEmitidoComoUser=origenComoUser;
