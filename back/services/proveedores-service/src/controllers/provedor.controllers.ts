@@ -421,18 +421,37 @@ const controllerProvider = {
         try {
 
             const id_provider = req.params.id;
-            const proveedores = await repositoryProviders.createQueryBuilder("users")
+            const proveedores = await repositoryProviders.createQueryBuilder("providers")
                 .leftJoinAndSelect("providers.user", "user")
+                .leftJoinAndSelect("user.usertypes", "users")
                 .leftJoinAndSelect("providers.address", "address")
                 .leftJoinAndSelect("address.town", "town")
-                .leftJoinAndSelect("town.state", "state")
+                .leftJoin("town.state", "state")
                 .where("Providers.id_provider=:id_provider", { id_provider: id_provider })
                 .getOne();
+            let id_provedores = proveedores?.id_provider;
+            let experiencias = proveedores?.experienceYears;
+            let workshopName = proveedores?.workshopName;
+            let workshopPhoneNumber = proveedores?.workshopPhoneNumber;
+            let descripcion = proveedores?.descripcion;
+            let id_user = proveedores?.user.id_user;
+            let name = proveedores?.user.name_User;
+            let lastname = proveedores?.user.lasname;
+            let email = proveedores?.user.email;
+            let age = proveedores?.user.age;
+            let phoneNumber = proveedores?.user.phoneNumber
+            let type = proveedores?.user.usertypes;
+            let adress = proveedores?.address;
+            
+            const provedor ={
+                id_provedores, experiencias,workshopName,workshopPhoneNumber, descripcion,
+                user:{id_user,name,lastname,email,age,phoneNumber,type},
+                adress
+            }
+            console.log(provedor)
 
-            console.log(proveedores)
 
-
-            res.status(200).json({ proveedores })
+            res.status(200).json({ provedor })
 
         } catch (error) {
             console.log(error)
@@ -453,13 +472,14 @@ const controllerProvider = {
                 .where("users.id_user = :id", { id: id_user })
                 .getOne();
 
-            message = userInfo;
+            message = userInfo?.provedor;
+            
 
             if (!userInfo) {
                 message = "User not found";
             }
 
-            console.log("Response en providers: " + message);
+            // console.log("Response en providers: " + message);
             res.status(200).json(ResponseModel.successResponse(message));
 
         } catch (error) {
