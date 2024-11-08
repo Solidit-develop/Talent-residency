@@ -1,66 +1,127 @@
 package com.example.servicesolidit.ConversationFlow;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.servicesolidit.MessageFlow.Message;
+import com.example.servicesolidit.Model.Responses.Conversatoins.ConversationDto;
+import com.example.servicesolidit.Model.Responses.Conversatoins.ConversationResponseDto;
 import com.example.servicesolidit.R;
+import com.example.servicesolidit.Utils.Constants;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Conversation#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class Conversation extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class Conversation extends Fragment implements AdapterConversation.OnConversationClickListener, ConversationView{
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private TextView noConversationView;
+    private List<ConversationDto> conversations;
+    private ConversationPresenter presenter;
+    private AdapterConversation adapter;
+    private int idLogged;
     public Conversation() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Conversation.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Conversation newInstance(String param1, String param2) {
-        Conversation fragment = new Conversation();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_conversation, container, false);
+        View view = inflater.inflate(R.layout.fragment_conversation, container, false);
+        recyclerView = view.findViewById(R.id.recyclerViewConversations);
+        progressBar = view.findViewById(R.id.conversationProgressBar);
+        noConversationView = view.findViewById(R.id.noConversationView);
+        conversations = new ArrayList<>();
+        adapter = new AdapterConversation(conversations, this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        presenter = new ConversationPresenter(this);
+        this.showProgress();
+        this.idLogged = getLoggedId();
+        this.presenter.getConversations(idLogged);
+        return view;
+    }
+
+    public int getLoggedId(){
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences(Constants.MY_PREFERENCES, MODE_PRIVATE);
+        int userIdLogged = sharedPreferences.getInt(Constants.GET_LOGGED_USER_ID, 0);
+        Log.i("ConversationClass", "IdLogged: " + userIdLogged);
+        return  userIdLogged;
+    }
+
+
+    @Override
+    public void onConversationClick(String conversationId) {
+        Message messageView = new Message(this.idLogged, Integer.parseInt(conversationId));
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_container, messageView);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void onConversationSucess(List<ConversationResponseDto> response) {
+        if(!response.isEmpty()) {
+            Log.i("ConversationClass", "Response: " + response.get(0).getMessages().get(0).getContent());
+            noConversationView.setVisibility(View.GONE);
+            List<ConversationDto> conversationList = new ArrayList<>();
+            for (int i = 0; i < response.size(); i++) {
+                ConversationResponseDto conver = response.get(i);
+                ConversationDto converResult = new ConversationDto(
+                        String.valueOf(conver.getInteract().getDestinationId()),
+                        conver.getInteract().getName(),
+                        "profileImageUrl",
+                        conver.getMessages().get(0).getContent(),
+                        conver.getMessages().get(0).getSendDate()
+                );
+                conversationList.add(converResult);
+            }
+            this.conversations.clear();
+            this.conversations.addAll(conversationList);
+
+            adapter.notifyDataSetChanged();
+        }else{
+            //Load empty conversations view
+            noConversationView.setVisibility(View.VISIBLE);
+            Log.i("ConversationClass", "Load not conversation view");
+        }
+
+        this.hideProgress();
+    }
+
+    @Override
+    public void onConversationFail(String error) {
+        hideProgress();
+        Toast.makeText(requireContext(), "Ocurrió un error al cargar la conversación", Toast.LENGTH_SHORT).show();
+        Log.i("ConversationClass", "Error: " + error);
     }
 }
