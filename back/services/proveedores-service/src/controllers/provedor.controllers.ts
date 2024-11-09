@@ -419,27 +419,48 @@ const controllerProvider = {
     profiele: async function name(req: Request, res: Response) {
 
         try {
-
+            let message ;
             const id_provider = req.params.id;
-            const proveedores = await repositoryProviders.createQueryBuilder("users")
+            const proveedores = await repositoryProviders.createQueryBuilder("providers")
                 .leftJoinAndSelect("providers.user", "user")
+                .leftJoinAndSelect("user.usertypes", "users")
                 .leftJoinAndSelect("providers.address", "address")
                 .leftJoinAndSelect("address.town", "town")
-                .leftJoinAndSelect("town.state", "state")
-                .where("Providers.id_provider=:id_provider", { id_provider: id_provider })
+                .leftJoin("town.state", "state")
+                .where("user.id_user=:id_provider", { id_provider: id_provider })
                 .getOne();
 
-            console.log(proveedores)
-
-
-            res.status(200).json({ proveedores })
+            let id_provedores = proveedores?.id_provider;
+            let experiencias = proveedores?.experienceYears;
+            let workshopName = proveedores?.workshopName;
+            let workshopPhoneNumber = proveedores?.workshopPhoneNumber;
+            let descripcion = proveedores?.descripcion;
+            let id_user = proveedores?.user.id_user;
+            let name = proveedores?.user.name_User;
+            let lastname = proveedores?.user.lasname;
+            let email = proveedores?.user.email;
+            let age = proveedores?.user.age;
+            let phoneNumber = proveedores?.user.phoneNumber
+            let type = proveedores?.user.usertypes;
+            let adress = proveedores?.address;
+            
+            const provedor ={
+                id_provedores, experiencias,workshopName,workshopPhoneNumber, descripcion,
+                user:{id_user,name,lastname,email,age,phoneNumber,type},
+                adress
+            }
+            
+            message = provedor;
+        
+            if (!provedor) {
+                message = "User not found";
+            }
+            res.status(200).json(ResponseModel.successResponse(message));
 
         } catch (error) {
             console.log(error)
-            res.status(500).json({ message: "Error interno del servidor" })
-
+            res.status(500).json(ResponseModel.errorResponse(500, "Ocurrió un error con el servidor. " + error));
         }
-
     },
 
     userProfile: async function (req: Request, res: Response) {
@@ -447,6 +468,7 @@ const controllerProvider = {
             let message;
             const id_user = req.params.id;
             const userInfo = await repositoryUser.createQueryBuilder("users")
+                .leftJoinAndSelect("users.usertypes", "type")
                 .leftJoinAndSelect("users.adress", "address")
                 .leftJoinAndSelect("address.town", "town")
                 .leftJoinAndSelect("town.state", "state")
@@ -454,12 +476,12 @@ const controllerProvider = {
                 .getOne();
 
             message = userInfo;
-
+        
             if (!userInfo) {
                 message = "User not found";
             }
 
-            console.log("Response en providers: " + message);
+            // console.log("Response en providers: " + message);
             res.status(200).json(ResponseModel.successResponse(message));
 
         } catch (error) {

@@ -28,7 +28,7 @@ export class users {
     @Column({ type: "varchar", length: 20 })
     phoneNumber: string;
 
-    @ManyToOne(() => userTypes, usertypes => usertypes.id_userType)
+    @ManyToOne(() => userTypes, usertypes=> usertypes.user)
     usertypes: userTypes;
 
     @ManyToOne(() => Address, adress => adress.users)
