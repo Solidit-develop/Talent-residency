@@ -2,10 +2,12 @@ package com.example.servicesolidit.ProfileFlow;
 
 import android.util.Log;
 
+import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileResponseDto;
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProviderProfileResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;

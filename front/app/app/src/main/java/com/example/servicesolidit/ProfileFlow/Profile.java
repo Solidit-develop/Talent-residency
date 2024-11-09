@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.servicesolidit.HouseFlow.House;
+import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.RegisterBussines;
@@ -88,20 +89,18 @@ public class Profile extends Fragment implements ProfileView{
             transaction.remove(bussinesData);
             transaction.commit();
         } if (checkedId == R.id.btn_provider){
-            if(isProvider){
+            if (isProvider){
+                Log.i("ProfileClass", "Flow to show provider data");
                 BussinesData bussinesData = new BussinesData();
                 transaction.replace(R.id.fragment_container,bussinesData);
-                transaction.addToBackStack(null);
-                transaction.remove(personalData);
-                transaction.commit();
             }else{
                 Log.i("ProfileClass", "Flow to convert into provider");
                 RegisterBussines registerBussines = new RegisterBussines();
                 transaction.replace(R.id.fragment_container,registerBussines);
-                transaction.addToBackStack(null);
-                transaction.remove(personalData);
-                transaction.commit();
             }
+            transaction.addToBackStack(null);
+            transaction.remove(personalData);
+            transaction.commit();
 
         }
     }

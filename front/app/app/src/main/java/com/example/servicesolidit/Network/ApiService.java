@@ -10,6 +10,7 @@ import com.example.servicesolidit.Utils.Models.Responses.LoginResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Messages.MessagesResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.RegisterResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProviderProfileResponse;
 
 import java.util.List;
 
@@ -28,6 +29,9 @@ public interface ApiService {
 
     @GET("users/information/{idToFind}")
     Call<UserInfoProfileResponseDto> information(@Path("idToFind")int idUserToFind);
+
+    @GET("provider/provider/profile/{idToFind}")
+    Call<UserInfoProviderProfileResponse> informationProvider(@Path("idToFind")int idUserToFind);
 
     @GET("provider/todos/services/feed")
     Call<FeedResponseDto> feed();
