@@ -28,6 +28,9 @@ export class users {
     @Column({ type: "varchar", length: 20 })
     phoneNumber: string;
 
+    @Column({type:'varchar',length:500,nullable: true})
+    photoUser:string | null;
+
     @ManyToOne(() => userTypes, usertypes=> usertypes.user)
     usertypes: userTypes;
 
