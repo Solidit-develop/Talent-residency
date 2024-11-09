@@ -12,7 +12,7 @@ export class userTypes {
     value: boolean
 
     @OneToMany(() => users, user => user.usertypes)
-    usertypes: users[];
+    user: users[];
 
 
 }
