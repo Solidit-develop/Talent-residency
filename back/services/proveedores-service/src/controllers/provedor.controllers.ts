@@ -419,7 +419,7 @@ const controllerProvider = {
     profiele: async function name(req: Request, res: Response) {
 
         try {
-
+            let message ;
             const id_provider = req.params.id;
             const proveedores = await repositoryProviders.createQueryBuilder("providers")
                 .leftJoinAndSelect("providers.user", "user")
@@ -448,17 +448,18 @@ const controllerProvider = {
                 user:{id_user,name,lastname,email,age,phoneNumber,type},
                 adress
             }
-            console.log(provedor)
-
-
-            res.status(200).json({ provedor })
+            
+            message = provedor;
+        
+            if (!provedor) {
+                message = "User not found";
+            }
+            res.status(200).json(ResponseModel.successResponse(message));
 
         } catch (error) {
             console.log(error)
-            res.status(500).json({ message: "Error interno del servidor" })
-
+            res.status(500).json(ResponseModel.errorResponse(500, "Ocurrió un error con el servidor. " + error));
         }
-
     },
 
     userProfile: async function (req: Request, res: Response) {
@@ -474,10 +475,7 @@ const controllerProvider = {
                 .getOne();
 
             message = userInfo;
-            console.log("User obtenido: " + userInfo);
-
-            
-
+        
             if (!userInfo) {
                 message = "User not found";
             }
