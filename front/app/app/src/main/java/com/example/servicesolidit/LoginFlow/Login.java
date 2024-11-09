@@ -10,7 +10,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.text.InputType;
@@ -23,15 +22,13 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.servicesolidit.HomeFlow.Home;
-import com.example.servicesolidit.Model.Responses.UserInfoDto;
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.RegisterFlow.Register;
 import com.example.servicesolidit.Utils.Constants;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
-
-import okhttp3.internal.concurrent.Task;
 
 public class Login extends Fragment implements LoginView {
 

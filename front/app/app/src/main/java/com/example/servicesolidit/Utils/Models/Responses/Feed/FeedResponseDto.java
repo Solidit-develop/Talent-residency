@@ -1,6 +1,6 @@
-package com.example.servicesolidit.Model.Responses.Feed;
+package com.example.servicesolidit.Utils.Models.Responses.Feed;
 
-import com.example.servicesolidit.Model.Responses.ResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.ResponseDto;
 
 import java.util.ArrayList;
 

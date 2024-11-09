@@ -20,14 +20,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.servicesolidit.MessageFlow.Message;
-import com.example.servicesolidit.Model.Responses.Conversatoins.ConversationDto;
-import com.example.servicesolidit.Model.Responses.Conversatoins.ConversationResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationDto;
+import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponseDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Conversation extends Fragment implements AdapterConversation.OnConversationClickListener, ConversationView{
 

@@ -1,4 +1,4 @@
-package com.example.servicesolidit.Model.Responses.Conversatoins;
+package com.example.servicesolidit.Utils.Models.Responses.Conversatoins;
 
 import com.google.gson.annotations.SerializedName;
 

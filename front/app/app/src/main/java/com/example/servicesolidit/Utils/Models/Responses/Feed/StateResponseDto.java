@@ -1,4 +1,4 @@
-package com.example.servicesolidit.Model.Responses.Feed;
+package com.example.servicesolidit.Utils.Models.Responses.Feed;
 
 import com.google.gson.annotations.SerializedName;
 

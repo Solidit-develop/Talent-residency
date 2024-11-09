@@ -1,4 +1,4 @@
-package com.example.servicesolidit.Model.Responses;
+package com.example.servicesolidit.Utils.Models.Responses;
 
 public class ResponseDto {
     public int code;

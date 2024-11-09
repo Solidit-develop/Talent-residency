@@ -2,15 +2,14 @@ package com.example.servicesolidit.Network;
 
 
 
-import com.example.servicesolidit.Model.Requests.LoginRequestDto;
-import com.example.servicesolidit.Model.Requests.RegisterRequestDto;
-import com.example.servicesolidit.Model.Responses.Conversatoins.ConversationResponseDto;
-import com.example.servicesolidit.Model.Responses.Feed.FeedResponseDto;
-import com.example.servicesolidit.Model.Responses.LoginResponseDto;
-import com.example.servicesolidit.Model.Responses.Messages.MessagesResponseDto;
-import com.example.servicesolidit.Model.Responses.RegisterResponseDto;
-import com.example.servicesolidit.Model.Responses.UserInfoProfileDto;
-import com.example.servicesolidit.Model.Responses.UserInfoProfileResponseDto;
+import com.example.servicesolidit.Utils.Models.Requests.LoginRequestDto;
+import com.example.servicesolidit.Utils.Models.Requests.RegisterRequestDto;
+import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.Feed.FeedResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.LoginResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.Messages.MessagesResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.RegisterResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileResponseDto;
 
 import java.util.List;
 

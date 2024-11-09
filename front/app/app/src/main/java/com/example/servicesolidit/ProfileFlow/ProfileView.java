@@ -1,6 +1,6 @@
 package com.example.servicesolidit.ProfileFlow;
 
-import com.example.servicesolidit.Model.Responses.UserInfoProfileDto;
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
 
 public interface ProfileView {
     void showProgress();
