@@ -66,7 +66,7 @@ const controllerProvider = {
     infocomplete: async (req: Request, res: Response): Promise<void> => {
 
         console.log("Request body:" + req.body);
-
+        let message = "";
         try {
             const {
                 email,
@@ -87,7 +87,7 @@ const controllerProvider = {
 
             // Verificar que el correo esté presente en la solicitud
             if (!email) {
-                res.status(400).json({ mensaje: "El correo es requerido" });
+                res.status(400).json(ResponseModel.errorResponse(400, "El correo es requerido"));
                 return;
             }
 
@@ -99,7 +99,7 @@ const controllerProvider = {
 
             // Verificar si el usuario existe
             if (!user) {
-                res.status(404).json({ mensaje: "Usuario no encontrado" });
+                res.status(400).json(ResponseModel.errorResponse(400, "Usuario no encontrado"));
                 return;
             }
 
@@ -110,7 +110,7 @@ const controllerProvider = {
 
             // Verificar si el tipo de usuario existe
             if (!typeUser) {
-                res.status(404).json({ mensaje: "Tipo de usuario no encontrado" });
+                res.status(400).json(ResponseModel.errorResponse(400, "Tipo de usuario no encontrado"));
                 return;
             }
 
@@ -180,6 +180,8 @@ const controllerProvider = {
                     skillsToSave.push(skillEntity);
                 } else {
                     console.error(`El valor para la clave "${key}" no es un string:`, value);
+                    res.status(400).json(ResponseModel.errorResponse(400, "Error de formato de skills"));
+                    return;
                 }
             }
 
@@ -199,14 +201,19 @@ const controllerProvider = {
                 proveedor.skills = skillsToSave;
                 proveedor.user = user;
                 await repositoryProviders.save(proveedor);
-                res.json({ message: "Proveedor registrado con éxito" });
+                message = "Proveedor registrado con éxito"
+
             } else {
-                res.status(400).json({ message: "Proveedor ya existe con ese nombre de taller" });
+                res.status(400).json(ResponseModel.errorResponse(400, "Nombre del taller en uso"));
+                return;
             }
-        
+
+            res.status(200).json(ResponseModel.successResponse(message));
+
+
         } catch (error) {
             console.error(error);
-            res.status(500).json({ mensaje: "Error interno en el servidor" });
+            res.status(500).json(ResponseModel.errorResponse(500, "Error en el servidor: " + error));
         }
     },
 
@@ -419,7 +426,7 @@ const controllerProvider = {
     profiele: async function name(req: Request, res: Response) {
 
         try {
-            let message ;
+            let message;
             const id_provider = req.params.id;
             const proveedores = await repositoryProviders.createQueryBuilder("providers")
                 .leftJoinAndSelect("providers.user", "user")
@@ -443,15 +450,15 @@ const controllerProvider = {
             let phoneNumber = proveedores?.user.phoneNumber
             let type = proveedores?.user.usertypes;
             let adress = proveedores?.address;
-            
-            const provedor ={
-                id_provedores, experiencias,workshopName,workshopPhoneNumber, descripcion,
-                user:{id_user,name,lastname,email,age,phoneNumber,type},
+
+            const provedor = {
+                id_provedores, experiencias, workshopName, workshopPhoneNumber, descripcion,
+                user: { id_user, name, lastname, email, age, phoneNumber, type },
                 adress
             }
-            
+
             message = provedor;
-        
+
             if (!provedor) {
                 message = "User not found";
             }
@@ -476,7 +483,7 @@ const controllerProvider = {
                 .getOne();
 
             message = userInfo;
-        
+
             if (!userInfo) {
                 message = "User not found";
             }
