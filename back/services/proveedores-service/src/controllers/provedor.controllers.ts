@@ -427,7 +427,7 @@ const controllerProvider = {
                 .leftJoinAndSelect("providers.address", "address")
                 .leftJoinAndSelect("address.town", "town")
                 .leftJoin("town.state", "state")
-                .where("Providers.id_provider=:id_provider", { id_provider: id_provider })
+                .where("user.id_user=:id_provider", { id_provider: id_provider })
                 .getOne();
 
             let id_provedores = proveedores?.id_provider;
@@ -468,7 +468,6 @@ const controllerProvider = {
             let message;
             const id_user = req.params.id;
             const userInfo = await repositoryUser.createQueryBuilder("users")
-                .leftJoinAndSelect("users.providers", "providers")
                 .leftJoinAndSelect("users.usertypes", "type")
                 .leftJoinAndSelect("users.adress", "address")
                 .leftJoinAndSelect("address.town", "town")
