@@ -1,6 +1,6 @@
 package com.example.servicesolidit.ConversationFlow;
 
-import com.example.servicesolidit.Model.Responses.Conversatoins.ConversationResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponseDto;
 
 import java.util.List;
 

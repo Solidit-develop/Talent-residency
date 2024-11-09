@@ -2,15 +2,15 @@ package com.example.servicesolidit.Network;
 
 
 
-import com.example.servicesolidit.Model.Requests.LoginRequestDto;
-import com.example.servicesolidit.Model.Requests.RegisterRequestDto;
-import com.example.servicesolidit.Model.Responses.Conversatoins.ConversationResponseDto;
-import com.example.servicesolidit.Model.Responses.Feed.FeedResponseDto;
-import com.example.servicesolidit.Model.Responses.LoginResponseDto;
-import com.example.servicesolidit.Model.Responses.Messages.MessagesResponseDto;
-import com.example.servicesolidit.Model.Responses.RegisterResponseDto;
-import com.example.servicesolidit.Model.Responses.UserInfoProfileDto;
-import com.example.servicesolidit.Model.Responses.UserInfoProfileResponseDto;
+import com.example.servicesolidit.Utils.Models.Requests.LoginRequestDto;
+import com.example.servicesolidit.Utils.Models.Requests.RegisterRequestDto;
+import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.Feed.FeedResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.LoginResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.Messages.MessagesResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.RegisterResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProviderProfileResponse;
 
 import java.util.List;
 
@@ -29,6 +29,9 @@ public interface ApiService {
 
     @GET("users/information/{idToFind}")
     Call<UserInfoProfileResponseDto> information(@Path("idToFind")int idUserToFind);
+
+    @GET("provider/provider/profile/{idToFind}")
+    Call<UserInfoProviderProfileResponse> informationProvider(@Path("idToFind")int idUserToFind);
 
     @GET("provider/todos/services/feed")
     Call<FeedResponseDto> feed();

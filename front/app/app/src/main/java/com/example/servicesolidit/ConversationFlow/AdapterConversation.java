@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.servicesolidit.Model.Responses.Conversatoins.ConversationDto;
+import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationDto;
 import com.example.servicesolidit.R;
 
 import java.util.List;

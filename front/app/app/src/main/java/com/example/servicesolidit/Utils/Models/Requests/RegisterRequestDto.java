@@ -1,4 +1,4 @@
-package com.example.servicesolidit.Model.Requests;
+package com.example.servicesolidit.Utils.Models.Requests;
 
 public class RegisterRequestDto {
     private String name_user;

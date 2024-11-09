@@ -12,9 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.servicesolidit.HouseFlow.CardAdapter;
-import com.example.servicesolidit.Model.Responses.Messages.ConversationDto;
-import com.example.servicesolidit.Model.Responses.Messages.MessageDto;
+import com.example.servicesolidit.Utils.Models.Responses.Messages.ConversationDto;
+import com.example.servicesolidit.Utils.Models.Responses.Messages.MessageDto;
 import com.example.servicesolidit.R;
 
 import java.util.ArrayList;

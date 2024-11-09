@@ -1,4 +1,6 @@
-package com.example.servicesolidit.Model.Responses;
+package com.example.servicesolidit.Utils.Models.Responses;
+
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoDto;
 
 public class LoginResponseDto extends ResponseDto {
 

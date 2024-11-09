@@ -1,17 +1,10 @@
 package com.example.servicesolidit.MessageFlow;
 
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.servicesolidit.Model.Responses.Messages.ConversationDto;
-import com.example.servicesolidit.Model.Responses.Messages.MessageDto;
-import com.example.servicesolidit.Model.Responses.Messages.MessagesResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.Messages.MessagesResponseDto;
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
-import com.google.gson.JsonSerializer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

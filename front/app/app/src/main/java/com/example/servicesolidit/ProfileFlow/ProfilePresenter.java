@@ -2,11 +2,12 @@ package com.example.servicesolidit.ProfileFlow;
 
 import android.util.Log;
 
-import com.example.servicesolidit.Model.Responses.UserInfoDto;
-import com.example.servicesolidit.Model.Responses.UserInfoProfileDto;
-import com.example.servicesolidit.Model.Responses.UserInfoProfileResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileResponseDto;
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProviderProfileResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,9 +28,13 @@ public class ProfilePresenter {
             @Override
             public void onResponse(Call<UserInfoProfileResponseDto> call, Response<UserInfoProfileResponseDto> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    UserInfoProfileDto result = response.body().getResponse();
-                    Log.i("ProfilePresenter", result.getNameUser());
-                    view.onLoadProfileSuccess(result);
+                    try{
+                        UserInfoProfileDto result = response.body().getResponse();
+                        Log.i("ProfilePresenter", result.getNameUser());
+                        view.onLoadProfileSuccess(result);
+                    }catch (Exception e){
+                        view.onLoadProfileError(e.getMessage());
+                    }
 
                 } else {
                     String responseError = "Usuario o contraseña inválidos";

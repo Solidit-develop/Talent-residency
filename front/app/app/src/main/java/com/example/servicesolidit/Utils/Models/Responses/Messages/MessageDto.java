@@ -1,4 +1,4 @@
-package com.example.servicesolidit.Model.Responses.Messages;
+package com.example.servicesolidit.Utils.Models.Responses.Messages;
 
 public class MessageDto {
     private int id_message;

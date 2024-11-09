@@ -54,6 +54,7 @@
                             android:layout_height="wrap_content"
                             android:text="DATOS PERSONALES"
                             android:textStyle="bold"
+                            android:focusedByDefault="true"
                             android:elevation="2dp"/>
 
                         <Button

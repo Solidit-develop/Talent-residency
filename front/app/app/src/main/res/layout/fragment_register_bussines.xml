@@ -80,7 +80,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_save"
+            android:id="@+id/btnRegisterBussines"
             style="@style/ButtonIconEnd"
             android:text="Guardar"
             android:layout_marginTop="30dp"
