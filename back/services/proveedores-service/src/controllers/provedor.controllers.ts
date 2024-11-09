@@ -466,13 +466,16 @@ const controllerProvider = {
             let message;
             const id_user = req.params.id;
             const userInfo = await repositoryUser.createQueryBuilder("users")
+                .leftJoinAndSelect("users.usertypes", "type")
                 .leftJoinAndSelect("users.adress", "address")
                 .leftJoinAndSelect("address.town", "town")
                 .leftJoinAndSelect("town.state", "state")
                 .where("users.id_user = :id", { id: id_user })
                 .getOne();
 
-            message = userInfo?.provedor;
+            message = userInfo;
+            console.log("User obtenido: " + userInfo);
+
             
 
             if (!userInfo) {
