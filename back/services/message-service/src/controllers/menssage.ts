@@ -159,9 +159,6 @@ const controllermessages = {
 
     },
 
-
-
-
     reviewMesage: async (req: Request, res: Response): Promise<void> => {
         try {
             let { id_logued } = req.params;
@@ -170,38 +167,60 @@ const controllermessages = {
             const relacion = await repositorycoversation.createQueryBuilder("conversation")
                 .leftJoinAndSelect("conversation.id_userOrigen", "userOrigen")  // Relación con el usuario que inició la conversación
                 .leftJoinAndSelect("conversation.messages", "messages")  // Relación con los mensajes
-                .leftJoinAndSelect("conversation.id_userDestino", "userDestino") // Relación con el usuario destino
+                .leftJoinAndSelect("conversation.id_userOrigen", "users")
                 .where("conversation.idUserOrigenIdUser = :id_origen", { id_origen: id_logued })
-                .orWhere("conversation.id_userDestino = :id_destino", { id_destino: id_logued })
-                .getMany();
+                .orWhere("conversation.id_userDestino=:id_destino ", { id_destino: id_logued })
+                .getMany()
 
-            const mensajes = [];
+            const mensajes = []
 
-            const resultados = relacion.map(conversation => {
+            // console.log(relacion)
+            console.log("-----------------------------------------------------")
+
+            const resultados = relacion.map(Conversation => {
                 return {
-                    id_conversacion: conversation.id_conversation,
-                    id_dest: conversation.id_userDestino,
-                    id_origen: conversation.id_userOrigen.id_user
-                };
-            });
 
-            const destino = [];
-            const origen = [];
+                    id_conversacion: Conversation.id_conversation,
+                    id_dest: Conversation.id_userDestino,
+                    id_origen: Conversation.id_userOrigen.id_user
 
-            const logueado = Number(id_logued);
+                }
+            })
+
+            console.log(resultados)
+
+            const destino = []
+            const origen = []
+
+            const logueado = Number(id_logued)
             for (let k = 0; k < resultados.length; k++) {
                 if (resultados[k].id_origen === logueado) {
-                    destino.push(resultados[k].id_dest);
+                    console.log("Estos dos son iguales")
+                    console.log(resultados[k].id_origen, logueado)
+                    destino.push(resultados[k].id_dest)
                 } else {
-                    origen.push(resultados[k].id_origen);
+                    console.log("Estos son diferesntes")
+                    console.log(resultados[k].id_origen, logueado)
+                    origen.push(resultados[k].id_origen)
                 }
             }
+
+            console.log("todos los id, origen")
+            console.log(origen)
+            console.log("todos los id que son destinos")
+            console.log(destino)
+            console.log("Mapeo de los resultados.......................................")
+
+            //hacer parejas de busqueda para saber si se puede buscar en 2 sexiones o una
 
             let id_des;
             if (origen.length <= destino.length) {
                 for (let j = 0; j < destino.length; j++) {
                     if (destino.includes(origen[j])) {
-                        id_des = String(destino[j]);
+                        console.log("Este valor si esta en destino", destino[j], "....................")
+                        console.log("Se hace la busqueda doble intercambiando posiciones")
+                        id_des = String(destino[j])
+
 
                         let conversacion = await AppDataSource
                             .createQueryBuilder()
@@ -214,12 +233,16 @@ const controllermessages = {
                             )
                             .getMany();
 
+                        console.log(conversacion)
+
+
+                        //Hacer consulta directamente a los  mensajes con los valores obtuvidos
                         const ides_conversaciones = conversacion.map(conv => conv.id_conversation);
 
                         if (ides_conversaciones.length > 0) {
+                            // Consultar los mensajes más recientes de las conversaciones encontradas
                             const devuelto = await repositorycoversation.createQueryBuilder("conversation")
                                 .leftJoinAndSelect("conversation.id_userOrigen", "userOrigen")
-                                .leftJoinAndSelect("conversation.id_userDestino", "userDestino")
                                 .leftJoinAndSelect("conversation.messages", "messages")
                                 .where("messages.conversationIdConversation IN (:...conversationIds)", { conversationIds: ides_conversaciones })
                                 .orderBy("messages.id_messages", "DESC")
@@ -227,17 +250,22 @@ const controllermessages = {
                                 .getMany();
 
                             const resultados = devuelto.map(conversation => ({
-                                interactuan: [
-                                    { id_origen: conversation.id_userOrigen.id_user },
-                                    { id_destino: conversation.id_userDestino }
-                                ],
+                                interactuan: {
+                                    nombre: conversation.id_userOrigen.name_User,
+                                    id_dest: conversation.id_userDestino
+                                },
                                 message: conversation.messages
                             }));
 
                             mensajes.push(...resultados);
                         }
+
+
                     } else {
-                        id_des = String(destino[j]);
+                        console.log("Este valor no esta en destino", destino[j])
+                        console.log("Se hace una consilta unitaria")
+
+                        id_des = String(destino[j])
 
                         let conversacion = await AppDataSource
                             .createQueryBuilder()
@@ -248,13 +276,16 @@ const controllermessages = {
                                 { id_logued: id_logued, id_destino: id_des }
                             )
                             .getMany();
+                        console.log(conversacion)
+
+                        //Hacer consulta directamente a los  mensajes con los valores obtuvidos
 
                         const ides_conversaciones = conversacion.map(conv => conv.id_conversation);
 
                         if (ides_conversaciones.length > 0) {
+                            // Consultar los mensajes más recientes de las conversaciones encontradas
                             const devuelto = await repositorycoversation.createQueryBuilder("conversation")
                                 .leftJoinAndSelect("conversation.id_userOrigen", "userOrigen")
-                                .leftJoinAndSelect("conversation.id_userDestino", "userDestino")
                                 .leftJoinAndSelect("conversation.messages", "messages")
                                 .where("messages.conversationIdConversation IN (:...conversationIds)", { conversationIds: ides_conversaciones })
                                 .orderBy("messages.id_messages", "DESC")
@@ -262,10 +293,94 @@ const controllermessages = {
                                 .getMany();
 
                             const resultados = devuelto.map(conversation => ({
-                                interactuan: [
-                                    { id_origen: conversation.id_userOrigen.id_user },
-                                    { id_destino: conversation.id_userDestino }
-                                ],
+                                interactuan: {
+                                    nombre: conversation.id_userOrigen.name_User,
+                                    id_dest: conversation.id_userDestino
+                                },
+                                message: conversation.messages
+                            }));
+
+                            mensajes.push(...resultados);
+                        }
+
+
+                    }
+                }
+            } else {
+                for (let j = 0; j < origen.length; j++) {
+                    if (origen.includes(destino[j])) {
+                        console.log("Este valor No esta en origen", origen[j])
+                        console.log("Se hace una consilta unitariae")
+                        let conversacion = await AppDataSource
+                            .createQueryBuilder()
+                            .select("conversation.id_conversation")
+                            .from("conversation", "conversation")
+                            .where(
+                                "(conversation.id_userOrigen = :id_logued AND conversation.id_userDestino = :id_destino)",
+                                { id_logued: origen[j], id_destino: id_logued }
+                            )
+                            .getMany();
+                        console.log(conversacion)
+                        //Hacer consulta directamente a los  mensajes con los valores obtuvidos
+                        const ides_conversaciones = conversacion.map(conv => conv.id_conversation);
+                        if (ides_conversaciones.length > 0) {
+                            // Consultar los mensajes más recientes de las conversaciones encontradas
+                            const devuelto = await repositorycoversation.createQueryBuilder("conversation")
+                                .leftJoinAndSelect("conversation.id_userOrigen", "userOrigen")
+                                .leftJoinAndSelect("conversation.messages", "messages")
+                                .where("messages.conversationIdConversation IN (:...conversationIds)", { conversationIds: ides_conversaciones })
+                                .orderBy("messages.id_messages", "DESC")
+                                .limit(1)
+                                .getMany();
+
+                            const resultados = devuelto.map(conversation => ({
+                                interactuan: {
+                                    nombre: conversation.id_userOrigen.name_User,
+                                    id_dest: conversation.id_userDestino
+                                },
+                                message: conversation.messages
+                            }));
+
+                            mensajes.push(...resultados);
+                        }
+                    } else {
+                        console.log("Este valor Si esta en origen", origen[j], ".....................")
+                        console.log("Se hace la busqueda doble intercambiando posiciones")
+
+                        id_des = String(destino[j])
+
+                        let conversacion = await AppDataSource
+                            .createQueryBuilder()
+                            .select("conversation.id_conversation")
+                            .from("conversation", "conversation")
+                            .where(
+                                "(conversation.id_userOrigen = :id_logued AND conversation.id_userDestino = :id_destino) OR " +
+                                "(conversation.id_userOrigen = :id_destino AND conversation.id_userDestino = :id_logued)",
+                                { id_logued: id_logued, id_destino: origen[j] }
+                            )
+                            .getMany();
+
+                        //Hacer consulta directamente a los  mensajes con los valores obtuvidos
+
+                        console.log(conversacion)
+
+                        const ides_conversaciones = conversacion.map(conv => conv.id_conversation);
+
+                        if (ides_conversaciones.length > 0) {
+                            // Consultar los mensajes más recientes de las conversaciones encontradas
+                            const devuelto = await repositorycoversation.createQueryBuilder("conversation")
+                                .leftJoinAndSelect("conversation.id_userOrigen", "userOrigen")
+                                .leftJoinAndSelect("conversation.messages", "messages")
+                                .where("messages.conversationIdConversation IN (:...conversationIds)", { conversationIds: ides_conversaciones })
+                                .orderBy("messages.id_messages", "DESC")
+                                .limit(1)
+                                .getMany();
+
+                            const resultados = devuelto.map(conversation => ({
+                                interactuan: {
+                                    nombre: conversation.id_userOrigen.name_User,
+                                    id_dest: conversation.id_userDestino
+                                },
                                 message: conversation.messages
                             }));
 
@@ -275,14 +390,13 @@ const controllermessages = {
                 }
             }
 
-            res.status(200).json(mensajes);
+            res.status(200).json(mensajes)
 
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Hay un error dentro del servidor" });
         }
     },
-
 
 
     metodo: async (req: Request, res: Response): Promise<void> => {
