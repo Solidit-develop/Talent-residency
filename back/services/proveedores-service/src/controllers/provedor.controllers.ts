@@ -478,7 +478,7 @@ const controllerProvider = {
                 .leftJoinAndSelect("users.usertypes", "type")
                 .leftJoinAndSelect("users.adress", "address")
                 .leftJoinAndSelect("address.town", "town")
-                .leftJoinAndSelect("town.state", "state")
+                .leftJoin("town.state", "state")
                 .where("users.id_user = :id", { id: id_user })
                 .getOne();
 
