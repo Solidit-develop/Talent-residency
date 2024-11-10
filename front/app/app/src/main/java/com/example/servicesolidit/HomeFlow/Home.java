@@ -29,6 +29,7 @@ import com.example.servicesolidit.ConversationFlow.Conversation;
 import com.example.servicesolidit.HeadDrawn;
 import com.example.servicesolidit.HouseFlow.House;
 import com.example.servicesolidit.LoginFlow.Login;
+import com.example.servicesolidit.MainActivity;
 import com.example.servicesolidit.ProfileFlow.Profile;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Search;
@@ -173,18 +174,22 @@ public class Home extends AppCompatActivity{
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.item_log_out) {
             // Limpiar SharedPreferences
-            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.clear();
-            editor.apply(); // Usar apply() en lugar de commit()
+            try {
+                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit(); // Usar apply() en lugar de commit()
 
-            // Crear Intent para ir al Login y limpiar la pila de actividades
-            Intent loginActivity = new Intent(this, Login.class);
-            loginActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(loginActivity);
+                // Crear Intent para ir al Login y limpiar la pila de actividades
+                Intent loginActivity = new Intent(this, MainActivity.class);
+                loginActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(loginActivity);
 
-            // Finalizar la actividad actual
-            finish();
+                // Finalizar la actividad actual
+                finish();
+            }catch (Exception e){
+                Log.i("HomeClass", "Ocurrió un error: " + e.getMessage());
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
