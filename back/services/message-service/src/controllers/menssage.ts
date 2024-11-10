@@ -213,7 +213,7 @@ const controllermessages = {
 
             //hacer parejas de busqueda para saber si se puede buscar en 2 sexiones o una
 
-            let id_des;
+            let id_des: String;
             if (origen.length <= destino.length) {
                 for (let item_destino = 0; item_destino < destino.length; item_destino++) {
                     if (destino.includes(origen[item_destino])) {
@@ -254,7 +254,8 @@ const controllermessages = {
                                     nombre: conversation.id_userOrigen.name_User,
                                     id_dest: conversation.id_userDestino
                                 },
-                                message: conversation.messages
+                                message: conversation.messages,
+                                related: id_des,
                             }));
 
                             mensajes.push(...resultados);
@@ -297,13 +298,12 @@ const controllermessages = {
                                     nombre: conversation.id_userOrigen.name_User,
                                     id_dest: conversation.id_userDestino
                                 },
-                                message: conversation.messages
+                                message: conversation.messages,
+                                related: id_des,
                             }));
 
                             mensajes.push(...resultados);
                         }
-
-
                     }
                 }
             } else {
@@ -381,7 +381,8 @@ const controllermessages = {
                                     nombre: conversation.id_userOrigen.name_User,
                                     id_dest: conversation.id_userDestino
                                 },
-                                message: conversation.messages
+                                message: conversation.messages,
+                                related: id_des,
                             }));
 
                             mensajes.push(...resultados);
