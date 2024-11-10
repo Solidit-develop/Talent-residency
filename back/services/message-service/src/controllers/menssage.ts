@@ -263,7 +263,7 @@ const controllermessages = {
 
 
                     } else {
-                        console.log("Este valor no esta en destino", destino[j])
+                        console.log("Este valor no esta en destino", destino[item_destino])
                         console.log("Se hace una consilta unitaria")
 
                         id_des = String(destino[item_destino])
