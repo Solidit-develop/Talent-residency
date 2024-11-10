@@ -96,14 +96,6 @@ public class Home extends AppCompatActivity{
         userNameOnHeader.setText(userNameFromShared);
         emailOnHeader.setText(emailFromShared);
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                return false;
-            }
-        });
-
         //************************  metodos para el mapeo del slide de izquierda - derecha  ***************************************/
         navigationActions.put(R.id.item_message, () -> {
             Conversation conversationFragment = new Conversation();
@@ -178,18 +170,26 @@ public class Home extends AppCompatActivity{
      */
     @SuppressLint("ApplySharedPref")
     @Override
-    public boolean onOptionsItemSelected (@NonNull MenuItem item){
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.item_log_out) {
+            // Limpiar SharedPreferences
             SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.clear();
-            editor.commit();
+            editor.apply(); // Usar apply() en lugar de commit()
+
+            // Crear Intent para ir al Login y limpiar la pila de actividades
             Intent loginActivity = new Intent(this, Login.class);
+            loginActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(loginActivity);
+
+            // Finalizar la actividad actual
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     /**
      * Method to load a new fragment from the slide menu.

@@ -4,11 +4,13 @@ package com.example.servicesolidit.Network;
 
 import com.example.servicesolidit.Utils.Models.Requests.LoginRequestDto;
 import com.example.servicesolidit.Utils.Models.Requests.RegisterRequestDto;
+import com.example.servicesolidit.Utils.Models.Requests.UpdateToProviderRequestDto;
 import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Feed.FeedResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.LoginResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Messages.MessagesResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.RegisterResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.User.UpdateUserToProviderResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProviderProfileResponse;
 
@@ -29,6 +31,9 @@ public interface ApiService {
 
     @GET("users/information/{idToFind}")
     Call<UserInfoProfileResponseDto> information(@Path("idToFind")int idUserToFind);
+
+    @POST("provider/correo")
+    Call<UpdateUserToProviderResponseDto> updateToUserProvider(@Body UpdateToProviderRequestDto request);
 
     @GET("provider/provider/profile/{idToFind}")
     Call<UserInfoProviderProfileResponse> informationProvider(@Path("idToFind")int idUserToFind);

@@ -120,12 +120,6 @@ public class Login extends Fragment implements LoginView {
             String userEmailLogged = sharedPreferences.getString(Constants.GET_EMAIL_USER, "");
             String userNameLogged = sharedPreferences.getString(Constants.GET_NAME_USER, "");
 
-
-            Log.i("LoginClass", "Valor de userIdLogged: " + userIdLogged);
-            Log.i("LoginClass", "Valor de isAlReadyLogged: " + isAlreadyLogged);
-            Log.i("LoginClass", "Valor de userEmailLogged: " + userEmailLogged);
-            Log.i("LoginClass", "Valor de userNameLogged: " + userNameLogged);
-
             if (userIdLogged!=0 &&
                     isAlreadyLogged &&
                     !userEmailLogged.isEmpty() &&

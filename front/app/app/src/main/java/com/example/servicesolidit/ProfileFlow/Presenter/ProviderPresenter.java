@@ -1,7 +1,8 @@
-package com.example.servicesolidit.ProfileFlow;
+package com.example.servicesolidit.ProfileFlow.Presenter;
 
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
+import com.example.servicesolidit.ProfileFlow.View.ProviderView;
 import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProviderProfileResponse;
 

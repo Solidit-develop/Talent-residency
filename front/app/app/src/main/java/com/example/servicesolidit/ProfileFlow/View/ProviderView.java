@@ -1,4 +1,4 @@
-package com.example.servicesolidit.ProfileFlow;
+package com.example.servicesolidit.ProfileFlow.View;
 
 import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
 

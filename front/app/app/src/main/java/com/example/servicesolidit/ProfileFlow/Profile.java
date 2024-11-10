@@ -18,17 +18,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.servicesolidit.HouseFlow.House;
-import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
+import com.example.servicesolidit.ProfileFlow.Presenter.ProfilePresenter;
+import com.example.servicesolidit.ProfileFlow.View.ProfileView;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
 import com.example.servicesolidit.R;
-import com.example.servicesolidit.RegisterBussines;
 import com.example.servicesolidit.Utils.Constants;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Profile extends Fragment implements ProfileView{
+public class Profile extends Fragment implements ProfileView {
 
     private Button btnCustomer;
     private Button btnProvider;
@@ -36,7 +36,7 @@ public class Profile extends Fragment implements ProfileView{
     private ProgressBar itemLoad;
     private TextView nameProfileHeader;
     private boolean isProvider;
-
+    private UserInfoProfileDto userProfileLoaded;
     private PersonalData personalData;
     private final BussinesData bussinesData = new BussinesData();
     private final Map<Integer, Runnable> navigationAction = new HashMap<>();
@@ -54,10 +54,12 @@ public class Profile extends Fragment implements ProfileView{
         buttonToggleGroup = view.findViewById(R.id.toggleButton);
         itemLoad = view.findViewById(R.id.load_item_profile);
         nameProfileHeader = view.findViewById(R.id.txt_name_profile);
+        userProfileLoaded = new UserInfoProfileDto();
 
         buttonToggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if (isChecked){
-               checkButtonData(isChecked,checkedId, isProvider);
+                Log.i("ProfileClass", "Cuando se llama el isCheckedMai");
+                checkButtonData(isChecked, checkedId, this.userProfileLoaded);
             }
         });
 
@@ -77,11 +79,12 @@ public class Profile extends Fragment implements ProfileView{
     }
 
     public void initPeronsalData(UserInfoProfileDto user){
+        this.userProfileLoaded = user;
         this.personalData = new PersonalData(user);
         this.nameProfileHeader.setText("Bienvenido "+ user.getNameUser());
     }
   
-    public void checkButtonData (boolean isChecked,int checkedId, boolean isProvider){
+    public void checkButtonData (boolean isChecked,int checkedId, UserInfoProfileDto userInfoProfileDto){
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         if (checkedId == R.id.btn_customer){
             transaction.replace(R.id.fragment_container,personalData);
@@ -89,13 +92,13 @@ public class Profile extends Fragment implements ProfileView{
             transaction.remove(bussinesData);
             transaction.commit();
         } if (checkedId == R.id.btn_provider){
-            if (isProvider){
+            if (userInfoProfileDto.getTypes().isValue()){
                 Log.i("ProfileClass", "Flow to show provider data");
                 BussinesData bussinesData = new BussinesData();
                 transaction.replace(R.id.fragment_container,bussinesData);
             }else{
                 Log.i("ProfileClass", "Flow to convert into provider");
-                RegisterBussines registerBussines = new RegisterBussines();
+                RegisterBussines registerBussines = new RegisterBussines(userInfoProfileDto);
                 transaction.replace(R.id.fragment_container,registerBussines);
             }
             transaction.addToBackStack(null);
@@ -142,7 +145,7 @@ public class Profile extends Fragment implements ProfileView{
             }
 
         }
-        checkButtonData(true, R.id.btn_customer, isProvider);
+        checkButtonData(true, R.id.btn_customer, message);
 
     }
 

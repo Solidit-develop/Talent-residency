@@ -12,15 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.servicesolidit.ProfileFlow.Presenter.ProviderPresenter;
+import com.example.servicesolidit.ProfileFlow.View.ProviderView;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
 import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
 
-public class BussinesData extends Fragment implements ProviderView{
+public class BussinesData extends Fragment implements ProviderView {
 
     private TextInputLayout tieBussinesName, tieBussinesPhone, tieBussinesExperience, tieBussinesUbication;
     private ProviderPresenter presenter;

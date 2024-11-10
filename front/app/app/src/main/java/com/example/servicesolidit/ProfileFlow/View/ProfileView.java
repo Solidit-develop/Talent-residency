@@ -1,6 +1,5 @@
-package com.example.servicesolidit.ProfileFlow;
+package com.example.servicesolidit.ProfileFlow.View;
 
-import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
 
 public interface ProfileView {
