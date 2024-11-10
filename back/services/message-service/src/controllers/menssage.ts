@@ -193,15 +193,15 @@ const controllermessages = {
             const origen = []
 
             const logueado = Number(id_logued)
-            for (let k = 0; k < resultados.length; k++) {
-                if (resultados[k].id_origen === logueado) {
-                    console.log("Estos dos son iguales")
-                    console.log(resultados[k].id_origen, logueado)
-                    destino.push(resultados[k].id_dest)
+            for (let item_resultado = 0; item_resultado < resultados.length; item_resultado++) {
+                if (resultados[item_resultado].id_origen === logueado) {
+                    console.log("Id logeado")
+                    console.log(resultados[item_resultado].id_origen, logueado)
+                    destino.push(resultados[item_resultado].id_dest)
                 } else {
-                    console.log("Estos son diferesntes")
-                    console.log(resultados[k].id_origen, logueado)
-                    origen.push(resultados[k].id_origen)
+                    console.log("Id destino")
+                    console.log(resultados[item_resultado].id_origen, logueado)
+                    origen.push(resultados[item_resultado].id_origen)
                 }
             }
 
@@ -215,11 +215,11 @@ const controllermessages = {
 
             let id_des;
             if (origen.length <= destino.length) {
-                for (let j = 0; j < destino.length; j++) {
-                    if (destino.includes(origen[j])) {
-                        console.log("Este valor si esta en destino", destino[j], "....................")
+                for (let item_destino = 0; item_destino < destino.length; item_destino++) {
+                    if (destino.includes(origen[item_destino])) {
+                        console.log("Este valor si esta en destino", destino[item_destino], "....................")
                         console.log("Se hace la busqueda doble intercambiando posiciones")
-                        id_des = String(destino[j])
+                        id_des = String(destino[item_destino])
 
 
                         let conversacion = await AppDataSource
@@ -265,7 +265,7 @@ const controllermessages = {
                         console.log("Este valor no esta en destino", destino[j])
                         console.log("Se hace una consilta unitaria")
 
-                        id_des = String(destino[j])
+                        id_des = String(destino[item_destino])
 
                         let conversacion = await AppDataSource
                             .createQueryBuilder()
@@ -307,9 +307,9 @@ const controllermessages = {
                     }
                 }
             } else {
-                for (let j = 0; j < origen.length; j++) {
-                    if (origen.includes(destino[j])) {
-                        console.log("Este valor No esta en origen", origen[j])
+                for (let item_origen = 0; item_origen < origen.length; item_origen++) {
+                    if (origen.includes(destino[item_origen])) {
+                        console.log("Este valor No esta en origen", origen[item_origen])
                         console.log("Se hace una consilta unitariae")
                         let conversacion = await AppDataSource
                             .createQueryBuilder()
@@ -317,7 +317,7 @@ const controllermessages = {
                             .from("conversation", "conversation")
                             .where(
                                 "(conversation.id_userOrigen = :id_logued AND conversation.id_userDestino = :id_destino)",
-                                { id_logued: origen[j], id_destino: id_logued }
+                                { id_logued: origen[item_origen], id_destino: id_logued }
                             )
                             .getMany();
                         console.log(conversacion)
@@ -344,10 +344,10 @@ const controllermessages = {
                             mensajes.push(...resultados);
                         }
                     } else {
-                        console.log("Este valor Si esta en origen", origen[j], ".....................")
+                        console.log("Este valor Si esta en origen", origen[item_origen], ".....................")
                         console.log("Se hace la busqueda doble intercambiando posiciones")
 
-                        id_des = String(destino[j])
+                        id_des = String(destino[item_origen])
 
                         let conversacion = await AppDataSource
                             .createQueryBuilder()
@@ -356,7 +356,7 @@ const controllermessages = {
                             .where(
                                 "(conversation.id_userOrigen = :id_logued AND conversation.id_userDestino = :id_destino) OR " +
                                 "(conversation.id_userOrigen = :id_destino AND conversation.id_userDestino = :id_logued)",
-                                { id_logued: id_logued, id_destino: origen[j] }
+                                { id_logued: id_logued, id_destino: origen[item_origen] }
                             )
                             .getMany();
 
