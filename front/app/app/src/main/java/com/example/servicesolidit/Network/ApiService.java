@@ -4,11 +4,13 @@ package com.example.servicesolidit.Network;
 
 import com.example.servicesolidit.Utils.Models.Requests.LoginRequestDto;
 import com.example.servicesolidit.Utils.Models.Requests.RegisterRequestDto;
+import com.example.servicesolidit.Utils.Models.Requests.SendMessageRequest;
 import com.example.servicesolidit.Utils.Models.Requests.UpdateToProviderRequestDto;
 import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Feed.FeedResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.LoginResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Messages.MessagesResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.Messages.SendMessageResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.RegisterResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UpdateUserToProviderResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileResponseDto;
@@ -46,4 +48,7 @@ public interface ApiService {
 
     @GET("message/mensajes/{idLogged}")
     Call<List<ConversationResponseDto>> getConversations(@Path("idLogged")int idLogged);
+
+    @POST("message/mensajes/{idOrigen}/{idDestino}")
+    Call<SendMessageResponseDto> sendMessages(@Path("idOrigen") int idOrigen, @Path("idDestino") int idDestino, @Body SendMessageRequest requestDto);
 }

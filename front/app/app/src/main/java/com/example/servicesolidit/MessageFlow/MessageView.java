@@ -9,4 +9,6 @@ public interface MessageView {
     void onErrorConversationLoaded(String messages);
     void onShowProgress();
     void onHideProgress();
+    void onMessageSended(String response);
+    void onErrorSendMessage(String s);
 }
