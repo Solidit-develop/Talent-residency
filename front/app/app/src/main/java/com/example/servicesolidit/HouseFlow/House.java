@@ -88,8 +88,8 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
         if(!feedResponse.isEmpty()){
             recyclerView.setVisibility(View.VISIBLE);
             noItemView.setVisibility(View.GONE);
-            printFeed(feedResponse);
             Log.i("HouseClass", "SomeFound");
+            printFeed(feedResponse);
         }else{
             //Load emtpy view elements
             Log.i("HouseClass", "NotFoud");

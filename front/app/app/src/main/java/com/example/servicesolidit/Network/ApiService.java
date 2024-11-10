@@ -12,7 +12,7 @@ import com.example.servicesolidit.Utils.Models.Responses.LoginResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Messages.MessagesResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Messages.SendMessageResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.RegisterResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.User.UpdateUserToProviderResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.User.ProviderProfileInformationDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProviderProfileResponse;
 
@@ -37,8 +37,11 @@ public interface ApiService {
     @POST("provider/correo")
     Call<RegisterResponseDto> updateToUserProvider(@Body UpdateToProviderRequestDto request);
 
-    @GET("provider/provider/profile/{idToFind}")
-    Call<UserInfoProviderProfileResponse> informationProvider(@Path("idToFind")int idUserToFind);
+    @GET("provider/user/{idToFind}")
+    Call<UserInfoProviderProfileResponse> informationProviderByUserId(@Path("idToFind")int idUserToFind);
+
+    @GET("provider/provider/{idToFind}")
+    Call<ProviderProfileInformationDto> informationProviderByProviderId(@Path("idToFind")int idUserToFind);
 
     @GET("provider/todos/services/feed")
     Call<FeedResponseDto> feed();
