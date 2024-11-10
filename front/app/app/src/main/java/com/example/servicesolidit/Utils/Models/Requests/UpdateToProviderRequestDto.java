@@ -1,22 +1,56 @@
 package com.example.servicesolidit.Utils.Models.Requests;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class UpdateToProviderRequestDto {
+    @SerializedName("email")
     private String email;
+
+    @SerializedName("name_state")
     private String nameState;
+
+    @SerializedName("zipcode")
     private String zipCode;
+
+    @SerializedName("name_Town")
     private String nameTown;
+
+    @SerializedName("street_1")
     private String str1;
+
+    @SerializedName("street_2")
     private String str2;
+
+    @SerializedName("localidad")
     private String localidad;
+
+    @SerializedName("skill")
     private ArrayList<String> skills;
+
+    @SerializedName("experienceYears")
     private String experience;
+
+    @SerializedName("workshopName")
     private String workshopName;
+
+    @SerializedName("workshopPhoneNumber")
     private String workshopPhone;
 
+    @SerializedName("description")
+    private String description;
+
     public UpdateToProviderRequestDto(){}
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getEmail() {
         return email;

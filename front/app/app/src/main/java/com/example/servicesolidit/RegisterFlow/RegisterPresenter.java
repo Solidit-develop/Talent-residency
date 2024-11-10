@@ -15,6 +15,7 @@ public class RegisterPresenter {
     private ApiService service;
     private RegisterView view;
 
+
     public RegisterPresenter(RegisterView view) {
         this.view = view;
         this.service = RetrofitClient.getClient().create(ApiService.class);

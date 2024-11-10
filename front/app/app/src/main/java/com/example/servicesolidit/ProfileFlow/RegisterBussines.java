@@ -19,6 +19,7 @@ import com.example.servicesolidit.Utils.Models.Requests.UpdateToProviderRequestD
 import com.example.servicesolidit.Utils.Models.Responses.User.UpdateUserToProviderResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -33,13 +34,13 @@ public class RegisterBussines extends Fragment implements RegisterBussinesView {
 
     public RegisterBussines(UserInfoProfileDto userLogged){
         this.user = userLogged;
+        Log.i("RegisterBussines", "UserLogged: " + userLogged.getNameUser());
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view  = inflater.inflate(R.layout.fragment_register_bussines, container, false);
-        Objects.requireNonNull(tilEmailUser.getEditText()).setText(this.user.getEmail());
         tilBussinesName = view.findViewById(R.id.tilBussinesNameRegister);
         tilSkills = view.findViewById(R.id.tilBussinesSkillsRegister);
         tilPhoneNumber = view.findViewById(R.id.tilBussinesPhoneRegister);
@@ -49,6 +50,7 @@ public class RegisterBussines extends Fragment implements RegisterBussinesView {
         btnRegister = view.findViewById(R.id.btnRegisterBussines);
 
         this.presenter = new RegisterPresenter(this);
+        tilEmailUser.getEditText().setText(this.user.getEmail());
 
         btnRegister.setOnClickListener(v->{
             Toast.makeText(requireContext(), "Completa el registro", Toast.LENGTH_SHORT).show();
@@ -80,7 +82,9 @@ public class RegisterBussines extends Fragment implements RegisterBussinesView {
             requestDto.setStr1("Localidad");
             requestDto.setStr2("Localidad");
             requestDto.setZipCode("Localidad");
-
+            requestDto.setDescription("DescriptionField");
+            Gson gson = new Gson();
+            Log.i("RegisterBussines", gson.toJson(requestDto));
             this.showProgress();
             this.presenter.convertUserToProvider(requestDto);
         }
@@ -134,8 +138,8 @@ public class RegisterBussines extends Fragment implements RegisterBussinesView {
     }
 
     @Override
-    public void onRegisterSuccess(UpdateUserToProviderResponseDto responseMessage) {
-        Toast.makeText(requireContext(), responseMessage.getResponse(), Toast.LENGTH_SHORT).show();
+    public void onRegisterSuccess(String responseMessage) {
+        Toast.makeText(requireContext(), responseMessage, Toast.LENGTH_SHORT).show();
     }
 
     @Override

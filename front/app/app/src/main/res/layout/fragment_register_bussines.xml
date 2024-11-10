@@ -68,8 +68,7 @@
                 android:id="@+id/tilBussinesEmailRegister"
                 style="@style/BoxTextLayoutNormal"
                 android:hint="@string/value_edtxt_email"
-                app:startIconDrawable="@drawable/correo"
-                >
+                app:startIconDrawable="@drawable/correo">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/EditTextNormal"
@@ -81,12 +80,10 @@
                 android:id="@+id/tilBussinesExperienceRegister"
                 android:hint="Años de experiencia."
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                style="@style/TextExtendLayout">
+                android:layout_height="wrap_content">
 
-                <AutoCompleteTextView
-                    style="@style/AutoCompleteText"
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/EditTextNormal"
                     android:paddingStart="15dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 

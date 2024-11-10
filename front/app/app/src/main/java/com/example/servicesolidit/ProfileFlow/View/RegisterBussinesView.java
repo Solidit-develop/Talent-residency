@@ -5,6 +5,6 @@ import com.example.servicesolidit.Utils.Models.Responses.User.UpdateUserToProvid
 public interface RegisterBussinesView {
     void showProgress();
     void hideProgress();
-    void onRegisterSuccess(UpdateUserToProviderResponseDto responseMessage);
+    void onRegisterSuccess(String responseMessage);
     void onRegisterFails(String s);
 }

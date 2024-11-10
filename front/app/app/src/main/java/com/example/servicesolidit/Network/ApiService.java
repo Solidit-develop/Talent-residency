@@ -33,7 +33,7 @@ public interface ApiService {
     Call<UserInfoProfileResponseDto> information(@Path("idToFind")int idUserToFind);
 
     @POST("provider/correo")
-    Call<UpdateUserToProviderResponseDto> updateToUserProvider(@Body UpdateToProviderRequestDto request);
+    Call<RegisterResponseDto> updateToUserProvider(@Body UpdateToProviderRequestDto request);
 
     @GET("provider/provider/profile/{idToFind}")
     Call<UserInfoProviderProfileResponse> informationProvider(@Path("idToFind")int idUserToFind);
