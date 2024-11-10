@@ -214,6 +214,7 @@ const controllermessages = {
             //hacer parejas de busqueda para saber si se puede buscar en 2 sexiones o una
 
             let id_des: String;
+            let destinoUserRelated: Number = destino[0];
             if (origen.length <= destino.length) {
                 for (let item_destino = 0; item_destino < destino.length; item_destino++) {
                     if (destino.includes(origen[item_destino])) {
@@ -255,7 +256,7 @@ const controllermessages = {
                                     id_dest: conversation.id_userDestino
                                 },
                                 message: conversation.messages,
-                                related: id_des,
+                                related: destinoUserRelated,
                             }));
 
                             mensajes.push(...resultados);
@@ -299,7 +300,7 @@ const controllermessages = {
                                     id_dest: conversation.id_userDestino
                                 },
                                 message: conversation.messages,
-                                related: id_des,
+                                related: destinoUserRelated,
                             }));
 
                             mensajes.push(...resultados);
@@ -382,7 +383,7 @@ const controllermessages = {
                                     id_dest: conversation.id_userDestino
                                 },
                                 message: conversation.messages,
-                                related: id_des,
+                                related: destinoUserRelated,
                             }));
 
                             mensajes.push(...resultados);
