@@ -6,13 +6,16 @@ public class ConversationDto {
     private String imageUrl;
     private String lastMessage;
     private String timeLastMessage;
+    private String idRelated;
 
-    public ConversationDto(String id, String name, String imageUrl, String lastMessage, String timeLastMessage) {
+
+    public ConversationDto(String id, String name, String imageUrl, String lastMessage, String timeLastMessage, String idRelated) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
         this.lastMessage = lastMessage;
         this.timeLastMessage = timeLastMessage;
+        this.idRelated = idRelated;
     }
 
     // Getters
@@ -21,4 +24,5 @@ public class ConversationDto {
     public String getImageUrl() { return imageUrl; }
     public String getLastMessage() { return lastMessage; }
     public String getTimeLastMessage() { return timeLastMessage; }
+    public String getIdRelated() { return idRelated; }
 }

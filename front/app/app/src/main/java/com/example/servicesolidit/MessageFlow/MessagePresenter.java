@@ -23,7 +23,7 @@ public class MessagePresenter {
         call.enqueue(new Callback<MessagesResponseDto>() {
             @Override
             public void onResponse(Call<MessagesResponseDto> call, Response<MessagesResponseDto> response) {
-                Log.d("MessagePresenter", "Response: " + call);
+                Log.d("MessagePresenter", "Response: " + response);
                 if (response.isSuccessful() && response.body() != null){
                     Log.d("MessagePresenter", "ResponseBody: " + response.body().getResultados());
                     view.onConversationLoaded(response.body().getResultados());

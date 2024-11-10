@@ -68,8 +68,8 @@ public class Conversation extends Fragment implements AdapterConversation.OnConv
 
 
     @Override
-    public void onConversationClick(String conversationId) {
-        Message messageView = new Message(this.idLogged, Integer.parseInt(conversationId));
+    public void onConversationClick(String relatedId) {
+        Message messageView = new Message(this.idLogged, Integer.parseInt(relatedId));
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, messageView);
         transaction.addToBackStack(null);
@@ -100,7 +100,8 @@ public class Conversation extends Fragment implements AdapterConversation.OnConv
                         conver.getInteract().getName(),
                         "profileImageUrl",
                         conver.getMessages().get(0).getContent(),
-                        conver.getMessages().get(0).getSendDate()
+                        conver.getMessages().get(0).getSendDate(),
+                        String.valueOf(conver.getIdRelated())
                 );
                 conversationList.add(converResult);
             }
