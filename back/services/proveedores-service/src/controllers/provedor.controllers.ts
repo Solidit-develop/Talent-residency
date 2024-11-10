@@ -490,7 +490,7 @@ const controllerProvider = {
                 .leftJoinAndSelect("providers.address", "address")
                 .leftJoinAndSelect("address.town", "town")
                 .leftJoin("town.state", "state")
-                .where("Provider.id_provider=:id_provider", { id_provider: id_provider })
+                .where("Providers.id_provider=:id_provider", { id_provider: id_provider })
                 .getOne();
 
             let id_provedores = proveedores?.id_provider;
