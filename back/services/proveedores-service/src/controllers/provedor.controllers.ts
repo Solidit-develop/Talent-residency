@@ -422,8 +422,12 @@ const controllerProvider = {
     },
 
     // info de 1 provedor
-
-    profiele: async function name(req: Request, res: Response) {
+    /**
+     * Metodo para consultar información de proveedor por user id
+     * @param req 
+     * @param res 
+     */
+    providerByUserId: async function name(req: Request, res: Response) {
 
         try {
             let message;
@@ -470,6 +474,64 @@ const controllerProvider = {
         }
     },
 
+    /**
+     * Metodo para consultar información de proveedor por provider id
+     * @param req 
+     * @param res 
+     */
+    providerByProviderId: async function name(req: Request, res: Response) {
+
+        try {
+            let message;
+            const id_provider = req.params.id;
+            const proveedores = await repositoryProviders.createQueryBuilder("providers")
+                .leftJoinAndSelect("providers.user", "user")
+                .leftJoinAndSelect("user.usertypes", "users")
+                .leftJoinAndSelect("providers.address", "address")
+                .leftJoinAndSelect("address.town", "town")
+                .leftJoin("town.state", "state")
+                .where("Provider.id_provider=:id_provider", { id_provider: id_provider })
+                .getOne();
+
+            let id_provedores = proveedores?.id_provider;
+            let experiencias = proveedores?.experienceYears;
+            let workshopName = proveedores?.workshopName;
+            let workshopPhoneNumber = proveedores?.workshopPhoneNumber;
+            let descripcion = proveedores?.descripcion;
+            let id_user = proveedores?.user.id_user;
+            let name = proveedores?.user.name_User;
+            let lastname = proveedores?.user.lasname;
+            let email = proveedores?.user.email;
+            let age = proveedores?.user.age;
+            let phoneNumber = proveedores?.user.phoneNumber
+            let type = proveedores?.user.usertypes;
+            let adress = proveedores?.address;
+
+            const provedor = {
+                id_provedores, experiencias, workshopName, workshopPhoneNumber, descripcion,
+                user: { id_user, name, lastname, email, age, phoneNumber, type },
+                adress
+            }
+
+            message = provedor;
+
+            if (!provedor) {
+                message = "User not found";
+            }
+            res.status(200).json(ResponseModel.successResponse(message));
+
+        } catch (error) {
+            console.log(error)
+            res.status(500).json(ResponseModel.errorResponse(500, "Ocurrió un error con el servidor. " + error));
+        }
+    },
+
+
+    /**
+     * Metodo para consultar la información de usuarios con tipo de usuario para consulta interna
+     * @param req 
+     * @param res 
+     */
     userProfile: async function (req: Request, res: Response) {
         try {
             let message;
