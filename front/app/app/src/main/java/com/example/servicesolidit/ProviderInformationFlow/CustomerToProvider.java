@@ -13,11 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.servicesolidit.MessageFlow.Message;
-import com.example.servicesolidit.Model.Responses.Messages.ConversationDto;
+import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.Messages.ConversationDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
 
@@ -28,6 +31,7 @@ public class CustomerToProvider extends Fragment implements CustomerToProviderVi
     private CustomerToProviderPresenter presenter;
     private Button btnGoToMessages;
     private Button btnStartNewConversation;
+    private TextInputLayout tilEmailProvider;
 
     public CustomerToProvider(int idProviderToLoad) {
         this.idProviderToLoad = idProviderToLoad;
@@ -42,6 +46,8 @@ public class CustomerToProvider extends Fragment implements CustomerToProviderVi
         // Draw item to start a conversations if not exist
         btnStartNewConversation = view.findViewById(R.id.btnStartNewMessage);
         btnGoToMessages = view.findViewById(R.id.btnGoToConversation);
+        tilEmailProvider = view.findViewById(R.id.tilEmailProvider);
+
         this.idUserLogged = getIdUserLogged();
         this.presenter = new CustomerToProviderPresenter(this);
 
@@ -54,7 +60,7 @@ public class CustomerToProvider extends Fragment implements CustomerToProviderVi
 
         this.showProgres();
         this.presenter.drawViewToStartConversation(idUserLogged, idProviderToLoad);
-
+        this.presenter.loadProviderInformation(this.idProviderToLoad);
         return view;
     }
 
@@ -99,6 +105,20 @@ public class CustomerToProvider extends Fragment implements CustomerToProviderVi
     @Override
     public void onPrintStartConversationError(String error) {
         Log.i("CTP", "Error: " + error);
+    }
+
+    @Override
+    public void onInforProviderLoaded(ProviderResponseDto response) {
+        if(response.getUserInfoRelated().getEmail() != null){
+            this.tilEmailProvider.getEditText().setText(response.getUserInfoRelated().getEmail());
+        }else{
+            Log.i("CTP", "OCurrió un error");
+        }
+    }
+
+    @Override
+    public void onInfoProviderError(String s) {
+        Toast.makeText(requireContext(), s, Toast.LENGTH_SHORT).show();
     }
 }
 

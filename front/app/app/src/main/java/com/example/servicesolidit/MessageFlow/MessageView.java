@@ -1,7 +1,6 @@
 package com.example.servicesolidit.MessageFlow;
 
-import com.example.servicesolidit.Model.Responses.Messages.ConversationDto;
-import com.example.servicesolidit.Model.Responses.Messages.MessageDto;
+import com.example.servicesolidit.Utils.Models.Responses.Messages.ConversationDto;
 
 import java.util.List;
 
@@ -10,4 +9,6 @@ public interface MessageView {
     void onErrorConversationLoaded(String messages);
     void onShowProgress();
     void onHideProgress();
+    void onMessageSended(String response);
+    void onErrorSendMessage(String s);
 }

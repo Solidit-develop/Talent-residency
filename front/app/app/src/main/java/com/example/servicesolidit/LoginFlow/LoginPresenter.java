@@ -2,9 +2,9 @@ package com.example.servicesolidit.LoginFlow;
 
 import android.util.Log;
 
-import com.example.servicesolidit.Model.Requests.LoginRequestDto;
-import com.example.servicesolidit.Model.Responses.LoginResponseDto;
-import com.example.servicesolidit.Model.Responses.UserInfoDto;
+import com.example.servicesolidit.Utils.Models.Requests.LoginRequestDto;
+import com.example.servicesolidit.Utils.Models.Responses.LoginResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoDto;
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
 

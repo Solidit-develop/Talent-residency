@@ -29,10 +29,9 @@ import com.example.servicesolidit.ConversationFlow.Conversation;
 import com.example.servicesolidit.HeadDrawn;
 import com.example.servicesolidit.HouseFlow.House;
 import com.example.servicesolidit.LoginFlow.Login;
-import com.example.servicesolidit.Model.Requests.RegisterRequestDto;
+import com.example.servicesolidit.MainActivity;
 import com.example.servicesolidit.ProfileFlow.Profile;
 import com.example.servicesolidit.R;
-import com.example.servicesolidit.RegisterFlow.Address;
 import com.example.servicesolidit.Search;
 import com.example.servicesolidit.Utils.Constants;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -97,14 +96,6 @@ public class Home extends AppCompatActivity{
 
         userNameOnHeader.setText(userNameFromShared);
         emailOnHeader.setText(emailFromShared);
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                return false;
-            }
-        });
 
         //************************  metodos para el mapeo del slide de izquierda - derecha  ***************************************/
         navigationActions.put(R.id.item_message, () -> {
@@ -180,18 +171,30 @@ public class Home extends AppCompatActivity{
      */
     @SuppressLint("ApplySharedPref")
     @Override
-    public boolean onOptionsItemSelected (@NonNull MenuItem item){
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.item_log_out) {
-            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.clear();
-            editor.commit();
-            Intent loginActivity = new Intent(this, Login.class);
-            startActivity(loginActivity);
+            // Limpiar SharedPreferences
+            try {
+                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit(); // Usar apply() en lugar de commit()
+
+                // Crear Intent para ir al Login y limpiar la pila de actividades
+                Intent loginActivity = new Intent(this, MainActivity.class);
+                loginActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(loginActivity);
+
+                // Finalizar la actividad actual
+                finish();
+            }catch (Exception e){
+                Log.i("HomeClass", "Ocurrió un error: " + e.getMessage());
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     /**
      * Method to load a new fragment from the slide menu.

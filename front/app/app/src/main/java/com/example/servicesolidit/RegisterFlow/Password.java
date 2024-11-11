@@ -1,14 +1,11 @@
 package com.example.servicesolidit.RegisterFlow;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +14,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.servicesolidit.HomeFlow.Home;
 import com.example.servicesolidit.LoginFlow.Login;
-import com.example.servicesolidit.Model.Requests.RegisterRequestDto;
+import com.example.servicesolidit.Utils.Models.Requests.RegisterRequestDto;
 import com.example.servicesolidit.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;

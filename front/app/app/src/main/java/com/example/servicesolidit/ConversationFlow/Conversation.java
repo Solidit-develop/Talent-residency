@@ -20,14 +20,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.servicesolidit.MessageFlow.Message;
-import com.example.servicesolidit.Model.Responses.Conversatoins.ConversationDto;
-import com.example.servicesolidit.Model.Responses.Conversatoins.ConversationResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationDto;
+import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponseDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Conversation extends Fragment implements AdapterConversation.OnConversationClickListener, ConversationView{
 
@@ -69,8 +68,8 @@ public class Conversation extends Fragment implements AdapterConversation.OnConv
 
 
     @Override
-    public void onConversationClick(String conversationId) {
-        Message messageView = new Message(this.idLogged, Integer.parseInt(conversationId));
+    public void onConversationClick(String relatedId) {
+        Message messageView = new Message(this.idLogged, Integer.parseInt(relatedId));
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, messageView);
         transaction.addToBackStack(null);
@@ -101,7 +100,8 @@ public class Conversation extends Fragment implements AdapterConversation.OnConv
                         conver.getInteract().getName(),
                         "profileImageUrl",
                         conver.getMessages().get(0).getContent(),
-                        conver.getMessages().get(0).getSendDate()
+                        conver.getMessages().get(0).getSendDate(),
+                        String.valueOf(conver.getIdRelated())
                 );
                 conversationList.add(converResult);
             }

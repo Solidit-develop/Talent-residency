@@ -1,7 +1,7 @@
 package com.example.servicesolidit.Utils;
 
 public abstract class Constants {
-    public static String SERVER_IP =  "http://189.190.226.148:";
+    public static String SERVER_IP =  "http://189.190.200.217:";
     public static String PORT =  "4000";
     public static String BASE_URL =  SERVER_IP+PORT+"/api/v1/";
 

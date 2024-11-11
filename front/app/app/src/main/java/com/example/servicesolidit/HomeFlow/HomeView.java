@@ -1,6 +1,6 @@
 package com.example.servicesolidit.HomeFlow;
 
-import com.example.servicesolidit.Model.Responses.Feed.ProviderResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
 
 import java.util.ArrayList;
 

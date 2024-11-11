@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.servicesolidit.Model.Responses.Conversatoins.ConversationDto;
+import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationDto;
 import com.example.servicesolidit.R;
 
 import java.util.List;
@@ -59,7 +59,7 @@ public class AdapterConversation extends RecyclerView.Adapter<AdapterConversatio
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    onConversationClickListener.onConversationClick(conversations.get(position).getId());
+                    onConversationClickListener.onConversationClick(conversations.get(position).getIdRelated());
                 }
             });
         }

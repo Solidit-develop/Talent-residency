@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.example.servicesolidit.HomeFlow.HomePresenter;
 import com.example.servicesolidit.HomeFlow.HomeView;
-import com.example.servicesolidit.Model.Responses.Feed.ProviderResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
 import com.example.servicesolidit.ProviderInformationFlow.VisitProvider;
@@ -88,8 +88,8 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
         if(!feedResponse.isEmpty()){
             recyclerView.setVisibility(View.VISIBLE);
             noItemView.setVisibility(View.GONE);
-            printFeed(feedResponse);
             Log.i("HouseClass", "SomeFound");
+            printFeed(feedResponse);
         }else{
             //Load emtpy view elements
             Log.i("HouseClass", "NotFoud");

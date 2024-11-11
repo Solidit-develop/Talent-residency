@@ -2,9 +2,11 @@ package com.example.servicesolidit.ProviderInformationFlow;
 
 import android.util.Log;
 
-import com.example.servicesolidit.Model.Responses.Messages.MessagesResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.Messages.MessagesResponseDto;
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
+import com.example.servicesolidit.Utils.Models.Responses.User.ProviderProfileInformationDto;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,5 +44,28 @@ public class CustomerToProviderPresenter {
                     view.onPrintStartConversationError("Error al consultar las conversaciones");
             }
         });
+    }
+
+    public void loadProviderInformation(int idProviderToLoad){
+        Call< ProviderProfileInformationDto> call = service.informationProviderByProviderId(idProviderToLoad);
+        call.enqueue(new Callback<ProviderProfileInformationDto>() {
+            @Override
+            public void onResponse(Call<ProviderProfileInformationDto> call, Response<ProviderProfileInformationDto> response) {
+                Log.i("CTP", "response: " + response.body());
+                if(response.isSuccessful() && response.body() != null){
+                    ProviderProfileInformationDto result = response.body();
+                    Log.i("CTP", "response: " + result.getResponse().getUserInfoRelated().getEmail());
+                    view.onInforProviderLoaded(result.getResponse());
+                }else{
+                    view.onInfoProviderError("Ocurrió un error al cargar la información del proveedor");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProviderProfileInformationDto> call, Throwable t) {
+                view.onInfoProviderError("Ocurrió un error: " + t.getMessage());
+            }
+        });
+
     }
 }
