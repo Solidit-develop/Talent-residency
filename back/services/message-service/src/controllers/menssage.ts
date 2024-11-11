@@ -214,7 +214,9 @@ const controllermessages = {
             //hacer parejas de busqueda para saber si se puede buscar en 2 sexiones o una
 
             let id_des: String;
-            let destinoUserRelated: Number = destino[0];
+            
+
+
             if (origen.length <= destino.length) {
                 for (let item_destino = 0; item_destino < destino.length; item_destino++) {
                     if (destino.includes(origen[item_destino])) {
@@ -241,6 +243,7 @@ const controllermessages = {
                         const ides_conversaciones = conversacion.map(conv => conv.id_conversation);
 
                         if (ides_conversaciones.length > 0) {
+                            let destinoUserRelated = destino[item_destino];
                             // Consultar los mensajes más recientes de las conversaciones encontradas
                             const devuelto = await repositorycoversation.createQueryBuilder("conversation")
                                 .leftJoinAndSelect("conversation.id_userOrigen", "userOrigen")
@@ -250,17 +253,20 @@ const controllermessages = {
                                 .limit(1)
                                 .getMany();
 
+                                console.log(devuelto);
+
                             const resultados = devuelto.map(conversation => ({
                                 interactuan: {
                                     nombre: conversation.id_userOrigen.name_User,
                                     id_dest: conversation.id_userDestino
                                 },
                                 message: conversation.messages,
-                                related: destinoUserRelated,
-                            }));
+                                related:destinoUserRelated
+                            }));                            
 
                             mensajes.push(...resultados);
                         }
+                        console.log(mensajes);
 
 
                     } else {
@@ -285,6 +291,7 @@ const controllermessages = {
                         const ides_conversaciones = conversacion.map(conv => conv.id_conversation);
 
                         if (ides_conversaciones.length > 0) {
+                            let destinoUserRelated = destino[item_destino];
                             // Consultar los mensajes más recientes de las conversaciones encontradas
                             const devuelto = await repositorycoversation.createQueryBuilder("conversation")
                                 .leftJoinAndSelect("conversation.id_userOrigen", "userOrigen")
@@ -294,16 +301,18 @@ const controllermessages = {
                                 .limit(1)
                                 .getMany();
 
-                            const resultados = devuelto.map(conversation => ({
-                                interactuan: {
-                                    nombre: conversation.id_userOrigen.name_User,
-                                    id_dest: conversation.id_userDestino
-                                },
-                                message: conversation.messages,
-                                related: destinoUserRelated,
-                            }));
-
-                            mensajes.push(...resultados);
+                                const resultados = devuelto.map(conversation => ({
+                                    interactuan: {
+                                        nombre: conversation.id_userOrigen.name_User,
+                                        id_dest: conversation.id_userDestino
+                                    },
+                                    message: conversation.messages,
+                                    releated:destinoUserRelated
+                                }));
+    
+                               
+    
+                                mensajes.push(...resultados);
                         }
                     }
                 }
@@ -326,6 +335,7 @@ const controllermessages = {
                         const ides_conversaciones = conversacion.map(conv => conv.id_conversation);
                         if (ides_conversaciones.length > 0) {
                             // Consultar los mensajes más recientes de las conversaciones encontradas
+                            let destinoUserRelated = destino[item_origen];
                             const devuelto = await repositorycoversation.createQueryBuilder("conversation")
                                 .leftJoinAndSelect("conversation.id_userOrigen", "userOrigen")
                                 .leftJoinAndSelect("conversation.messages", "messages")
@@ -333,16 +343,18 @@ const controllermessages = {
                                 .orderBy("messages.id_messages", "DESC")
                                 .limit(1)
                                 .getMany();
-
-                            const resultados = devuelto.map(conversation => ({
-                                interactuan: {
-                                    nombre: conversation.id_userOrigen.name_User,
-                                    id_dest: conversation.id_userDestino
-                                },
-                                message: conversation.messages
-                            }));
-
-                            mensajes.push(...resultados);
+                                const resultados = devuelto.map(conversation => ({
+                                    interactuan: {
+                                        nombre: conversation.id_userOrigen.name_User,
+                                        id_dest: conversation.id_userDestino
+                                    },
+                                    message: conversation.messages,
+                                    releated:destinoUserRelated
+                                }));
+    
+                               
+    
+                                mensajes.push(...resultados);
                         }
                     } else {
                         console.log("Este valor Si esta en origen", origen[item_origen], ".....................")
@@ -369,6 +381,7 @@ const controllermessages = {
 
                         if (ides_conversaciones.length > 0) {
                             // Consultar los mensajes más recientes de las conversaciones encontradas
+                            let destinoUserRelated = destino[item_origen];
                             const devuelto = await repositorycoversation.createQueryBuilder("conversation")
                                 .leftJoinAndSelect("conversation.id_userOrigen", "userOrigen")
                                 .leftJoinAndSelect("conversation.messages", "messages")
@@ -377,16 +390,18 @@ const controllermessages = {
                                 .limit(1)
                                 .getMany();
 
-                            const resultados = devuelto.map(conversation => ({
-                                interactuan: {
-                                    nombre: conversation.id_userOrigen.name_User,
-                                    id_dest: conversation.id_userDestino
-                                },
-                                message: conversation.messages,
-                                related: destinoUserRelated,
-                            }));
-
-                            mensajes.push(...resultados);
+                                const resultados = devuelto.map(conversation => ({
+                                    interactuan: {
+                                        nombre: conversation.id_userOrigen.name_User,
+                                        id_dest: conversation.id_userDestino
+                                    },
+                                    message: conversation.messages,
+                                    related:destinoUserRelated
+                                }));
+    
+                            
+    
+                                mensajes.push(...resultados);
                         }
                     }
                 }
