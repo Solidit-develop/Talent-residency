@@ -59,7 +59,7 @@ public class AdapterConversation extends RecyclerView.Adapter<AdapterConversatio
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    onConversationClickListener.onConversationClick(conversations.get(position).getId());
+                    onConversationClickListener.onConversationClick(conversations.get(position).getIdRelated());
                 }
             });
         }

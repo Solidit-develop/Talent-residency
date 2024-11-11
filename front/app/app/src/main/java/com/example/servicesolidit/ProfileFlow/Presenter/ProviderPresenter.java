@@ -19,7 +19,7 @@ public class ProviderPresenter {
         this.service = RetrofitClient.getClient().create(ApiService.class);
     }
     public void providerInfomration(int id) {
-        Call<UserInfoProviderProfileResponse> call = service.informationProvider(id);
+        Call<UserInfoProviderProfileResponse> call = service.informationProviderByUserId(id);
 
         call.enqueue(new Callback<UserInfoProviderProfileResponse>() {
             @Override

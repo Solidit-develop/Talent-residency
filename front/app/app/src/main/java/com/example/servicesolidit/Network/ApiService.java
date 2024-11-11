@@ -4,13 +4,15 @@ package com.example.servicesolidit.Network;
 
 import com.example.servicesolidit.Utils.Models.Requests.LoginRequestDto;
 import com.example.servicesolidit.Utils.Models.Requests.RegisterRequestDto;
+import com.example.servicesolidit.Utils.Models.Requests.SendMessageRequest;
 import com.example.servicesolidit.Utils.Models.Requests.UpdateToProviderRequestDto;
 import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Feed.FeedResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.LoginResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Messages.MessagesResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.Messages.SendMessageResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.RegisterResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.User.UpdateUserToProviderResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.User.ProviderProfileInformationDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProviderProfileResponse;
 
@@ -35,8 +37,11 @@ public interface ApiService {
     @POST("provider/correo")
     Call<RegisterResponseDto> updateToUserProvider(@Body UpdateToProviderRequestDto request);
 
-    @GET("provider/provider/profile/{idToFind}")
-    Call<UserInfoProviderProfileResponse> informationProvider(@Path("idToFind")int idUserToFind);
+    @GET("provider/user/{idToFind}")
+    Call<UserInfoProviderProfileResponse> informationProviderByUserId(@Path("idToFind")int idUserToFind);
+
+    @GET("provider/provider/{idToFind}")
+    Call<ProviderProfileInformationDto> informationProviderByProviderId(@Path("idToFind")int idUserToFind);
 
     @GET("provider/todos/services/feed")
     Call<FeedResponseDto> feed();
@@ -46,4 +51,7 @@ public interface ApiService {
 
     @GET("message/mensajes/{idLogged}")
     Call<List<ConversationResponseDto>> getConversations(@Path("idLogged")int idLogged);
+
+    @POST("message/mensajes/{idOrigen}/{idDestino}")
+    Call<SendMessageResponseDto> sendMessages(@Path("idOrigen") int idOrigen, @Path("idDestino") int idDestino, @Body SendMessageRequest requestDto);
 }

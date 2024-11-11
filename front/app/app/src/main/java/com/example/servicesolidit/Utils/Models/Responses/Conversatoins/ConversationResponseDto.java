@@ -12,6 +12,17 @@ public class ConversationResponseDto {
     @SerializedName("message")
     private List<MessageDto> messages;
 
+    @SerializedName("related")
+    private int idRelated;
+
+    public int getIdRelated() {
+        return idRelated;
+    }
+
+    public void setIdRelated(int idRelated) {
+        this.idRelated = idRelated;
+    }
+
     // Constructor, getters y setters
     public ConversationResponseDto(InteractDto interact, List<MessageDto> messages) {
         this.interact = interact;
