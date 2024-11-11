@@ -214,7 +214,7 @@ const controllermessages = {
             //hacer parejas de busqueda para saber si se puede buscar en 2 sexiones o una
 
             let id_des: String;
-            let destinoUserRelated: Number = destino[0];
+            
 
 
             if (origen.length <= destino.length) {
@@ -243,6 +243,7 @@ const controllermessages = {
                         const ides_conversaciones = conversacion.map(conv => conv.id_conversation);
 
                         if (ides_conversaciones.length > 0) {
+                            let destinoUserRelated = destino[item_destino];
                             // Consultar los mensajes más recientes de las conversaciones encontradas
                             const devuelto = await repositorycoversation.createQueryBuilder("conversation")
                                 .leftJoinAndSelect("conversation.id_userOrigen", "userOrigen")
@@ -260,17 +261,11 @@ const controllermessages = {
                                     id_dest: conversation.id_userDestino
                                 },
                                 message: conversation.messages,
-                            }));
+                                related:destinoUserRelated
+                            }));                            
 
-                            const resultados2 = {
-                                resultados,
-                                related: destino[item_destino]
-                            }
-
-                            mensajes.push(resultados2);
+                            mensajes.push(...resultados);
                         }
-                        console.log("ESTE ES EL DEVUELTO")
-
                         console.log(mensajes);
 
 
@@ -296,6 +291,7 @@ const controllermessages = {
                         const ides_conversaciones = conversacion.map(conv => conv.id_conversation);
 
                         if (ides_conversaciones.length > 0) {
+                            let destinoUserRelated = destino[item_destino];
                             // Consultar los mensajes más recientes de las conversaciones encontradas
                             const devuelto = await repositorycoversation.createQueryBuilder("conversation")
                                 .leftJoinAndSelect("conversation.id_userOrigen", "userOrigen")
@@ -311,14 +307,12 @@ const controllermessages = {
                                         id_dest: conversation.id_userDestino
                                     },
                                     message: conversation.messages,
+                                    releated:destinoUserRelated
                                 }));
     
-                                const resultados2 = {
-                                    resultados,
-                                    related: destino[item_destino]
-                                }
+                               
     
-                                mensajes.push(resultados2);
+                                mensajes.push(...resultados);
                         }
                     }
                 }
@@ -341,6 +335,7 @@ const controllermessages = {
                         const ides_conversaciones = conversacion.map(conv => conv.id_conversation);
                         if (ides_conversaciones.length > 0) {
                             // Consultar los mensajes más recientes de las conversaciones encontradas
+                            let destinoUserRelated = destino[item_origen];
                             const devuelto = await repositorycoversation.createQueryBuilder("conversation")
                                 .leftJoinAndSelect("conversation.id_userOrigen", "userOrigen")
                                 .leftJoinAndSelect("conversation.messages", "messages")
@@ -354,14 +349,12 @@ const controllermessages = {
                                         id_dest: conversation.id_userDestino
                                     },
                                     message: conversation.messages,
+                                    releated:destinoUserRelated
                                 }));
     
-                                const resultados2 = {
-                                    resultados,
-                                    related: destino[item_origen]
-                                }
+                               
     
-                                mensajes.push(resultados2);
+                                mensajes.push(...resultados);
                         }
                     } else {
                         console.log("Este valor Si esta en origen", origen[item_origen], ".....................")
@@ -388,6 +381,7 @@ const controllermessages = {
 
                         if (ides_conversaciones.length > 0) {
                             // Consultar los mensajes más recientes de las conversaciones encontradas
+                            let destinoUserRelated = destino[item_origen];
                             const devuelto = await repositorycoversation.createQueryBuilder("conversation")
                                 .leftJoinAndSelect("conversation.id_userOrigen", "userOrigen")
                                 .leftJoinAndSelect("conversation.messages", "messages")
@@ -402,14 +396,12 @@ const controllermessages = {
                                         id_dest: conversation.id_userDestino
                                     },
                                     message: conversation.messages,
+                                    related:destinoUserRelated
                                 }));
     
-                                const resultados2 = {
-                                    resultados,
-                                    related: destino[item_origen]
-                                }
+                            
     
-                                mensajes.push(resultados2);
+                                mensajes.push(...resultados);
                         }
                     }
                 }
