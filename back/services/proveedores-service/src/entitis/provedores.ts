@@ -20,6 +20,9 @@ export class Providers {
     @Column({ type: 'varchar', length: 20 })
     workshopPhoneNumber: string;
 
+    @Column({type:"varchar",length:10, nullable:true })
+    imagePr:string | null;
+
     @ManyToOne(() => Address, address => address.providers)
     address: Address;
 
