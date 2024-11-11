@@ -215,6 +215,8 @@ const controllermessages = {
 
             let id_des: String;
             let destinoUserRelated: Number = destino[0];
+
+
             if (origen.length <= destino.length) {
                 for (let item_destino = 0; item_destino < destino.length; item_destino++) {
                     if (destino.includes(origen[item_destino])) {
@@ -250,17 +252,26 @@ const controllermessages = {
                                 .limit(1)
                                 .getMany();
 
+                                console.log(devuelto);
+
                             const resultados = devuelto.map(conversation => ({
                                 interactuan: {
                                     nombre: conversation.id_userOrigen.name_User,
                                     id_dest: conversation.id_userDestino
                                 },
                                 message: conversation.messages,
-                                related: destinoUserRelated,
                             }));
 
-                            mensajes.push(...resultados);
+                            const resultados2 = {
+                                resultados,
+                                related: destino[item_destino]
+                            }
+
+                            mensajes.push(resultados2);
                         }
+                        console.log("ESTE ES EL DEVUELTO")
+
+                        console.log(mensajes);
 
 
                     } else {
@@ -294,16 +305,20 @@ const controllermessages = {
                                 .limit(1)
                                 .getMany();
 
-                            const resultados = devuelto.map(conversation => ({
-                                interactuan: {
-                                    nombre: conversation.id_userOrigen.name_User,
-                                    id_dest: conversation.id_userDestino
-                                },
-                                message: conversation.messages,
-                                related: destinoUserRelated,
-                            }));
-
-                            mensajes.push(...resultados);
+                                const resultados = devuelto.map(conversation => ({
+                                    interactuan: {
+                                        nombre: conversation.id_userOrigen.name_User,
+                                        id_dest: conversation.id_userDestino
+                                    },
+                                    message: conversation.messages,
+                                }));
+    
+                                const resultados2 = {
+                                    resultados,
+                                    related: destino[item_destino]
+                                }
+    
+                                mensajes.push(resultados2);
                         }
                     }
                 }
@@ -333,16 +348,20 @@ const controllermessages = {
                                 .orderBy("messages.id_messages", "DESC")
                                 .limit(1)
                                 .getMany();
-
-                            const resultados = devuelto.map(conversation => ({
-                                interactuan: {
-                                    nombre: conversation.id_userOrigen.name_User,
-                                    id_dest: conversation.id_userDestino
-                                },
-                                message: conversation.messages
-                            }));
-
-                            mensajes.push(...resultados);
+                                const resultados = devuelto.map(conversation => ({
+                                    interactuan: {
+                                        nombre: conversation.id_userOrigen.name_User,
+                                        id_dest: conversation.id_userDestino
+                                    },
+                                    message: conversation.messages,
+                                }));
+    
+                                const resultados2 = {
+                                    resultados,
+                                    related: destino[item_origen]
+                                }
+    
+                                mensajes.push(resultados2);
                         }
                     } else {
                         console.log("Este valor Si esta en origen", origen[item_origen], ".....................")
@@ -377,16 +396,20 @@ const controllermessages = {
                                 .limit(1)
                                 .getMany();
 
-                            const resultados = devuelto.map(conversation => ({
-                                interactuan: {
-                                    nombre: conversation.id_userOrigen.name_User,
-                                    id_dest: conversation.id_userDestino
-                                },
-                                message: conversation.messages,
-                                related: destinoUserRelated,
-                            }));
-
-                            mensajes.push(...resultados);
+                                const resultados = devuelto.map(conversation => ({
+                                    interactuan: {
+                                        nombre: conversation.id_userOrigen.name_User,
+                                        id_dest: conversation.id_userDestino
+                                    },
+                                    message: conversation.messages,
+                                }));
+    
+                                const resultados2 = {
+                                    resultados,
+                                    related: destino[item_origen]
+                                }
+    
+                                mensajes.push(resultados2);
                         }
                     }
                 }
