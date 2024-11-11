@@ -21,7 +21,7 @@ services:
       - "4009:4009"
     environment:
       - PORT=4009
-      - HOST=10.242.13.1
+      - HOST=localhost
       - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
@@ -44,7 +44,7 @@ services:
       - "4008:4008"
     environment:
       - PORT=4008
-      - HOST=10.242.13.1
+      - HOST=localhost
       - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
@@ -63,7 +63,7 @@ services:
       context: ../services/proveedores-service
     environment:
       - PORT=4002
-      - HOST=10.242.13.1
+      - HOST=localhost
       - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
@@ -84,7 +84,7 @@ services:
       context: ../services/message-service
     environment:
       - PORT=4004
-      - HOST=10.242.13.1
+      - HOST=localhost
       - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
@@ -103,7 +103,7 @@ services:
       context: ../services/agrements-service
     environment:
       - PORT=4010
-      - HOST=10.242.13.1
+      - HOST=localhost
       - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
@@ -122,7 +122,7 @@ services:
       context: ../services/appointment-service
     environment:
       - PORT=4007
-      - HOST=10.242.13.1
+      - HOST=localhost
       - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
@@ -141,7 +141,7 @@ services:
       context: ../services/user-service
     environment:
       - PORT=4001
-      - HOST=10.242.13.1
+      - HOST=localhost
       - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
@@ -163,7 +163,7 @@ services:
       context: ../services/comments-vews
     environment:
       - PORT=4011
-      - HOST=10.242.13.1
+      - HOST=localhost
       - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
