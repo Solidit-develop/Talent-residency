@@ -7,6 +7,7 @@ import com.example.servicesolidit.Utils.Models.Responses.Messages.MessagesRespon
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
 import com.example.servicesolidit.Utils.Models.Responses.User.ProviderProfileInformationDto;
+import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,6 +48,7 @@ public class CustomerToProviderPresenter {
     }
 
     public void loadProviderInformation(int idProviderToLoad){
+        Log.i("CTP", "Trata de buscar id de provider: " + idProviderToLoad);
         Call< ProviderProfileInformationDto> call = service.informationProviderByProviderId(idProviderToLoad);
         call.enqueue(new Callback<ProviderProfileInformationDto>() {
             @Override
@@ -54,7 +56,10 @@ public class CustomerToProviderPresenter {
                 Log.i("CTP", "response: " + response.body());
                 if(response.isSuccessful() && response.body() != null){
                     ProviderProfileInformationDto result = response.body();
+                    Gson respuesta = new Gson();
+
                     Log.i("CTP", "response: " + result.getResponse().getUserInfoRelated().getEmail());
+                    Log.i("CTP", "aqui existe el user id del que quiere ser el provider: " + respuesta.toJson(result));
                     view.onInforProviderLoaded(result.getResponse());
                 }else{
                     view.onInfoProviderError("Ocurrió un error al cargar la información del proveedor");
@@ -66,6 +71,7 @@ public class CustomerToProviderPresenter {
                 view.onInfoProviderError("Ocurrió un error: " + t.getMessage());
             }
         });
-
     }
+
+
 }

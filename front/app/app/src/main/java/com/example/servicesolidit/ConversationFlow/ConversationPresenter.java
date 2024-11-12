@@ -23,6 +23,7 @@ public class ConversationPresenter {
     }
 
     public void getConversations(int idLogged){
+        Log.i("ConversationPresenter", "Trata de consultar las conversaciones de " + idLogged);
         Call<List<ConversationResponseDto>> call = service.getConversations(idLogged);
         call.enqueue(new Callback<List<ConversationResponseDto>>() {
             @Override

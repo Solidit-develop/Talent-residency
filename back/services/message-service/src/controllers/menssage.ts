@@ -307,7 +307,7 @@ const controllermessages = {
                                         id_dest: conversation.id_userDestino
                                     },
                                     message: conversation.messages,
-                                    releated:destinoUserRelated
+                                    related:destinoUserRelated
                                 }));
     
                                
@@ -349,7 +349,7 @@ const controllermessages = {
                                         id_dest: conversation.id_userDestino
                                     },
                                     message: conversation.messages,
-                                    releated:destinoUserRelated
+                                    related:destinoUserRelated
                                 }));
     
                                
@@ -389,14 +389,15 @@ const controllermessages = {
                                 .orderBy("messages.id_messages", "DESC")
                                 .limit(1)
                                 .getMany();
-
+                                
+                                
                                 const resultados = devuelto.map(conversation => ({
                                     interactuan: {
                                         nombre: conversation.id_userOrigen.name_User,
                                         id_dest: conversation.id_userDestino
                                     },
                                     message: conversation.messages,
-                                    related:destinoUserRelated
+                                    related: conversation.id_userOrigen.id_user
                                 }));
     
                             
