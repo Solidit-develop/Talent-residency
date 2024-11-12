@@ -307,7 +307,7 @@ const controllermessages = {
                                         id_dest: conversation.id_userDestino
                                     },
                                     message: conversation.messages,
-                                    releated:destinoUserRelated
+                                    related:destinoUserRelated
                                 }));
     
                                
@@ -349,7 +349,7 @@ const controllermessages = {
                                         id_dest: conversation.id_userDestino
                                     },
                                     message: conversation.messages,
-                                    releated:destinoUserRelated
+                                    related:destinoUserRelated
                                 }));
     
                                
