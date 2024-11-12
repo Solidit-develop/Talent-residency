@@ -24,6 +24,7 @@ import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDt
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
 import com.example.servicesolidit.ProviderInformationFlow.VisitProvider;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,6 +120,8 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
         }else {
             for (ProviderResponseDto item : feedResponse) {
                 CardModel modelFromResponse = new CardModel();
+                Gson gson = new Gson();
+                Log.i("HouseClass", "Info cargada: " + gson.toJson(modelFromResponse));
                 modelFromResponse.setLocation(item.getAddress().getLocalidad());
                 modelFromResponse.setNameBussines(item.getWorkshopName());
                 modelFromResponse.setDescription("Con " + item.getExperienceYears() + " años de experiencia");
@@ -131,6 +134,7 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
     }
 
     public void onCardClick(int idProvider){
+        Log.i("HouseClass", "Seleccionado el provider con id: " + idProvider);
         VisitProvider visitProvider = new VisitProvider(idProvider);
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, visitProvider);

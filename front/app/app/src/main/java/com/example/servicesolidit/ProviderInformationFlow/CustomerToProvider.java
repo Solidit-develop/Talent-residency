@@ -27,6 +27,7 @@ import java.util.List;
 public class CustomerToProvider extends Fragment implements CustomerToProviderView {
 
     private int idProviderToLoad;
+    private int idUserOfProviderSelected;
     private int idUserLogged;
     private CustomerToProviderPresenter presenter;
     private Button btnGoToMessages;
@@ -34,6 +35,7 @@ public class CustomerToProvider extends Fragment implements CustomerToProviderVi
     private TextInputLayout tilEmailProvider;
 
     public CustomerToProvider(int idProviderToLoad) {
+        Log.i("CTP", "Recibe en constructor el provider id: " + idProviderToLoad);
         this.idProviderToLoad = idProviderToLoad;
     }
 
@@ -52,14 +54,13 @@ public class CustomerToProvider extends Fragment implements CustomerToProviderVi
         this.presenter = new CustomerToProviderPresenter(this);
 
         btnStartNewConversation.setOnClickListener(v->{
-            GoToMessage(idUserLogged, idProviderToLoad);
+            GoToMessage(idUserLogged, this.idUserOfProviderSelected);
         });
         btnGoToMessages.setOnClickListener(v->{
-            GoToMessage(idUserLogged, idProviderToLoad);
+            GoToMessage(idUserLogged, this.idUserOfProviderSelected);
         });
 
         this.showProgres();
-        this.presenter.drawViewToStartConversation(idUserLogged, idProviderToLoad);
         this.presenter.loadProviderInformation(this.idProviderToLoad);
         return view;
     }
@@ -111,6 +112,11 @@ public class CustomerToProvider extends Fragment implements CustomerToProviderVi
     public void onInforProviderLoaded(ProviderResponseDto response) {
         if(response.getUserInfoRelated().getEmail() != null){
             this.tilEmailProvider.getEditText().setText(response.getUserInfoRelated().getEmail());
+            this.idUserOfProviderSelected = response.getUserInfoRelated().getIdUser();
+            Log.i("CTP", "id Provider: " + this.idProviderToLoad);
+            Log.i("CTP", "id user of Provider: " + this.idUserOfProviderSelected);
+            this.presenter.drawViewToStartConversation(idUserLogged, this.idUserOfProviderSelected);
+
         }else{
             Log.i("CTP", "OCurrió un error");
         }
