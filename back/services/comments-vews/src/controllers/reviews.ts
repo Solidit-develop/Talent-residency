@@ -31,7 +31,7 @@ const controllersReview={
     registro:async(req:Request, res:Response):Promise<void>=>{
         try{
 
-            const {id_logued, id_dest}=req.params
+            const {id_logued, id_prov}=req.params
 
             const {origenComoUser, calificacion, commentario,id_imageRelation,
                 //requst para las imagenes
@@ -39,28 +39,31 @@ const controllersReview={
             }= req.body
 
 
-            // const id =  Number(id_appointment)
+            const id_usuario =  Number(id_logued)
+            const id_provedor =Number(id_prov)
+
+            console.log(id_usuario, id_provedor)
 
                 const verificar = await reppsitoryappointment.createQueryBuilder("appointment")
-                .leftJoinAndSelect("appointment.providers","providers")
+                .leftJoin("appointment.providers","providers")
                 .leftJoin("appointment.users","users")
-                .leftJoin("appointment.interaccion","interaccion")
+                .leftJoinAndSelect("appointment.interaccion","interaccion")
                 .leftJoinAndSelect("interaccion.review","review")
-                .where("appointment.users=:id_logued",{id_logued:id_logued})
-                .andWhere("appointment.providers=:providers",{providers:id_dest})
+                .where("appointment.users=:id_logued",{id_logued:id_usuario})
+                .andWhere("appointment.providers=:providers",{providers:id_provedor})
                 .getOne();
                 
                 console.log("Este es el registro----------------------------")
-                // console.log(verificar)
+                console.log(verificar)
 
                 const id_app = verificar?.id_appointment;
 
                 console.log("Este es el id de appointment-----------------------------------")
                 console.log(id_app)
 
-                if(id_app){
+                if(!id_app){
                     console.log("Esta es la calificacion que se le dio a este usuario")
-                    // console.log(verificar);
+                    console.log(verificar);
                     console.log("Se debuelve el nombre junto con la calificacion que se le dio ")
                     res.status(200).json(verificar)
                     return;
@@ -82,7 +85,11 @@ const controllersReview={
 
                         const conexion = new ImagenService();
                         await conexion.PostImage({funcionality,urlLocation,idUsedOn},table)
-    
+
+                        //logica para consultar y registrar el id de la imagen;
+                        
+
+                        
                         const interaction= new interaccion();
                         interaction.origenEmitidoComoUser=origenComoUser;
                         interaction.review=comentario;
@@ -112,34 +119,57 @@ const controllersReview={
     },
     consultaUno:async(req:Request,res:Response):Promise<void>=>{
         try{
-            const {id_logued, id_dest}=req.params
+            const {id_logued, id_prov}=req.params
 
             const verificar = await reppsitoryappointment.createQueryBuilder("appointment")
-            .leftJoinAndSelect("appointment.providers","providers")
-            .leftJoinAndSelect("appointment.users","users")
-            .leftJoinAndSelect("appointment.interaccion","interaccion")
-            .leftJoinAndSelect("interaccion.review","review")
-            .where("appointment.users=:id_logued",{id_logued:id_logued})
-            .andWhere("appointment.providers=:providers",{providers:id_dest})
-            .getMany();
-
-            const defragment =verificar.map(verificar=>({
-                Nombre:verificar.users.name_User,
-                apellido:verificar.users.lasname,
-                origenComoUser:verificar.interaccion.origenEmitidoComoUser,
-                calificacion:{
-                id_revire:verificar.interaccion.review.id_review,
-                id_interaccion:verificar.interaccion.id_interaccion,
-                calificacion:verificar.interaccion.review.calificacion,
-                comentario:verificar.interaccion.review.comment,
-                imagen:verificar.interaccion.review.image
-                }
-            }))
+            .leftJoinAndSelect("appointment.providers", "providers")
+            .leftJoinAndSelect("appointment.users", "users")
+            .leftJoinAndSelect("appointment.interaccion", "interaccion")
+            .leftJoinAndSelect("interaccion.review", "review")
+            .where("(users.id_user = :id_logued and providers.id_provider = :id_prov)", {
+                id_logued: id_logued,
+                id_prov: id_prov
+            })
+            // .orWhere()
+            
+            .andWhere("interaccion.id_interaccion IS NOT NULL")
+            .getOne();
 
             
-            console.log(defragment)
+                let id_user = verificar?.users.id_user
+                let name_User=verificar?.users?.name_User
+                let lasname=verificar?.users?.lasname
+                let origenEmitidoComoUser=verificar?.interaccion?.origenEmitidoComoUser
+                
+                let id_provider=verificar?.providers?.id_provider
+                let id_review=verificar?.interaccion?.review?.id_review
+                let id_interaccion=verificar?.interaccion?.id_interaccion
+                let calificacion=verificar?.interaccion?.review?.calificacion
+                let comment=verificar?.interaccion?.review?.comment
 
-            res.status(200).json({defragment})
+                //logica para recuperar la imagen
+                let image=verificar?.interaccion?.review?.image
+                
+                const desfragment ={
+                    id_user,
+                    name_User,
+                    lasname,
+                    origenEmitidoComoUser,
+                    calificacion:{
+                        id_provider,
+                        id_review,
+                        id_interaccion,
+                        calificacion,
+                        comment,
+                        image
+                    }
+                }
+
+            if(!desfragment.id_user){
+                res.status(400).json("Sin comentarios")
+                return
+            }
+            res.status(200).json({desfragment})
         }catch(error){
             console.log(error)
         }
@@ -149,44 +179,72 @@ const controllersReview={
 
     ConsultaTodos:async(req:Request,res:Response):Promise<void>=>{
         try{
-            const id_logued= req.params.id_logued
-
+            let id_log= req.params.id_logued
+            const id_logued= Number(id_log)
             const id_provedor = await repositoryprovedor.createQueryBuilder("providers")
             .leftJoinAndSelect("providers.user","user")
             .where("user.id_user=:id_user",{id_user:id_logued})
             .getOne();
+
             const id_prov = id_provedor?.id_provider
+
+            const roles =[id_prov,id_logued]
+            // console.log("Roles")
+            // console.log(roles)
+
             const informacion = [];
+
             const verificar = await reppsitoryappointment.createQueryBuilder("appointment")
-            .leftJoinAndSelect("appointment.providers","providers")
-            .leftJoinAndSelect("appointment.users","users")
-            .leftJoinAndSelect("appointment.interaccion","interaccion")
-            .leftJoinAndSelect("interaccion.review","review")
-            .where("appointment.users=:id_logued",{id_logued:id_logued})
-            .orWhere("appointment.providers=:providers",{providers:id_prov})
+            .leftJoinAndSelect("appointment.providers", "providers")
+            .leftJoinAndSelect("appointment.users", "users")
+            .leftJoinAndSelect("appointment.interaccion", "interaccion")
+            .leftJoinAndSelect("interaccion.review", "review")
+            .where("(users.id_user = :id_logued OR providers.id_provider = :id_prov)", {
+                id_logued: id_logued,
+                id_prov: id_prov
+            })
+            .andWhere("interaccion.id_interaccion IS NOT NULL")
             .getMany();
 
+            let usuario= false;
+
             for(let i=0; i<verificar.length; i++){
-                console.log("Estro a la funcion")
+                let valor = verificar[i].interaccion   
+                let origen = verificar[i].users?.id_user
+                
+                if(valor){
 
-                const desfragment =verificar.map(verificar=>({
-
-                    Nombre:verificar.users.name_User,
-                    apellido:verificar.users.lasname,
-                    origenComoUser:verificar.interaccion.origenEmitidoComoUser,
-                    calificacion:{
-                    id_review:verificar.interaccion.review.id_review,
-                    id_interaccion:verificar.interaccion.id_interaccion,
-                    calificacion:verificar.interaccion.review.calificacion,
-                    comentario:verificar.interaccion.review.comment,
-                    imagen:verificar.interaccion.review.image
+                    if(origen===id_logued){
+                        console.log("Es emitido como usuario")
+                        usuario=true
                     }
-                }))
-
-                informacion.push(desfragment)
+                        const desfragment =verificar.map(verificar=>({
+                        id_user:verificar.users.id_user,
+                        Nombre:verificar.users.name_User,
+                        apellido:verificar.users.lasname,
+                        origenComoUser:usuario,
+                        id_appointment:verificar?.id_appointment,
+                        id_prov:verificar?.providers?.id_provider,
+                        calificacion:{
+                        id_review:verificar?.interaccion?.review?.id_review,
+                        id_interaccion:verificar?.interaccion?.id_interaccion,
+                        calificacion:verificar?.interaccion?.review?.calificacion,
+                        comentario:verificar?.interaccion?.review?.comment,
+                        imagen:verificar?.interaccion?.review?.image
+                        }
+                    }))
+    
+                   
+                    informacion.push(...desfragment)
+                }     
             }
 
             // console.log("Este es el tamaño de los de los comentarios ", verificar.length)
+            // console.log(informacion) 
+            if(informacion.length===0){
+             res.status(200).json({mensages:"Sin comentarios"})
+             return;   
+            }
             res.status(200).json(informacion)
             
         }catch(error){
