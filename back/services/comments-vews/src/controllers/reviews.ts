@@ -26,68 +26,66 @@ const controllersReview={
         res.send("pong");
     },
 
-
-
-    registro:async(req:Request, res:Response):Promise<void>=>{
+    registro_user:async(req:Request, res:Response):Promise<void>=>{
         try{
 
-            const {id_logued, id_prov}=req.params
+            const {id_user, id_prov}=req.params
 
-            const {origenComoUser, calificacion, commentario,id_imageRelation,
+            const {calificacion, commentario,id_imageRelation,
                 //requst para las imagenes
                 funcionality, urlLocation, idUsedOn, table
             }= req.body
 
 
-            const id_usuario =  Number(id_logued)
+            const id_usuario =  Number(id_user)
             const id_provedor =Number(id_prov)
 
             console.log(id_usuario, id_provedor)
 
-                const verificar = await reppsitoryappointment.createQueryBuilder("appointment")
-                .leftJoin("appointment.providers","providers")
-                .leftJoin("appointment.users","users")
-                .leftJoinAndSelect("appointment.interaccion","interaccion")
-                .leftJoinAndSelect("interaccion.review","review")
-                .where("appointment.users=:id_logued",{id_logued:id_usuario})
-                .andWhere("appointment.providers=:providers",{providers:id_provedor})
-                .getOne();
-                
-                console.log("Este es el registro----------------------------")
-                console.log(verificar)
-
+            console.log("Se esta haciendo la consulta")
+            const verificar = await reppsitoryappointment.createQueryBuilder("appointment")
+            .leftJoinAndSelect("appointment.providers", "providers")
+            .leftJoin("appointment.users", "users")
+            .where("(appointment.users = :id_logued or appointment.providers = :id_prov) or (appointment.users = :id_prov or appointment.providers = :id_logued) ", 
+                {
+                id_logued: id_usuario,
+                id_prov: id_provedor
+                })
+            .getOne();
+            
                 const id_app = verificar?.id_appointment;
+                const id_prove =verificar?.providers.id_provider
+                let origenComoUser = false
 
-                console.log("Este es el id de appointment-----------------------------------")
-                console.log(id_app)
+               
+                console.log("Este es el id_prov de la consulta", id_prove, "Este es el provedor de cb", id_provedor)
 
-                if(!id_app){
-                    console.log("Esta es la calificacion que se le dio a este usuario")
-                    console.log(verificar);
-                    console.log("Se debuelve el nombre junto con la calificacion que se le dio ")
-                    res.status(200).json(verificar)
-                    return;
-
-                }else{
+                if(id_app){
                     console.log("Entro en el registro")
+
+                    if(id_provedor===id_prove){
+                        origenComoUser = true
+                        console.log("Se registra el comentario como provedor")
+                   }
                     
+                   console.log("Este es el dato que pasa", origenComoUser)
+                   
                     const acuerdo = await reppsitoryappointment.findOne({where:{id_appointment:id_app}})
-                    console.log("Este es el acuerdo", acuerdo)
+                    // console.log("Este es el acuerdo", acuerdo)
 
                     if(acuerdo && id_app){
                  
                         console.log("Entro en la funcion para poder registrar-------------------")
+                        const conexion = new ImagenService();
+                        await conexion.PostImage({funcionality,urlLocation,idUsedOn},table)
+
+                        //logica para guardar el id de la imagen+
+
                         const comentario = new review();
                         comentario.comment=commentario;
                         comentario.calificacion=calificacion;
                         comentario.image=id_imageRelation;
                         await repositoryreview.save(comentario)
-
-                        const conexion = new ImagenService();
-                        await conexion.PostImage({funcionality,urlLocation,idUsedOn},table)
-
-                        //logica para consultar y registrar el id de la imagen;
-                        
 
                         
                         const interaction= new interaccion();
@@ -106,6 +104,7 @@ const controllersReview={
                     }
 
                     console.log("Se agrega la calificacion")
+
                 }
 
             console.log(verificar)
@@ -117,9 +116,11 @@ const controllersReview={
             console.log(error)
         }
     },
+
     consultaUno:async(req:Request,res:Response):Promise<void>=>{
         try{
-            const {id_logued, id_prov}=req.params
+            let id_prov=req.params.id_prov
+            let user = req.params.id_user
 
             const verificar = await reppsitoryappointment.createQueryBuilder("appointment")
             .leftJoinAndSelect("appointment.providers", "providers")
@@ -127,11 +128,10 @@ const controllersReview={
             .leftJoinAndSelect("appointment.interaccion", "interaccion")
             .leftJoinAndSelect("interaccion.review", "review")
             .where("(users.id_user = :id_logued and providers.id_provider = :id_prov)", {
-                id_logued: id_logued,
+                id_logued: user,
                 id_prov: id_prov
             })
-            // .orWhere()
-            
+           
             .andWhere("interaccion.id_interaccion IS NOT NULL")
             .getOne();
 
@@ -179,8 +179,8 @@ const controllersReview={
 
     ConsultaTodos:async(req:Request,res:Response):Promise<void>=>{
         try{
-            let id_log= req.params.id_logued
-            const id_logued= Number(id_log)
+            let id_user= req.params.id_user
+            const id_logued= Number(id_user)
             const id_provedor = await repositoryprovedor.createQueryBuilder("providers")
             .leftJoinAndSelect("providers.user","user")
             .where("user.id_user=:id_user",{id_user:id_logued})
@@ -255,7 +255,7 @@ const controllersReview={
 
     edit:async(req:Request,res:Response):Promise<void>=>{
         try {
-            const { id_logued, id_dest } = req.params;
+            const { id_user, id_dest } = req.params;
             const commentario = req.body.commentario;
             const calificacion= req.body.calificacion
 
@@ -271,7 +271,7 @@ const controllersReview={
                 .leftJoinAndSelect("appointment.users", "users")
                 .leftJoinAndSelect("appointment.interaccion", "interaccion")
                 .leftJoinAndSelect("interaccion.review", "review")
-                .where("appointment.users = :id_logued", { id_logued })
+                .where("appointment.users = :id_logued", { id_user })
                 .andWhere("appointment.providers = :providers", { providers: id_dest })
                 .getOne();
     
@@ -301,9 +301,7 @@ const controllersReview={
     },
 
     eliminar:async(req:Request,res:Response):Promise<void>=>{
-
         try{
-
             const {id_interaccion, id_review}=req.params
 
             await AppDataSource.createQueryBuilder()
@@ -329,8 +327,100 @@ const controllersReview={
             console.log(error)
             res.status(500).json("Error interno")
         }
-    }
+    },
 
+    registroProv:async(req:Request, res:Response):Promise<void>=>{
+        try{
+
+            const {id_user, id_prov}=req.params
+
+            const {calificacion, commentario,id_imageRelation,
+                //requst para las imagenes
+                funcionality, urlLocation, idUsedOn, table
+            }= req.body
+
+
+            const id_usuario =  Number(id_user)
+            const id_provedor =Number(id_prov)
+
+            console.log(id_usuario, id_provedor)
+
+            console.log("Se esta haciendo la consulta")
+            const verificar = await reppsitoryappointment.createQueryBuilder("appointment")
+            .leftJoinAndSelect("appointment.providers", "providers")
+            .leftJoin("appointment.users", "users")
+            .where("(appointment.users = :id_logued or appointment.providers = :id_prov) or (appointment.users = :id_prov or appointment.providers = :id_logued) ", 
+                {
+                id_logued: id_usuario,
+                id_prov: id_provedor
+                })
+            .getOne();
+            
+                const id_app = verificar?.id_appointment;
+                const id_prove =verificar?.providers.id_provider
+                let origenComoUser = true
+
+                
+
+               
+                console.log("Este es el id_prov de la consulta", id_prove, "Este es el provedor de cb", id_provedor)
+
+                if(id_app){
+                    console.log("Entro en el registro")
+
+                    if(id_provedor===id_prove){
+                        origenComoUser = false
+                        console.log("Se registra el comentario como provedor")
+                   }
+                    
+                   console.log("Este es el dato que pasa", origenComoUser)
+                   
+                    const acuerdo = await reppsitoryappointment.findOne({where:{id_appointment:id_app}})
+                    // console.log("Este es el acuerdo", acuerdo)
+
+                    if(acuerdo && id_app){
+                 
+                        console.log("Entro en la funcion para poder registrar-------------------")
+                        const conexion = new ImagenService();
+                        await conexion.PostImage({funcionality,urlLocation,idUsedOn},table)
+
+                        //logica para guardar el id de la imagen+
+
+                        const comentario = new review();
+                        comentario.comment=commentario;
+                        comentario.calificacion=calificacion;
+                        comentario.image=id_imageRelation;
+                        await repositoryreview.save(comentario)
+
+                        
+                        const interaction= new interaccion();
+                        interaction.origenEmitidoComoUser=origenComoUser;
+                        interaction.review=comentario;
+                        interaction.appointment=acuerdo;
+                        await repositoryinteraccion.save(interaction)
+
+                    }else{
+                        
+                        res.status(400).json({message:"No se encontro el acuerdo"})
+
+                        console.log("No se encontro el appointmet con la relacion de los ids")
+                        console.log("Id del appoinment es ", id_app, "Por que no se encontro")
+                        return
+                    }
+
+                    console.log("Se agrega la calificacion")
+
+                }
+
+            console.log(verificar)
+            
+            res.status(200).json({message:"Registro con exito"})
+
+        }catch(error){
+            res.json(error)
+            console.log(error)
+        }
+    },
 }
 
 export default controllersReview;

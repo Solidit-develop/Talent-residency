@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn,Column, OneToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn,Column, OneToOne, JoinColumn, ManyToOne } from "typeorm";
 import { appointment } from "./appointment";
 import { review } from "./review";
 
@@ -16,7 +16,7 @@ export class interaccion{
     @JoinColumn()
     appointment:appointment
     
-    @OneToOne(()=>review, review=>review.interaccion)
-    @JoinColumn()
+    @ManyToOne(()=>review, review=>review.interaccion)
+   // @JoinColumn()
     review:review
 }

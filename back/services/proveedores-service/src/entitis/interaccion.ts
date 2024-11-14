@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn,Column, OneToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn,Column, OneToOne, JoinColumn, ManyToOne } from "typeorm";
 import { appointment } from "./appointment";
 import { review } from "./review";
 
@@ -10,13 +10,13 @@ export class interaccion{
     id_interaccion:number
 
     @Column({type:"boolean"})
-    origenEmitidoComoUser:boolean
+    origenEmitidoComoUser:boolean;
 
     @OneToOne(()=>appointment, appointment=> appointment.interaccion)
     @JoinColumn()
-    appointment:appointment
+    appointment:appointment;
     
-    @OneToOne(()=>review, review=>review.interaccion)
-    @JoinColumn()
-    review:review
+    @ManyToOne(()=>review, review=>review.interaccion)
+    // @JoinColumn()
+    review:review;
 }
