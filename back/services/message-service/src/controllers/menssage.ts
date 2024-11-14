@@ -221,7 +221,7 @@ const controllermessages = {
 
         console.log("Response body: ", lastMessages);
         
-        res.status(200).json({response: lastMessages});
+        res.status(200).json({succes: true, code: 200, response: lastMessages.reverse()});
     },
 
     reviewMesage: async (req: Request, res: Response): Promise<void> => {
