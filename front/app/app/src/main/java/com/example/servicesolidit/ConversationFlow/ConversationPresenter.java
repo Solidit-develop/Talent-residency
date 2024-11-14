@@ -2,6 +2,7 @@ package com.example.servicesolidit.ConversationFlow;
 
 import android.util.Log;
 
+import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponse;
 import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponseDto;
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
@@ -24,18 +25,18 @@ public class ConversationPresenter {
 
     public void getConversations(int idLogged){
         Log.i("ConversationPresenter", "Trata de consultar las conversaciones de " + idLogged);
-        Call<List<ConversationResponseDto>> call = service.getConversations(idLogged);
-        call.enqueue(new Callback<List<ConversationResponseDto>>() {
+        Call<ConversationResponse> call = service.getConversations(idLogged);
+        call.enqueue(new Callback<ConversationResponse>() {
             @Override
-            public void onResponse(Call<List<ConversationResponseDto>> call, Response<List<ConversationResponseDto>> response) {
-                List<ConversationResponseDto> result = response.body();
+            public void onResponse(Call<ConversationResponse> call, Response<ConversationResponse> response) {
+                ConversationResponse result = response.body();
                 Gson gson = new Gson();
                 Log.i("ConversationPresenter", "Conversation loaded: " + gson.toJson(result));
-                view.onConversationSucess(result);
+                view.onConversationSucess(result.getResponse());
             }
 
             @Override
-            public void onFailure(Call<List<ConversationResponseDto>> call, Throwable t) {
+            public void onFailure(Call<ConversationResponse> call, Throwable t) {
                 view.onConversationFail(t.getMessage());
             }
         });
