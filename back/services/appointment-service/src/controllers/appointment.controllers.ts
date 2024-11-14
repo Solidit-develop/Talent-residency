@@ -28,10 +28,10 @@ const controllerAppointment ={
     cita: async (req: Request, res: Response): Promise<void> => {
         try {
             const { id_provider, id_customer } = req.params;
-            let { appointmentLocation, appointmentDate, creationDate, statusAppointment } = req.body;
+            let { appointmentLocation, appointmentDate, creationDate} = req.body;
     
             console.log("Parámetros que llegan:");
-            console.log({ appointmentLocation, appointmentDate, creationDate, statusAppointment, id_provider, id_customer });
+            console.log({ appointmentLocation, appointmentDate, creationDate, id_provider, id_customer });
     
             
             const cliente = await repositoryusers.findOne({ where: { id_user: Number(id_customer) } });
@@ -47,11 +47,9 @@ const controllerAppointment ={
                 res.status(404).json({ message: "No se encontraron usuarios o faltan datos obligatorios." });
                 return;
             }
-    
             
             const creationDateObj = new Date(creationDate);
             const appointmentDateObj = new Date(appointmentDate);
-    
             
             if (isNaN(creationDateObj.getTime()) || isNaN(appointmentDateObj.getTime())) {
                 console.log("Las fechas proporcionadas no son válidas.");
@@ -66,7 +64,7 @@ const controllerAppointment ={
             cita.creationDate = creationDateObj;  // Directamente como tipo Date
             cita.apointmentDate = appointmentDateObj;  
             cita.AppointmentLocation = appointmentLocation;
-            cita.statusAppointment = statusAppointment;
+            cita.statusAppointment = "En espera";
     
             console.log("Citas guardadas");
             console.log(cita.creationDate, cita.apointmentDate);
