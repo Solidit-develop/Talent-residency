@@ -6,6 +6,7 @@ import com.example.servicesolidit.Utils.Models.Requests.LoginRequestDto;
 import com.example.servicesolidit.Utils.Models.Requests.RegisterRequestDto;
 import com.example.servicesolidit.Utils.Models.Requests.SendMessageRequest;
 import com.example.servicesolidit.Utils.Models.Requests.UpdateToProviderRequestDto;
+import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponse;
 import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Feed.FeedResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.LoginResponseDto;
@@ -49,8 +50,8 @@ public interface ApiService {
     @GET("message/mensajes/{idOrigen}/{idDestino}")
     Call<MessagesResponseDto> getMessages(@Path("idOrigen") int idOrigen, @Path("idDestino") int idDestino);
 
-    @GET("message/mensajes/{idLogged}")
-    Call<List<ConversationResponseDto>> getConversations(@Path("idLogged")int idLogged);
+    @GET("message/conversations/{idLogged}")
+    Call<ConversationResponse> getConversations(@Path("idLogged")int idLogged);
 
     @POST("message/mensajes/{idOrigen}/{idDestino}")
     Call<SendMessageResponseDto> sendMessages(@Path("idOrigen") int idOrigen, @Path("idDestino") int idDestino, @Body SendMessageRequest requestDto);
