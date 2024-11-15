@@ -161,69 +161,77 @@ const controllermessages = {
 
     getConversations: async (req: Request, res: Response) => {
         let { idLogged } = req.params;
-
+    
         console.log("Busca las conversaciones de id: ", idLogged);
-
+    
         const conversations = await repositorycoversation.createQueryBuilder("conversation")
-                .leftJoinAndSelect("conversation.id_userOrigen", "userOrigen")  // Relación con el usuario que inició la conversación
-                .leftJoinAndSelect("conversation.messages", "messages")  // Relación con los mensajes
-                .leftJoinAndSelect("conversation.id_userOrigen", "users")
-                .where("conversation.idUserOrigenIdUser = :id_origen", { id_origen: idLogged })
-                .orWhere("conversation.id_userDestino=:id_destino ", { id_destino: idLogged })
-                .getMany()
-
+            .leftJoinAndSelect("conversation.id_userOrigen", "userOrigen")
+            .leftJoinAndSelect("conversation.messages", "messages")
+            .leftJoinAndSelect("conversation.id_userOrigen", "users")
+            .where("conversation.idUserOrigenIdUser = :id_origen", { id_origen: idLogged })
+            .orWhere("conversation.id_userDestino=:id_destino", { id_destino: idLogged })
+            .getMany();
+    
         console.log("Conversations", JSON.stringify(conversations));
-
-        let conversationsMappeds = conversations.map(conversation =>{
+    
+        let conversationsMappeds = conversations.map(conversation => {
             return {
                 idConversation: conversation.id_conversation,
                 idOrigen: conversation.id_userOrigen.id_user,
                 idDestino: conversation.id_userDestino,
-                content: conversation.messages.map(message => {
+                content: conversation.messages.map((message) => {
                     return {
                         contenido: message.contect,
                         idMessage: message.id_messages,
                         date: message.senddate,
-                        isSent: Number(idLogged)==conversation.id_userOrigen.id_user,
-                        related: Number(idLogged)==conversation.id_userOrigen.id_user ? conversation.id_userDestino : conversation.id_userOrigen.id_user,
-                    }
+                        isSent: Number(idLogged) === conversation.id_userOrigen.id_user,
+                        related: Number(idLogged) === conversation.id_userOrigen.id_user ? conversation.id_userDestino : conversation.id_userOrigen.id_user,
+                    };
                 })
-            }
+            };
         });
-
+    
         console.log("______________________\n");
-        
         console.log("Ids recuperados: ", JSON.stringify(conversationsMappeds));
-        
         console.log("______________________\n");
-
+    
         const groupedByRelated = conversationsMappeds.reduce((acc, conversation) => {
             conversation.content.forEach((message) => {
                 const relatedId = message.related;
-        
-                // Inicializa el array si no existe
+    
                 if (!acc[relatedId]) {
                     acc[relatedId] = [];
                 }
-        
-                // Agrega el mensaje al array correspondiente
+    
                 acc[relatedId].push(message);
             });
             return acc;
         }, {} as Record<number, any[]>);
-        
-        // Obtener solo el último mensaje de cada grupo ordenado por fecha
+    
         const lastMessages = Object.values(groupedByRelated).map(messages => {
             return messages
-                .filter(message => message.date !== null) // Filtrar mensajes con fecha no nula
-                .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime())[0]; // Ordenar y obtener el último mensaje
-        }).filter(Boolean); // Filtrar mensajes que sean undefined
-
-        console.log("Response body: ", lastMessages);
-        
-        res.status(200).json({succes: true, code: 200, response: lastMessages.reverse()});
-    },
-
+                .filter(message => message.date !== null)
+                .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime())[0];
+        }).filter(Boolean);
+    
+        console.log("Last Messages (before adding names): ", lastMessages);
+    
+        // Obtener el nombre del usuario para cada mensaje en lastMessages
+        const lastMessagesWithNames = await Promise.all(
+            lastMessages.map(async (message) => {
+                const usuario = await repositoryuser.findOne({ where: { id_user: message.related } });
+                return {
+                    ...message,
+                    nameUser: usuario ? usuario.name_User : "Usuario desconocido" // Asigna el nombre o un valor por defecto si el usuario no se encuentra
+                };
+            })
+        );
+    
+        console.log("Response body with names: ", lastMessagesWithNames);
+    
+        res.status(200).json({ succes: true, code: 200, response: lastMessagesWithNames.reverse() });
+    },    
+    
     reviewMesage: async (req: Request, res: Response): Promise<void> => {
         try {
             let { id_logued } = req.params;
