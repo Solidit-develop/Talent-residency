@@ -6,6 +6,15 @@ public class ConversationResultDto {
     private String date;
     private boolean isSent;
     private String related;
+    private String nameUser;
+
+    public String getNameUser() {
+        return nameUser;
+    }
+
+    public void setNameUser(String nameUser) {
+        this.nameUser = nameUser;
+    }
 
     public ConversationResultDto(){}
 
