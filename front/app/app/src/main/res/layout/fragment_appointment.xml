@@ -9,11 +9,13 @@
         android:layout_width="match_parent"
         android:layout_marginTop="15dp"
         android:layout_height="match_parent">
+
         <TextView
             android:id="@+id/tvHeaderAppointmentDate"
             android:layout_width="match_parent"
             android:textAlignment="center"
             android:layout_margin="16dp"
+            android:textStyle="bold"
             android:layout_height="wrap_content"
             android:text="Selecciona un día para solicitar una cita"
             />
@@ -25,35 +27,25 @@
             android:layout_below="@+id/tvHeaderAppointmentDate"
             android:layout_centerHorizontal="true"
             />
-        <TextView
-            android:id="@+id/tvHeaderAppointmentHour"
-            android:layout_width="match_parent"
-            android:textAlignment="center"
-            android:layout_margin="16dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/claendarAppintment"
-            android:text="Selecciona una hora para solicitar una cita"
-            />
 
         <TextView
             android:id="@+id/textViewHora"
             android:layout_width="wrap_content"
-            android:layout_marginTop="15dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvHeaderAppointmentHour"
-            android:text="Hora seleccionada"
+            android:text="Seleccione una hora para su cita"
+            android:layout_below="@id/claendarAppintment"
+            android:textStyle="bold"
             android:layout_centerHorizontal="true"
-            android:textSize="18sp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginVertical="25dp"
+            android:gravity="center_vertical" />
 
         <Button
             android:id="@+id/buttonSeleccionarHora"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textViewHora"
             android:layout_centerHorizontal="true"
-            android:text="Seleccionar Hora" />
-
+            android:layout_below="@id/textViewHora"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar hora" />
 
 
         <Button
@@ -62,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:layout_marginVertical="15dp"
             android:text="Confirmar cita" />
 
 
