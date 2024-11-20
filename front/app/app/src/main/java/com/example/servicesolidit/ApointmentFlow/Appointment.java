@@ -17,12 +17,13 @@ import com.example.servicesolidit.R;
 
 import java.util.Calendar;
 
-public class Appointment extends Fragment {
+public class Appointment extends Fragment implements AppointmentView{
 
     private TextView tvHoraSeleccionada;
     private Button btnSeleccionarHora;
     private Button btnConfirmarCita;
     private int idOrigen;
+    private AppointmentPresenter presenteer;
 
     public Appointment(int idOrigen){
         this.idOrigen = idOrigen;
@@ -36,6 +37,7 @@ public class Appointment extends Fragment {
         tvHoraSeleccionada = view.findViewById(R.id.textViewHora);
         btnSeleccionarHora = view.findViewById(R.id.buttonSeleccionarHora);
         btnConfirmarCita = view.findViewById(R.id.btnConfirmarCita);
+        this.presenteer = new AppointmentPresenter(this);
 
         btnConfirmarCita.setOnClickListener(v->{
             Toast.makeText(requireContext(), "Confirmar cita: ", Toast.LENGTH_LONG).show();
@@ -72,5 +74,25 @@ public class Appointment extends Fragment {
 
         // Mostrar el TimePickerDialog
         timePickerDialog.show();
+    }
+
+    @Override
+    public void onSuccessAppintmentCreated(String appointmentResponse) {
+
+    }
+
+    @Override
+    public void onErrorAppointmentCreated(String errorMessage) {
+
+    }
+
+    @Override
+    public void onShowProgress() {
+
+    }
+
+    @Override
+    public void onHideProgress() {
+
     }
 }

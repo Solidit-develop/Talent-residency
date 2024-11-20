@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HouseFlow.House"
+    android:layout_gravity="center"
     android:background="@color/bg_white">
 
     <RelativeLayout
@@ -33,6 +34,7 @@
             android:layout_height="match_parent"
             android:padding="3dp"
             android:layout_margin="5dp"
+            android:layout_centerHorizontal="true"
             android:elevation="10dp"
             tools:listitem="@layout/item_card" />
     </RelativeLayout>

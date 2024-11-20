@@ -6,9 +6,11 @@ import com.example.servicesolidit.Utils.Models.Requests.LoginRequestDto;
 import com.example.servicesolidit.Utils.Models.Requests.RegisterRequestDto;
 import com.example.servicesolidit.Utils.Models.Requests.SendMessageRequest;
 import com.example.servicesolidit.Utils.Models.Requests.UpdateToProviderRequestDto;
+import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponse;
 import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Feed.FeedResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.ImagesRelational.RelationalImagesResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.LoginResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Messages.MessagesResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Messages.SendMessageResponseDto;
@@ -47,6 +49,9 @@ public interface ApiService {
     @GET("provider/todos/services/feed")
     Call<FeedResponseDto> feed();
 
+    @POST("path")
+    Call<AppointmentResponseDto> createAppointmnt();
+
     @GET("message/mensajes/{idOrigen}/{idDestino}")
     Call<MessagesResponseDto> getMessages(@Path("idOrigen") int idOrigen, @Path("idDestino") int idDestino);
 
@@ -55,4 +60,7 @@ public interface ApiService {
 
     @POST("message/mensajes/{idOrigen}/{idDestino}")
     Call<SendMessageResponseDto> sendMessages(@Path("idOrigen") int idOrigen, @Path("idDestino") int idDestino, @Body SendMessageRequest requestDto);
+
+    @GET("relational/print/{tableToRelation}/{idUsedOn}/{funcionality}")
+    Call<RelationalImagesResponseDto> getRelationalImages(@Path("tableToRelation")String tableToRelation, @Path("idUsedOn")String idUsedOn, @Path("funcionality")String funcionality);
 }
