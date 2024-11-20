@@ -146,13 +146,16 @@ const controllersReview={
                 id_imageRelation,
                 funcionality,
                 urlLocation,
-                idUsedOn,
+                
                 table
             } = req.body;
     
             const id_usuario = Number(id_user);
             const id_provedor = Number(id_prov);
-    
+
+            let idUsedOn = Number(req.body.idUsedOn)
+
+
             console.log("IDs recibidos:", { id_usuario, id_provedor });
     
             console.log("Iniciando consulta...");
