@@ -31,7 +31,7 @@ const controlleragrements ={
         try {
             const { id_appointment, id_provedor } = req.params;
             const { descripcion, creationDate, descripcionService, creacionDateService } = req.body;
-            let stats = 'Tomado'
+            let stats = 'Agendado'
             // Convertir parámetros a números
             const appointmentId = Number(id_appointment);
             const providerId = Number(id_provedor);
@@ -47,9 +47,13 @@ const controlleragrements ={
     
                 // Buscar el proveedor
                 const prov = await providersRepository.findOne({ where: { id_provider: providerId } });
-    
-                if (cita && prov) {
-                    console.log("Se encontró la relación");
+                const canselado = cita?.statusAppointment
+
+                console.log(canselado)
+
+                if (cita && prov ) {
+                    if(canselado != 'Cancelado'){
+                        console.log("Se encontró la relación");
                     const acuerdo = new agrements(); // Asegúrate de que el nombre de la clase esté en mayúscula
                     acuerdo.description = descripcion;
                     acuerdo.creationDate = creationDate;
@@ -71,10 +75,20 @@ const controlleragrements ={
                     servicios.serviceStatus = estatus;
                     await agrements_serviceRepository.save(servicios);
                     console.log("Se agrego el servucio")
+
+                    cita.statusAppointment = stats ;
+                    await appointmentRepository.save(cita)
+
     
                     // Guardar el acuerdo
                     res.status(200).json({ message: "Se guardaron todos los datos de la cita" });
                     return;
+                    
+                    }else{
+                        res.status(400).json({message:"El acuerdo esta Cancelado"})
+                        return
+                    }
+                    
                 }
     
                 console.log(cita);

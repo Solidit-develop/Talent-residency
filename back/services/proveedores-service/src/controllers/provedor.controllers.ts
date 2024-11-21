@@ -10,6 +10,7 @@ import { Town } from "../entitis/town";
 import { State } from "../entitis/state";
 import { skills } from "../entitis/skill";
 import { ResponseModel } from "../models/responseDto";
+import { Like ,ILike} from "typeorm";
 
 
 
@@ -25,6 +26,32 @@ const repositoryskills = AppDataSource.getRepository(skills);
 //cambiar el tipo de usuarios en la tabla de users
 
 const controllerProvider = {
+
+    busqueda:async(req:Request, res:Response):Promise <void>=>{
+
+        try{
+            const busqueda = req.params.busqueda
+
+            const habilidades = await repositoryProviders.createQueryBuilder("providers")
+            .leftJoinAndSelect("providers.skills", "skills")
+            .where("skills.name ILIKE :name", { name: `%${busqueda}%` }) // Agregar % para el LIKE
+            .getMany();
+
+            if(habilidades.length<1){
+                console.log(busqueda)
+                const tienda = await repositoryProviders.find({where:{workshopName:ILike(`%${busqueda}%`)},
+                relations:['skills']
+                })
+                res.status(200).json(tienda)
+                return;
+            }
+            res.status(200).json(habilidades)
+        }catch(error){
+            console.log(error)
+            res.status(200).json({error:error})
+        }
+        
+    },
 
     // verificar si es Provedor 
 

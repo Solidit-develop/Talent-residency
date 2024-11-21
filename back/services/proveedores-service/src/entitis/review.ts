@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany, JoinTable, PrimaryGeneratedColumn } from "typeorm";
 import { interaccion } from "./interaccion";
 
 @Entity()
@@ -16,6 +16,7 @@ export class review {
     @Column({ type: 'varchar' })
     image: string
 
-    @OneToOne(()=>interaccion,interaccion=>interaccion.review)
-    interaccion:interaccion
+    @ManyToMany(() => interaccion, (interaccion) => interaccion.reviews)
+    @JoinTable()
+    interacciones: interaccion[];
 }
