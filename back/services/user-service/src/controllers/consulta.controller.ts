@@ -9,10 +9,12 @@ import bcryptjs from 'bcryptjs'
 import transporter from "../mail/mailer"
 import generateRandomToken from "../mail/tokengenerator"
 import jwt from "jsonwebtoken"
+import {ImagenService} from "../Services/imagenes-service"
 
 import { ResponseModel } from "../models/responseDto";
 import config from "../config";
 import { ProviderService } from "../Services/provider-service";
+
 
 const repositoriState = AppDataSource.getRepository(State);
 const repositoriTown = AppDataSource.getRepository(Town);
@@ -344,36 +346,6 @@ const controllerusuario = {
 
 
 
-  //    verificacion: async (req: Request, res: Response): Promise<void> => {
-  //        try {
-  //         console.log("Entro en primer try");
-  //          const {token} = req.params;
-
-  //          if (!token){
-  //             res.status(400).json({mesage:"token no resivido"});
-  //             return;
-  //          }
-  //          try {
-  //             console.log("Entro en el segundo try");
-  //            // Verifica y decodifica el token
-  //            const decodedToken = jwt.verify(token, SECRET_KEY) as DecodedToken;
-  //         console.log("Salto la decodificacion")
-  //            console.log(decodedToken.name_user,decodedToken.lastname);
-  //            // Aquí puedes hacer algo con los datos decodificados, como actualizar la base de datos
-  //            res.status(200).json({
-  //              message: 'Token verificado exitosamente',
-  //              data: decodedToken,
-  //            });
-  //          } catch (err) {
-  //             console.log(err)
-  //            res.status(404).json({message:"El token expiro"});
-  //          }
-  //        } catch (error) {
-  //         console.log(error);
-  //          res.status(500).json({ message: 'No fue posible conectar con el servidor.'});
-  //        }
-  //      },
-
 
 
   prueba: async (req: Request, res: Response): Promise<void> => {
@@ -602,8 +574,39 @@ const controllerusuario = {
       console.error("Error al actualizar los datos:", error);
       res.status(500).json(ResponseModel.errorResponse(500, `Error interno: ${error}`));
     }
-  }
+  },
 
+  insertImagen: async (req: Request, res: Response): Promise<void> => {
+    let id_user = Number(req.params.id_user);
+    const { funcionality, urlLocation, idUsedOn, table } = req.body;
+  
+    try {
+      const conexion = new ImagenService();
+  
+      const postResp = await conexion.PostImage({ funcionality, urlLocation, idUsedOn }, table);
+      console.log("Se guardó con éxito:", JSON.stringify(postResp));
+  
+     
+      const imagen = await conexion.getImageInfo(table, idUsedOn, funcionality);
+      console.log("Response on promise controller:", JSON.stringify(imagen));
+  
+    
+      const usuario = await repositoriuser.findOne({ where: { id_user: id_user } });
+  
+      if (usuario) {
+        usuario.imageUs = imagen?.id_relacion;
+        await repositoriuser.save(usuario); 
+      }
+  
+      res.json({ message: "Imagen guardada con éxito" });
+    } catch (e) {
+      console.error("Error:", e);
+      res.status(500).json({ message: "Error interno" }); 
+    }
+  }
+  
+   
+  
 
 
 };
