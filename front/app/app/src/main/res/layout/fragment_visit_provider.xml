@@ -65,23 +65,25 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <com.google.android.material.card.MaterialCardView
+                        <TextView
+                            android:visibility="gone"
+                            android:id="@+id/tvNoImagesFound"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="25dp"
+                            android:text="Aun no se tienen imagenes para los servicios de este proveedor"
+                            android:textAlignment="center"
+                            />
+
+                        <ImageView
+                            android:visibility="gone"
+                            android:id="@+id/imageExampleOnCarousell"
                             android:layout_width="250dp"
                             android:layout_height="200dp"
                             android:layout_margin="10dp"
                             style="?attr/materialCardViewElevatedStyle"
                             android:backgroundTint="@color/bg_green_Light">
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:layout_width="250dp"
-                            android:layout_height="200dp"
-                            android:layout_margin="10dp"
-                            style="?attr/materialCardViewElevatedStyle"
-                            android:backgroundTint="@color/bg_green_Light">
-
-                        </com.google.android.material.card.MaterialCardView>
+                        </ImageView>
                     </LinearLayout>
                 </ScrollView>
 

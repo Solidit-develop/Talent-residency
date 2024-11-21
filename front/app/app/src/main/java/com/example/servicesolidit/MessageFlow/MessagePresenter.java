@@ -3,10 +3,12 @@ package com.example.servicesolidit.MessageFlow;
 import android.util.Log;
 
 import com.example.servicesolidit.Utils.Models.Requests.SendMessageRequest;
+import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Messages.MessagesResponseDto;
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
 import com.example.servicesolidit.Utils.Models.Responses.Messages.SendMessageResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProviderProfileResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,5 +67,31 @@ public class MessagePresenter {
                 view.onErrorSendMessage("Ocurrió un error al enviar tu mensaje: " + t.getMessage());
             }
         });
+    }
+
+    public void providerInfomration(int id) {
+        Call<UserInfoProviderProfileResponse> call = service.informationProviderByUserId(id);
+
+        call.enqueue(new Callback<UserInfoProviderProfileResponse>() {
+            @Override
+            public void onResponse(Call<UserInfoProviderProfileResponse> call, Response<UserInfoProviderProfileResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        ProviderResponseDto result = response.body().getResponse();
+                        view.onLoadProviderInfoSuccess(result);
+                    } catch (Exception e) {
+                        view.onLoadProviderInfoError(e.getMessage());
+                    }
+                } else {
+                    view.onLoadProviderInfoError("Ocurrió un error al obtener la información de tu negocio");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserInfoProviderProfileResponse> call, Throwable t) {
+                view.onLoadProviderInfoError(t.getMessage());
+            }
+        });
+
     }
 }

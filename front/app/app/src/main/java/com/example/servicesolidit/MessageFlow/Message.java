@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,9 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.servicesolidit.ApointmentFlow.Appointment;
 import com.example.servicesolidit.Utils.Models.Requests.SendMessageRequest;
+import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Messages.ConversationDto;
 import com.example.servicesolidit.Utils.Models.Responses.Messages.MessageDto;
 import com.example.servicesolidit.R;
@@ -38,6 +43,8 @@ public class Message extends Fragment implements MessageView{
     private List<MessageDto> messageList;
     private Button btnSendMessage;
     private EditText etSendMessage;
+    private TextView tvNameRelatedOnConversation;
+    private ImageView btnGoToCreateAppointmentFlow;
 
     private int idDestino;
     private int idOrigen;
@@ -57,7 +64,12 @@ public class Message extends Fragment implements MessageView{
         recyclerView = view.findViewById(R.id.recycler_view_messages);
         btnSendMessage = view.findViewById(R.id.btnSendMessage);
         etSendMessage = view.findViewById(R.id.etMessageContent);
+        tvNameRelatedOnConversation = view.findViewById(R.id.tvNameRelatedOnConversation);
+        btnGoToCreateAppointmentFlow = view.findViewById(R.id.btnGoToCreateAppointmentFlow);
 
+        btnGoToCreateAppointmentFlow.setOnClickListener(v->{
+            navigateToAppointmentFlow(this.idOrigen);
+        });
 
         btnSendMessage.setOnClickListener(v->{
             String messageContent = etSendMessage.getText().toString();
@@ -88,6 +100,7 @@ public class Message extends Fragment implements MessageView{
         int idDestino = this.idDestino; //usuario destino
         this.onShowProgress();
         this.presenter.loadConversation(idOrigen, idDestino);
+        this.presenter.providerInfomration(idDestino);
         Log.i("MessageClass", "End init view");
         return view;
     }
@@ -96,6 +109,14 @@ public class Message extends Fragment implements MessageView{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSS'Z'")
                 .withZone(ZoneOffset.UTC);
         return formatter.format(Instant.now());
+    }
+
+    public void navigateToAppointmentFlow(int idOrigen){
+        Appointment createAppointment = new Appointment(idOrigen);
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_container, createAppointment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -172,5 +193,16 @@ public class Message extends Fragment implements MessageView{
         Log.i("MessageClass", "Error al enviar el mensaje: " + s);
         Toast.makeText(requireContext(), s, Toast.LENGTH_SHORT).show();
         onHideProgress();
+    }
+
+    @Override
+    public void onLoadProviderInfoSuccess(ProviderResponseDto result) {
+        this.tvNameRelatedOnConversation.setText(result.getWorkshopName());
+        onHideProgress();
+    }
+
+    @Override
+    public void onLoadProviderInfoError(String message) {
+        Toast.makeText(requireContext(), "Ocurrió un error: "+ message, Toast.LENGTH_SHORT).show();
     }
 }
