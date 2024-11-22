@@ -578,36 +578,27 @@ const controllerusuario = {
 
   insertImagen: async (req: Request, res: Response): Promise<void> => {
     let id_user = Number(req.params.id_user);
-    const { funcionality, urlLocation, idUsedOn, table } = req.body;
-  
-    try {
-      const conexion = new ImagenService();
-  
-      const postResp = await conexion.PostImage({ funcionality, urlLocation, idUsedOn }, table);
-      console.log("Se guardó con éxito:", JSON.stringify(postResp));
-  
-     
-      const imagen = await conexion.getImageInfo(table, idUsedOn, funcionality);
-      console.log("Response on promise controller:", JSON.stringify(imagen));
-  
-    
+    const { funcionality, urlLocation } = req.body;
+
+      try {
       const usuario = await repositoriuser.findOne({ where: { id_user: id_user } });
-  
-      if (usuario) {
-        usuario.imageUs = imagen?.id_relacion;
-        await repositoriuser.save(usuario); 
+      let  idUsedOn = String(id_user)
+      let table = 'users'
+
+      if(usuario){
+        const conexion = new ImagenService();
+        const postResp = await conexion.PostImage({ funcionality, urlLocation, idUsedOn }, table);
+        console.log("Se guardó con éxito:", JSON.stringify(postResp));
+      }else{
+        res.status(400).json("No se encontro el usuario")
+        console.log("No se encontro el usuario")
       }
-  
       res.json({ message: "Imagen guardada con éxito" });
     } catch (e) {
-      console.error("Error:", e);
+      console.error("Error:", e );
       res.status(500).json({ message: "Error interno" }); 
     }
   }
-  
-   
-  
-
 
 };
 
