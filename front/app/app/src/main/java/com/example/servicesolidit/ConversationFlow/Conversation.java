@@ -21,9 +21,11 @@ import android.widget.Toast;
 
 import com.example.servicesolidit.MessageFlow.Message;
 import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationDto;
+import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponse;
 import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponseDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
+import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResultDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,20 +90,20 @@ public class Conversation extends Fragment implements AdapterConversation.OnConv
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
-    public void onConversationSucess(List<ConversationResponseDto> response) {
-        if(!response.isEmpty()) {
-            Log.i("ConversationClass", "Response: " + response.get(0).getMessages().get(0).getContent());
+    public void onConversationSucess(List<ConversationResultDto> response) {
+        if(response != null) {
+            Log.i("ConversationClass", "Response: " + response.get(0).getContenido());
             noConversationView.setVisibility(View.GONE);
             List<ConversationDto> conversationList = new ArrayList<>();
             for (int i = 0; i < response.size(); i++) {
-                ConversationResponseDto conver = response.get(i);
+                ConversationResultDto conver = response.get(i);
                 ConversationDto converResult = new ConversationDto(
-                        String.valueOf(conver.getInteract().getDestinationId()),
-                        conver.getInteract().getName(),
+                        String.valueOf(conver.getIdMessage()),
+                        "[name]",
                         "profileImageUrl",
-                        conver.getMessages().get(0).getContent(),
-                        conver.getMessages().get(0).getSendDate(),
-                        String.valueOf(conver.getIdRelated())
+                        conver.getContenido(),
+                        conver.getDate(),
+                        conver.getRelated()
                 );
                 conversationList.add(converResult);
             }

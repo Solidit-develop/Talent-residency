@@ -23,9 +23,12 @@ import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -111,6 +114,8 @@ public class Message extends Fragment implements MessageView{
         }
 
 
+        messagesDtoList = ordenarPorFecha(messagesDtoList);
+
         // Limpia y actualiza la lista sin cambiar la referencia
         this.messageList.clear(); // Limpia la lista actual
         this.messageList.addAll(messagesDtoList); // Añade los nuevos mensajes
@@ -120,6 +125,26 @@ public class Message extends Fragment implements MessageView{
 
         // Oculta el progreso
         onHideProgress();
+    }
+
+    public static List<MessageDto> ordenarPorFecha(List<MessageDto> mensajes) {
+        Gson gson = new Gson();
+        Log.i("MessageClass", "Lista a ordenar: " + gson.toJson(mensajes));
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            Collections.sort(mensajes, new Comparator<MessageDto>() {
+                @Override
+                public int compare(MessageDto m1, MessageDto m2) {
+                    LocalDateTime fecha1 = LocalDateTime.parse(m1.getSenddate(), formatter);
+                    LocalDateTime fecha2 = LocalDateTime.parse(m2.getSenddate(), formatter);
+                    return fecha1.compareTo(fecha2); // Orden ascendente: el más antiguo al principio
+                }
+            });
+        }catch (Exception e){
+            Log.i("MessageClass", "Ocurrió un error al reordenar: " + e.getMessage());
+        }
+
+        return mensajes;
     }
 
     @Override

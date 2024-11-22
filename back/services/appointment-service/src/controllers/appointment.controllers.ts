@@ -28,10 +28,10 @@ const controllerAppointment ={
     cita: async (req: Request, res: Response): Promise<void> => {
         try {
             const { id_provider, id_customer } = req.params;
-            let { appointmentLocation, appointmentDate, creationDate, statusAppointment } = req.body;
+            let { appointmentLocation, appointmentDate, creationDate} = req.body;
     
             console.log("Parámetros que llegan:");
-            console.log({ appointmentLocation, appointmentDate, creationDate, statusAppointment, id_provider, id_customer });
+            console.log({ appointmentLocation, appointmentDate, creationDate, id_provider, id_customer });
     
             
             const cliente = await repositoryusers.findOne({ where: { id_user: Number(id_customer) } });
@@ -47,11 +47,9 @@ const controllerAppointment ={
                 res.status(404).json({ message: "No se encontraron usuarios o faltan datos obligatorios." });
                 return;
             }
-    
             
             const creationDateObj = new Date(creationDate);
             const appointmentDateObj = new Date(appointmentDate);
-    
             
             if (isNaN(creationDateObj.getTime()) || isNaN(appointmentDateObj.getTime())) {
                 console.log("Las fechas proporcionadas no son válidas.");
@@ -66,7 +64,7 @@ const controllerAppointment ={
             cita.creationDate = creationDateObj;  // Directamente como tipo Date
             cita.apointmentDate = appointmentDateObj;  
             cita.AppointmentLocation = appointmentLocation;
-            cita.statusAppointment = statusAppointment;
+            cita.statusAppointment = "En espera";
     
             console.log("Citas guardadas");
             console.log(cita.creationDate, cita.apointmentDate);
@@ -87,25 +85,35 @@ const controllerAppointment ={
 
     cancelar: async (req: Request, res: Response): Promise<void> => {
         try {
-            const { id_provider, id_customer } = req.params;
-            const { creationDate } = req.body;
+            const { id_provider, id_customer,id_appointment } = req.params;
+            let { creationDate } = req.body;
+
+            const app = Number(id_appointment)
     
             const prov = Number(id_provider);
             const cus = Number(id_customer);
-    
-            console.log("Números de callback:", prov, cus);
+            // creationDate = new Date(creationDate)
+            console.log("Números de callback:", prov, cus,app);
+
+            if(!creationDate){
+                console.log(creationDate)
+                res.status(400).json("Ingresa la fecha de creacion del appointment")
+                return;
+            }
     
             const relacion = await repositoryappointment.createQueryBuilder("appointment")
                 .leftJoinAndSelect("appointment.providers", "Providers")
                 .leftJoinAndSelect("appointment.users", "users")
+                .andWhere("appointment.id_appointment =:id_appointment",{id_appointment:app})
                 .where("users.id_user = :id_user", { id_user: cus })
                 .andWhere("Providers.id_provider = :id_provider", { id_provider: prov })
+                .andWhere("CAST(appointment.creationDate AS TEXT) LIKE :fecha", { fecha: `%${creationDate}%` })
                 .getOne();
     
-            console.log("Relación de usuarios:", relacion);
+            // console.log("Relación de usuarios:", relacion);
     
             // Verificar si la relación existe y si la fecha coincide
-            if (relacion && relacion.creationDate === creationDate) {
+            if (relacion ) {
                 relacion.statusAppointment = "Cancelado"; // Cambia  correctamente el estatus
                 await repositoryappointment.save(relacion);
                 res.status(200).json({ message: "Actualización exitosa" });
@@ -124,12 +132,26 @@ const controllerAppointment ={
             const prov = Number(id_provider);
             const Verificar = await repositoryappointment.createQueryBuilder("appointment")
             .leftJoinAndSelect("appointment.providers", "Providers")
+            .leftJoinAndSelect("appointment.users", "users")
             .where("Providers.id_provider = :id_provider", { id_provider: prov })
             .getMany();
             console.log("Consulta")
-            console.log(Verificar);
+            // console.log(Verificar);
+
+            const regreso = Verificar.map(Verificar=>({
+                id_appintment:Verificar.id_appointment,
+                AppointmentLocation:Verificar.AppointmentLocation,
+                creationDate:Verificar.creationDate,
+                apointmentDate:Verificar.apointmentDate,    
+                id_provider:Verificar.providers.id_provider,
+                id_user:Verificar.users.id_user,
+                name_User:Verificar.users.name_User,
+                lasname:Verificar.users.lasname,   
+                update:Verificar.statusAppointment
+
+            }))
     
-        res.status(200).json({Verificar})
+        res.status(200).json({regreso})
         }catch(error){
             console.log(error)
             res.status(500).json({message:"Error de dentro del servidor"})

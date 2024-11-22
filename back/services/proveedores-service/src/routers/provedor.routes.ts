@@ -13,5 +13,6 @@ router.get('/croll/:beet/:twen', controllerProvider.scroll)
 router.get('/user/:id', controllerProvider.providerByUserId)
 router.get('/provider/:id', controllerProvider.providerByProviderId)
 router.get('/users/profile/:id', controllerProvider.userProfile)
+router.get('/provedores/:busqueda',controllerProvider.busqueda)
 
 module.exports = router
