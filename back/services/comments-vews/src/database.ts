@@ -27,7 +27,6 @@ export const AppDataSource = new DataSource({
     entities:[review,users,appointment,Providers,interaccion],
     logging: ["error", "schema"],
     // logging:true,
-
     synchronize:false    
 
 })

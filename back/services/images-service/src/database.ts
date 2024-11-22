@@ -18,6 +18,7 @@ export const AppDataSource = new DataSource({
     password: password,
     database: database,
     entities: [images, imagesRelation],
-    logging: true,
+    // logging:true,
+    logging: ["error", "schema"],
     synchronize: true
 })
