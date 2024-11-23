@@ -13,6 +13,7 @@ interface Config {
     password?: string;
     database?: string;
     port?: string;
+    Ambiente?: string;
 }
 const config: Config = {
     db_type: process.env.DB_TYPE,
@@ -21,7 +22,8 @@ const config: Config = {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB,
-    db_port: process.env.DB_PORT
+    db_port: process.env.DB_PORT,
+    Ambiente: process.env.Ambiente
 };
 
 export default config;

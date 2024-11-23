@@ -13,9 +13,6 @@ export class review {
     @Column({ type: 'varchar' })
     comment: string
 
-    @Column({ type: 'varchar' })
-    image: string
-
     @ManyToMany(() => interaccion, (interaccion) => interaccion.reviews)
     @JoinTable()
     interacciones: interaccion[];
