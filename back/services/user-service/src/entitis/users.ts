@@ -25,7 +25,6 @@ export class users{
     @Column({type: "varchar", length:20})
     phoneNumber:string
 
-
     @ManyToOne(()=>userTypes,usertypes=>usertypes.id_userType)
     usertypes:userTypes
 
