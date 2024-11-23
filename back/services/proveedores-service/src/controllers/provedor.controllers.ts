@@ -11,6 +11,7 @@ import { State } from "../entitis/state";
 import { skills } from "../entitis/skill";
 import { ResponseModel } from "../models/responseDto";
 import { Like ,ILike} from "typeorm";
+import { ImagenService } from "../Services/imagenes-service";
 
 
 
@@ -82,6 +83,8 @@ const controllerProvider = {
 
 
     },
+
+    
 
     // prueva de coneccion 
     ping: async (req: Request, res: Response): Promise<void> => {
@@ -243,6 +246,161 @@ const controllerProvider = {
             res.status(500).json(ResponseModel.errorResponse(500, "Error en el servidor: " + error));
         }
     },
+
+    completar: async (req: Request, res: Response): Promise<void> => {
+
+        console.log("Request body:" + req.body);
+        let message = "";
+        try {
+            const {
+                email,
+                name_state, // Estado
+                zipcode,
+                name_Town, // Ciudad
+                street_1,
+                street_2,
+                localidad, // Dirección
+                skill, // Habilidades
+                experienceYears,
+                workshopName,
+                workshopPhoneNumber,
+                detalles // Descripción del Proveedor
+            } = req.body;
+
+            console.log("Skills: " + skill);
+
+            // Verificar que el correo esté presente en la solicitud
+            if (!email) {
+                res.status(400).json(ResponseModel.errorResponse(400, "El correo es requerido"));
+                return;
+            }
+
+            // Buscar el usuario por correo
+            let user = await repositoryUser.findOne({
+                where: { email },
+                relations: ['usertypes']
+            });
+
+            // Verificar si el usuario existe
+            if (!user) {
+                res.status(400).json(ResponseModel.errorResponse(400, "Usuario no encontrado"));
+                return;
+            }
+
+            const userTypeId = user.usertypes ? user.usertypes.id_userType : null;
+
+            // Buscar el tipo de usuario asociado al usuario encontrado
+            const typeUser = userTypeId ? await repositoryTypeU.findOne({ where: { id_userType: userTypeId } }) : null;
+
+            // Verificar si el tipo de usuario existe
+            if (!typeUser) {
+                res.status(400).json(ResponseModel.errorResponse(400, "Tipo de usuario no encontrado"));
+                return;
+            }
+
+            // Cambiar el estatus del tipo de usuario a 'Proveedor'
+            const values = true;
+            const descripcion = "Proveedor";
+
+            let tipoUsuario = await repositoryTypeU.findOne({ where: { descripcion, value: values } });
+            if (!tipoUsuario) {
+                tipoUsuario = new userTypes();
+                tipoUsuario.value = values;
+                tipoUsuario.descripcion = descripcion;
+                await repositoryTypeU.save(tipoUsuario);
+            }
+
+            // Actualizamos el tipo de usuario en la tabla de usuario
+            user.usertypes = tipoUsuario;
+            await repositoryUser.save(user);
+
+            // Agregar o actualizar el estado
+            let estado = await repositoryState.findOne({ where: { name_State: name_state } });
+            if (!estado) {
+                estado = new State();
+                estado.name_State = name_state;
+                await repositoryState.save(estado);
+            }
+
+            // Agregar o actualizar la ciudad
+            let ciudad = await repositoryTowns.findOne({
+                where: { name_Town, zipCode: zipcode }
+            });
+            if (!ciudad) {
+                ciudad = new Town();
+                ciudad.name_Town = name_Town;
+                ciudad.zipCode = zipcode;
+                ciudad.state = estado;
+                await repositoryTowns.save(ciudad);
+            }
+
+            // Agregar o actualizar la dirección
+            let address = await repositoryAddress.findOne({
+                where: { street_1, street_2, localidad }
+            });
+            if (!address) {
+                address = new Address();
+                address.street_1 = street_1;
+                address.street_2 = street_2;
+                address.localidad = localidad;
+                address.town = ciudad;
+                await repositoryAddress.save(address);
+            }
+
+            // Manejo de habilidades
+            const habilidades = Object.entries(JSON.parse(skill));
+            let skillsToSave: skills[] = [];
+
+            for (const [key, value] of habilidades) {
+                if (typeof value === 'string') {
+                    let skillEntity = await repositoryskills.findOne({ where: { name: value } });
+
+                    if (!skillEntity) {
+                        skillEntity = new skills();
+                        skillEntity.name = value;
+                        await repositoryskills.save(skillEntity);
+                    }
+
+                    skillsToSave.push(skillEntity);
+                } else {
+                    console.error(`El valor para la clave "${key}" no es un string:`, value);
+                    res.status(400).json(ResponseModel.errorResponse(400, "Error de formato de skills"));
+                    return;
+                }
+            }
+
+            // Agregar o actualizar proveedor
+            let proveedor = await repositoryProviders.findOne({
+                where: { workshopName },
+                relations: ['skills']
+            });
+
+            if (!proveedor) {
+                proveedor = new Providers();
+                proveedor.experienceYears = experienceYears; // Convertir a número
+                proveedor.workshopName = workshopName;
+                proveedor.workshopPhoneNumber = workshopPhoneNumber;
+                proveedor.address = address;
+                proveedor.descripcion = detalles;
+                proveedor.skills = skillsToSave;
+                proveedor.user = user;
+                await repositoryProviders.save(proveedor);
+                message = "Proveedor registrado con éxito"
+
+            } else {
+                res.status(400).json(ResponseModel.errorResponse(400, "Nombre del taller en uso"));
+                return;
+            }
+
+            res.status(200).json(ResponseModel.successResponse(message));
+
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).json(ResponseModel.errorResponse(500, "Error en el servidor: " + error));
+        }
+    },
+
 
     eliminarHabilidad: async function (req: Request, res: Response): Promise<void> {
         try {
@@ -585,7 +743,36 @@ const controllerProvider = {
             res.status(500).json(ResponseModel.errorResponse(500, "Ocurrió un error con el servidor. " + error));
 
         }
+    },
+
+    cargarimagen:async function (req:Request, res:Response) {
+        let id_provider = Number(req.params.id_provider);
+      
+        const { funcionality, urlLocation } = req.body;
+        try {
+            if(!id_provider){
+                console.log("No se encontro el provedor" + id_provider);
+                res.json("Undefided")
+                return;
+            }
+            const usuario = await repositoryProviders.findOne({ where: { id_provider: id_provider } });
+            let  idUsedOn = String(id_provider)
+            let table = 'providers'
+            if(usuario){
+           
+              const conexion = new ImagenService();
+              const postResp = await conexion.PostImage({ funcionality, urlLocation, idUsedOn }, table);
+              console.log("Se guardó con éxito:", JSON.stringify(postResp));
+            }else{
+              res.status(400).json("No se encontro el usuario")
+              console.log("No se encontro el usuario")
+            }
+            res.json({ message: "Imagen guardada con éxito" });
+        }catch (e) {
+        console.error("Error:", e );
+        res.status(500).json({ message: "Error interno" }); 
     }
+  } 
 
 }
 

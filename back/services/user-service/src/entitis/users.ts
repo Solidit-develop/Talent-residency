@@ -25,9 +25,6 @@ export class users{
     @Column({type: "varchar", length:20})
     phoneNumber:string
 
-    @Column({type:"varchar",length:10, nullable:true })
-    imageUs:string | null;
-
     @ManyToOne(()=>userTypes,usertypes=>usertypes.id_userType)
     usertypes:userTypes
 
