@@ -15,6 +15,7 @@ import com.example.servicesolidit.Utils.Models.Responses.LoginResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Messages.MessagesResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Messages.SendMessageResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.RegisterResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.SearchProvider.SearchProviderResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.ProviderProfileInformationDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProviderProfileResponse;
@@ -51,6 +52,9 @@ public interface ApiService {
 
     @POST("path")
     Call<AppointmentResponseDto> createAppointmnt();
+
+    @GET("provider/provedores/{item}")
+    Call<List<SearchProviderResponseDto>> searchProvider(@Path("item")String item);
 
     @GET("message/mensajes/{idOrigen}/{idDestino}")
     Call<MessagesResponseDto> getMessages(@Path("idOrigen") int idOrigen, @Path("idDestino") int idDestino);

@@ -1,19 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Search">
+    tools:context=".Search.Search">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/headerSearchView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:fontFamily="sans-serif-black"
-        android:textColor="@color/dark_text"
-        android:textSize="40sp"
-        android:text="Search" />
+        android:padding="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true">
 
-</FrameLayout>
+        <EditText
+            android:id="@+id/etSearchProvider"
+            android:hint="Busca el servicio que te hace falta"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:id="@+id/buttonSearch"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@null"
+            android:src="@drawable/baseline_search_24"/>
+    </LinearLayout>
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSearchprovider"
+        android:layout_width="match_parent"
+        android:layout_below="@id/headerSearchView"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_search_view"
+        />
+
+
+</RelativeLayout>
