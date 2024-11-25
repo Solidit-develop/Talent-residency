@@ -15,4 +15,5 @@ router.get('/todos', usercontroller.prueba);
 router.post('/register', usercontroller.registroUsuario);
 router.get('/validate/:token', usercontroller.verificacion);
 router.post('/imagen/:id_user',controllerusuario.insertImagen);
+router.put('/resetPassword',controllerusuario.resetPassword);
 module.exports = router;
