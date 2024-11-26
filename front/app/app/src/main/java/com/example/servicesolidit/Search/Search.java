@@ -1,8 +1,10 @@
 package com.example.servicesolidit.Search;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -18,6 +20,7 @@ import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Models.Responses.SearchProvider.SearchProviderResponseDto;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Search extends Fragment implements SearchProviderView{
@@ -25,7 +28,9 @@ public class Search extends Fragment implements SearchProviderView{
     private ImageView imgSearchButton;
     private RecyclerView recyclreViewSearch;
     private SearchPresenter presenter;
+    private SearchProviderAdapter adapter;
 
+    private ArrayList<SearchProviderResponseDto> providersFound;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -39,21 +44,30 @@ public class Search extends Fragment implements SearchProviderView{
             String item = etSearchPriovider.getText().toString();
             Toast.makeText(requireContext(), "Buscar " + item, Toast.LENGTH_SHORT).show();
             presenter.searchProvider(item);
+            onShowProgress();
         });
 
-
+        this.providersFound = new ArrayList<>();
+        adapter = new SearchProviderAdapter(this.providersFound);
+        recyclreViewSearch.setAdapter(adapter);
+        recyclreViewSearch.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
 
         return view;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onResultFound(List<SearchProviderResponseDto> response) {
         Gson gson = new Gson();
+        this.providersFound.clear();
         if(!response.isEmpty()){
-            Log.i("SearchClass", "Se encontró: " + gson.toJson(response.get(0)));
+            this.providersFound.addAll(response);
+            Log.i("SearchClass", "Se encontró: " + response.size());
         }else{
             Log.i("SearchClass", "No se encontraron negocios que coincidan");
         }
+        onHideProgress();
+        adapter.notifyDataSetChanged();
     }
 
     @Override

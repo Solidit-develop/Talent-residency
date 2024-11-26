@@ -139,6 +139,8 @@ public class Message extends Fragment implements MessageView{
 
         // Limpia y actualiza la lista sin cambiar la referencia
         this.messageList.clear(); // Limpia la lista actual
+
+
         this.messageList.addAll(messagesDtoList); // Añade los nuevos mensajes
 
         // Notifica al adaptador de los cambios
