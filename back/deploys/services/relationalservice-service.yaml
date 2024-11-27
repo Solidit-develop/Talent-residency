@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: C:\Users\Solid IT\Documents\JC\Repositorio\Talent-Residency2\Talent-residency\back\deploys\kompose-windows-amd64.exe convert -f .\docker-compose.yml
+    kompose.version: 1.34.0 (cbf2835db)
+  labels:
+    app: relationalservice
+  name: relationalservice
+spec:
+  ports:
+    - protocol: TCP
+      port: 4008
+      targetPort: 4008
+  selector:
+    app: relationalservice
+  type: LoadBalancer
