@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_margin="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:ignore="UselessLeaf">
+
+        <TextView
+            android:id="@+id/tvEstatusAppointment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="16dp"
+            android:text="Estatus"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/tvTitleDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvEstatusAppointment"
+            android:layout_alignParentStart="true"
+            android:text="Fecha de la cita"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvContentDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvEstatusAppointment"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/tvTitleDate"
+            android:text="14-10-2024"
+            android:textAlignment="textEnd" />
+
+        <TextView
+            android:id="@+id/tvContentProvider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitleDate"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/tvTitleProvider"
+            android:text="PlomeSmileasdgfasdgadfsgadsadfgsdfgsdfgsdfg"
+            android:textAlignment="textEnd" />
+
+        <TextView
+            android:id="@+id/tvTitleProvider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitleDate"
+            android:layout_alignParentStart="true"
+            android:text="Proveedor"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvContentLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvContentProvider"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/tvTitleProvider"
+            android:text="En mi cassa pa"
+            android:textAlignment="textEnd" />
+
+        <TextView
+            android:id="@+id/tvTitleLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvContentProvider"
+            android:layout_alignParentStart="true"
+            android:text="Ubication"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvContentClient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitleLocation"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/tvTitleClient"
+            android:text="Jach"
+            android:textAlignment="textEnd" />
+
+        <TextView
+            android:id="@+id/tvTitleClient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitleLocation"
+            android:layout_alignParentStart="true"
+            android:text="Client"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

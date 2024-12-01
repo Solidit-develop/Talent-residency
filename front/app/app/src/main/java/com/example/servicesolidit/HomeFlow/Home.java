@@ -25,6 +25,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.servicesolidit.ApointmentFlow.AppointmentView;
+import com.example.servicesolidit.ApointmentFlow.ViewAppointments.ObtainAppointments;
 import com.example.servicesolidit.ConversationFlow.Conversation;
 import com.example.servicesolidit.HeadDrawn;
 import com.example.servicesolidit.HouseFlow.House;
@@ -103,7 +105,8 @@ public class Home extends AppCompatActivity{
         });
 
         navigationActions.put(R.id.item_appointment, () -> {
-            Toast.makeText(this, "Hola desde citas", Toast.LENGTH_SHORT).show();
+            ObtainAppointments fragment = new ObtainAppointments();
+            this.navigateTo(fragment);
         });
 
         navigationActions.put(R.id.item_agreements, () -> {
