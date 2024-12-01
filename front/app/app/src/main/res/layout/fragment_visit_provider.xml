@@ -100,8 +100,15 @@
                     android:layout_height="100dp"
                     android:layout_margin="10dp"
                     android:background="@drawable/radius_frame"
-                    android:backgroundTint="@color/bg_green_Light"/>                        />
-
+                    android:backgroundTint="@color/bg_green_Light"/>
+                <Button
+                    android:id="@+id/btnTryToStartReview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:text="Deja un comentario"
+                    />
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>

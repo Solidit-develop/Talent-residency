@@ -68,11 +68,13 @@
                 android:id="@+id/btn_sing_in_google"
                 style="@style/ButtonIconStart"
                 android:text="@string/value_btn_login_google"
+                android:visibility="gone"
                 app:icon="@drawable/logogoogle" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_sing_in_facebook"
                 style="@style/ButtonIconStart"
+                android:visibility="gone"
                 android:text="@string/value_btn_login_facebook"
                 app:icon="@drawable/logofacebook" />
 
