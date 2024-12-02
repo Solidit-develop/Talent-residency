@@ -2,6 +2,7 @@ package com.example.servicesolidit.Network;
 
 
 
+import com.example.servicesolidit.Utils.Models.Requests.CreateAppointmentRequestDto;
 import com.example.servicesolidit.Utils.Models.Requests.LoginRequestDto;
 import com.example.servicesolidit.Utils.Models.Requests.RegisterRequestDto;
 import com.example.servicesolidit.Utils.Models.Requests.SendMessageRequest;
@@ -9,7 +10,6 @@ import com.example.servicesolidit.Utils.Models.Requests.UpdateToProviderRequestD
 import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentListResponse;
 import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponse;
-import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Feed.FeedResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.ImagesRelational.RelationalImagesResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.LoginResponseDto;
@@ -51,8 +51,8 @@ public interface ApiService {
     @GET("provider/todos/services/feed")
     Call<FeedResponseDto> feed();
 
-    @POST("path")
-    Call<AppointmentResponseDto> createAppointmnt();
+    @POST("appointment/cita/{id_customer}/{id_provider}")
+    Call<AppointmentResponseDto> createAppointmnt(@Body CreateAppointmentRequestDto request, @Path("id_provider")int idProvider, @Path("id_customer") int idCustomer);
 
     @GET("appointment/consulta/{idLogged}")
     Call<AppointmentListResponse> obtenerAppointmntsList(@Path("idLogged") int idLogged);

@@ -1,21 +1,27 @@
 package com.example.servicesolidit.ApointmentFlow;
 
+import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.servicesolidit.R;
+import com.example.servicesolidit.Utils.Models.Requests.CreateAppointmentRequestDto;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class Appointment extends Fragment implements AppointmentView{
@@ -24,13 +30,16 @@ public class Appointment extends Fragment implements AppointmentView{
     private Button btnSeleccionarHora;
     private Button btnConfirmarCita;
     private int idOrigen;
+    private int idDestino;
     private AppointmentPresenter presenteer;
     private CalendarView calendar;
     private String dateSelected;
     private String hourSelected;
+    private EditText etAppointmentLocation;
 
-    public Appointment(int idOrigen){
+    public Appointment(int idOrigen, int idDestino){
         this.idOrigen = idOrigen;
+        this.idDestino = idDestino;
     }
 
     @Override
@@ -42,6 +51,7 @@ public class Appointment extends Fragment implements AppointmentView{
         btnSeleccionarHora = view.findViewById(R.id.buttonSeleccionarHora);
         btnConfirmarCita = view.findViewById(R.id.btnConfirmarCita);
         calendar = view.findViewById(R.id.claendarAppintment);
+        etAppointmentLocation = view.findViewById(R.id.etAppointmentLocation);
 
 
 
@@ -56,19 +66,44 @@ public class Appointment extends Fragment implements AppointmentView{
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
                 // La fecha seleccionada se proporciona directamente como año, mes y día
                 String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
-                dateSelected = "Fecha seleccionada: \n" + selectedDate;
+                dateSelected = selectedDate;
             }
         });
 
+
         btnConfirmarCita.setOnClickListener(v->{
-            Toast.makeText(requireContext(), "Confirmar cita: ", Toast.LENGTH_LONG).show();
+            String locationSelected = etAppointmentLocation.getText().toString();
+            if(locationSelected.isEmpty() || dateSelected != null) {
+                // Obtener la fecha actual
+                LocalDate today = LocalDate.now();
+
+                // Formatear la fecha al formato deseado (ejemplo: 2024-12-01)
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                String fechaFormateada = today.format(formatter);
+                CreateAppointmentRequestDto requestDto = new CreateAppointmentRequestDto();
+
+                requestDto.setAppointmentDate(dateSelected);
+                requestDto.setCreationDate(fechaFormateada);
+                requestDto.setAppointmentLocation(locationSelected);
+                Log.i("AppointmentClass", "Intenta generar cita con customer: " + idOrigen + " y con provider " + idDestino);
+                int idAsProvider = obtainProviderIdFromUserId(idDestino);
+                this.presenteer.createAppointment(requestDto, idDestino, idOrigen);
+                Toast.makeText(requireContext(), "Confirmar cita: " + dateSelected + " en " + locationSelected, Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(requireContext(), "Llena todos los campos", Toast.LENGTH_SHORT).show();
+            }
         });
 
         btnSeleccionarHora.setOnClickListener(v->{
             mostrarTimePicker();
+
         });
 
         return  view;
+    }
+
+    private int obtainProviderIdFromUserId(int idDestino) {
+        return  2;
     }
 
     private void mostrarTimePicker() {
@@ -98,6 +133,7 @@ public class Appointment extends Fragment implements AppointmentView{
         timePickerDialog.show();
     }
 
+    @SuppressLint("SetTextI18n")
     private void confirmInformation() {
         if(!this.hourSelected.isEmpty() && !this.dateSelected.isEmpty()){
             String selected = this.dateSelected + " a las \n" + this.hourSelected;
@@ -109,12 +145,12 @@ public class Appointment extends Fragment implements AppointmentView{
 
     @Override
     public void onSuccessAppintmentCreated(String appointmentResponse) {
-
+        Toast.makeText(requireContext(), appointmentResponse, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onErrorAppointmentCreated(String errorMessage) {
-
+        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
     }
 
     @Override

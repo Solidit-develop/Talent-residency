@@ -46,13 +46,16 @@ public class Message extends Fragment implements MessageView{
     private TextView tvNameRelatedOnConversation;
     private ImageView btnGoToCreateAppointmentFlow;
 
+    private int idProviderAsProvider;
     private int idDestino;
     private int idOrigen;
 
     private MessagePresenter presenter;
-    public Message(int origen, int destino){
+
+    // Fix: from ID DESTINO find id as provider in a new call from here and delete from constructor
+    public Message(int origen, int idProviderAsUser){
         this.idOrigen = origen;
-        this.idDestino=destino;
+        this.idDestino=idProviderAsUser;
     }
 
     @Override
@@ -68,7 +71,7 @@ public class Message extends Fragment implements MessageView{
         btnGoToCreateAppointmentFlow = view.findViewById(R.id.btnGoToCreateAppointmentFlow);
 
         btnGoToCreateAppointmentFlow.setOnClickListener(v->{
-            navigateToAppointmentFlow(this.idOrigen);
+            navigateToAppointmentFlow(this.idOrigen, this.idProviderAsProvider);
         });
 
         btnSendMessage.setOnClickListener(v->{
@@ -111,8 +114,13 @@ public class Message extends Fragment implements MessageView{
         return formatter.format(Instant.now());
     }
 
-    public void navigateToAppointmentFlow(int idOrigen){
-        Appointment createAppointment = new Appointment(idOrigen);
+    /**
+     * Inicio el flow para generar un appointment
+     * @param idOrigen used from idLogged
+     * @param idDestino used from provider selected
+     */
+    public void navigateToAppointmentFlow(int idOrigen,int idDestino){
+        Appointment createAppointment = new Appointment(idOrigen, idDestino);
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, createAppointment);
         transaction.addToBackStack(null);
@@ -199,7 +207,10 @@ public class Message extends Fragment implements MessageView{
 
     @Override
     public void onLoadProviderInfoSuccess(ProviderResponseDto result) {
+        Gson fs = new Gson();
+        Log.i("MessageClass", "OnLoadProviderInfo" + fs.toJson(result));
         this.tvNameRelatedOnConversation.setText(result.getWorkshopName());
+        this.idProviderAsProvider = result.getIdProvidersss();
         onHideProgress();
     }
 

@@ -7,6 +7,17 @@ public class ProviderResponseDto {
     @SerializedName("id_provider")
     private int idProvider;
 
+    public int getIdProvidersss() {
+        return idProvidersss;
+    }
+
+    public void setIdProvidersss(int idProvidersss) {
+        this.idProvidersss = idProvidersss;
+    }
+
+    @SerializedName("id_provedores")
+    private int idProvidersss;
+
     @SerializedName("experienceYears")
     private String experienceYears;
 
