@@ -144,6 +144,7 @@ const controllerAppointment ={
                 creationDate:Verificar.creationDate,
                 apointmentDate:Verificar.apointmentDate,    
                 id_provider:Verificar.providers.id_provider,
+                workshopName:Verificar.providers.workshopName,
                 id_user:Verificar.users.id_user,
                 name_User:Verificar.users.name_User,
                 lasname:Verificar.users.lasname,   
@@ -159,10 +160,35 @@ const controllerAppointment ={
 
     },
     
-
+    actualizar: async (req: Request, res: Response): Promise<void> => {
+        try {
+            
+            const id_appointment = Number(req.params.id_appointment);
+            if (isNaN(id_appointment)) {
+                res.status(400).json({ message: "ID de cita inválido" });
+                return; 
+            }
+            const { appointmentLocation, appointmentDate } = req.body;
+            const appointment = await repositoryappointment.findOne({ where: { id_appointment } });
+            if (!appointment) {
+                res.status(404).json({ message: "Cita no encontrada" });
+                return; 
+            }
+            if (appointmentLocation) {
+                appointment.AppointmentLocation = appointmentLocation;
+            }
+            if (appointmentDate) {
+                appointment.apointmentDate = appointmentDate;
+            }
+            await repositoryappointment.save(appointment);
+            console.log("Se actualizó este appointment");
+            res.status(200).json({ message: "Se actualizó con éxito" });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: "Error interno del servidor" });
+        }
+    }
     
-    
-
 }
 
 export default controllerAppointment;
