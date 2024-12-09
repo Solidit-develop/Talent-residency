@@ -4,89 +4,98 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".RegisterBussines">
-
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+    tools:context=".ProfileFlow.RegisterBussines">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="10dp"
-        android:orientation="vertical"
-        android:gravity="center">
-
-        <TextView
-            android:text="Da a conocer tu negocio"
-            style="@style/Title"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_name_bussines"
-            style="@style/BoxTextLayoutNormal"
-            android:hint="Nombre de negocio">
-
-            <com.google.android.material.textfield.TextInputEditText
-                style="@style/EditTextNormal"
-                android:inputType="text"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_skills"
-            style="@style/BoxTextLayoutNormal"
-            android:hint="Habilidades"
-            app:endIconDrawable="@drawable/add"
-            app:endIconMode="custom">
-
-            <com.google.android.material.textfield.TextInputEditText
-                style="@style/EditTextNormal"
-                android:inputType="text"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_number_phone"
-            style="@style/BoxTextLayoutNormal"
-            android:hint="Numero de telefono"
-            app:startIconDrawable="@drawable/phone">
-
-            <com.google.android.material.textfield.TextInputEditText
-                style="@style/EditTextNormal"
-                android:inputType="text|number"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_email"
-            style="@style/BoxTextLayoutNormal"
-            android:hint="@string/value_edtxt_email"
-            app:startIconDrawable="@drawable/correo"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                style="@style/EditTextNormal"
-                android:inputType="text"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_years_experience"
-            android:hint="Años de experiencia."
-            android:layout_width="match_parent"
+        >
+        <ProgressBar
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            style="@style/TextExtendLayout">
-
-            <AutoCompleteTextView
-                style="@style/AutoCompleteText"
-                android:paddingStart="15dp"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_save"
-            style="@style/ButtonIconEnd"
-            android:text="Guardar"
-            android:layout_marginTop="30dp"
-            app:icon="@drawable/save"
+            android:id="@+id/progressItemOnRegisterBussines"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
             />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="10dp"
+            android:orientation="vertical"
+            android:gravity="center">
 
-    </LinearLayout>
+            <TextView
+                android:text="Da a conocer tu negocio"
+                style="@style/Title"
+                tools:ignore="HardcodedText" />
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilBussinesNameRegister"
+                style="@style/BoxTextLayoutNormal"
+                android:hint="Nombre de negocio">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/EditTextNormal"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilBussinesSkillsRegister"
+                style="@style/BoxTextLayoutNormal"
+                android:hint="Habilidades"
+                app:endIconDrawable="@drawable/add"
+                app:endIconMode="custom">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/EditTextNormal"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilBussinesPhoneRegister"
+                style="@style/BoxTextLayoutNormal"
+                android:hint="Numero de telefono"
+                app:startIconDrawable="@drawable/phone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/EditTextNormal"
+                    android:inputType="text|number"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilBussinesEmailRegister"
+                style="@style/BoxTextLayoutNormal"
+                android:hint="@string/value_edtxt_email"
+                app:startIconDrawable="@drawable/correo">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/EditTextNormal"
+                    android:inputType="text"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilBussinesExperienceRegister"
+                android:hint="Años de experiencia."
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/EditTextNormal"
+                    android:paddingStart="15dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRegisterBussines"
+                style="@style/ButtonIconEnd"
+                android:text="Guardar"
+                android:layout_marginTop="30dp"
+                app:icon="@drawable/save"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 </FrameLayout>

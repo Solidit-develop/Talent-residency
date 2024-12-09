@@ -55,7 +55,14 @@
             tools:layout="@layout/fragment_login"
             />
 
+
     </androidx.cardview.widget.CardView>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_prueba_mensaje"
+        android:elevation="15dp"/>
 
 
 </RelativeLayout>

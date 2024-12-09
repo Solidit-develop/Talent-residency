@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".CustomerToProviderView">
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context=".ProviderInformationFlow.CustomerToProvider"
+    android:background="@color/bg_white">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,7 +13,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="200dp"
             android:id="@+id/img_profile_view"
             android:scaleType="fitCenter"
             android:src="@drawable/logoimagen"
@@ -98,9 +97,19 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/btn_send_message"
-                        android:text="Deseas enviar un mensaje"
+                        android:id="@+id/btnStartNewMessage"
+                        android:visibility="gone"
+                        android:text="Incia una nueva conversación"
                         android:layout_marginStart="5dp"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:id="@+id/btnGoToConversation"
+                        android:text="Continua con tu conversación"
+                        android:layout_marginStart="5dp"/>
+
 
                     <TextView
                         android:layout_width="match_parent"
@@ -133,7 +142,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/FilledTextField"
-                    android:id="@+id/txt_filled_email"
+                    android:id="@+id/tilEmailProvider"
                     android:hint="@string/value_edtxt_email"
                     app:endIconDrawable="@drawable/correo"
                     app:endIconTint="@color/dark_normal">

@@ -5,9 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="10dp"
-    tools:context=".BussinesData">
+    tools:context=".ProfileFlow.BussinesData">
 
-    <!-- TODO: Update blank fragment layout -->
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -27,8 +26,6 @@
                 android:textSize="30dp"
                 android:textColor="@color/dark_text"/>
 
-
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,7 +39,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/FilledTextField"
-                android:id="@+id/txt_filled_name_bussines"
+                android:id="@+id/tieBussinesName"
                 android:hint="@string/value_edtxt_Name"
                 android:paddingTop="10dp"
                 app:endIconDrawable="@drawable/edit">
@@ -69,7 +66,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/FilledTextField"
-                android:id="@+id/txt_filled_phone_number"
+                android:id="@+id/tieBussinesPhone"
                 android:hint="Numero de telefono."
                 android:paddingTop="10dp"
                 app:endIconDrawable="@drawable/edit">
@@ -80,12 +77,19 @@
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Años de experienca"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:textColor="@color/dark_text"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/FilledTextField"
-                android:id="@+id/txt_filled_email"
-                android:hint="@string/value_edtxt_email"
+                android:id="@+id/tieBussinesExperience"
+                android:hint="Experienca"
                 android:paddingTop="10dp"
                 app:endIconDrawable="@drawable/edit">
 
@@ -111,7 +115,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/FilledTextField"
-                android:id="@+id/txt_filled_location"
+                android:id="@+id/tieBussinesUbication"
                 android:hint="Ubicación"
                 android:paddingTop="10dp"
                 app:endIconDrawable="@drawable/edit">

@@ -4,6 +4,7 @@ import { users } from './users';
 import { Conversation } from './conversation';
 import { skills } from './skill';
 import { appointment } from './appointment';
+import { agrements } from './agrements';
 
 @Entity()
 export class Providers {
@@ -18,6 +19,9 @@ export class Providers {
 
     @Column({ type: 'varchar', length: 20 })
     workshopPhoneNumber: string;
+
+    @Column({type:'varchar',length:500 ,nullable: true})
+    photoProvider:string | null;
 
     @ManyToOne(() => Address, address => address.providers)
     address: Address;
@@ -36,5 +40,7 @@ export class Providers {
     @OneToMany(() => appointment, appointment => appointment.providers)
     appointment: appointment[];
 
+    @OneToMany(()=> agrements, agrements=>agrements.providers)
+    agrements:agrements;
 
 }

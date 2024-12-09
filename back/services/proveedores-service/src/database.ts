@@ -11,9 +11,13 @@ import { skills } from "./entitis/skill";
 import config from "./config";
 import { review } from "./entitis/review";
 import { appointment } from "./entitis/appointment";
-import { statusAppointment } from "./entitis/statusAppointment";
+// import { statusAppointment } from "./entitis/statusAppointment";
 import { Conversation } from "./entitis/conversation";
 import { Messages } from "./entitis/messages";
+import { agrements } from "./entitis/agrements";
+import { agrements_service } from "./entitis/agrements-service";
+import { serviceStatus } from "./entitis/servicesStatus";
+import { interaccion } from "./entitis/interaccion";
 
 
 const DB_TYPE= config.db_type
@@ -30,7 +34,9 @@ export const AppDataSource = new DataSource({
     username: user,
     password: password,
     database: database,
-    entities:[State,Town,Address,users,userTypes,Providers,skills,review,appointment,statusAppointment,Conversation,Messages],
-    logging:true,
+    entities:[State,Town,Address,users,userTypes,Providers,skills,review,appointment,Conversation,Messages,agrements,agrements_service,serviceStatus,interaccion],
+    // logging:true,
+    logging: ["error", "schema"],
     synchronize:true 
+    
 })

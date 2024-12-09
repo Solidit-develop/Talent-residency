@@ -4,16 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HouseFlow.House"
+    android:layout_gravity="center"
     android:background="@color/bg_white">
 
-    <!-- TODO: Update blank fragment layout -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="3dp"
-        android:layout_margin="5dp"
-        android:elevation="10dp"
-        tools:listitem="@layout/item_card" />
-
+        tools:ignore="UselessParent">
+        <TextView
+            android:id="@+id/noItemsView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Muy pronto nuevos proveedores cerca de ti"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            tools:ignore="HardcodedText" />
+        <ProgressBar
+            android:id="@+id/houseProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="3dp"
+            android:layout_margin="5dp"
+            android:layout_centerHorizontal="true"
+            android:elevation="10dp"
+            tools:listitem="@layout/item_card" />
+    </RelativeLayout>
 </FrameLayout>

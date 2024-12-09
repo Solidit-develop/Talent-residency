@@ -51,6 +51,7 @@ const serviceImages = {
             relations: ['images'] // Carga la relación `images`
         });
 
+
         // Validación de resultImageRelation
         if (!resultImageRelation) {
             errorMessage = "No se encontró la relación de imagen para el id proporcionado.";
@@ -86,10 +87,13 @@ const serviceImages = {
             idUsedOn,
             funcionality,
             message: errorMessage || null, // Agregar el mensaje de error si existe
-            imageName: resultImage?.urlLocation || null // Usar el encadenamiento opcional
+            imageName: resultImage?.urlLocation || null, // Usar el encadenamiento opcional
+            id_relacion:resultImageRelation?.id_imagesRelation
         };
 
         // Devolver la respuesta
+
+        console.log(response)
         res.json(response);
     },
 }

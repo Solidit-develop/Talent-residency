@@ -6,7 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".RegisterFlow.Register">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,28 +24,30 @@
             style="@style/Subtitle1"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_name_input"
+            android:id="@+id/txt_name_input_layout"
             style="@style/BoxTextLayoutSmall"
             android:hint="@string/value_edtxt_Name"
             android:layout_marginTop="20dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtxt_name"
                 style="@style/EditTextSmall"
                 android:inputType="textPersonName"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_lastname_input"
+            android:id="@+id/txt_lastname_input_layout"
             style="@style/BoxTextLayoutSmall"
             android:hint="@string/value_edtxt_lastname">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtxt_lastname"
                 style="@style/EditTextSmall"
                 android:inputType="textPersonName"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_phone_number"
+            android:id="@+id/txt_phone_number_layout"
             style="@style/BoxTextLayoutSmall"
             android:hint="@string/value_edtxt_phone">
 
@@ -57,26 +58,26 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_age_input"
+            android:id="@+id/txt_age_input_layout"
             style="@style/BoxTextLayoutSmall"
             android:hint="@string/value_edtxt_age">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtxt_age"
                 style="@style/EditTextSmall"
                 android:inputType="text|number"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_email_input"
+            android:id="@+id/txt_email_input_layout"
             style="@style/BoxTextLayoutSmall"
             android:hint="@string/value_edtxt_email">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_email_edit"
+                android:id="@+id/edtxt_email"
                 style="@style/EditTextSmall"
                 android:inputType="textEmailAddress"/>
         </com.google.android.material.textfield.TextInputLayout>
-
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_siguiente"
@@ -84,7 +85,5 @@
             android:text="@string/value_btn_next"
             app:icon="@drawable/siguiente"
             android:layout_marginTop="20dp"/>
-
     </LinearLayout>
-
 </FrameLayout>

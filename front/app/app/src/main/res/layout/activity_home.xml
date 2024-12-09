@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg_white"
+        tools:openDrawer="start"
         android:id="@+id/drawer_home">
 
         <RelativeLayout
@@ -25,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/toolbar_gradient"
                 app:menu="@menu/menu_head"
-                style="@style/AppTheme"
+                android:backgroundTint="@color/bg_btn_grey"
                 app:title=" "/>
 
             <ImageView
@@ -56,6 +57,12 @@
                 android:layout_marginBottom="-5dp"
                 android:id="@+id/fragment_container_profile"
                 android:layout_above="@+id/bottom_navigation"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="14dp"
+                android:id="@+id/fragment_content_home"/>
 
             <!-- BottomNavigationView en la parte inferior -->
             <com.google.android.material.bottomnavigation.BottomNavigationView

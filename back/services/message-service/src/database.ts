@@ -26,7 +26,7 @@ export const AppDataSource = new DataSource({
     username:user,
     database:database,
     entities:[Messages,Conversation,users,userTypes,appointment,Providers],
-    logging:true,
+    logging: ["error", "schema"],
     synchronize:false    
 
 })

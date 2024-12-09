@@ -6,6 +6,20 @@ public class CardModel {
     private String nameBussines;
     private String description;
     private String location;
+    private int idProvider;
+    private int idProviderAsUser;
+
+    public int getIdProviderAsUser() {
+        return idProviderAsUser;
+    }
+
+    public void setIdProviderAsUser(int idProviderAsUser) {
+        this.idProviderAsUser = idProviderAsUser;
+    }
+
+    public void setIdProvider(int idProvider) {
+        this.idProvider = idProvider;
+    }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
@@ -27,11 +41,16 @@ public class CardModel {
 
     }
 
-    public CardModel(String imageUrl, String nameBussines, String description, String location){
+    public CardModel(String imageUrl, String nameBussines, String description, String location, int idProvider){
         this.imageUrl = imageUrl;
         this.nameBussines = nameBussines;
         this.description = description;
         this.location = location;
+        this.idProvider = idProvider;
+    }
+
+    public int getIdProvider() {
+        return idProvider;
     }
 
     public String getImageUrl() {
@@ -49,5 +68,6 @@ public class CardModel {
     public String getLocation() {
         return location;
     }
+
 
 }

@@ -9,9 +9,12 @@ import bcryptjs from 'bcryptjs'
 import transporter from "../mail/mailer"
 import generateRandomToken from "../mail/tokengenerator"
 import jwt from "jsonwebtoken"
+import {ImagenService} from "../Services/imagenes-service"
 
 import { ResponseModel } from "../models/responseDto";
 import config from "../config";
+import { ProviderService } from "../Services/provider-service";
+
 
 const repositoriState = AppDataSource.getRepository(State);
 const repositoriTown = AppDataSource.getRepository(Town);
@@ -196,7 +199,7 @@ const controllerusuario = {
           await repositoritypeU.save(estatus)
         }
 
-        let usert = await repositoriuser.findOne({ where: [{ name_User: token.name_user }, { email: token.email }] })
+        let usert = await repositoriuser.findOne({ where: { email: token.email } })
         if (!usert) {
           console.log(token.passwordhas);
           usert = new users();
@@ -343,36 +346,6 @@ const controllerusuario = {
 
 
 
-  //    verificacion: async (req: Request, res: Response): Promise<void> => {
-  //        try {
-  //         console.log("Entro en primer try");
-  //          const {token} = req.params;
-
-  //          if (!token){
-  //             res.status(400).json({mesage:"token no resivido"});
-  //             return;
-  //          }
-  //          try {
-  //             console.log("Entro en el segundo try");
-  //            // Verifica y decodifica el token
-  //            const decodedToken = jwt.verify(token, SECRET_KEY) as DecodedToken;
-  //         console.log("Salto la decodificacion")
-  //            console.log(decodedToken.name_user,decodedToken.lastname);
-  //            // Aquí puedes hacer algo con los datos decodificados, como actualizar la base de datos
-  //            res.status(200).json({
-  //              message: 'Token verificado exitosamente',
-  //              data: decodedToken,
-  //            });
-  //          } catch (err) {
-  //             console.log(err)
-  //            res.status(404).json({message:"El token expiro"});
-  //          }
-  //        } catch (error) {
-  //         console.log(error);
-  //          res.status(500).json({ message: 'No fue posible conectar con el servidor.'});
-  //        }
-  //      },
-
 
 
   prueba: async (req: Request, res: Response): Promise<void> => {
@@ -393,7 +366,7 @@ const controllerusuario = {
   },
 
   /**
-   * TODO: Select the info to return
+   * TODO: Delete password from fields to return
    */
   inicio_sesion: async (req: Request, res: Response): Promise<void> => {
     try {
@@ -421,17 +394,28 @@ const controllerusuario = {
   },
 
   obtainInformation: async (req: Request, res: Response): Promise<void> => {
+    const providerService = new ProviderService();
     var response;
+    let userIdToFind = req.params.idToFind;
+    console.log("ID TO FIND: " + userIdToFind);
+
     try {
-      let userIdToFind = parseInt(req.params.idToFind);
-      console.log("ID TO FIND: " + userIdToFind);
-      let usuario = await repositoriuser.findOne({ where: { id_user: userIdToFind } })
-      response = usuario;
+      response = await providerService.getUserInfo(userIdToFind)
+        .then(resp => {
+          console.log("Response on promise controller: " + JSON.stringify(resp));
+          return resp;
+        })
+        .catch(error => {
+          console.log("Error on promise controller: " + error);
+        });
+      console.log("Response del service: " + response);
     } catch (e) {
       response = e;
+      console.log("Error: " + response);
     }
 
-    res.status(200).json(ResponseModel.successResponse(response))
+    console.log("Response on finish controller: " + response);
+    res.status(200).json(response);
   },
 
   insertusuario: async (req: Request, res: Response): Promise<void> => {
@@ -590,9 +574,31 @@ const controllerusuario = {
       console.error("Error al actualizar los datos:", error);
       res.status(500).json(ResponseModel.errorResponse(500, `Error interno: ${error}`));
     }
+  },
+
+  insertImagen: async (req: Request, res: Response): Promise<void> => {
+    let id_user = Number(req.params.id_user);
+    const { funcionality, urlLocation } = req.body;
+
+      try {
+      const usuario = await repositoriuser.findOne({ where: { id_user: id_user } });
+      let  idUsedOn = String(id_user)
+      let table = 'users'
+
+      if(usuario){
+        const conexion = new ImagenService();
+        const postResp = await conexion.PostImage({ funcionality, urlLocation, idUsedOn }, table);
+        console.log("Se guardó con éxito:", JSON.stringify(postResp));
+      }else{
+        res.status(400).json("No se encontro el usuario")
+        console.log("No se encontro el usuario")
+      }
+      res.json({ message: "Imagen guardada con éxito" });
+    } catch (e) {
+      console.error("Error:", e );
+      res.status(500).json({ message: "Error interno" }); 
+    }
   }
-
-
 
 };
 

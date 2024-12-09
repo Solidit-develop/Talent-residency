@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".head_drawn"
     android:background="@drawable/radius_frame">
 
     <!-- TODO: Update blank fragment layout -->
@@ -14,7 +13,9 @@
         android:gravity="start"
         android:orientation="vertical"
         android:paddingTop="50dp"
-        android:paddingStart="20dp">
+        android:paddingStart="20dp"
+        android:backgroundTint="#890830">
+
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -24,7 +25,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txt_name_user"
+            android:id="@+id/txt_name_user_logged_on_header"
             android:text="Nombre Usuario"
             android:textSize="20sp"
             android:textColor="@color/bg_white"
@@ -34,7 +35,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txt_mail_user"
+            android:id="@+id/txt_mail_user_logged_on_header"
             android:text="correo@electronico"
             android:textSize="15sp"
             android:textColor="@color/bg_white"
