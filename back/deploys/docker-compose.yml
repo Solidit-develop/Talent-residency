@@ -9,13 +9,13 @@ services:
     environment:
       - PORT=4009
       - HOST=localhost
-      - DB_HOST=10.242.13.1
+      - DB_HOST=0.0.0.0
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
       - DB=mydatabase
       - DB_PORT=5432
-      - BaseAddress=http://189.190.228.211:4000/api/v1/images
+      - BaseAddress=http://86.38.204.102:4000/api/v1/images
       - PathToSave=DEV
     # depends_on:
     #   - postgres
@@ -32,13 +32,13 @@ services:
     environment:
       - PORT=4008
       - HOST=localhost
-      - DB_HOST=10.242.13.1
+      - DB_HOST=0.0.0.0
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
       - DB=mydatabase
       - DB_PORT=5432
-      - BaseAddress=http://189.190.228.211:4000/api/v1/images
+      - BaseAddress=http://86.38.204.102:4000/api/v1/images
       - PathToSave=DEV
     # depends_on:
     #   - postgres
@@ -51,7 +51,7 @@ services:
     environment:
       - PORT=4002
       - HOST=localhost
-      - DB_HOST=10.242.13.1
+      - DB_HOST=0.0.0.0
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -72,7 +72,7 @@ services:
     environment:
       - PORT=4004
       - HOST=localhost
-      - DB_HOST=10.242.13.1
+      - DB_HOST=0.0.0.0
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -91,7 +91,7 @@ services:
     environment:
       - PORT=4010
       - HOST=localhost
-      - DB_HOST=10.242.13.1
+      - DB_HOST=0.0.0.0
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -110,7 +110,7 @@ services:
     environment:
       - PORT=4007
       - HOST=localhost
-      - DB_HOST=10.242.13.1
+      - DB_HOST=0.0.0.0
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -129,14 +129,14 @@ services:
     environment:
       - PORT=4001
       - HOST=localhost
-      - DB_HOST=10.242.13.1
+      - DB_HOST=0.0.0.0
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
       - DB=mydatabase
       - DB_PORT=5432
-      - BaseAddress=http://189.190.228.211:4000/api/v1/users
-      - Ambiente=DEV
+      - BaseAddress=http://86.38.204.102:4000/api/v1/users
+      - Ambiente=LOCAL
     ports:
       - "4001:4001"
     # depends_on:
@@ -150,14 +150,14 @@ services:
     environment:
       - PORT=4011
       - HOST=localhost
-      - DB_HOST=10.242.13.1
+      - DB_HOST=0.0.0.0
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
       - DB=mydatabase
       - DB_PORT=5432
-      - BaseAddress=http://189.190.228.211:4000/api/v1/users
-      - Ambiente=DEV
+      - BaseAddress=http://86.38.204.102:4000/api/v1/users
+      - Ambiente=LOCAL
     ports:
       - "4011:4011"
     # depends_on:
