@@ -21,7 +21,7 @@ services:
     environment:
       - PORT=4009
       - HOST=localhost
-      - DB_HOST=0.0.0.0
+      - DB_HOST=localhost
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -44,7 +44,7 @@ services:
     environment:
       - PORT=4008
       - HOST=localhost
-      - DB_HOST=0.0.0.0
+      - DB_HOST=localhost
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -63,7 +63,7 @@ services:
     environment:
       - PORT=4002
       - HOST=localhost
-      - DB_HOST=0.0.0.0
+      - DB_HOST=localhost
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -84,7 +84,7 @@ services:
     environment:
       - PORT=4004
       - HOST=localhost
-      - DB_HOST=0.0.0.0
+      - DB_HOST=localhost
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -103,7 +103,7 @@ services:
     environment:
       - PORT=4010
       - HOST=localhost
-      - DB_HOST=0.0.0.0
+      - DB_HOST=localhost
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -122,7 +122,7 @@ services:
     environment:
       - PORT=4007
       - HOST=localhost
-      - DB_HOST=0.0.0.0
+      - DB_HOST=localhost
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -141,7 +141,7 @@ services:
     environment:
       - PORT=4001
       - HOST=localhost
-      - DB_HOST=0.0.0.0
+      - DB_HOST=localhost
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -162,7 +162,7 @@ services:
     environment:
       - PORT=4011
       - HOST=localhost
-      - DB_HOST=0.0.0.0
+      - DB_HOST=localhost
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
