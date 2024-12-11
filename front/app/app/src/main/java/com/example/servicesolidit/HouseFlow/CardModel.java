@@ -7,7 +7,15 @@ public class CardModel {
     private String description;
     private String location;
     private int idProvider;
+    private int idProviderAsUser;
 
+    public int getIdProviderAsUser() {
+        return idProviderAsUser;
+    }
+
+    public void setIdProviderAsUser(int idProviderAsUser) {
+        this.idProviderAsUser = idProviderAsUser;
+    }
 
     public void setIdProvider(int idProvider) {
         this.idProvider = idProvider;

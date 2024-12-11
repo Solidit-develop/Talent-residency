@@ -121,11 +121,12 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
             for (ProviderResponseDto item : feedResponse) {
                 CardModel modelFromResponse = new CardModel();
                 Gson gson = new Gson();
-                Log.i("HouseClass", "Info cargada: " + gson.toJson(modelFromResponse));
+                Log.i("HouseClass", "Info cargada: " + gson.toJson(item));
                 modelFromResponse.setLocation(item.getAddress().getLocalidad());
                 modelFromResponse.setNameBussines(item.getWorkshopName());
                 modelFromResponse.setDescription("Con " + item.getExperienceYears() + " años de experiencia");
                 modelFromResponse.setIdProvider(item.getIdProvider());
+                //modelFromResponse.setIdProviderAsUser(item.getUserInfoRelated().getIdUser());
                 modelFromResponse.setImageUrl(Constants.BASE_URL + "images/print/1726996926660-mydatabase-public.png");
                 listToPrint.add(modelFromResponse);
             }

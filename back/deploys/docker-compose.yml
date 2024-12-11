@@ -1,5 +1,17 @@
 version: "3.8"
 services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
 
   postgres:
     image: postgres:13
@@ -22,6 +34,7 @@ services:
     environment:
       - PORT=4009
       - HOST=localhost
+
       - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser

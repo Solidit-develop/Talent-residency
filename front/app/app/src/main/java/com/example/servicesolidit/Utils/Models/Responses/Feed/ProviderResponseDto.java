@@ -30,6 +30,8 @@ public class ProviderResponseDto {
         this.userInfoRelated = userInfoRelated;
     }
 
+    public ProviderResponseDto(){}
+
     public ProviderResponseDto(int idProvider, String experienceYears, String workshopName, String workshopPhoneNumber, AddressResponseDto address) {
         this.idProvider = idProvider;
         this.experienceYears = experienceYears;

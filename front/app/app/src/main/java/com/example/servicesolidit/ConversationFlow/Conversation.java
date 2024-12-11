@@ -99,7 +99,7 @@ public class Conversation extends Fragment implements AdapterConversation.OnConv
                 ConversationResultDto conver = response.get(i);
                 ConversationDto converResult = new ConversationDto(
                         String.valueOf(conver.getIdMessage()),
-                        "[name]",
+                        conver.getNameUser(),
                         "profileImageUrl",
                         conver.getContenido(),
                         conver.getDate(),
