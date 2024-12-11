@@ -1,5 +1,18 @@
-# version: "3.8"
+version: "3.8"
 services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
   postgres:
     image: postgres:13
     environment:
@@ -21,7 +34,8 @@ services:
     environment:
       - PORT=4009
       - HOST=localhost
-      - DB_HOST=localhost
+
+      - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -29,8 +43,8 @@ services:
       - DB_PORT=5432
       - BaseAddress=http://86.38.204.102:4000/api/v1/images
       - PathToSave=DEV
-    # depends_on:
-    #   - postgres
+    depends_on:
+      - postgres
     networks:
       - app-network
     volumes:
@@ -44,7 +58,7 @@ services:
     environment:
       - PORT=4008
       - HOST=localhost
-      - DB_HOST=localhost
+      - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -52,8 +66,8 @@ services:
       - DB_PORT=5432
       - BaseAddress=http://86.38.204.102:4000/api/v1/images
       - PathToSave=DEV
-    # depends_on:
-    #   - postgres
+    depends_on:
+      - postgres
     networks:
       - app-network
 
@@ -63,7 +77,7 @@ services:
     environment:
       - PORT=4002
       - HOST=localhost
-      - DB_HOST=localhost
+      - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -73,8 +87,8 @@ services:
       - EMAIL_PASS=oskx bcdz odyk ilpu
     ports:
       - "4002:4002"
-    # depends_on:
-    #   - postgres
+    depends_on:
+      - postgres
     networks:
       - app-network
 
@@ -84,7 +98,7 @@ services:
     environment:
       - PORT=4004
       - HOST=localhost
-      - DB_HOST=localhost
+      - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -92,8 +106,8 @@ services:
       - DB_PORT=5432
     ports:
       - "4004:4004"
-    # depends_on:
-    #   - postgres
+    depends_on:
+      - postgres
     networks:
       - app-network
 
@@ -103,7 +117,7 @@ services:
     environment:
       - PORT=4010
       - HOST=localhost
-      - DB_HOST=localhost
+      - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -111,8 +125,8 @@ services:
       - DB_PORT=5432
     ports:
       - "4010:4010"
-    # depends_on:
-    #   - postgres
+    depends_on:
+      - postgres
     networks:
       - app-network
 
@@ -122,7 +136,7 @@ services:
     environment:
       - PORT=4007
       - HOST=localhost
-      - DB_HOST=localhost
+      - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -130,8 +144,8 @@ services:
       - DB_PORT=5432
     ports:
       - "4007:4007"
-    # depends_on:
-    #   - postgres
+    depends_on:
+      - postgres
     networks:
       - app-network
 
@@ -141,7 +155,7 @@ services:
     environment:
       - PORT=4001
       - HOST=localhost
-      - DB_HOST=localhost
+      - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -151,8 +165,8 @@ services:
       - Ambiente=LOCAL
     ports:
       - "4001:4001"
-    # depends_on:
-    #   - postgres
+    depends_on:
+      - postgres
     networks:
       - app-network
 
@@ -162,7 +176,7 @@ services:
     environment:
       - PORT=4011
       - HOST=localhost
-      - DB_HOST=localhost
+      - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
@@ -172,11 +186,10 @@ services:
       - Ambiente=LOCAL
     ports:
       - "4011:4011"
-    # depends_on:
-    #   - postgres
+    depends_on:
+      - postgres
     networks:
       - app-network
-
 
   apigateway:
     build:
@@ -187,8 +200,8 @@ services:
       - URL_HOST=DEV
     ports:
       - "4000:4000"
-    # depends_on:
-    #   - userservice
+    depends_on:
+      - providerservice
     networks:
       - app-network
 
