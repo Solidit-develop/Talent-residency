@@ -33,6 +33,17 @@ public class ProviderResponseDto {
     @SerializedName("user")
     private UserInfoDto userInfoRelated;
 
+    @SerializedName("photoProvider")
+    private String photoProvider;
+
+    public String getPhotoProvider() {
+        return photoProvider;
+    }
+
+    public void setPhotoProvider(String photoProvider) {
+        this.photoProvider = photoProvider;
+    }
+
     public UserInfoDto getUserInfoRelated() {
         return userInfoRelated;
     }

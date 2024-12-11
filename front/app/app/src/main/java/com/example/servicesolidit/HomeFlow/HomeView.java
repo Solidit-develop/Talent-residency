@@ -1,6 +1,7 @@
 package com.example.servicesolidit.HomeFlow;
 
 import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.ImagesRelational.RelationalImagesResponseDto;
 
 import java.util.ArrayList;
 

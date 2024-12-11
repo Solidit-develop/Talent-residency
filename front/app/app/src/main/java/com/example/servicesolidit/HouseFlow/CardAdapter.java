@@ -55,7 +55,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
         holder.nameBussines.setText(card.getNameBussines());
         holder.description.setText(card.getDescription());
-        holder.location.setText(card.getLocation());
+        holder.location.setText(card.getLocation()!=null ? card.getLocation() : "Ubicación no dispobilbe");
 
         holder.description.setSelected(true);
         holder.location.setSelected(true);

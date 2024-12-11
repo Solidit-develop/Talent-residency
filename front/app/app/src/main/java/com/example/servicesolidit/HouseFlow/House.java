@@ -20,14 +20,21 @@ import android.widget.Toast;
 
 import com.example.servicesolidit.HomeFlow.HomePresenter;
 import com.example.servicesolidit.HomeFlow.HomeView;
+import com.example.servicesolidit.Network.ApiService;
+import com.example.servicesolidit.Network.RetrofitClient;
 import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
 import com.example.servicesolidit.ProviderInformationFlow.VisitProvider;
+import com.example.servicesolidit.Utils.Models.Responses.ImagesRelational.RelationalImagesResponseDto;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class House extends Fragment implements HomeView, CardAdapter.OnCardClickListener {
@@ -122,16 +129,37 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
                 CardModel modelFromResponse = new CardModel();
                 Gson gson = new Gson();
                 Log.i("HouseClass", "Info cargada: " + gson.toJson(item));
-                modelFromResponse.setLocation(item.getAddress().getLocalidad());
+                modelFromResponse.setLocation(item.getAddress() != null && item.getAddress().getLocalidad() != null
+                        ? item.getAddress().getLocalidad()
+                        : "Sin ubicación");
                 modelFromResponse.setNameBussines(item.getWorkshopName());
                 modelFromResponse.setDescription("Con " + item.getExperienceYears() + " años de experiencia");
                 modelFromResponse.setIdProvider(item.getIdProvider());
                 //modelFromResponse.setIdProviderAsUser(item.getUserInfoRelated().getIdUser());
-                modelFromResponse.setImageUrl(Constants.BASE_URL + "images/print/1726996926660-mydatabase-public.png");
+                String idUbication = getPhotoUbicationById(item.getPhotoProvider());
+                modelFromResponse.setImageUrl(Constants.BASE_URL + "images/print/" + idUbication);
                 listToPrint.add(modelFromResponse);
             }
         }
         return listToPrint;
+    }
+
+    private String getPhotoUbicationById(String idPhotoProvider) {
+        try{
+            ApiService service = RetrofitClient.getClient().create(ApiService.class);
+            Response<RelationalImagesResponseDto> response = service.getRelationalImages("providers", idPhotoProvider, "comments").execute();
+            if (response.isSuccessful() && response.body() != null) {
+                return response.body().getImageName(); // Asume que el endpoint devuelve una URL o ubicación de imagen.
+            } else {
+                Log.e("getPhotoUbicationById", "Error fetching image for ID: " + idPhotoProvider);
+                return "Error/ImagePath.png"; // Fallback en caso de error.
+            }
+        }catch (Exception e){
+            Log.e("getPhotoUbicationById", "Error fetching image for ID: " + idPhotoProvider);
+
+            Toast.makeText(requireContext(), "Ocurrió un error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            return "Error/ImagePath.png"; // Fallback en caso de error.
+        }
     }
 
     public void onCardClick(int idProvider){

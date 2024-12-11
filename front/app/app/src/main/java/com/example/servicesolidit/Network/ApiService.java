@@ -51,6 +51,7 @@ public interface ApiService {
     @GET("provider/todos/services/feed")
     Call<FeedResponseDto> feed();
 
+    // Van al revés
     @POST("appointment/cita/{id_customer}/{id_provider}")
     Call<AppointmentResponseDto> createAppointmnt(@Body CreateAppointmentRequestDto request, @Path("id_provider")int idProvider, @Path("id_customer") int idCustomer);
 

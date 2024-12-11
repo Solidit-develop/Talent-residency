@@ -86,7 +86,6 @@ public class Appointment extends Fragment implements AppointmentView{
                 requestDto.setCreationDate(fechaFormateada);
                 requestDto.setAppointmentLocation(locationSelected);
                 Log.i("AppointmentClass", "Intenta generar cita con customer: " + idOrigen + " y con provider " + idDestino);
-                int idAsProvider = obtainProviderIdFromUserId(idDestino);
                 this.presenteer.createAppointment(requestDto, idDestino, idOrigen);
                 Toast.makeText(requireContext(), "Confirmar cita: " + dateSelected + " en " + locationSelected, Toast.LENGTH_SHORT).show();
             }else{
@@ -96,14 +95,9 @@ public class Appointment extends Fragment implements AppointmentView{
 
         btnSeleccionarHora.setOnClickListener(v->{
             mostrarTimePicker();
-
         });
 
         return  view;
-    }
-
-    private int obtainProviderIdFromUserId(int idDestino) {
-        return  2;
     }
 
     private void mostrarTimePicker() {
