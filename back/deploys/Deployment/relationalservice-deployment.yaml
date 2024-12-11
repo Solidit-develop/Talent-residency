@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\Users\Solid IT\Documents\JC\Repositorio\Talent-Residency2\Talent-residency\back\deploys\kompose-windows-amd64.exe convert -f .\docker-compose.yml
+    kompose.version: 1.34.0 (cbf2835db)
+  labels:
+    app: relationalservice
+  name: relationalservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: relationalservice
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\Users\Solid IT\Documents\JC\Repositorio\Talent-Residency2\Talent-residency\back\deploys\kompose-windows-amd64.exe convert -f .\docker-compose.yml
+        kompose.version: 1.34.0 (cbf2835db)
+      labels:
+        app: relationalservice
+    spec:
+      containers:
+        - env:
+            - name: BaseAddress
+              value: http://189.190.228.211:4000/api/v1/images
+            - name: DB
+              value: mydatabase
+            - name: DB_HOST
+              value: 10.242.13.1
+            - name: DB_PASSWORD
+              value: mypassword
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_TYP
+              value: postgres
+            - name: DB_USER
+              value: myuser
+            - name: HOST
+              value: "0.0.0.0"
+            - name: PORT
+              value: "4008"
+            - name: PathToSave
+              value: DEV
+          image: ankar2147/solid:6.0.0
+          name: relationalservice
+          ports:
+            - containerPort: 4008
+      restartPolicy: Always
