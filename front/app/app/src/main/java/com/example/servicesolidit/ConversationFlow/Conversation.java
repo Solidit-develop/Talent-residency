@@ -91,7 +91,7 @@ public class Conversation extends Fragment implements AdapterConversation.OnConv
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onConversationSucess(List<ConversationResultDto> response) {
-        if(response != null) {
+        if(response != null && !response.isEmpty()) {
             Log.i("ConversationClass", "Response: " + response.get(0).getContenido());
             noConversationView.setVisibility(View.GONE);
             List<ConversationDto> conversationList = new ArrayList<>();
