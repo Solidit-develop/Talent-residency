@@ -216,6 +216,7 @@ public class Message extends Fragment implements MessageView{
 
     @Override
     public void onLoadProviderInfoError(String message) {
+        Log.i("MessageClass", "Ocurrió un error al load providerInformation: " + message);
         Toast.makeText(requireContext(), "Ocurrió un error: "+ message, Toast.LENGTH_SHORT).show();
     }
 }

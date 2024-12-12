@@ -31,9 +31,6 @@ public class RegisterPresenter {
         call.enqueue(new Callback<RegisterResponseDto>() {
             @Override
             public void onResponse(Call<RegisterResponseDto> call, Response<RegisterResponseDto> response) {
-                Log.i("RegisterPresenter", "Response: " + gson.toJson(response));
-                Log.i("RegisterPresenter", "Response: " + gson.toJson(response));
-
                 if (response.isSuccessful() && response.body() != null){
                     RegisterResponseDto responseMessage = response.body();
                     view.onRegisterSuccess(responseMessage.getResponse());
@@ -44,8 +41,6 @@ public class RegisterPresenter {
 
             @Override
             public void onFailure(Call<RegisterResponseDto> call, Throwable t) {
-                Log.i("RegisterPresenter", "Response: " + t.getMessage());
-
                 view.onRegisterFails(t.getMessage());
             }
         });

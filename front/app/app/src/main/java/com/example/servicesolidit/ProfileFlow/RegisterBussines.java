@@ -3,6 +3,7 @@ package com.example.servicesolidit.ProfileFlow;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.servicesolidit.HouseFlow.House;
 import com.example.servicesolidit.ProfileFlow.Presenter.RegisterPresenter;
 import com.example.servicesolidit.ProfileFlow.View.RegisterBussinesView;
 import com.example.servicesolidit.R;
@@ -53,7 +55,6 @@ public class RegisterBussines extends Fragment implements RegisterBussinesView {
         tilEmailUser.getEditText().setText(this.user.getEmail());
 
         btnRegister.setOnClickListener(v->{
-            Toast.makeText(requireContext(), "Completa el registro", Toast.LENGTH_SHORT).show();
             showProgress();
             fullFormToUpdateProfile();
         });
@@ -83,9 +84,6 @@ public class RegisterBussines extends Fragment implements RegisterBussinesView {
             requestDto.setStr2("Localidad");
             requestDto.setZipCode("Localidad");
             requestDto.setDescription("DescriptionField");
-            Gson gson = new Gson();
-            Log.i("RegisterBussines", gson.toJson(requestDto));
-            this.showProgress();
             this.presenter.convertUserToProvider(requestDto);
         }
     }
@@ -115,14 +113,11 @@ public class RegisterBussines extends Fragment implements RegisterBussinesView {
      */
     private boolean validarCampoVacio(TextInputLayout inputLayout, String mensajeError) {
         String texto = inputLayout.getEditText().getText().toString().trim();
-        Log.i("RegisterClass", "Validar text: " + texto );
         if (texto.isEmpty()) {
             inputLayout.setError(mensajeError);
-            Log.i("RegisterClass", mensajeError);
             return false;
         } else {
             inputLayout.setError(null);
-            Log.i("RegisterClass", "True");
             return true;
         }
     }
@@ -140,10 +135,25 @@ public class RegisterBussines extends Fragment implements RegisterBussinesView {
     @Override
     public void onRegisterSuccess(String responseMessage) {
         Toast.makeText(requireContext(), responseMessage, Toast.LENGTH_SHORT).show();
+        hideProgress();
+        House houseFragment = new House();
+        navigateTo(houseFragment);
     }
 
     @Override
     public void onRegisterFails(String s) {
         Toast.makeText(requireContext(), s, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Method to load a new fragment from the slide menu.
+     * @param fragmentDestiny is the fragment to navigate.
+     */
+    public void navigateTo(Fragment fragmentDestiny) {
+        Log.i("HomeClass", "Start slide transaction fragment");
+        FragmentTransaction transactionTransaction = this.requireActivity().getSupportFragmentManager().beginTransaction();
+        transactionTransaction.replace(R.id.frame_container, fragmentDestiny);
+        transactionTransaction.addToBackStack(null);
+        transactionTransaction.commit();
     }
 }

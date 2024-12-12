@@ -70,14 +70,15 @@ public class MessagePresenter {
     }
 
     public void providerInfomration(int id) {
+        Log.i("MessagePresenter", "Se buscará al provider tomando información como user con id: " + id);
         Call<UserInfoProviderProfileResponse> call = service.informationProviderByUserId(id);
-
         call.enqueue(new Callback<UserInfoProviderProfileResponse>() {
             @Override
             public void onResponse(Call<UserInfoProviderProfileResponse> call, Response<UserInfoProviderProfileResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     try {
                         ProviderResponseDto result = response.body().getResponse();
+                        Log.i("MessagePresenter", "result: " + result.getUserInfoRelated());
                         view.onLoadProviderInfoSuccess(result);
                     } catch (Exception e) {
                         view.onLoadProviderInfoError(e.getMessage());

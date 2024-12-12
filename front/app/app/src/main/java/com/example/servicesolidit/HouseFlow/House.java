@@ -136,30 +136,11 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
                 modelFromResponse.setDescription("Con " + item.getExperienceYears() + " años de experiencia");
                 modelFromResponse.setIdProvider(item.getIdProvider());
                 //modelFromResponse.setIdProviderAsUser(item.getUserInfoRelated().getIdUser());
-                String idUbication = getPhotoUbicationById(item.getPhotoProvider());
-                modelFromResponse.setImageUrl(Constants.BASE_URL + "images/print/" + idUbication);
+                modelFromResponse.setImageUrl(Constants.BASE_URL + "images/print/" + item.getPhotoProvider());
                 listToPrint.add(modelFromResponse);
             }
         }
         return listToPrint;
-    }
-
-    private String getPhotoUbicationById(String idPhotoProvider) {
-        try{
-            ApiService service = RetrofitClient.getClient().create(ApiService.class);
-            Response<RelationalImagesResponseDto> response = service.getRelationalImages("providers", idPhotoProvider, "comments").execute();
-            if (response.isSuccessful() && response.body() != null) {
-                return response.body().getImageName(); // Asume que el endpoint devuelve una URL o ubicación de imagen.
-            } else {
-                Log.e("getPhotoUbicationById", "Error fetching image for ID: " + idPhotoProvider);
-                return "Error/ImagePath.png"; // Fallback en caso de error.
-            }
-        }catch (Exception e){
-            Log.e("getPhotoUbicationById", "Error fetching image for ID: " + idPhotoProvider);
-
-            Toast.makeText(requireContext(), "Ocurrió un error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            return "Error/ImagePath.png"; // Fallback en caso de error.
-        }
     }
 
     public void onCardClick(int idProvider){
