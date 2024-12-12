@@ -3,6 +3,8 @@ package com.example.servicesolidit.MessageFlow;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +26,7 @@ import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDt
 import com.example.servicesolidit.Utils.Models.Responses.Messages.ConversationDto;
 import com.example.servicesolidit.Utils.Models.Responses.Messages.MessageDto;
 import com.example.servicesolidit.R;
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
 import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
@@ -70,6 +73,7 @@ public class Message extends Fragment implements MessageView{
         tvNameRelatedOnConversation = view.findViewById(R.id.tvNameRelatedOnConversation);
         btnGoToCreateAppointmentFlow = view.findViewById(R.id.btnGoToCreateAppointmentFlow);
 
+
         btnGoToCreateAppointmentFlow.setOnClickListener(v->{
             navigateToAppointmentFlow(this.idOrigen, this.idProviderAsProvider);
         });
@@ -106,6 +110,19 @@ public class Message extends Fragment implements MessageView{
         this.presenter.providerInfomration(idDestino);
         Log.i("MessageClass", "End init view");
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        showViewToCreateAppointment(this.idOrigen);
+
+    }
+
+    private void showViewToCreateAppointment(int idOrigen) {
+        Log.i("Message", "Sevalidará mostrar el button para el id: " + idOrigen);
+        this.presenter.validateIfImProvider(idOrigen);
+        onShowProgress();
     }
 
     public static String getCurrentDateTime() {
@@ -209,8 +226,13 @@ public class Message extends Fragment implements MessageView{
     public void onLoadProviderInfoSuccess(ProviderResponseDto result) {
         Gson fs = new Gson();
         Log.i("MessageClass", "OnLoadProviderInfo" + fs.toJson(result));
-        this.tvNameRelatedOnConversation.setText(result.getWorkshopName());
-        this.idProviderAsProvider = result.getIdProvidersss();
+        if(result.getUserInfoRelated().getIdUser()==0){
+            // load information as user
+            this.presenter.loadCustomerInformation(this.idOrigen);
+        }else{
+            this.tvNameRelatedOnConversation.setText(result.getWorkshopName());
+            this.idProviderAsProvider = result.getIdProvidersss();
+        }
         onHideProgress();
     }
 
@@ -218,5 +240,33 @@ public class Message extends Fragment implements MessageView{
     public void onLoadProviderInfoError(String message) {
         Log.i("MessageClass", "Ocurrió un error al load providerInformation: " + message);
         Toast.makeText(requireContext(), "Ocurrió un error: "+ message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSuccessShowViewToCreateAppointment(ProviderResponseDto result) {
+        onHideProgress();
+        Gson gso = new Gson();
+        Log.i("Message", gso.toJson(result));
+        if(result.getUserInfoRelated().getIdUser() == 0){
+            btnGoToCreateAppointmentFlow.setVisibility(TextView.GONE);
+        }else {
+            btnGoToCreateAppointmentFlow.setVisibility(TextView.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onErrorShowViewToCreateAppointment(String message) {
+        onHideProgress();
+    }
+
+    @Override
+    public void onLoadInfoCustomerSuccess(UserInfoProfileDto result) {
+        this.tvNameRelatedOnConversation.setText(result.getNameUser());
+        this.idProviderAsProvider = 0;
+    }
+
+    @Override
+    public void onLoadInfoCustomerError(String message) {
+        Log.i("MessageClass", "Error: " + message);
     }
 }

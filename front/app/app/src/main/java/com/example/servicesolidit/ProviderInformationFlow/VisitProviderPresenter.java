@@ -1,5 +1,7 @@
 package com.example.servicesolidit.ProviderInformationFlow;
 
+import android.util.Log;
+
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
 import com.example.servicesolidit.Utils.Models.Requests.RelationalImagesRequestDto;

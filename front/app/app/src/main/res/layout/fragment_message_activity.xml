@@ -45,6 +45,7 @@
                 android:id="@+id/btnGoToCreateAppointmentFlow"
                 android:src="@drawable/libreta"
                 android:paddingEnd="10dp"
+                android:visibility="gone"
                 />
         </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.example.servicesolidit.MessageFlow;
 
 import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Messages.ConversationDto;
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
 
 import java.util.List;
 
@@ -16,4 +17,12 @@ public interface MessageView {
     void onLoadProviderInfoSuccess(ProviderResponseDto result);
 
     void onLoadProviderInfoError(String message);
+
+    void onSuccessShowViewToCreateAppointment(ProviderResponseDto result);
+
+    void onErrorShowViewToCreateAppointment(String message);
+
+    void onLoadInfoCustomerSuccess(UserInfoProfileDto result);
+
+    void onLoadInfoCustomerError(String message);
 }

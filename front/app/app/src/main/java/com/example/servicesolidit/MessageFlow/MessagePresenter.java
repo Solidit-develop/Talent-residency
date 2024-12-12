@@ -8,6 +8,8 @@ import com.example.servicesolidit.Utils.Models.Responses.Messages.MessagesRespon
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
 import com.example.servicesolidit.Utils.Models.Responses.Messages.SendMessageResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProviderProfileResponse;
 
 import retrofit2.Call;
@@ -69,7 +71,7 @@ public class MessagePresenter {
         });
     }
 
-    public void providerInfomration(int id) {
+    public void validateIfImProvider(int id) {
         Log.i("MessagePresenter", "Se buscará al provider tomando información como user con id: " + id);
         Call<UserInfoProviderProfileResponse> call = service.informationProviderByUserId(id);
         call.enqueue(new Callback<UserInfoProviderProfileResponse>() {
@@ -79,6 +81,33 @@ public class MessagePresenter {
                     try {
                         ProviderResponseDto result = response.body().getResponse();
                         Log.i("MessagePresenter", "result: " + result.getUserInfoRelated());
+                        view.onSuccessShowViewToCreateAppointment(result);
+                    } catch (Exception e) {
+                        view.onErrorShowViewToCreateAppointment(e.getMessage());
+                    }
+                } else {
+                    view.onErrorShowViewToCreateAppointment("Ocurrió un error al obtener la información de tu negocio");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserInfoProviderProfileResponse> call, Throwable t) {
+                view.onErrorShowViewToCreateAppointment(t.getMessage());
+            }
+        });
+
+    }
+
+    public void providerInfomration(int id) {
+        Log.i("MessagePresenter", "Se buscará al provider tomando información como user con id: " + id);
+        Call<UserInfoProviderProfileResponse> call = service.informationProviderByUserId(id);
+        call.enqueue(new Callback<UserInfoProviderProfileResponse>() {
+            @Override
+            public void onResponse(Call<UserInfoProviderProfileResponse> call, Response<UserInfoProviderProfileResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        ProviderResponseDto result = response.body().getResponse();
+                        Log.i("MessagePresenter", "result: " + result.getUserInfoRelated().getIdUser());
                         view.onLoadProviderInfoSuccess(result);
                     } catch (Exception e) {
                         view.onLoadProviderInfoError(e.getMessage());
@@ -94,5 +123,32 @@ public class MessagePresenter {
             }
         });
 
+    }
+
+    public void loadCustomerInformation(int idOrigen) {
+        Call<UserInfoProfileResponseDto> call = service.information(idOrigen);
+        call.enqueue(new Callback<UserInfoProfileResponseDto>() {
+            @Override
+            public void onResponse(Call<UserInfoProfileResponseDto> call, Response<UserInfoProfileResponseDto> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    try{
+                        UserInfoProfileDto result = response.body().getResponse();
+                        Log.i("MessagePresenter", result.getNameUser());
+                        view.onLoadInfoCustomerSuccess(result);
+                    }catch (Exception e){
+                        view.onLoadInfoCustomerError(e.getMessage());
+                    }
+
+                } else {
+                    view.onLoadInfoCustomerError("Ocurrió un error");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserInfoProfileResponseDto> call, Throwable t) {
+                Log.i("ProfilePresenter", t.getMessage());
+                view.onLoadInfoCustomerError(t.getMessage());
+            }
+        });
     }
 }

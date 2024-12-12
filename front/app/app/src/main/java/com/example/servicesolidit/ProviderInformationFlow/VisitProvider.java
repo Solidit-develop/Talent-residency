@@ -128,16 +128,20 @@ public class VisitProvider extends Fragment implements VisitProviderView{
 
     @Override
     public void onSuccessObtainResponse(AppointmentListResponse result) {
-        if(result.regreso.isEmpty()){
-            Log.i("VisitProvider", "No se encontró un appointment relacionado al user logged: " + idLogged);
-        }else{
-            Gson gson = new Gson();
-            Log.i("VisitProvider", "Se econtró lo siguiente: " + gson.toJson(result));
-            boolean showButton = validateIfThereIsAppointmentBetweenLoggedAndSelected(result, idLogged, idProviderToLoad);
-            if(showButton){
-                this.btnTryToStartReview.setVisibility(View.VISIBLE);
-            }else{
-                this.btnTryToStartReview.setVisibility(View.GONE);
+        if(result != null){
+            if(result.regreso != null){
+                if(result.regreso.isEmpty()){
+                    Log.i("VisitProvider", "No se encontró un appointment relacionado al user logged: " + idLogged);
+                }else{
+                    Gson gson = new Gson();
+                    Log.i("VisitProvider", "Se econtró lo siguiente: " + gson.toJson(result));
+                    boolean showButton = validateIfThereIsAppointmentBetweenLoggedAndSelected(result, idLogged, idProviderToLoad);
+                    if(showButton){
+                        this.btnTryToStartReview.setVisibility(View.VISIBLE);
+                    }else{
+                        this.btnTryToStartReview.setVisibility(View.GONE);
+                    }
+                }
             }
         }
     }
