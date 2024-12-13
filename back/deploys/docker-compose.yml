@@ -1,18 +1,6 @@
 version: "3.8"
-services:
-  postgres:
-    image: postgres:13
-    environment:
-      POSTGRES_DB: mydatabase
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    networks:
-      - app-network
 
+services:
   postgres:
     image: postgres:13
     environment:
@@ -34,7 +22,6 @@ services:
     environment:
       - PORT=4009
       - HOST=localhost
-
       - DB_HOST=postgres
       - DB_TYP=postgres
       - DB_USER=myuser
@@ -85,6 +72,7 @@ services:
       - DB_PORT=5432
       - EMAIL_USER=devsolidit@gmail.com
       - EMAIL_PASS=oskx bcdz odyk ilpu
+      - Ambiente=DEV
     ports:
       - "4002:4002"
     depends_on:
@@ -162,13 +150,14 @@ services:
       - DB=mydatabase
       - DB_PORT=5432
       - BaseAddress=http://86.38.204.102:4000/api/v1/users
-      - Ambiente=LOCAL
+      - Ambiente=DEV
     ports:
       - "4001:4001"
     depends_on:
       - postgres
     networks:
       - app-network
+
 
   comments-vews:
     build:
@@ -183,13 +172,14 @@ services:
       - DB=mydatabase
       - DB_PORT=5432
       - BaseAddress=http://86.38.204.102:4000/api/v1/users
-      - Ambiente=LOCAL
+      - Ambiente=DEV
     ports:
       - "4011:4011"
     depends_on:
       - postgres
     networks:
       - app-network
+
 
   apigateway:
     build:
@@ -201,7 +191,7 @@ services:
     ports:
       - "4000:4000"
     depends_on:
-      - providerservice
+      - userservice
     networks:
       - app-network
 
