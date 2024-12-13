@@ -1,4 +1,5 @@
 version: "3.8"
+
 services:
   postgres:
     image: postgres:13
@@ -71,6 +72,7 @@ services:
       - DB_PORT=5432
       - EMAIL_USER=devsolidit@gmail.com
       - EMAIL_PASS=oskx bcdz odyk ilpu
+      - Ambiente=DEV
     ports:
       - "4002:4002"
     depends_on:
@@ -148,13 +150,14 @@ services:
       - DB=mydatabase
       - DB_PORT=5432
       - BaseAddress=http://86.38.204.102:4000/api/v1/users
-      - Ambiente=LOCAL
+      - Ambiente=DEV
     ports:
       - "4001:4001"
     depends_on:
       - postgres
     networks:
       - app-network
+
 
   comments-vews:
     build:
@@ -169,13 +172,14 @@ services:
       - DB=mydatabase
       - DB_PORT=5432
       - BaseAddress=http://86.38.204.102:4000/api/v1/users
-      - Ambiente=LOCAL
+      - Ambiente=DEV
     ports:
       - "4011:4011"
     depends_on:
       - postgres
     networks:
       - app-network
+
 
   apigateway:
     build:
@@ -187,7 +191,7 @@ services:
     ports:
       - "4000:4000"
     depends_on:
-      - providerservice
+      - userservice
     networks:
       - app-network
 

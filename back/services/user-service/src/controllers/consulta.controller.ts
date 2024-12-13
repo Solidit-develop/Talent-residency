@@ -16,6 +16,8 @@ import config from "../config";
 import { ProviderService } from "../Services/provider-service";
 
 
+
+
 const repositoriState = AppDataSource.getRepository(State);
 const repositoriTown = AppDataSource.getRepository(Town);
 const repositoriAddress = AppDataSource.getRepository(Address);
@@ -395,12 +397,18 @@ const controllerusuario = {
 
   obtainInformation: async (req: Request, res: Response): Promise<void> => {
     const providerService = new ProviderService();
+    const userImagen = new ImagenService();
     var response;
+    var imagen
+    var tabla = "users"
+    var funcionality ="PerfilUser"
     let userIdToFind = req.params.idToFind;
     console.log("ID TO FIND: " + userIdToFind);
-
+    
     try {
       response = await providerService.getUserInfo(userIdToFind)
+      imagen = await userImagen.getImageInfo(tabla,userIdToFind,funcionality)
+      // imagen = await 
         .then(resp => {
           console.log("Response on promise controller: " + JSON.stringify(resp));
           return resp;
@@ -415,8 +423,15 @@ const controllerusuario = {
     }
 
     console.log("Response on finish controller: " + response);
-    res.status(200).json(response);
+
+    const user={
+      ...response,
+      ...imagen
+    }
+
+    res.status(200).json(user);
   },
+
 
   insertusuario: async (req: Request, res: Response): Promise<void> => {
     try {
@@ -577,8 +592,8 @@ const controllerusuario = {
 
   insertImagen: async (req: Request, res: Response): Promise<void> => {
     let id_user = Number(req.params.id_user);
-    const { funcionality, urlLocation } = req.body;
-
+    const { urlLocation } = req.body;
+    let  funcionality = "PerfilUser"
       try {
       const usuario = await repositoriuser.findOne({ where: { id_user: id_user } });
       let  idUsedOn = String(id_user)
