@@ -228,7 +228,7 @@ public class Message extends Fragment implements MessageView{
         Log.i("MessageClass", "OnLoadProviderInfo" + fs.toJson(result));
         if(result.getUserInfoRelated().getIdUser()==0){
             // load information as user
-            this.presenter.loadCustomerInformation(this.idOrigen);
+            this.presenter.loadCustomerInformation(this.idDestino);
         }else{
             this.tvNameRelatedOnConversation.setText(result.getWorkshopName());
             this.idProviderAsProvider = result.getIdProvidersss();
@@ -248,9 +248,9 @@ public class Message extends Fragment implements MessageView{
         Gson gso = new Gson();
         Log.i("Message", gso.toJson(result));
         if(result.getUserInfoRelated().getIdUser() == 0){
-            btnGoToCreateAppointmentFlow.setVisibility(TextView.GONE);
-        }else {
             btnGoToCreateAppointmentFlow.setVisibility(TextView.VISIBLE);
+        }else {
+            btnGoToCreateAppointmentFlow.setVisibility(TextView.GONE);
         }
     }
 
@@ -261,8 +261,10 @@ public class Message extends Fragment implements MessageView{
 
     @Override
     public void onLoadInfoCustomerSuccess(UserInfoProfileDto result) {
+        Gson gson = new Gson();
+        Log.i("MessageClass", "Load info customer: " + gson.toJson(result));
         this.tvNameRelatedOnConversation.setText(result.getNameUser());
-        this.idProviderAsProvider = 0;
+        this.idProviderAsProvider = result.getIdUser();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.example.servicesolidit.Utils.Models.Responses.User;
 
+import com.google.gson.annotations.SerializedName;
+
 public class UserInfoTypeResponseDto {
     private boolean value;
     private String description;
@@ -9,6 +11,7 @@ public class UserInfoTypeResponseDto {
         this.description = description;
     }
 
+    @SerializedName("value")
     public boolean isValue() {
         return value;
     }

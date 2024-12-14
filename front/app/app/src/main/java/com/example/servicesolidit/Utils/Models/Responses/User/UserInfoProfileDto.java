@@ -7,7 +7,7 @@ public class UserInfoProfileDto extends UserInfoDto {
     @SerializedName("adress")
     private AddressResponseDto address;
 
-    @SerializedName("usertypes")
+    @SerializedName("userType")
     private UserInfoTypeResponseDto types;
 
     public UserInfoProfileDto() {}

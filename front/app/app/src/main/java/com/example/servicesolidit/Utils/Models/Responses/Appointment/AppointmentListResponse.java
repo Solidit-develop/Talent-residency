@@ -1,8 +1,12 @@
 package com.example.servicesolidit.Utils.Models.Responses.Appointment;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class AppointmentListResponse {
+
+    @SerializedName("appProvider")
     public List<AppointmentItemResponse> regreso;
 
     public AppointmentListResponse(){}

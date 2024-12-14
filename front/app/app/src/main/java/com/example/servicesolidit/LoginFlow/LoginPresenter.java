@@ -29,7 +29,7 @@ public class LoginPresenter {
 
                 if (response.isSuccessful() && response.body() != null) {
                     UserInfoDto loginResponse = response.body().getResponse();
-                    Log.i("LoginPresenter", loginResponse.getNameUser());
+                    Log.i("LoginPresenter", loginResponse.getIdUser() + "!");
                     view.onLoginSuccess(loginResponse);
 
                 } else {

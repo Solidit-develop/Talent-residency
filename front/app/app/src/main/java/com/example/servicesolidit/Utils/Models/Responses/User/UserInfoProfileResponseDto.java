@@ -1,6 +1,7 @@
 package com.example.servicesolidit.Utils.Models.Responses.User;
 
 import com.example.servicesolidit.Utils.Models.Responses.ResponseDto;
+import com.google.gson.annotations.SerializedName;
 
 public class UserInfoProfileResponseDto extends ResponseDto {
     private UserInfoProfileDto response;
@@ -18,5 +19,16 @@ public class UserInfoProfileResponseDto extends ResponseDto {
 
     public void setResponse(UserInfoProfileDto response) {
         this.response = response;
+    }
+
+    @SerializedName("idUsedOn")
+    private String idUsedOn;
+
+    public String getIdUsedOn() {
+        return idUsedOn;
+    }
+
+    public void setIdUsedOn(String idUsedOn) {
+        this.idUsedOn = idUsedOn;
     }
 }

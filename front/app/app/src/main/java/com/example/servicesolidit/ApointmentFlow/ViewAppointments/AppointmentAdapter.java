@@ -1,5 +1,6 @@
 package com.example.servicesolidit.ApointmentFlow.ViewAppointments;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,13 +31,14 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         return new AppointmentViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull AppointmentAdapter.AppointmentViewHolder holder, int position) {
         AppointmentItemResponse item = this.appointmentList.get(position);
         Gson gson = new Gson();
         Log.i("AppointmentAdapter", gson.toJson(item));
-        holder.customerName.setText(item.getNameUser());
-        holder.providerName.setText("Requiero que back incluya el nombre del provider");
+        holder.customerName.setText(item.getNameUser() + " " + item.getLastName());
+        holder.providerName.setText(item.getWorkshopName());
         holder.location.setText(item.getAppointmentLocation());
         holder.date.setText(item.getAppointmentDate());
         holder.estatus.setText(item.getStatusUpdate());

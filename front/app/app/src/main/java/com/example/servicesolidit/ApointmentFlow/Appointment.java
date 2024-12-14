@@ -34,7 +34,7 @@ public class Appointment extends Fragment implements AppointmentView{
     private AppointmentPresenter presenteer;
     private CalendarView calendar;
     private String dateSelected;
-    private String hourSelected;
+    private String hourSelected = "";
     private EditText etAppointmentLocation;
 
     public Appointment(int idOrigen, int idDestino){
@@ -85,8 +85,9 @@ public class Appointment extends Fragment implements AppointmentView{
                 requestDto.setAppointmentDate(dateSelected);
                 requestDto.setCreationDate(fechaFormateada);
                 requestDto.setAppointmentLocation(locationSelected);
-                Log.i("AppointmentClass", "Intenta generar cita con customer: " + idOrigen + " y con provider " + idDestino);
-                this.presenteer.createAppointment(requestDto, idDestino, idOrigen);
+                Log.i("AppointmentClass", "Intenta generar cita con customer: " + idDestino + " y con provider " + idOrigen);
+
+                this.presenteer.createAppointment(requestDto, idOrigen, idDestino);
                 Toast.makeText(requireContext(), "Confirmar cita: " + dateSelected + " en " + locationSelected, Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(requireContext(), "Llena todos los campos", Toast.LENGTH_SHORT).show();

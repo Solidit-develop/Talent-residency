@@ -30,6 +30,17 @@ public class AppointmentItemResponse{
     @SerializedName("update")
     private String statusUpdate;
 
+    @SerializedName("workshopName")
+    private String workshopName;
+
+    public String getWorkshopName() {
+        return workshopName;
+    }
+
+    public void setWorkshopName(String workshopName) {
+        this.workshopName = workshopName;
+    }
+
     // Getters and Setters
     public int getIdAppointment() {
         return idAppointment;

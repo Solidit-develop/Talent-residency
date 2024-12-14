@@ -6,7 +6,7 @@ public class UserInfoDto {
     @SerializedName("id_user")
     private int idUser;
 
-    @SerializedName("name_User")
+    @SerializedName("name_user")
     private String nameUser;
 
     @SerializedName("lasname")

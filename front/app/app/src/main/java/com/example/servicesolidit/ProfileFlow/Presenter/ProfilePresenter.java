@@ -29,7 +29,7 @@ public class ProfilePresenter {
                 if (response.isSuccessful() && response.body() != null) {
                     try{
                         UserInfoProfileDto result = response.body().getResponse();
-                        Log.i("ProfilePresenter", result.getNameUser());
+                        Log.i("ProfilePresenterSucces", result.getNameUser());
                         view.onLoadProfileSuccess(result);
                     }catch (Exception e){
                         view.onLoadProfileError(e.getMessage());
@@ -37,14 +37,14 @@ public class ProfilePresenter {
 
                 } else {
                     String responseError = "Usuario o contraseña inválidos";
-                    Log.i("ProfilePresenter", responseError);
+                    Log.i("ProfilePresenterElse", responseError);
                     view.onLoadProfileError(responseError);
                 }
             }
 
             @Override
             public void onFailure(Call<UserInfoProfileResponseDto> call, Throwable t) {
-                Log.i("ProfilePresenter", t.getMessage());
+                Log.i("ProfilePresenterFailure", t.getMessage());
                 view.onLoadProfileError(t.getMessage());
             }
         });

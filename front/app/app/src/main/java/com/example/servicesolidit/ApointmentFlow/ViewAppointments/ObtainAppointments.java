@@ -19,6 +19,7 @@ import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
 import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentItemResponse;
 import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentListResponse;
+import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +45,9 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
         this.rvAppointmentsList.setAdapter(adapter);
         this.rvAppointmentsList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
 
-        this.idLogged = getLoggedId();
-        this.presenter.getAppointments(idLogged);
+        // Validar si soy proveedor o si soy cliente
+        getProviderIdByUserId(getLoggedId());
+        // Mover
         return view;
     }
 
@@ -54,6 +56,10 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
         int userIdLogged = sharedPreferences.getInt(Constants.GET_LOGGED_USER_ID, 0);
         Log.i("ObtainAppointment", "IdLogged: " + userIdLogged);
         return  userIdLogged;
+    }
+
+    public void getProviderIdByUserId(int userId){
+        this.presenter.getProviderInformationFromUserId(userId);
     }
 
     @Override
@@ -83,6 +89,17 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
 
     @Override
     public void onErrorObtainResponse(String s) {
+
+    }
+
+    @Override
+    public void onSuccessGetInformationAsProvider(ProviderResponseDto result) {
+        int id = result.getIdProvidersss();
+        this.presenter.getAppointments(id);
+    }
+
+    @Override
+    public void onErrorGetInformationAsProvider(String message) {
 
     }
 }
