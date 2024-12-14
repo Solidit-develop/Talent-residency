@@ -83,29 +83,20 @@ const controllerAppointment ={
     
     cancelar: async (req: Request, res: Response): Promise<void> => {
         try {
-            const { id_provider, id_customer,id_appointment } = req.params;
-            let { creationDate } = req.body;
-
+            const id_provider = req.params.id_provider
+            const { id_customer,id_appointment } = req.body;
             const app = Number(id_appointment)
-    
             const prov = Number(id_provider);
             const cus = Number(id_customer);
-            // creationDate = new Date(creationDate)
+
             console.log("Números de callback:", prov, cus,app);
 
-            if(!creationDate){
-                console.log(creationDate)
-                res.status(400).json("Ingresa la fecha de creacion del appointment")
-                return;
-            }
-    
             const relacion = await repositoryappointment.createQueryBuilder("appointment")
                 .leftJoinAndSelect("appointment.providers", "Providers")
                 .leftJoinAndSelect("appointment.users", "users")
                 .andWhere("appointment.id_appointment =:id_appointment",{id_appointment:app})
                 .where("users.id_user = :id_user", { id_user: cus })
                 .andWhere("Providers.id_provider = :id_provider", { id_provider: prov })
-                .andWhere("CAST(appointment.creationDate AS TEXT) LIKE :fecha", { fecha: `%${creationDate}%` })
                 .getOne();
     
             // console.log("Relación de usuarios:", relacion);
