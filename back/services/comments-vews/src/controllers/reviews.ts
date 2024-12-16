@@ -277,7 +277,7 @@ const controllersReview={
              res.status(200).json({mensages:"Sin comentarios"})
              return;   
             }
-            res.status(200).json(informacion)
+            res.status(200).json(...informacion)
             
         }catch(error){
             console.log("Hay un error interno ", error)
@@ -288,9 +288,12 @@ const controllersReview={
     edit:async(req:Request,res:Response):Promise<void>=>{
         try {
             const { id_user, id_prov } = req.params;
-            const commentario = req.body.commentario;
-            const calificacion= req.body.calificacion
+            // const commentario = req.body.commentario;
+            // const calificacion= req.body.calificacion
+            // const id_review = req.body.id_review
 
+            let {commentario,calificacion ,id_review}= req.body
+            id_review = Number(id_review)
             console.log(commentario);
     
             if (!commentario) {
@@ -315,8 +318,8 @@ const controllersReview={
             console.log("Aqui comienza")
 
             console.log("----------------------------")
-            let id_review =comment?.interaccion?.reviews[0].id_review
-            console.log(id_review)
+            // let id_review =comment?.interaccion?.reviews[0].id_review
+            // console.log(id_review)
             
             console.log("----------------------------")
             console.log(comment);
