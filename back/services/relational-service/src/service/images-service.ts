@@ -37,36 +37,42 @@ const serviceImages = {
     },
 
     obtainInformation: async (req: Request, res: Response): Promise<void> => {
-        const { table, idUsedOn, funcionality } = req.params;
-        const id = parseInt(idUsedOn);
-        let errorMessage: string | null = null; // Mensaje de error inicial
-        var url=[];
-        var idImageToFind;
-        var funcion = String(funcionality)
-        // Buscar la relación de imagen
-        const resultImageRelation = await repoImagesRelation.find({
-            where: {
-                idUsedOn: id,
-                tableToRelation: table // Agregar validación para la tabla
-            },
-            relations: ['images'] // Carga la relación `images`
-        });
-        // Validación de resultImageRelation
-        if (resultImageRelation.length<=0) {
-            errorMessage = "No se encontró la relación de imagen para el id proporcionado.";
-        } else{
-            const response = {
-                table,
-                idUsedOn,
-                funcionality,
-                message: errorMessage || null, // Agregar el mensaje de error si existe,
-                resultImageRelation
-            };
-    
-            // Devolver la respuesta
-            res.json(response);
-        } 
-      
+        try{
+            const { table, idUsedOn, funcionality } = req.params;
+            const id = parseInt(idUsedOn);
+            let errorMessage: string | null = null; // Mensaje de error inicial
+            var funcion = String(funcionality)
+            // Buscar la relación de imagen
+
+            
+            const resultImageRelation = await repoImagesRelation.find({
+                where: {
+                    idUsedOn: id,
+                    tableToRelation: table // Agregar validación para la tabla
+                },
+                relations: ['images'] // Carga la relación `images`
+            });
+
+
+            // Validación de resultImageRelation
+            if (resultImageRelation.length<=0) {
+                errorMessage = "No se encontró la relación de imagen para el id proporcionado.";
+            } 
+                const response = {
+                    table,
+                    idUsedOn,
+                    funcionality,
+                    message: errorMessage || null, // Agregar el mensaje de error si existe,
+                    resultImageRelation
+                };
+        
+                // Devolver la respuesta
+                res.json(response);
+        
+        }catch(error){
+            res.status(500).json("Error interno")
+        }
+
     },
 
 }
