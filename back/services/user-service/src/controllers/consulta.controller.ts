@@ -398,7 +398,7 @@ const controllerusuario = {
   obtainInformation: async (req: Request, res: Response): Promise<void> => {
     const providerService = new ProviderService();
     const userImagen = new ImagenService();
-    var response;
+    var user;
     var imagen
     var tabla = "users"
     var funcionality ="PerfilUser"
@@ -406,7 +406,7 @@ const controllerusuario = {
     console.log("ID TO FIND: " + userIdToFind);
     
     try {
-      response = await providerService.getUserInfo(userIdToFind)
+      user = await providerService.getUserInfo(userIdToFind)
       imagen = await userImagen.getImageInfo(tabla,userIdToFind,funcionality)
       // imagen = await 
         .then(resp => {
@@ -416,20 +416,24 @@ const controllerusuario = {
         .catch(error => {
           console.log("Error on promise controller: " + error);
         });
-      console.log("Response del service: " + response);
+      console.log("Response del service: " + user);
     } catch (e) {
-      response = e;
-      console.log("Error: " + response);
+      user = e;
+      console.log("Error: " + user);
+      return;
     }
 
-    console.log("Response on finish controller: " + response);
+    console.log("Response on finish controller: " + user);
 
-    const user={
-      ...response,
-      ...imagen
+    const respon={
+        response:{
+          ...user,
+          ...imagen
+        }
+
     }
 
-    res.status(200).json(user);
+    res.status(200).json(ResponseModel.successResponse(respon));
   },
 
 

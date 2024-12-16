@@ -689,7 +689,7 @@ const controllerProvider = {
             let workshopPhoneNumber = proveedores?.workshopPhoneNumber;
             let descripcion = proveedores?.descripcion;
             let id_user = proveedores?.user.id_user;
-            let name = proveedores?.user.name_User;
+            let name_user = proveedores?.user.name_User;
             let lastname = proveedores?.user.lasname;
             let email = proveedores?.user.email;
             let age = proveedores?.user.age;
@@ -699,7 +699,7 @@ const controllerProvider = {
 
             const provedor = {
                 id_provedores, experiencias, workshopName, workshopPhoneNumber, descripcion,
-                user: { id_user, name, lastname, email, age, phoneNumber, type },
+                user: { id_user, name_user, lastname, email, age, phoneNumber, type },
                 adress,
                 ...imagen||null
             }
@@ -725,16 +725,17 @@ const controllerProvider = {
     userProfile: async function (req: Request, res: Response) {
         try {
             let message;
-            const id_user = req.params.id;
-            let name_user, lasname, email,phoneNumber,userType, adress
+            const id_users = req.params.id;
+            let name_user, lasname, email,phoneNumber,userType, adress, id_user
             const userInfo = await repositoryUser.createQueryBuilder("users")
                 .leftJoinAndSelect("users.usertypes", "type")
                 .leftJoinAndSelect("users.adress", "address")
                 .leftJoinAndSelect("address.town", "town")
                 .leftJoin("town.state", "state")
-                .where("users.id_user = :id", { id: id_user })
+                .where("users.id_user = :id", { id: id_users })
                 .getOne();
 
+                id_user = userInfo?.id_user
                 name_user = userInfo?.name_User;
                 lasname = userInfo?.lasname;
                 email = userInfo?.email;
@@ -743,6 +744,7 @@ const controllerProvider = {
                 adress = userInfo?.adress;
 
                 const user = {
+                    id_user,
                     name_user,
                     lasname,
                     email,
@@ -757,7 +759,7 @@ const controllerProvider = {
             }
 
             // console.log("Response en providers: " + message);
-            res.status(200).json(ResponseModel.successResponse(message));
+            res.json(message);
 
         } catch (error) {
             console.log(error)
