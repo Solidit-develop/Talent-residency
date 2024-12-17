@@ -156,7 +156,7 @@ const controllersReview={
             .leftJoinAndSelect("appointment.users", "users")
             .leftJoinAndSelect("appointment.interaccion", "interaccion")
             .leftJoinAndSelect("interaccion.reviews", "review")
-            .where("(appointment.usersIdUser = :id_logued OR appointment.providersIdProvider = :id_prov)", {
+            .where("(appointment.usersIdUser = :id_logued AND appointment.providersIdProvider = :id_prov)", {
                 id_logued: user,
                 id_prov: id_prov,
             })
