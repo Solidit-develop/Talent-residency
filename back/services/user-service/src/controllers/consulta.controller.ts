@@ -15,9 +15,6 @@ import { ResponseModel } from "../models/responseDto";
 import config from "../config";
 import { ProviderService } from "../Services/provider-service";
 
-
-
-
 const repositoriState = AppDataSource.getRepository(State);
 const repositoriTown = AppDataSource.getRepository(Town);
 const repositoriAddress = AppDataSource.getRepository(Address);
@@ -205,8 +202,8 @@ const controllerusuario = {
         if (!usert) {
           console.log(token.passwordhas);
           usert = new users();
-          usert.name_User = token.name_user;
-          usert.lasname = token.lastname;
+          usert.name_user = token.name_user;
+          usert.lastname = token.lastname;
           usert.email = token.email;
           usert.password = token.passwordhas;
           usert.age = token.age;
@@ -346,10 +343,6 @@ const controllerusuario = {
     }
   },
 
-
-
-
-
   prueba: async (req: Request, res: Response): Promise<void> => {
 
     try {
@@ -366,7 +359,6 @@ const controllerusuario = {
   ping: async (req: Request, res: Response): Promise<void> => {
     res.send("pong");
   },
-
   /**
    * TODO: Delete password from fields to return
    */
@@ -436,7 +428,6 @@ const controllerusuario = {
     res.status(200).json(ResponseModel.successResponse(respon));
   },
 
-
   insertusuario: async (req: Request, res: Response): Promise<void> => {
     try {
 
@@ -488,11 +479,11 @@ const controllerusuario = {
         await repositoritypeU.save(estatus)
       }
 
-      let usert = await repositoriuser.findOne({ where: [{ name_User: name_user }, { email: email }] })
+      let usert = await repositoriuser.findOne({ where: [{ name_user: name_user }, { email: email }] })
       if (!usert) {
         usert = new users();
-        usert.name_User = name_user;
-        usert.lasname = lastname;
+        usert.name_user = name_user;
+        usert.lastname = lastname;
         usert.email = email;
         usert.password = password;
         usert.age = age;
@@ -571,9 +562,9 @@ const controllerusuario = {
           direccion.town = ciudad;
           await repositoriAddress.save(direccion);
         }
-        usuario.name_User = name_user;
+        usuario.name_user = name_user;
         usuario.email = email;
-        usuario.lasname = lastname;
+        usuario.lastname = lastname;
         usuario.age = age;
         usuario.phoneNumber = phoneNumber;
         usuario.adress = direccion;
