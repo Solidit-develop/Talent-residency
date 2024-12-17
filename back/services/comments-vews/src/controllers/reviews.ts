@@ -166,8 +166,8 @@ const controllersReview={
 
             
                 let id_user = verificar?.users.id_user
-                let name_User=verificar?.users?.name_User
-                let lasname=verificar?.users?.lasname
+                let name_user=verificar?.users?.name_user
+                let lastname=verificar?.users?.lastname
                 let origenEmitidoComoUser=verificar?.interaccion?.origenEmitidoComoUser
                 
                 let id_provider=verificar?.providers?.id_provider
@@ -179,8 +179,8 @@ const controllersReview={
                 
                 const desfragment ={
                     id_user,
-                    name_User,
-                    lasname,
+                    name_user,
+                    lastname,
                     origenEmitidoComoUser,
                     calificacion:{
                         id_provider,
@@ -256,8 +256,8 @@ const controllersReview={
                     }
                         const desfragment =verificar.map(verificar=>({
                         id_user:verificar?.users?.id_user,
-                        Nombre:verificar?.users?.name_User,
-                        apellido:verificar?.users?.lasname,
+                        name_user:verificar?.users?.name_user,
+                        lastname:verificar?.users?.lastname,
                         origenComoUser:usuario,
                         id_appointment:verificar?.id_appointment,
                         id_prov:verificar?.providers?.id_provider,

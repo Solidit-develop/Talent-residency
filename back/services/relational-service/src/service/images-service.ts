@@ -45,17 +45,25 @@ const serviceImages = {
             // Buscar la relación de imagen
 
             
-            const resultImageRelation = await repoImagesRelation.find({
-                where: {
-                    idUsedOn: id,
-                    tableToRelation: table // Agregar validación para la tabla
-                },
-                relations: ['images'] // Carga la relación `images`
-            });
+            // const resultImageRelation = await repoImagesRelation.find({
+            //     where: {
+            //         idUsedOn: id,
+            //         tableToRelation: table, // Agregar validación para la tabla
+            //     },
+            //     relations: ['images'] // Carga la relación `images`
+            // });
 
+            const relacionImagen = await repoImages.createQueryBuilder("images")
+            .leftJoinAndSelect("images.imagesRelation","imagesRelation")
+            .where("imagesRelation.idUsedOn = :idUsedOn and imagesRelation.tableToRelation = :tableToRelation and images.funcionality = :funcionality  ",{idUsedOn:id,tableToRelation:table,funcionality:funcion})
+            .getMany();
+
+
+            console.log("Imagenes................")
+            console.log(relacionImagen);
 
             // Validación de resultImageRelation
-            if (resultImageRelation.length<=0) {
+            if (relacionImagen.length<=0) {
                 errorMessage = "No se encontró la relación de imagen para el id proporcionado.";
             } 
                 const response = {
@@ -63,13 +71,14 @@ const serviceImages = {
                     idUsedOn,
                     funcionality,
                     message: errorMessage || null, // Agregar el mensaje de error si existe,
-                    resultImageRelation
+                    relacionImagen
                 };
         
                 // Devolver la respuesta
                 res.json(response);
         
         }catch(error){
+            console.log(error)
             res.status(500).json("Error interno")
         }
 

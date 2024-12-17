@@ -128,9 +128,9 @@ const controlleragrements ={
             appointmentLocation: cita.AppointmentLocation,
             statusAppointment: cita.statusAppointment,
             user: {
-            idUser: cita.users.id_user,
-            name: cita.users.name_User,
-            lastName: cita.users.lasname,
+            id_user: cita.users.id_user,
+            name_user: cita.users.name_user,
+            lastname: cita.users.lastname,
             phoneNumber: cita.users.phoneNumber
             },
             agreements: cita.agrements.map((agreement: { id_agements: any; description: any; creationDate: any; agrements_service: any[] }) => ({

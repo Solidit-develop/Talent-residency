@@ -142,7 +142,7 @@ const controllermessages = {
                 return {
                     id_conversation: Conversation.id_conversation,
                     interactuan: {
-                        nombre: Conversation.id_userOrigen.name_User,
+                        nombre: Conversation.id_userOrigen.name_user,
                         id_dest: Conversation.id_userDestino
                     },
                     message: Conversation.messages
@@ -222,7 +222,7 @@ const controllermessages = {
                 const usuario = await repositoryuser.findOne({ where: { id_user: message.related } });
                 return {
                     ...message,
-                    nameUser: usuario ? usuario.name_User : "Usuario desconocido" // Asigna el nombre o un valor por defecto si el usuario no se encuentra
+                    nameUser: usuario ? usuario.name_user : "Usuario desconocido" // Asigna el nombre o un valor por defecto si el usuario no se encuentra
                 };
             })
         );
@@ -330,7 +330,7 @@ const controllermessages = {
 
                             const resultados = devuelto.map(conversation => ({
                                 interactuan: {
-                                    nombre: conversation.id_userOrigen.name_User,
+                                    nombre: conversation.id_userOrigen.name_user,
                                     id_dest: conversation.id_userDestino
                                 },
                                 message: conversation.messages,
@@ -376,7 +376,7 @@ const controllermessages = {
 
                                 const resultados = devuelto.map(conversation => ({
                                     interactuan: {
-                                        nombre: conversation.id_userOrigen.name_User,
+                                        nombre: conversation.id_userOrigen.name_user,
                                         id_dest: conversation.id_userDestino
                                     },
                                     message: conversation.messages,
@@ -418,7 +418,7 @@ const controllermessages = {
                                 .getMany();
                                 const resultados = devuelto.map(conversation => ({
                                     interactuan: {
-                                        nombre: conversation.id_userOrigen.name_User,
+                                        nombre: conversation.id_userOrigen.name_user,
                                         id_dest: conversation.id_userDestino
                                     },
                                     message: conversation.messages,
@@ -466,7 +466,7 @@ const controllermessages = {
                                 
                                 const resultados = devuelto.map(conversation => ({
                                     interactuan: {
-                                        nombre: conversation.id_userOrigen.name_User,
+                                        nombre: conversation.id_userOrigen.name_user,
                                         id_dest: conversation.id_userDestino
                                     },
                                     message: conversation.messages,
@@ -588,7 +588,7 @@ const controllermessages = {
 
                     const resultados = devuelto.map(conversation => ({
                         interactuan: {
-                            nombre: conversation.id_userOrigen.name_User,
+                            nombre: conversation.id_userOrigen.name_user,
                             id_dest: conversation.id_userDestino
                         },
                         message: conversation.messages
