@@ -8,7 +8,7 @@ export class users {
     id_user: number;
 
     @Column({ type: "varchar", length: 100 })
-    name_User: string;
+    name_user: string;
 
     @Column({ type: "varchar", length: 100 })
     lastname: string;
