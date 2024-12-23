@@ -62,7 +62,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                     new ArrayAdapter<>(
                             holder.spinnerEstatusAppointment.getContext(),
                             android.R.layout.simple_spinner_dropdown_item,
-                            new String[] {"En espera", "Cancelar"}
+                            new String[] {"En espera", "Aprobar", "Cancelar"}
                     )
             );
             holder.btnUpdate.setVisibility(View.VISIBLE);
@@ -114,7 +114,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                 new ArrayAdapter<>(
                     itemView.getContext(),
                     android.R.layout.simple_spinner_dropdown_item,
-                    new String[] {"En espera", "Cancelar"}
+                    new String[] {"En espera", "Aprobar", "Cancelar"}
                 )
             );
         }

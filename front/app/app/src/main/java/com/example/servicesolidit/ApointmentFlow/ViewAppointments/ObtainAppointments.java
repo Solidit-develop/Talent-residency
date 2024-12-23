@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.example.servicesolidit.ApointmentFlow.AgreementsFlow.Agreement;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
 import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentItemResponse;
@@ -146,6 +148,28 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
     @Override
     public void onUpdateStatus(int appointmentId, String newStatus, int idProvider, int idCustomer) {
         onShowProgress();
-        this.presenter.updateAppointment(appointmentId, newStatus, idProvider, idCustomer);
+        switch (newStatus) {
+            case "Cancelar": {
+                this.presenter.updateAppointment(appointmentId, newStatus, idProvider, idCustomer);
+                break;
+            }
+            case "Aprobar": {
+                // Redirect to create agreement
+                Agreement fragment = new Agreement(idProvider, idCustomer, appointmentId);
+                navigateTo(fragment);
+            }
+        }
+    }
+
+    /**
+     * Method to load a new fragment from the slide menu.
+     * @param fragmentDestiny is the fragment to navigate.
+     */
+    public void navigateTo(Fragment fragmentDestiny) {
+        Log.i("ObtainAppointment", "Start slide transaction fragment");
+        FragmentTransaction transactionTransaction = this.requireActivity().getSupportFragmentManager().beginTransaction();
+        transactionTransaction.replace(R.id.frame_container, fragmentDestiny);
+        transactionTransaction.addToBackStack(null);
+        transactionTransaction.commit();
     }
 }

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ApointmentFlow.AgreementsFlow.Agreement">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="32dp"
+        tools:ignore="UselessLeaf">
+        <ProgressBar
+            android:id="@+id/progressBarOnConfirmAgreement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            />
+        <EditText
+            android:id="@+id/etDescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Descripción general del trabajo"
+            android:layout_marginBottom="16dp"
+            tools:ignore="HardcodedText" />
+
+        <EditText
+            android:id="@+id/etDescripcionService"
+            android:layout_below="@id/etDescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Descripción detallada del servicio requerido"
+            tools:ignore="HardcodedText" />
+
+        <CalendarView
+            android:id="@+id/cvServiceDate"
+            android:layout_below="@id/etDescripcionService"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <Button
+            android:id="@+id/btnConfirmarAcuerdo"
+            android:layout_below="@id/cvServiceDate"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirmar acuerdo"
+            />
+
+    </RelativeLayout>
+
+</FrameLayout>

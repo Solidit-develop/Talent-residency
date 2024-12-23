@@ -3,6 +3,7 @@ package com.example.servicesolidit.Network;
 
 
 import com.example.servicesolidit.Utils.Models.Requests.CancelAppointmentRequestDto;
+import com.example.servicesolidit.Utils.Models.Requests.CreateAgreementRequest;
 import com.example.servicesolidit.Utils.Models.Requests.CreateAppointmentRequestDto;
 import com.example.servicesolidit.Utils.Models.Requests.LoginRequestDto;
 import com.example.servicesolidit.Utils.Models.Requests.RegisterRequestDto;
@@ -25,6 +26,7 @@ import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProviderPr
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -55,7 +57,6 @@ public interface ApiService {
     @GET("provider/todos/services/feed")
     Call<FeedResponseDto> feed();
 
-    // Van al revés
     @POST("appointment/cita/{id_provider}/{id_customer}")
     Call<AppointmentResponseDto> createAppointmnt(@Body CreateAppointmentRequestDto request, @Path("id_provider")int idProvider, @Path("id_customer") int idCustomer);
 
@@ -63,6 +64,10 @@ public interface ApiService {
     Call<AppointmentResponseDto> cancelAppointment(
             @Body CancelAppointmentRequestDto request,
             @Path("id_provider")int idProvider);
+
+    // If response changes it needs to modify resposne object
+    @POST("agrements/agendar/{idAppointment}/{idProvider}")
+    Call<AppointmentResponseDto> createAgreement(@Body CreateAgreementRequest request, @Path("idAppointment") int idAppointment, @Path("idProvider") int idProvider);
 
     @GET("appointment/consulta/{idProvider}")
     Call<AppointmentListResponse> obtenerAppointmntsListAsProvider(@Path("idProvider") int idProvider);
