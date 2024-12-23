@@ -165,8 +165,6 @@ const controlleragrements ={
 
             const {descripcion,descripcionService}= req.body
 
-           
-
             const agrements  = await agrementsRepository.findOne({where:{id_agements:id_agrement}})
             const serviceStatus = await serviceRepository.findOne({where:{id_serviceStatus:id_serviceStatus}})
             if(!agrements || !serviceStatus){
@@ -192,7 +190,30 @@ const controlleragrements ={
             res.status(500).json({message:"Error interno en el servidor"})
         }
         
-    }
+    },
+    cancelar:async(req:Request, res:Response):Promise<void>=>{
+        const id_agrement= Number(req.params.id_agrement)
+        const id_serviceStatus = Number(req.params.id_serviceStatus)
+        let value = "Cancelado"
+        try{
+            const agrements  = await agrementsRepository.findOne({where:{id_agements:id_agrement}})
+            if(agrements && value){
+                let serviceStatus = await serviceRepository.findOne({where:{id_serviceStatus:id_serviceStatus}})
+                if (serviceStatus){
+                    serviceStatus.value= value
+                    serviceRepository.save(serviceStatus);
+                }                            
+            }else{
+                console.log("No se encontro nada")
+                res.json("No se encontro nada")
+                return;
+            }
+            res.status(200).json({message:"Actualizado con exito"})
+        }catch(error){
+            console.log("Error interno" , error)
+            res.status(500).json("Error interno")
+        }
+    } 
     
 }
 
