@@ -25,6 +25,7 @@ import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDt
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
 import com.example.servicesolidit.ProviderInformationFlow.VisitProvider;
+import com.example.servicesolidit.Utils.Models.Responses.ImagesRelational.ImagesInformationResponseDto;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -129,12 +130,20 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
                 modelFromResponse.setNameBussines(item.getProvedor().getWorkshopName());
                 modelFromResponse.setDescription("Con " + item.getProvedor().getExperienceYears() + " años de experiencia");
                 modelFromResponse.setIdProvider(item.getProvedor().getIdProvider());
-                //modelFromResponse.setIdProviderAsUser(item.getUserInfoRelated().getIdUser());
-                modelFromResponse.setImageUrl(Constants.BASE_URL + "images/print/" + item.getProvedor().getPhotoProvider());
+                String photoToPrint = getPhotoToPrintOnFeed(item.getImagen().getImageName());
+                modelFromResponse.setImageUrl(Constants.BASE_URL + "images/print/" + photoToPrint);
                 listToPrint.add(modelFromResponse);
             }
         }
         return listToPrint;
+    }
+
+    private String getPhotoToPrintOnFeed(ArrayList<ImagesInformationResponseDto> imageName) {
+        String urlLocation = "no-photo";
+        if(!imageName.isEmpty()){
+            urlLocation = imageName.get(0).getUrlLocation();
+        }
+        return  urlLocation;
     }
 
     public void onCardClick(int idProvider){
