@@ -20,6 +20,8 @@ import com.example.servicesolidit.Utils.Constants;
 import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentItemResponse;
 import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentListResponse;
 import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
     private RecyclerView rvAppointmentsList;
     private ArrayList<AppointmentItemResponse> appointmentsList;
     private AppointmentAdapter adapter;
+    private boolean isProvider;
 
 
     @Override
@@ -59,7 +62,7 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
     }
 
     public void getProviderIdByUserId(int userId){
-        this.presenter.getProviderInformationFromUserId(userId);
+        this.presenter.information(userId);
     }
 
     @Override
@@ -74,12 +77,12 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
-    public void onSuccessObtainResponse(AppointmentListResponse result) {
-        Log.i("ObtainAppointment", "Founded: " + result.regreso.size());
+    public void onSuccessObtainResponse(ArrayList<AppointmentItemResponse> result) {
+        Log.i("ObtainAppointment", "Founded: " + result.size());
         this.appointmentsList.clear();
-        if(!result.regreso.isEmpty()){
-            this.appointmentsList.addAll(result.regreso);
-            Log.i("ObtainAppointment", "Se encontró: " + result.regreso.size());
+        if(!result.isEmpty()){
+            this.appointmentsList.addAll(result);
+            Log.i("ObtainAppointment", "Se encontró: " + result.size());
         }else{
             Log.i("ObtainAppointment", "No se encontraron negocios que coincidan");
         }
@@ -89,17 +92,39 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
 
     @Override
     public void onErrorObtainResponse(String s) {
+        Log.i("ObtainAppointmentClass", "onErrorObtainResponse: " + s);
 
     }
 
     @Override
     public void onSuccessGetInformationAsProvider(ProviderResponseDto result) {
         int id = result.getIdProvidersss();
-        this.presenter.getAppointments(id);
+        this.presenter.getAppointments(id, "asProvider");
     }
 
     @Override
     public void onErrorGetInformationAsProvider(String message) {
+        Log.i("ObtainAppointmentClass", "onErrorGetInformationAsProvider: " + message);
+    }
 
+    @Override
+    public void onLoadProfileSuccess(UserInfoProfileDto result) {
+        if(result != null){
+            Gson gson = new Gson();
+            Log.i("ObtainAppointmentClass", "Information: " + gson.toJson(result));
+            this.isProvider = result.getTypes().isValue();
+            if(this.isProvider){
+                this.presenter.getProviderInformationFromUserId(result.getIdUser());
+            }else{
+                this.presenter.getAppointments(result.getIdUser(), "asCustomer");
+            }
+        }else {
+            Log.i("ObtainAppointmentClass", "ErrorOnLoadProfileSuccess");
+        }
+    }
+
+    @Override
+    public void onLoadProfileError(String message) {
+        Log.i("ObtainAppointmentClass", "ErrorOnLoadProfileError: " + message);
     }
 }

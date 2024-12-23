@@ -10,6 +10,9 @@ public class ProviderResponseDto {
     @SerializedName("id_provider")
     private int idProvider;
 
+    /**
+     * Used to get id on GetInfoProviderFromUserID
+     */
     @SerializedName("id_provedores")
     private int idProvidersss;
 

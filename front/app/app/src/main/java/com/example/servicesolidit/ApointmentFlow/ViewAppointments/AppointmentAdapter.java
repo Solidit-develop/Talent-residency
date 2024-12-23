@@ -37,7 +37,15 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         AppointmentItemResponse item = this.appointmentList.get(position);
         Gson gson = new Gson();
         Log.i("AppointmentAdapter", gson.toJson(item));
-        holder.customerName.setText(item.getNameUser() + " " + item.getLastName());
+        if(item.getNameUser() == null){
+            // CustomerView
+            holder.customerTitle.setText("Proveedor:");
+            holder.customerName.setText(item.getNameProvider());
+        }else{
+            // ProviderView
+            holder.customerName.setText(item.getNameUser() + " " + item.getLastName());
+
+        }
         holder.providerName.setText(item.getWorkshopName());
         holder.location.setText(item.getAppointmentLocation());
         holder.date.setText(item.getAppointmentDate());
@@ -50,12 +58,13 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     }
 
     public class AppointmentViewHolder extends RecyclerView.ViewHolder {
-        TextView date, providerName, location, customerName, estatus;
+        TextView date, providerName, location, customerName, estatus, customerTitle;
 
         public AppointmentViewHolder(@NonNull View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.tvContentDate);
             customerName = itemView.findViewById(R.id.tvContentClient);
+            customerTitle = itemView.findViewById(R.id.tvTitleClient);
             location = itemView.findViewById(R.id.tvContentLocation);
             providerName = itemView.findViewById(R.id.tvContentProvider);
             estatus = itemView.findViewById(R.id.tvEstatusAppointment);

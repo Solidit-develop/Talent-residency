@@ -66,7 +66,7 @@ public class Profile extends Fragment implements ProfileView {
 
         presenter = new ProfilePresenter(this);
 
-        /** Load Personal Data */
+        /* Load Personal Data */
         presenter.information(getIdLogged());
         showProgress();
         return view;
@@ -156,7 +156,7 @@ public class Profile extends Fragment implements ProfileView {
     @Override
     public void onLoadProfileError(String message) {
         hideProgress();
-        Log.i("ProfileClass", "Error: " + message);
+        Log.i("ProfileClass", "ErrorOnLoadProfileError: " + message);
         Toast.makeText(requireContext(), "Hubo un problema al recuperar la información", Toast.LENGTH_SHORT).show();
         House houseFragment = new House();
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();

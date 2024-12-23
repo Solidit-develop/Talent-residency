@@ -18,13 +18,19 @@ public class AppointmentItemResponse{
     @SerializedName("id_provider")
     private int idProvider;
 
+    @SerializedName("id_providers")
+    private int idProviders;
+
+    @SerializedName("name_provider")
+    private String nameProvider;
+
     @SerializedName("id_user")
     private int idUser;
 
-    @SerializedName("name_User")
+    @SerializedName("name_user")
     private String nameUser;
 
-    @SerializedName("lasname")
+    @SerializedName("lastname")
     private String lastName;
 
     @SerializedName("update")
@@ -112,5 +118,21 @@ public class AppointmentItemResponse{
 
     public void setStatusUpdate(String statusUpdate) {
         this.statusUpdate = statusUpdate;
+    }
+
+    public int getIdProviders() {
+        return idProviders;
+    }
+
+    public void setIdProviders(int idProviders) {
+        this.idProviders = idProviders;
+    }
+
+    public String getNameProvider() {
+        return nameProvider;
+    }
+
+    public void setNameProvider(String nameProvider) {
+        this.nameProvider = nameProvider;
     }
 }

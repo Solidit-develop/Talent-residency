@@ -1,23 +1,24 @@
 package com.example.servicesolidit.Utils.Models.Responses.User;
 
 import com.example.servicesolidit.Utils.Models.Responses.ResponseDto;
+import com.example.servicesolidit.Utils.Models.Responses.ResponseNeastedDto;
 import com.google.gson.annotations.SerializedName;
 
 public class UserInfoProfileResponseDto extends ResponseDto {
-    private UserInfoProfileDto response;
+    private ResponseNeastedDto response;
 
-    public UserInfoProfileResponseDto(int code, boolean success, UserInfoProfileDto response){
+    public UserInfoProfileResponseDto(int code, boolean success, ResponseNeastedDto response){
         super();
         this.code = code;
         this.success = success;
         this.response = response;
     }
 
-    public UserInfoProfileDto getResponse() {
+    public ResponseNeastedDto getResponse() {
         return response;
     }
 
-    public void setResponse(UserInfoProfileDto response) {
+    public void setResponse(ResponseNeastedDto response) {
         this.response = response;
     }
 

@@ -28,7 +28,7 @@ public class ProfilePresenter {
             public void onResponse(Call<UserInfoProfileResponseDto> call, Response<UserInfoProfileResponseDto> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     try{
-                        UserInfoProfileDto result = response.body().getResponse();
+                        UserInfoProfileDto result = response.body().getResponse().getResponse();
                         Log.i("ProfilePresenterSucces", result.getNameUser());
                         view.onLoadProfileSuccess(result);
                     }catch (Exception e){

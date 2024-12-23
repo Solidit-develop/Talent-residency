@@ -7,6 +7,7 @@ import com.example.servicesolidit.Utils.Models.Requests.LoginRequestDto;
 import com.example.servicesolidit.Utils.Models.Requests.RegisterRequestDto;
 import com.example.servicesolidit.Utils.Models.Requests.SendMessageRequest;
 import com.example.servicesolidit.Utils.Models.Requests.UpdateToProviderRequestDto;
+import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentItemResponse;
 import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentListResponse;
 import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponse;
@@ -21,6 +22,7 @@ import com.example.servicesolidit.Utils.Models.Responses.User.ProviderProfileInf
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProviderProfileResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -55,8 +57,11 @@ public interface ApiService {
     @POST("appointment/cita/{id_provider}/{id_customer}")
     Call<AppointmentResponseDto> createAppointmnt(@Body CreateAppointmentRequestDto request, @Path("id_provider")int idProvider, @Path("id_customer") int idCustomer);
 
-    @GET("appointment/consulta/{idLogged}")
-    Call<AppointmentListResponse> obtenerAppointmntsList(@Path("idLogged") int idLogged);
+    @GET("appointment/consulta/{idProvider}")
+    Call<AppointmentListResponse> obtenerAppointmntsListAsProvider(@Path("idProvider") int idProvider);
+
+    @GET("appointment/porUser/{idUser}")
+    Call<ArrayList<AppointmentItemResponse>> obtenerAppointmntsListAsCustomer(@Path("idUser") int idUser);
 
     @GET("provider/provedores/{item}")
     Call<List<SearchProviderResponseDto>> searchProvider(@Path("item")String item);

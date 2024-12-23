@@ -22,7 +22,7 @@ public class VisitProviderPresenter {
     }
 
     public void getAppointments(int idLogged){
-        Call<AppointmentListResponse> call = service.obtenerAppointmntsList(idLogged);
+        Call<AppointmentListResponse> call = service.obtenerAppointmntsListAsProvider(idLogged);
         call.enqueue(new Callback<AppointmentListResponse>() {
             @Override
             public void onResponse(Call<AppointmentListResponse> call, Response<AppointmentListResponse> response) {
