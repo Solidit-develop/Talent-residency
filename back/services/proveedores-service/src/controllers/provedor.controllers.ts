@@ -528,25 +528,67 @@ const controllerProvider = {
 
     //todos los provedores disponibles
 
+    // provedores: async function name(req: Request, res: Response) {
+    //     try {
+    //         const proveedores = await repositoryProviders.createQueryBuilder("providers")
+    //             .leftJoinAndSelect("providers.address", "address")
+    //             .leftJoinAndSelect("address.town", "town")
+    //             .leftJoinAndSelect("town.state", "state")
+    //             .getMany();
+
+    //         console.log("Todos los provedores")
+    //         console.log(ResponseModel.successResponse(proveedores))
+    //         res.status(200).json(ResponseModel.successResponse(proveedores))
+
+    //     } catch (error) {
+    //         console.log(error)
+    //         res.status(500).json(ResponseModel.errorResponse(500, "Ha ocurrido un error en el servidor"))
+    //         console.log("Hay un error interno en el servidor")
+    //     }
+
+    // },
+
     provedores: async function name(req: Request, res: Response) {
         try {
-            const proveedores = await repositoryProviders.createQueryBuilder("providers")
+            // Recuperar la lista de proveedores con sus relaciones
+            let proveedores = await repositoryProviders
+                .createQueryBuilder("providers")
                 .leftJoinAndSelect("providers.address", "address")
                 .leftJoinAndSelect("address.town", "town")
                 .leftJoinAndSelect("town.state", "state")
                 .getMany();
-
-            console.log("Todos los provedores")
-            console.log(ResponseModel.successResponse(proveedores))
-            res.status(200).json(ResponseModel.successResponse(proveedores))
-
+    
+            const imagenes = new ImagenService();
+            let response = [];
+    
+            for (let i = 0; i < proveedores.length; i++) {
+                const provedor = proveedores[i];
+                const provedorid = provedor?.id_provider;
+    
+                console.log("Este es el proveedor: ", provedorid);
+    
+                if (provedorid) {
+                    const imagen = await imagenes.getImageInfo("Providers", String(provedorid), "cat");
+                    console.log("Imagenes: ", imagen);
+                    response.push({
+                        provedor,
+                        imagen
+                    });
+                }
+            }
+    
+            console.log("Todos los proveedores");
+            console.log(ResponseModel.successResponse(response));
+    
+            res.status(200).json(ResponseModel.successResponse(response));
         } catch (error) {
-            console.log(error)
-            res.status(500).json(ResponseModel.errorResponse(500, "Ha ocurrido un error en el servidor"))
-            console.log("Hay un error interno en el servidor")
+            console.log(error);
+            console.log("Hay un error interno en el servidor");
+    
+            res.status(500).json(ResponseModel.errorResponse(500, "Ha ocurrido un error en el servidor"));
         }
-
     },
+    
 
     // scrooll de home
     scroll: async function name(req: Request, res: Response) {
@@ -616,14 +658,15 @@ const controllerProvider = {
 
         try {
             let message;
-            const id_provider = req.params.id;
+            const {id,funcionality} = req.params;
+
             const proveedores = await repositoryProviders.createQueryBuilder("providers")
                 .leftJoinAndSelect("providers.user", "user")
                 .leftJoinAndSelect("user.usertypes", "users")
                 .leftJoinAndSelect("providers.address", "address")
                 .leftJoinAndSelect("address.town", "town")
                 .leftJoin("town.state", "state")
-                .where("user.id_user=:id_provider", { id_provider: id_provider })
+                .where("user.id_user=:id_provider", { id_provider: id })
                 .getOne();
 
             let id_provedores = proveedores?.id_provider;
@@ -632,8 +675,8 @@ const controllerProvider = {
             let workshopPhoneNumber = proveedores?.workshopPhoneNumber;
             let descripcion = proveedores?.descripcion;
             let id_user = proveedores?.user.id_user;
-            let name = proveedores?.user.name_User;
-            let lastname = proveedores?.user.lasname;
+            let name_user = proveedores?.user.name_user;
+            let lastname = proveedores?.user.lastname;
             let email = proveedores?.user.email;
             let age = proveedores?.user.age;
             let phoneNumber = proveedores?.user.phoneNumber
@@ -643,7 +686,8 @@ const controllerProvider = {
             const provedor = {
                 id_provedores, experiencias, workshopName, workshopPhoneNumber, descripcion,
                 user: { id_user, name, lastname, email, age, phoneNumber, type },
-                adress
+                adress,
+           
             }
 
             message = provedor;
@@ -668,14 +712,14 @@ const controllerProvider = {
 
         try {
             let message;
-            const id_provider = req.params.id;
+            const {id} = req.params;
             const proveedores = await repositoryProviders.createQueryBuilder("providers")
                 .leftJoinAndSelect("providers.user", "user")
                 .leftJoinAndSelect("user.usertypes", "users")
                 .leftJoinAndSelect("providers.address", "address")
                 .leftJoinAndSelect("address.town", "town")
                 .leftJoin("town.state", "state")
-                .where("Providers.id_provider=:id_provider", { id_provider: id_provider })
+                .where("Providers.id_provider=:id_provider", { id_provider: id })
                 .getOne();
 
             let id_provedores = proveedores?.id_provider;
@@ -684,8 +728,8 @@ const controllerProvider = {
             let workshopPhoneNumber = proveedores?.workshopPhoneNumber;
             let descripcion = proveedores?.descripcion;
             let id_user = proveedores?.user.id_user;
-            let name = proveedores?.user.name_User;
-            let lastname = proveedores?.user.lasname;
+            let name_user = proveedores?.user.name_user;
+            let lastname = proveedores?.user.lastname;
             let email = proveedores?.user.email;
             let age = proveedores?.user.age;
             let phoneNumber = proveedores?.user.phoneNumber
@@ -694,8 +738,62 @@ const controllerProvider = {
 
             const provedor = {
                 id_provedores, experiencias, workshopName, workshopPhoneNumber, descripcion,
-                user: { id_user, name, lastname, email, age, phoneNumber, type },
-                adress
+                user: { id_user, name_user, lastname, email, age, phoneNumber, type },
+                adress,
+            }
+            message = provedor;
+            if (!provedor) {
+                message = "User not found";
+            }
+            res.status(200).json(ResponseModel.successResponse(message));
+
+        } catch (error) {
+            console.log(error)
+            res.status(500).json(ResponseModel.errorResponse(500, "Ocurrió un error con el servidor. " + error));
+        }
+    },
+
+    /**
+     * Metodo para consultar información de proveedor por provider id
+     * @param req 
+     * @param res 
+     */
+    providerByProviderIdParams: async function name(req: Request, res: Response) {
+
+        try {
+            let message;
+            const {id,funcionality} = req.params;
+            const proveedores = await repositoryProviders.createQueryBuilder("providers")
+                .leftJoinAndSelect("providers.user", "user")
+                .leftJoinAndSelect("user.usertypes", "users")
+                .leftJoinAndSelect("providers.address", "address")
+                .leftJoinAndSelect("address.town", "town")
+                .leftJoin("town.state", "state")
+                .where("Providers.id_provider=:id_provider", { id_provider: id })
+                .getOne();
+
+            const service = new ImagenService();
+            const imagen = await service.getImageInfo("Providers",id,funcionality);
+
+            let id_provedores = proveedores?.id_provider;
+            let experiencias = proveedores?.experienceYears;
+            let workshopName = proveedores?.workshopName;
+            let workshopPhoneNumber = proveedores?.workshopPhoneNumber;
+            let descripcion = proveedores?.descripcion;
+            let id_user = proveedores?.user.id_user;
+            let name_user = proveedores?.user.name_user;
+            let lastname = proveedores?.user.lastname;
+            let email = proveedores?.user.email;
+            let age = proveedores?.user.age;
+            let phoneNumber = proveedores?.user.phoneNumber
+            let type = proveedores?.user.usertypes;
+            let adress = proveedores?.address;
+
+            const provedor = {
+                id_provedores, experiencias, workshopName, workshopPhoneNumber, descripcion,
+                user: { id_user, name_user, lastname, email, age, phoneNumber, type },
+                adress,
+                ...imagen||null
             }
 
             message = provedor;
@@ -710,33 +808,50 @@ const controllerProvider = {
             res.status(500).json(ResponseModel.errorResponse(500, "Ocurrió un error con el servidor. " + error));
         }
     },
-
-
     /**
      * Metodo para consultar la información de usuarios con tipo de usuario para consulta interna
      * @param req 
      * @param res 
      */
+
     userProfile: async function (req: Request, res: Response) {
         try {
             let message;
-            const id_user = req.params.id;
+            const id_users = req.params.id;
+            let name_user, lastname, email,phoneNumber,userType, adress, id_user
             const userInfo = await repositoryUser.createQueryBuilder("users")
                 .leftJoinAndSelect("users.usertypes", "type")
                 .leftJoinAndSelect("users.adress", "address")
                 .leftJoinAndSelect("address.town", "town")
                 .leftJoin("town.state", "state")
-                .where("users.id_user = :id", { id: id_user })
+                .where("users.id_user = :id", { id: id_users })
                 .getOne();
 
-            message = userInfo;
+                id_user = userInfo?.id_user
+                name_user = userInfo?.name_user;
+                lastname = userInfo?.lastname;
+                email = userInfo?.email;
+                phoneNumber = userInfo?.phoneNumber;
+                userType = userInfo?.usertypes;
+                adress = userInfo?.adress;
+
+                const user = {
+                    id_user,
+                    name_user,
+                    lastname,
+                    email,
+                    phoneNumber,
+                    userType,
+                    adress
+                }
+            message = user;
 
             if (!userInfo) {
                 message = "User not found";
             }
 
             // console.log("Response en providers: " + message);
-            res.status(200).json(ResponseModel.successResponse(message));
+            res.json(message);
 
         } catch (error) {
             console.log(error)
@@ -757,7 +872,7 @@ const controllerProvider = {
             }
             const usuario = await repositoryProviders.findOne({ where: { id_provider: id_provider } });
             let  idUsedOn = String(id_provider)
-            let table = 'providers'
+            let table = 'Providers'
             if(usuario){
            
               const conexion = new ImagenService();

@@ -15,7 +15,6 @@ import { ResponseModel } from "../models/responseDto";
 import config from "../config";
 import { ProviderService } from "../Services/provider-service";
 
-
 const repositoriState = AppDataSource.getRepository(State);
 const repositoriTown = AppDataSource.getRepository(Town);
 const repositoriAddress = AppDataSource.getRepository(Address);
@@ -203,8 +202,8 @@ const controllerusuario = {
         if (!usert) {
           console.log(token.passwordhas);
           usert = new users();
-          usert.name_User = token.name_user;
-          usert.lasname = token.lastname;
+          usert.name_user = token.name_user;
+          usert.lastname = token.lastname;
           usert.email = token.email;
           usert.password = token.passwordhas;
           usert.age = token.age;
@@ -344,10 +343,6 @@ const controllerusuario = {
     }
   },
 
-
-
-
-
   prueba: async (req: Request, res: Response): Promise<void> => {
 
     try {
@@ -364,7 +359,6 @@ const controllerusuario = {
   ping: async (req: Request, res: Response): Promise<void> => {
     res.send("pong");
   },
-
   /**
    * TODO: Delete password from fields to return
    */
@@ -395,12 +389,18 @@ const controllerusuario = {
 
   obtainInformation: async (req: Request, res: Response): Promise<void> => {
     const providerService = new ProviderService();
-    var response;
+    const userImagen = new ImagenService();
+    var user;
+    var imagen
+    var tabla = "users"
+    var funcionality ="PerfilUser"
     let userIdToFind = req.params.idToFind;
     console.log("ID TO FIND: " + userIdToFind);
-
+    
     try {
-      response = await providerService.getUserInfo(userIdToFind)
+      user = await providerService.getUserInfo(userIdToFind)
+      imagen = await userImagen.getImageInfo(tabla,userIdToFind,funcionality)
+      // imagen = await 
         .then(resp => {
           console.log("Response on promise controller: " + JSON.stringify(resp));
           return resp;
@@ -408,14 +408,24 @@ const controllerusuario = {
         .catch(error => {
           console.log("Error on promise controller: " + error);
         });
-      console.log("Response del service: " + response);
+      console.log("Response del service: " + user);
     } catch (e) {
-      response = e;
-      console.log("Error: " + response);
+      user = e;
+      console.log("Error: " + user);
+      return;
     }
 
-    console.log("Response on finish controller: " + response);
-    res.status(200).json(response);
+    console.log("Response on finish controller: " + user);
+
+    const respon={
+        response:{
+          ...user,
+          ...imagen
+        }
+
+    }
+
+    res.status(200).json(ResponseModel.successResponse(respon));
   },
 
   insertusuario: async (req: Request, res: Response): Promise<void> => {
@@ -469,11 +479,11 @@ const controllerusuario = {
         await repositoritypeU.save(estatus)
       }
 
-      let usert = await repositoriuser.findOne({ where: [{ name_User: name_user }, { email: email }] })
+      let usert = await repositoriuser.findOne({ where: [{ name_user: name_user }, { email: email }] })
       if (!usert) {
         usert = new users();
-        usert.name_User = name_user;
-        usert.lasname = lastname;
+        usert.name_user = name_user;
+        usert.lastname = lastname;
         usert.email = email;
         usert.password = password;
         usert.age = age;
@@ -552,9 +562,9 @@ const controllerusuario = {
           direccion.town = ciudad;
           await repositoriAddress.save(direccion);
         }
-        usuario.name_User = name_user;
+        usuario.name_user = name_user;
         usuario.email = email;
-        usuario.lasname = lastname;
+        usuario.lastname = lastname;
         usuario.age = age;
         usuario.phoneNumber = phoneNumber;
         usuario.adress = direccion;
@@ -562,7 +572,6 @@ const controllerusuario = {
         await repositoriuser.save(usuario);
 
         console.log("Usuario ya actualizado");
-        console.log(usuario);
         res.json(ResponseModel.successResponse(usuario));
         console.log("Usuario actualizado correctamente");
       } else {
@@ -578,8 +587,8 @@ const controllerusuario = {
 
   insertImagen: async (req: Request, res: Response): Promise<void> => {
     let id_user = Number(req.params.id_user);
-    const { funcionality, urlLocation } = req.body;
-
+    const { urlLocation } = req.body;
+    let  funcionality = "PerfilUser"
       try {
       const usuario = await repositoriuser.findOne({ where: { id_user: id_user } });
       let  idUsedOn = String(id_user)
@@ -598,7 +607,88 @@ const controllerusuario = {
       console.error("Error:", e );
       res.status(500).json({ message: "Error interno" }); 
     }
+  },
+
+
+  resetPassword: async (req: Request, res: Response): Promise<void> => {
+    const correo = req.body.correo;
+  
+    if (!correo) {
+      res.status(400).json({ message: 'El correo es obligatorio' });
+      return;
+    }
+  
+    try {
+      const usuario = await repositoriuser.findOne({ where: { email: correo } });
+  
+      if (!usuario) {
+        res.status(404).json({ message: 'Usuario no encontrado' });
+        return;
+      }
+  
+      const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      const longitud = 6;
+      let nuevaContrasena = '';
+  
+      for (let i = 0; i < longitud; i++) {
+        nuevaContrasena += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+      }
+  
+      const passwordHash = await bcryptjs.hash(nuevaContrasena, 8);
+  
+      // Actualiza la contraseña del usuario
+      usuario.password = passwordHash;
+      await repositoriuser.save(usuario);
+  
+      // Envía el correo
+      await transporter.sendMail({
+        from: `"Admin" <${gmail}>`,
+        to: correo,
+        subject: 'Nueva contraseña',
+        html: `
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Nueva contraseña</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #1a3c86; }
+            .container { inline-size: 80%; margin: 20px auto; }
+            .header { background-color: #f5f5f5; padding: 20px; border-block-end: 1px solid #000000; }
+            .content { padding: 20px; }
+            .info-box { border: 1px solid #000000; padding: 10px; margin-block-end: 20px; background-color: #f9f9f9; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Nueva contraseña</h1>
+              <p>Recientemente has solicitado restablecer tu contraseña. Tu nueva contraseña es:</p>
+            </div>
+            <div class="content">
+              <div class="info-box">
+                <h2>Contraseña actualizada</h2>
+                <p>Su nueva contraseña es: <strong>${nuevaContrasena}</strong></p>
+              </div>
+              <div class="info-box">
+                <h2>Recomendaciones</h2>
+                <p>Cambia esta contraseña en tu perfil lo antes posible para garantizar tu seguridad.</p>
+              </div>
+            </div>
+          </div>
+        </body>
+        </html>
+        `,
+      });
+  
+      res.status(200).json({ message: 'Nueva contraseña generada y enviada por correo.' });
+    } catch (error) {
+      console.error('Error al restablecer la contraseña:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    }
   }
+  
 
 };
 

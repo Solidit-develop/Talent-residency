@@ -37,64 +37,52 @@ const serviceImages = {
     },
 
     obtainInformation: async (req: Request, res: Response): Promise<void> => {
-        const { table, idUsedOn, funcionality } = req.params;
-        const id = parseInt(idUsedOn);
-        let errorMessage: string | null = null; // Mensaje de error inicial
-        var resultImage: images | null = new images();
+        try{
+            const { table, idUsedOn, funcionality } = req.params;
+            const id = parseInt(idUsedOn);
+            let errorMessage: string | null = null; // Mensaje de error inicial
+            var funcion = String(funcionality)
+            // Buscar la relación de imagen
 
-        // Buscar la relación de imagen
-        const resultImageRelation = await repoImagesRelation.findOne({
-            where: {
-                idUsedOn: id,
-                tableToRelation: table // Agregar validación para la tabla
-            },
-            relations: ['images'] // Carga la relación `images`
-        });
+            
+            // const resultImageRelation = await repoImagesRelation.find({
+            //     where: {
+            //         idUsedOn: id,
+            //         tableToRelation: table, // Agregar validación para la tabla
+            //     },
+            //     relations: ['images'] // Carga la relación `images`
+            // });
 
-
-        // Validación de resultImageRelation
-        if (!resultImageRelation) {
-            errorMessage = "No se encontró la relación de imagen para el id proporcionado.";
-        } else {
-            console.log("Id to find: " + id);
-            console.log("Table result: " + resultImageRelation?.tableToRelation);
-
-            const idImageToFind = resultImageRelation.images?.id_images; // Usar el encadenamiento opcional
-
-            // Validación de idImageToFind
-            if (!idImageToFind) {
-                errorMessage = "No se encontró el ID de la imagen en la relación.";
-            } else {
-                resultImage = await repoImages.findOne({
-                    where: {
-                        id_images: idImageToFind,
-                        funcionality: funcionality
-                    }
-                });
-
-                // Validación de resultImage
-                if (!resultImage) {
-                    errorMessage = "No se encontró la imagen correspondiente a la funcionalidad proporcionada.";
-                }
-                // Construir la respuesta final
+            const relacionImagen = await repoImages.createQueryBuilder("images")
+            .leftJoinAndSelect("images.imagesRelation","imagesRelation")
+            .where("imagesRelation.idUsedOn = :idUsedOn and imagesRelation.tableToRelation = :tableToRelation and images.funcionality = :funcionality  ",{idUsedOn:id,tableToRelation:table,funcionality:funcion})
+            .getMany();
 
 
-            }
+            console.log("Imagenes................")
+            console.log(relacionImagen);
 
+            // Validación de resultImageRelation
+            if (relacionImagen.length<=0) {
+                errorMessage = "No se encontró la relación de imagen para el id proporcionado.";
+            } 
+                const response = {
+                    table,
+                    idUsedOn,
+                    funcionality,
+                    message: errorMessage || null, // Agregar el mensaje de error si existe,
+                    relacionImagen
+                };
+        
+                // Devolver la respuesta
+                res.json(response);
+        
+        }catch(error){
+            console.log(error)
+            res.status(500).json("Error interno")
         }
-        const response = {
-            table,
-            idUsedOn,
-            funcionality,
-            message: errorMessage || null, // Agregar el mensaje de error si existe
-            imageName: resultImage?.urlLocation || null, // Usar el encadenamiento opcional
-            id_relacion:resultImageRelation?.id_imagesRelation
-        };
 
-        // Devolver la respuesta
-
-        console.log(response)
-        res.json(response);
     },
+
 }
 export default serviceImages;

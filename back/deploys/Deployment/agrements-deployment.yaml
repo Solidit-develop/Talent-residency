@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\Users\Solid IT\Documents\JC\Repositorio\Talent-Residency2\Talent-residency\back\deploys\kompose-windows-amd64.exe convert -f .\docker-compose.yml
+    kompose.version: 1.34.0 (cbf2835db)
+  labels:
+    app: agrements
+  name: agrements
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agrements
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\Users\Solid IT\Documents\JC\Repositorio\Talent-Residency2\Talent-residency\back\deploys\kompose-windows-amd64.exe convert -f .\docker-compose.yml
+        kompose.version: 1.34.0 (cbf2835db)
+      labels:
+        app: agrements
+    spec:
+      containers:
+        - env:
+            - name: DB
+              value: mydatabase
+            - name: DB_HOST
+              value: 10.242.13.1
+            - name: DB_PASSWORD
+              value: mypassword
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_TYP
+              value: postgres
+            - name: DB_USER
+              value: myuser
+            - name: HOST
+              value: localhost
+            - name: PORT
+              value: "4010"
+          image: ankar2147/solid:5.0.0
+          name: agrements
+          ports:
+            - containerPort: 4010
+      restartPolicy: Always

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: apigateway
+  labels:
+    app: apigateway
+spec:
+  selector:
+    app: apigateway # Este conecta el Service con los Pods que tienen esta etiqueta.
+  ports:
+    - protocol: TCP
+      port: 4000        # Puerto expuesto del servicio.
+      targetPort: 4000  # Puerto del contenedor que escucha.
+  type: LoadBalancer    # Exponer el gateway al exterior.

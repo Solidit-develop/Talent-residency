@@ -156,7 +156,7 @@ const controllersReview={
             .leftJoinAndSelect("appointment.users", "users")
             .leftJoinAndSelect("appointment.interaccion", "interaccion")
             .leftJoinAndSelect("interaccion.reviews", "review")
-            .where("(appointment.usersIdUser = :id_logued OR appointment.providersIdProvider = :id_prov)", {
+            .where("(appointment.usersIdUser = :id_logued AND appointment.providersIdProvider = :id_prov)", {
                 id_logued: user,
                 id_prov: id_prov,
             })
@@ -166,8 +166,8 @@ const controllersReview={
 
             
                 let id_user = verificar?.users.id_user
-                let name_User=verificar?.users?.name_User
-                let lasname=verificar?.users?.lasname
+                let name_user=verificar?.users?.name_user
+                let lastname=verificar?.users?.lastname
                 let origenEmitidoComoUser=verificar?.interaccion?.origenEmitidoComoUser
                 
                 let id_provider=verificar?.providers?.id_provider
@@ -179,8 +179,8 @@ const controllersReview={
                 
                 const desfragment ={
                     id_user,
-                    name_User,
-                    lasname,
+                    name_user,
+                    lastname,
                     origenEmitidoComoUser,
                     calificacion:{
                         id_provider,
@@ -256,8 +256,8 @@ const controllersReview={
                     }
                         const desfragment =verificar.map(verificar=>({
                         id_user:verificar?.users?.id_user,
-                        Nombre:verificar?.users?.name_User,
-                        apellido:verificar?.users?.lasname,
+                        name_user:verificar?.users?.name_user,
+                        lastname:verificar?.users?.lastname,
                         origenComoUser:usuario,
                         id_appointment:verificar?.id_appointment,
                         id_prov:verificar?.providers?.id_provider,
@@ -277,7 +277,7 @@ const controllersReview={
              res.status(200).json({mensages:"Sin comentarios"})
              return;   
             }
-            res.status(200).json(informacion)
+            res.status(200).json(...informacion)
             
         }catch(error){
             console.log("Hay un error interno ", error)
@@ -288,9 +288,12 @@ const controllersReview={
     edit:async(req:Request,res:Response):Promise<void>=>{
         try {
             const { id_user, id_prov } = req.params;
-            const commentario = req.body.commentario;
-            const calificacion= req.body.calificacion
+            // const commentario = req.body.commentario;
+            // const calificacion= req.body.calificacion
+            // const id_review = req.body.id_review
 
+            let {commentario,calificacion ,id_review}= req.body
+            id_review = Number(id_review)
             console.log(commentario);
     
             if (!commentario) {
@@ -315,8 +318,8 @@ const controllersReview={
             console.log("Aqui comienza")
 
             console.log("----------------------------")
-            let id_review =comment?.interaccion?.reviews[0].id_review
-            console.log(id_review)
+            // let id_review =comment?.interaccion?.reviews[0].id_review
+            // console.log(id_review)
             
             console.log("----------------------------")
             console.log(comment);

@@ -81,33 +81,22 @@ const controllerAppointment ={
         }
     },
     
-    
-
     cancelar: async (req: Request, res: Response): Promise<void> => {
         try {
-            const { id_provider, id_customer,id_appointment } = req.params;
-            let { creationDate } = req.body;
-
+            const id_provider = req.params.id_provider
+            const { id_customer,id_appointment } = req.body;
             const app = Number(id_appointment)
-    
             const prov = Number(id_provider);
             const cus = Number(id_customer);
-            // creationDate = new Date(creationDate)
+
             console.log("Números de callback:", prov, cus,app);
 
-            if(!creationDate){
-                console.log(creationDate)
-                res.status(400).json("Ingresa la fecha de creacion del appointment")
-                return;
-            }
-    
             const relacion = await repositoryappointment.createQueryBuilder("appointment")
                 .leftJoinAndSelect("appointment.providers", "Providers")
                 .leftJoinAndSelect("appointment.users", "users")
                 .andWhere("appointment.id_appointment =:id_appointment",{id_appointment:app})
                 .where("users.id_user = :id_user", { id_user: cus })
                 .andWhere("Providers.id_provider = :id_provider", { id_provider: prov })
-                .andWhere("CAST(appointment.creationDate AS TEXT) LIKE :fecha", { fecha: `%${creationDate}%` })
                 .getOne();
     
             // console.log("Relación de usuarios:", relacion);
@@ -126,7 +115,7 @@ const controllerAppointment ={
         }
     },
 
-    consulta:async(req:Request, res:Response):Promise<void>=>{
+    consultaProv:async(req:Request, res:Response):Promise<void>=>{
         try{
             const {id_provider}=req.params
             const prov = Number(id_provider);
@@ -135,34 +124,123 @@ const controllerAppointment ={
             .leftJoinAndSelect("appointment.users", "users")
             .where("Providers.id_provider = :id_provider", { id_provider: prov })
             .getMany();
-            console.log("Consulta")
-            // console.log(Verificar);
 
-            const regreso = Verificar.map(Verificar=>({
+            const appProvider = Verificar.map(Verificar=>({             
+                id_provider:Verificar.providers.id_provider,
                 id_appintment:Verificar.id_appointment,
                 AppointmentLocation:Verificar.AppointmentLocation,
                 creationDate:Verificar.creationDate,
-                apointmentDate:Verificar.apointmentDate,    
-                id_provider:Verificar.providers.id_provider,
+                apointmentDate:Verificar.apointmentDate,
+                workshopName:Verificar.providers.workshopName,
                 id_user:Verificar.users.id_user,
-                name_User:Verificar.users.name_User,
-                lasname:Verificar.users.lasname,   
+                name_user:Verificar.users.name_user,
+                lastname:Verificar.users.lastname,   
                 update:Verificar.statusAppointment
-
             }))
-    
-        res.status(200).json({regreso})
+        
+            res.status(200).json({appProvider})
         }catch(error){
             console.log(error)
             res.status(500).json({message:"Error de dentro del servidor"})
         }
 
     },
-    
 
-    
-    
+    consultaUser:async(req:Request,res:Response):Promise<void>=>{
+        try{
+            const id_customer = Number(req.params.id_user);
+            let usuario=[];
+            const appuser = await repositoryappointment.createQueryBuilder("appointment")
+            .leftJoinAndSelect("appointment.providers", "Providers")
+            .leftJoinAndSelect("appointment.users", "users")
+            .where("users.id_user = :id_user", { id_user: id_customer })
+            .getMany();
 
+            let id_user            
+            let name_user          
+            let lastname            
+            let update             
+            let id_appintment      
+            let AppointmentLocation
+            let creationDate       
+            let apointmentDate     
+            let id_providers        
+            let workshopName
+            let name_provider
+            let lastname_provider
+
+            for(let i = 0; i< appuser.length;i ++){
+
+                id_user = appuser[i].users.id_user,
+                name_user = appuser[i].users.name_user,
+                lastname = appuser[i].users.lastname,   
+                update = appuser[i].statusAppointment,
+                id_appintment = appuser[i].id_appointment,
+                AppointmentLocation = appuser[i].AppointmentLocation,
+                creationDate = appuser[i].creationDate,
+                apointmentDate = appuser[i].apointmentDate,    
+                id_providers = appuser[i].providers.id_provider,
+                workshopName = appuser[i].providers.workshopName
+                
+                const appuser1 = await repositoryusers.createQueryBuilder("users")
+                .leftJoinAndSelect("users.provedor","provedor")
+                .where("provedor.id_provider = :id_provider", { id_provider:id_providers})
+                .getOne();
+                name_provider    = appuser1?.name_user
+                lastname_provider = appuser1?.lastname
+
+                let testinfo ={
+                    id_user,                      
+                    id_appintment, 
+                    update,      
+                    AppointmentLocation,
+                    creationDate,       
+                    apointmentDate,     
+                    id_providers,       
+                    name_provider,   
+                    lastname_provider,
+                    workshopName       
+                }
+                usuario.push(testinfo)
+            } 
+
+            res.status(200).json(usuario)
+
+        }catch(e){
+            console.log(e)
+            res.status(500).json({mesage:"error interno en el servidor" })
+        }
+    },
+    
+    actualizar: async (req: Request, res: Response): Promise<void> => {
+        try {
+            
+            const id_appointment = Number(req.params.id_appointment);
+            if (isNaN(id_appointment)) {
+                res.status(400).json({ message: "ID de cita inválido" });
+                return; 
+            }
+            const { appointmentLocation, appointmentDate } = req.body;
+            const appointment = await repositoryappointment.findOne({ where: { id_appointment } });
+            if (!appointment) {
+                res.status(404).json({ message: "Cita no encontrada" });
+                return; 
+            }
+            if (appointmentLocation) {
+                appointment.AppointmentLocation = appointmentLocation;
+            }
+            if (appointmentDate) {
+                appointment.apointmentDate = appointmentDate;
+            }
+            await repositoryappointment.save(appointment);
+            console.log("Se actualizó este appointment");
+            res.status(200).json({ message: "Se actualizó con éxito" });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: "Error interno del servidor" });
+        }
+    }
+    
 }
 
 export default controllerAppointment;

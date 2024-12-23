@@ -102,7 +102,7 @@ const controlleragrements ={
         }
     },
     
- serviciosProvedor: async(req:Request,res:Response):Promise<void>=>{
+    serviciosProvedor: async(req:Request,res:Response):Promise<void>=>{
      const {id_provedor}=req.params
      const id_pr = parseInt(id_provedor)
 
@@ -119,43 +119,79 @@ const controlleragrements ={
         console.log("No se encontraron las citas")
         res.status(404).json({message:"no se entontraron citas"})
         return
-    }
+        }
 
-    const mappedCitas = cita.map(cita => ({
-        idAppointment: cita.id_appointment,
-        creationDate: cita.creationDate,
-        appointmentDate: cita.apointmentDate,
-        appointmentLocation: cita.AppointmentLocation,
-        statusAppointment: cita.statusAppointment,
-        user: {
-          idUser: cita.users.id_user,
-          name: cita.users.name_User,
-          lastName: cita.users.lasname,
-          phoneNumber: cita.users.phoneNumber
-        },
-        agreements: cita.agrements.map((agreement: { id_agements: any; description: any; creationDate: any; agrements_service: any[] }) => ({
-          idAgreement: agreement.id_agements,
-          description: agreement.description,
-          creationDate: agreement.creationDate,
-          
-          agreementsService: agreement.agrements_service.map((service: { id_agrements_service: any; description: any; creationDate: any; serviceStatus: { id_serviceStatus: any; description: any; value: any } }) => ({
-            idAgreementService: service.id_agrements_service,
-            description: service.description,
-            creationDate: service.creationDate,
+        const mappedCitas = cita.map(cita => ({
+            idAppointment: cita.id_appointment,
+            creationDate: cita.creationDate,
+            appointmentDate: cita.apointmentDate,
+            appointmentLocation: cita.AppointmentLocation,
+            statusAppointment: cita.statusAppointment,
+            user: {
+            id_user: cita.users.id_user,
+            name_user: cita.users.name_user,
+            lastname: cita.users.lastname,
+            phoneNumber: cita.users.phoneNumber
+            },
+            agreements: cita.agrements.map((agreement: { id_agements: any; description: any; creationDate: any; agrements_service: any[] }) => ({
+            idAgreement: agreement.id_agements,
+            description: agreement.description,
+            creationDate: agreement.creationDate,
+            
+            agreementsService: agreement.agrements_service.map((service: { id_agrements_service: any; description: any; creationDate: any; serviceStatus: { id_serviceStatus: any; description: any; value: any } }) => ({
+                idAgreementService: service.id_agrements_service,
+                description: service.description,
+                creationDate: service.creationDate,
 
-            serviceStatus: {
-              idServiceStatus: service.serviceStatus.id_serviceStatus,
-              description: service.serviceStatus.description,
-              value: service.serviceStatus.value
+                serviceStatus: {
+                idServiceStatus: service.serviceStatus.id_serviceStatus,
+                description: service.serviceStatus.description,
+                value: service.serviceStatus.value
+                }
+            }))
+            }))
+        }));
+
+        console.log(mappedCitas);
+        
+
+        res.status(200).json({citas:mappedCitas})
+    },
+
+    updateAgrement:async(req:Request, res:Response):Promise<void>=>{
+        try{
+            const id_agrement= Number(req.params.id_agrement)
+            const id_serviceStatus = Number(req.params.id_serviceStatus)
+
+            const {descripcion,descripcionService}= req.body
+
+           
+
+            const agrements  = await agrementsRepository.findOne({where:{id_agements:id_agrement}})
+            const serviceStatus = await serviceRepository.findOne({where:{id_serviceStatus:id_serviceStatus}})
+            if(!agrements || !serviceStatus){
+                console.log("Intento de params" , id_agrement)
+                res.status(406).json({message:"id_appointment Not Acceptable"})
+                return;
             }
-          }))
-        }))
-      }));
 
-    console.log(mappedCitas);
-    
+            if(serviceStatus){
+                serviceStatus.description= descripcionService
+                await serviceRepository.save(serviceStatus)
+            }
 
-    res.status(200).json({citas:mappedCitas})
+            if(agrements){
+                agrements.description=descripcion
+                await agrementsRepository.save(agrements)
+            }            
+
+            res.status(200).json({message:"Actualizado"})
+
+        }catch (e){
+            console.log(e)
+            res.status(500).json({message:"Error interno en el servidor"})
+        }
+        
     }
     
 }

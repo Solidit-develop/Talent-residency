@@ -28,7 +28,7 @@ services:
       - DB_PASSWORD=mypassword
       - DB=mydatabase
       - DB_PORT=5432
-      - BaseAddress=http://189.190.228.211:4000/api/v1/images
+      - BaseAddress=http://86.38.204.102:4000/api/v1/images
       - PathToSave=DEV
     depends_on:
       - postgres
@@ -51,7 +51,7 @@ services:
       - DB_PASSWORD=mypassword
       - DB=mydatabase
       - DB_PORT=5432
-      - BaseAddress=http://189.190.228.211:4000/api/v1/images
+      - BaseAddress=http://86.38.204.102:4000/api/v1/images
       - PathToSave=DEV
     depends_on:
       - postgres
@@ -72,6 +72,7 @@ services:
       - DB_PORT=5432
       - EMAIL_USER=devsolidit@gmail.com
       - EMAIL_PASS=oskx bcdz odyk ilpu
+      - Ambiente=DEV
     ports:
       - "4002:4002"
     depends_on:
@@ -148,7 +149,7 @@ services:
       - DB_PASSWORD=mypassword
       - DB=mydatabase
       - DB_PORT=5432
-      - BaseAddress=http://189.190.228.211:4000/api/v1/users
+      - BaseAddress=http://86.38.204.102:4000/api/v1/users
       - Ambiente=DEV
     ports:
       - "4001:4001"
@@ -170,7 +171,7 @@ services:
       - DB_PASSWORD=mypassword
       - DB=mydatabase
       - DB_PORT=5432
-      - BaseAddress=http://189.190.228.211:4000/api/v1/users
+      - BaseAddress=http://86.38.204.102:4000/api/v1/users
       - Ambiente=DEV
     ports:
       - "4011:4011"
