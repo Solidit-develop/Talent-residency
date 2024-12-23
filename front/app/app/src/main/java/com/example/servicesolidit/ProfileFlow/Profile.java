@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.servicesolidit.HouseFlow.House;
+import com.example.servicesolidit.FeedFlow.House;
 import com.example.servicesolidit.ProfileFlow.Presenter.ProfilePresenter;
 import com.example.servicesolidit.ProfileFlow.View.ProfileView;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;

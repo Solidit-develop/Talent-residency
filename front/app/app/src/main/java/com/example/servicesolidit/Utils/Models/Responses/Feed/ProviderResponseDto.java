@@ -4,16 +4,11 @@ import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoDto;
 import com.google.gson.annotations.SerializedName;
 
 public class ProviderResponseDto {
+    /**
+     * Used to get id on feed service.
+     */
     @SerializedName("id_provider")
     private int idProvider;
-
-    public int getIdProvidersss() {
-        return idProvidersss;
-    }
-
-    public void setIdProvidersss(int idProvidersss) {
-        this.idProvidersss = idProvidersss;
-    }
 
     @SerializedName("id_provedores")
     private int idProvidersss;
@@ -35,6 +30,11 @@ public class ProviderResponseDto {
 
     @SerializedName("photoProvider")
     private String photoProvider;
+
+    @SerializedName("descripcion")
+    private String descripcion;
+
+
 
     public String getPhotoProvider() {
         return photoProvider;
@@ -100,5 +100,13 @@ public class ProviderResponseDto {
 
     public void setAddress(AddressResponseDto address) {
         this.address = address;
+    }
+
+    public int getIdProvidersss() {
+        return idProvidersss;
+    }
+
+    public void setIdProvidersss(int idProvidersss) {
+        this.idProvidersss = idProvidersss;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.servicesolidit.HouseFlow;
+package com.example.servicesolidit.FeedFlow;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -20,21 +20,15 @@ import android.widget.Toast;
 
 import com.example.servicesolidit.HomeFlow.HomePresenter;
 import com.example.servicesolidit.HomeFlow.HomeView;
-import com.example.servicesolidit.Network.ApiService;
-import com.example.servicesolidit.Network.RetrofitClient;
+import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderImageFeedResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
 import com.example.servicesolidit.ProviderInformationFlow.VisitProvider;
-import com.example.servicesolidit.Utils.Models.Responses.ImagesRelational.RelationalImagesResponseDto;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class House extends Fragment implements HomeView, CardAdapter.OnCardClickListener {
@@ -92,7 +86,7 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
     }
 
     @Override
-    public void onFeedSuccess(ArrayList<ProviderResponseDto> feedResponse) {
+    public void onFeedSuccess(ArrayList<ProviderImageFeedResponseDto> feedResponse) {
         if(!feedResponse.isEmpty()){
             recyclerView.setVisibility(View.VISIBLE);
             noItemView.setVisibility(View.GONE);
@@ -112,31 +106,31 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
         Log.i("HomeClass", "Should show error: " + error);
     }
 
-    public void printFeed(ArrayList<ProviderResponseDto> feedResponse){
-        Log.i("HouseClass", "Feed Loaded with: " + feedResponse.get(1).getIdProvider());
+    public void printFeed(ArrayList<ProviderImageFeedResponseDto> feedResponse){
+        Log.i("HouseClass", "Feed Loaded with: " + feedResponse.size());
         cardList = this.getCardListFromResponse(feedResponse);
         adapter = new CardAdapter(cardList, this.getContext(),this);
         recyclerView.setAdapter(adapter);
     }
 
-    private List<CardModel> getCardListFromResponse(ArrayList<ProviderResponseDto> feedResponse) {
+    private List<CardModel> getCardListFromResponse(ArrayList<ProviderImageFeedResponseDto> feedResponse) {
         List<CardModel> listToPrint = new ArrayList<CardModel>();
 
         if(feedResponse.isEmpty()){
             Toast.makeText(requireContext(), "No se encontraron vendedores", Toast.LENGTH_SHORT).show();
         }else {
-            for (ProviderResponseDto item : feedResponse) {
+            for (ProviderImageFeedResponseDto item : feedResponse) {
                 CardModel modelFromResponse = new CardModel();
                 Gson gson = new Gson();
                 Log.i("HouseClass", "Info cargada: " + gson.toJson(item));
-                modelFromResponse.setLocation(item.getAddress() != null && item.getAddress().getLocalidad() != null
-                        ? item.getAddress().getLocalidad()
+                modelFromResponse.setLocation(item.getProvedor().getAddress() != null && item.getProvedor().getAddress().getLocalidad() != null
+                        ? item.getProvedor().getAddress().getLocalidad()
                         : "Sin ubicación");
-                modelFromResponse.setNameBussines(item.getWorkshopName());
-                modelFromResponse.setDescription("Con " + item.getExperienceYears() + " años de experiencia");
-                modelFromResponse.setIdProvider(item.getIdProvider());
+                modelFromResponse.setNameBussines(item.getProvedor().getWorkshopName());
+                modelFromResponse.setDescription("Con " + item.getProvedor().getExperienceYears() + " años de experiencia");
+                modelFromResponse.setIdProvider(item.getProvedor().getIdProvider());
                 //modelFromResponse.setIdProviderAsUser(item.getUserInfoRelated().getIdUser());
-                modelFromResponse.setImageUrl(Constants.BASE_URL + "images/print/" + item.getPhotoProvider());
+                modelFromResponse.setImageUrl(Constants.BASE_URL + "images/print/" + item.getProvedor().getPhotoProvider());
                 listToPrint.add(modelFromResponse);
             }
         }

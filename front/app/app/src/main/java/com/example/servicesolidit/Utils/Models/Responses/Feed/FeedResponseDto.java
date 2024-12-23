@@ -5,11 +5,11 @@ import com.example.servicesolidit.Utils.Models.Responses.ResponseDto;
 import java.util.ArrayList;
 
 public class FeedResponseDto extends ResponseDto {
-    private ArrayList<ProviderResponseDto> response;
-    public FeedResponseDto(int code, boolean success, ArrayList<ProviderResponseDto> response){
+    private ArrayList<ProviderImageFeedResponseDto> response;
+    public FeedResponseDto(int code, boolean success, ArrayList<ProviderImageFeedResponseDto> response){
         this.response = response;
     }
-    public ArrayList<ProviderResponseDto> getResponse(){
+    public ArrayList<ProviderImageFeedResponseDto> getResponse(){
         return this.response;
     }
 

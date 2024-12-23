@@ -13,18 +13,15 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.servicesolidit.HouseFlow.House;
+import com.example.servicesolidit.FeedFlow.House;
 import com.example.servicesolidit.ProfileFlow.Presenter.RegisterPresenter;
 import com.example.servicesolidit.ProfileFlow.View.RegisterBussinesView;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Models.Requests.UpdateToProviderRequestDto;
-import com.example.servicesolidit.Utils.Models.Responses.User.UpdateUserToProviderResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class RegisterBussines extends Fragment implements RegisterBussinesView {
 

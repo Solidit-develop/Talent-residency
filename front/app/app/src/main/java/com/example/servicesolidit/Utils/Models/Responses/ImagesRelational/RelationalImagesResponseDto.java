@@ -1,11 +1,16 @@
 package com.example.servicesolidit.Utils.Models.Responses.ImagesRelational;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+
 public class RelationalImagesResponseDto {
     private String table;
     private String idUsedOn;
     private String funcionality;
     private String message;
-    private String imageName;
+    @SerializedName("relacionImagen")
+    private ArrayList<ImagesInformationResponseDto> imageName;
 
     public RelationalImagesResponseDto(){}
     public String getTable() {
@@ -40,11 +45,11 @@ public class RelationalImagesResponseDto {
         this.message = message;
     }
 
-    public String getImageName() {
+    public ArrayList<ImagesInformationResponseDto> getImageName() {
         return imageName;
     }
 
-    public void setImageName(String imageName) {
+    public void setImageName(ArrayList<ImagesInformationResponseDto> imageName) {
         this.imageName = imageName;
     }
 }

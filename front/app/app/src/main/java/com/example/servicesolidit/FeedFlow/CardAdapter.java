@@ -1,4 +1,4 @@
-package com.example.servicesolidit.HouseFlow;
+package com.example.servicesolidit.FeedFlow;
 
 import android.content.Context;
 import android.util.Log;

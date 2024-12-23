@@ -25,11 +25,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.servicesolidit.ApointmentFlow.AppointmentView;
 import com.example.servicesolidit.ApointmentFlow.ViewAppointments.ObtainAppointments;
 import com.example.servicesolidit.ConversationFlow.Conversation;
 import com.example.servicesolidit.HeadDrawn;
-import com.example.servicesolidit.HouseFlow.House;
+import com.example.servicesolidit.FeedFlow.House;
 import com.example.servicesolidit.MainActivity;
 import com.example.servicesolidit.ProfileFlow.Profile;
 import com.example.servicesolidit.R;
