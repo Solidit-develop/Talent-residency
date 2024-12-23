@@ -5,23 +5,32 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentItemResponse;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.transition.Hold;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.AppointmentViewHolder> {
     private ArrayList<AppointmentItemResponse> appointmentList;
+    private OnUpdateStatusListener updateStatusListener;
 
-    public AppointmentAdapter(ArrayList<AppointmentItemResponse> list){
+    public AppointmentAdapter(ArrayList<AppointmentItemResponse> list, OnUpdateStatusListener listener) {
         this.appointmentList = list;
+        this.updateStatusListener = listener;
     }
 
     @NonNull
@@ -37,19 +46,47 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         AppointmentItemResponse item = this.appointmentList.get(position);
         Gson gson = new Gson();
         Log.i("AppointmentAdapter", gson.toJson(item));
+        holder.spinnerEstatusAppointment.setText(item.getStatusUpdate());
+
         if(item.getNameUser() == null){
             // CustomerView
             holder.customerTitle.setText("Proveedor:");
             holder.customerName.setText(item.getNameProvider());
+            holder.spinnerEstatusAppointment.setEnabled(false);
+            holder.btnUpdate.setVisibility(View.GONE);
         }else{
             // ProviderView
             holder.customerName.setText(item.getNameUser() + " " + item.getLastName());
+            holder.spinnerEstatusAppointment.setEnabled(true);
+            holder.spinnerEstatusAppointment.setAdapter(
+                    new ArrayAdapter<>(
+                            holder.spinnerEstatusAppointment.getContext(),
+                            android.R.layout.simple_spinner_dropdown_item,
+                            new String[] {"En espera", "Cancelar"}
+                    )
+            );
+            holder.btnUpdate.setVisibility(View.VISIBLE);
 
+            holder.btnUpdate.setOnClickListener(v->{
+                Toast.makeText(v.getContext(), "Trying to update the appointment with id: " + item.getIdAppointment() + " to " + holder.spinnerEstatusAppointment.getText().toString(), Toast.LENGTH_SHORT).show();
+                if (updateStatusListener != null) {
+                    updateStatusListener.onUpdateStatus(
+                            item.getIdAppointment(),
+                            holder.spinnerEstatusAppointment.getText().toString(),
+                            item.getIdProvider(),
+                            item.getIdUser()
+                    );
+                }
+            });
+            if(holder.spinnerEstatusAppointment.getText().toString().equals("Cancelado")){
+                holder.btnUpdate.setEnabled(false);
+                holder.spinnerEstatusAppointment.setEnabled(false);
+
+            }
         }
         holder.providerName.setText(item.getWorkshopName());
         holder.location.setText(item.getAppointmentLocation());
         holder.date.setText(item.getAppointmentDate());
-        holder.estatus.setText(item.getStatusUpdate());
     }
 
     @Override
@@ -59,6 +96,9 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
     public class AppointmentViewHolder extends RecyclerView.ViewHolder {
         TextView date, providerName, location, customerName, estatus, customerTitle;
+        Button btnUpdate;
+        // Spinners (AutoCompleteTextView)
+        private AutoCompleteTextView spinnerEstatusAppointment;
 
         public AppointmentViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,7 +107,16 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             customerTitle = itemView.findViewById(R.id.tvTitleClient);
             location = itemView.findViewById(R.id.tvContentLocation);
             providerName = itemView.findViewById(R.id.tvContentProvider);
-            estatus = itemView.findViewById(R.id.tvEstatusAppointment);
+            spinnerEstatusAppointment = itemView.findViewById(R.id.spinnerEstatusAppointment);
+            btnUpdate = itemView.findViewById(R.id.btnUpdateStatusAppointment);
+
+            spinnerEstatusAppointment.setAdapter(
+                new ArrayAdapter<>(
+                    itemView.getContext(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    new String[] {"En espera", "Cancelar"}
+                )
+            );
         }
     }
 }

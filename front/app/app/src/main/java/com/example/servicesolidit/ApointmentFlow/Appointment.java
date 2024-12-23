@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Models.Requests.CreateAppointmentRequestDto;
 
 import java.time.LocalDate;
+import java.time.chrono.HijrahDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
@@ -36,6 +38,7 @@ public class Appointment extends Fragment implements AppointmentView{
     private String dateSelected;
     private String hourSelected = "";
     private EditText etAppointmentLocation;
+    private ProgressBar progressBar;
 
     public Appointment(int idOrigen, int idDestino){
         this.idOrigen = idOrigen;
@@ -52,7 +55,7 @@ public class Appointment extends Fragment implements AppointmentView{
         btnConfirmarCita = view.findViewById(R.id.btnConfirmarCita);
         calendar = view.findViewById(R.id.claendarAppintment);
         etAppointmentLocation = view.findViewById(R.id.etAppointmentLocation);
-
+        progressBar = view.findViewById(R.id.progressBarOnConfirmAppointment);
 
 
         this.presenteer = new AppointmentPresenter(this);
@@ -85,9 +88,10 @@ public class Appointment extends Fragment implements AppointmentView{
                 requestDto.setAppointmentDate(dateSelected);
                 requestDto.setCreationDate(fechaFormateada);
                 requestDto.setAppointmentLocation(locationSelected);
-                Log.i("AppointmentClass", "Intenta generar cita con customer: " + idDestino + " y con provider " + idOrigen);
+                Log.i("AppointmentClass", "Intenta generar cita con customer: " + idOrigen + " y con provider " + idDestino);
 
-                this.presenteer.createAppointment(requestDto, idOrigen, idDestino);
+                this.presenteer.createAppointment(requestDto, idDestino, idOrigen);
+                this.onShowProgress();
                 Toast.makeText(requireContext(), "Confirmar cita: " + dateSelected + " en " + locationSelected, Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(requireContext(), "Llena todos los campos", Toast.LENGTH_SHORT).show();
@@ -140,7 +144,8 @@ public class Appointment extends Fragment implements AppointmentView{
 
     @Override
     public void onSuccessAppintmentCreated(String appointmentResponse) {
-        Toast.makeText(requireContext(), appointmentResponse, Toast.LENGTH_SHORT).show();
+        onHideProgress();
+        requireActivity().getSupportFragmentManager().popBackStack();
     }
 
     @Override
@@ -150,11 +155,11 @@ public class Appointment extends Fragment implements AppointmentView{
 
     @Override
     public void onShowProgress() {
-
+        this.progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onHideProgress() {
-
+        this.progressBar.setVisibility(View.GONE);
     }
 }

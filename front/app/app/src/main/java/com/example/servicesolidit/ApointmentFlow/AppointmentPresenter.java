@@ -1,6 +1,8 @@
 package com.example.servicesolidit.ApointmentFlow;
 
 
+import android.util.Log;
+
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
 import com.example.servicesolidit.Utils.Models.Requests.CreateAppointmentRequestDto;
@@ -20,6 +22,7 @@ public class AppointmentPresenter {
     }
 
     public void createAppointment(CreateAppointmentRequestDto request, int idProvider, int idCustomer){
+        Log.i("AppointmentPresenter", "Se intenta generar cita con provider " + idProvider + " y con customer " + idCustomer);
         Call<AppointmentResponseDto> call = service.createAppointmnt(request, idProvider, idCustomer);
         call.enqueue(new Callback<AppointmentResponseDto>() {
             @Override

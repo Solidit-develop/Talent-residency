@@ -12,21 +12,24 @@
         android:padding="16dp"
         tools:ignore="UselessLeaf">
 
-        <TextView
-            android:id="@+id/tvEstatusAppointment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="16dp"
-            android:text="Estatus"
-            android:textStyle="italic" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/spinnerEstatusAppointmentContainer"
+            android:hint="@string/value_edtxt_state"
+            android:enabled="false"
+            style="@style/TextExtendLayout">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinnerEstatusAppointment"
+                style="@style/AutoCompleteText"
+                android:paddingStart="15dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/tvTitleDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvEstatusAppointment"
+            android:layout_below="@id/spinnerEstatusAppointmentContainer"
             android:layout_alignParentStart="true"
             android:text="Fecha de la cita"
             android:textStyle="bold" />
@@ -35,7 +38,7 @@
             android:id="@+id/tvContentDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvEstatusAppointment"
+            android:layout_below="@id/spinnerEstatusAppointmentContainer"
             android:layout_alignParentEnd="true"
             android:layout_toEndOf="@+id/tvTitleDate"
             android:text="14-10-2024"
@@ -97,6 +100,15 @@
             android:layout_alignParentStart="true"
             android:text="Client"
             android:textStyle="bold" />
+        <Button
+            android:id="@+id/btnUpdateStatusAppointment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTitleClient"
+            android:text="Actualizar"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            />
 
     </RelativeLayout>
 

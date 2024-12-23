@@ -20,4 +20,8 @@ public interface ObtainAppointmentView {
     void onLoadProfileSuccess(UserInfoProfileDto result);
 
     void onLoadProfileError(String message);
+
+    void onAppointmentUpdated(String response);
+
+    void onAppointmentUpdatedError(String error);
 }

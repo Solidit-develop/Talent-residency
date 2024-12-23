@@ -4,13 +4,19 @@ import android.util.Log;
 
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
+import com.example.servicesolidit.Utils.Models.Requests.CancelAppointmentRequestDto;
 import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentItemResponse;
 import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentListResponse;
+import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileResponseDto;
 import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProviderProfileResponse;
+import com.google.gson.Gson;
 
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -127,5 +133,39 @@ public class ObtainAppointmentPresenter {
                 view.onErrorGetInformationAsProvider(t.getMessage());
             }
         });
+    }
+
+    public void updateAppointment(int appointmentId, String newStatus, int idProvider, int idCustomer) {
+        Log.i("OAP", "Trying to update the appointment id " + appointmentId + " to " + newStatus + " provider: " + idProvider + " customer " + idCustomer);
+        switch (newStatus) {
+            case "Cancelar":
+                Call<AppointmentResponseDto> call = this.service.cancelAppointment(
+                        new CancelAppointmentRequestDto(String.valueOf(idCustomer), String.valueOf(appointmentId)),
+                        idProvider);
+
+                call.enqueue(new Callback<AppointmentResponseDto>() {
+                    @Override
+                    public void onResponse(Call<AppointmentResponseDto> call, Response<AppointmentResponseDto> response) {
+                        Log.i("OAP", "OnResposne");
+                        Gson g = new Gson();
+                        if(response.isSuccessful() && response.body()!=null) {
+                            view.onAppointmentUpdated("Actualizado correctamente");
+                        }else{
+                            Log.i("OAP", "Error On Response Body");
+
+                            view.onAppointmentUpdatedError("Ocurrió un error al intentar actualizar la cita");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<AppointmentResponseDto> call, Throwable t) {
+                        Log.i("OAP", "OnFailure: " + t.getMessage());
+
+                        view.onAppointmentUpdatedError("Ocurrió un error al intentar actualizar la cita: " + t.getMessage());
+                    }
+                });
+            default:
+                view.onAppointmentUpdatedError("Error general al actualizar la cita...");
+        }
     }
 }

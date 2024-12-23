@@ -10,7 +10,14 @@
         android:layout_marginTop="15dp"
         android:padding="16dp"
         android:layout_height="match_parent">
-
+        <ProgressBar
+            android:id="@+id/progressBarOnConfirmAppointment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            />
         <TextView
             android:id="@+id/tvHeaderAppointmentDate"
             android:layout_width="match_parent"

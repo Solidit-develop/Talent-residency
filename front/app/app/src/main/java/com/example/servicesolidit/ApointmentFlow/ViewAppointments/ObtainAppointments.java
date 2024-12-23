@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
@@ -27,13 +28,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ObtainAppointments extends Fragment implements ObtainAppointmentView {
+public class ObtainAppointments extends Fragment implements ObtainAppointmentView, OnUpdateStatusListener {
     private ObtainAppointmentPresenter presenter;
     private int idLogged;
     private RecyclerView rvAppointmentsList;
     private ArrayList<AppointmentItemResponse> appointmentsList;
     private AppointmentAdapter adapter;
     private boolean isProvider;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -41,10 +43,11 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_obtain_appointments, container, false);
         this.rvAppointmentsList = view.findViewById(R.id.recyclerViewAppointments);
+        this.progressBar = view.findViewById(R.id.progressBarOnUpdateAppointments);
         this.presenter = new ObtainAppointmentPresenter(this);
 
         this.appointmentsList = new ArrayList<>();
-        this.adapter = new AppointmentAdapter(appointmentsList);
+        this.adapter = new AppointmentAdapter(appointmentsList, this);
         this.rvAppointmentsList.setAdapter(adapter);
         this.rvAppointmentsList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
 
@@ -67,12 +70,12 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
 
     @Override
     public void onShowProgress() {
-
+        this.progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onHideProgress() {
-
+        this.progressBar.setVisibility(View.GONE);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -93,7 +96,7 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
     @Override
     public void onErrorObtainResponse(String s) {
         Log.i("ObtainAppointmentClass", "onErrorObtainResponse: " + s);
-
+        onHideProgress();
     }
 
     @Override
@@ -105,6 +108,7 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
     @Override
     public void onErrorGetInformationAsProvider(String message) {
         Log.i("ObtainAppointmentClass", "onErrorGetInformationAsProvider: " + message);
+        onHideProgress();
     }
 
     @Override
@@ -121,10 +125,27 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
         }else {
             Log.i("ObtainAppointmentClass", "ErrorOnLoadProfileSuccess");
         }
+        onHideProgress();
     }
 
     @Override
     public void onLoadProfileError(String message) {
         Log.i("ObtainAppointmentClass", "ErrorOnLoadProfileError: " + message);
+    }
+
+    @Override
+    public void onAppointmentUpdated(String actualizadoCorrectamente) {
+        getProviderIdByUserId(getLoggedId());
+    }
+
+    @Override
+    public void onAppointmentUpdatedError(String error) {
+        Log.i("ObtainAppointmentClass", "OnAppointmentUdpatedError: " + error);
+    }
+
+    @Override
+    public void onUpdateStatus(int appointmentId, String newStatus, int idProvider, int idCustomer) {
+        onShowProgress();
+        this.presenter.updateAppointment(appointmentId, newStatus, idProvider, idCustomer);
     }
 }

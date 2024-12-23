@@ -2,6 +2,7 @@ package com.example.servicesolidit.Network;
 
 
 
+import com.example.servicesolidit.Utils.Models.Requests.CancelAppointmentRequestDto;
 import com.example.servicesolidit.Utils.Models.Requests.CreateAppointmentRequestDto;
 import com.example.servicesolidit.Utils.Models.Requests.LoginRequestDto;
 import com.example.servicesolidit.Utils.Models.Requests.RegisterRequestDto;
@@ -29,6 +30,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -56,6 +58,11 @@ public interface ApiService {
     // Van al revés
     @POST("appointment/cita/{id_provider}/{id_customer}")
     Call<AppointmentResponseDto> createAppointmnt(@Body CreateAppointmentRequestDto request, @Path("id_provider")int idProvider, @Path("id_customer") int idCustomer);
+
+    @PUT("appointment/cancelar/{id_provider}")
+    Call<AppointmentResponseDto> cancelAppointment(
+            @Body CancelAppointmentRequestDto request,
+            @Path("id_provider")int idProvider);
 
     @GET("appointment/consulta/{idProvider}")
     Call<AppointmentListResponse> obtenerAppointmntsListAsProvider(@Path("idProvider") int idProvider);
