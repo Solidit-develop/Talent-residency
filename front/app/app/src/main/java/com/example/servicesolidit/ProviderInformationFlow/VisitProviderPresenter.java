@@ -1,12 +1,10 @@
 package com.example.servicesolidit.ProviderInformationFlow;
 
-import android.util.Log;
-
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
-import com.example.servicesolidit.Utils.Models.Requests.RelationalImagesRequestDto;
-import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentListResponse;
-import com.example.servicesolidit.Utils.Models.Responses.ImagesRelational.RelationalImagesResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.RelationalImagesRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentListResponse;
+import com.example.servicesolidit.Utils.Dtos.Responses.ImagesRelational.RelationalImagesResponseDto;
 
 import retrofit2.Call;
 import retrofit2.Callback;

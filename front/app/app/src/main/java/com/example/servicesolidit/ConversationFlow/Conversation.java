@@ -20,12 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.servicesolidit.MessageFlow.Message;
-import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationDto;
-import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponse;
-import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Conversatoins.ConversationDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
-import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResultDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Conversatoins.ConversationResultDto;
 
 import java.util.ArrayList;
 import java.util.List;

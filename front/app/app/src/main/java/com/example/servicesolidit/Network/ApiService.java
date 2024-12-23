@@ -2,31 +2,31 @@ package com.example.servicesolidit.Network;
 
 
 
-import com.example.servicesolidit.Utils.Models.Requests.CancelAppointmentRequestDto;
-import com.example.servicesolidit.Utils.Models.Requests.CreateAgreementRequest;
-import com.example.servicesolidit.Utils.Models.Requests.CreateAppointmentRequestDto;
-import com.example.servicesolidit.Utils.Models.Requests.LoginRequestDto;
-import com.example.servicesolidit.Utils.Models.Requests.RegisterRequestDto;
-import com.example.servicesolidit.Utils.Models.Requests.SendMessageRequest;
-import com.example.servicesolidit.Utils.Models.Requests.UpdateToProviderRequestDto;
-import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentItemResponse;
-import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentListResponse;
-import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponse;
-import com.example.servicesolidit.Utils.Models.Responses.Feed.FeedResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.ImagesRelational.RelationalImagesResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.LoginResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.Messages.MessagesResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.Messages.SendMessageResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.RegisterResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.SearchProvider.SearchProviderResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.User.ProviderProfileInformationDto;
-import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProviderProfileResponse;
+import com.example.servicesolidit.Utils.Dtos.Requests.CancelAppointmentRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.CreateAgreementRequest;
+import com.example.servicesolidit.Utils.Dtos.Requests.CreateAppointmentRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.LoginRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.RegisterRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.SendMessageRequest;
+import com.example.servicesolidit.Utils.Dtos.Requests.UpdateToProviderRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Agreements.AgreementResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentItemResponse;
+import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentListResponse;
+import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Conversatoins.ConversationResponse;
+import com.example.servicesolidit.Utils.Dtos.Responses.Feed.FeedResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.ImagesRelational.RelationalImagesResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.LoginResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Messages.MessagesResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Messages.SendMessageResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.RegisterResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.SearchProvider.SearchProviderResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.User.ProviderProfileInformationDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProfileResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProviderProfileResponse;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -69,6 +69,9 @@ public interface ApiService {
     @POST("agrements/agendar/{idAppointment}/{idProvider}")
     Call<AppointmentResponseDto> createAgreement(@Body CreateAgreementRequest request, @Path("idAppointment") int idAppointment, @Path("idProvider") int idProvider);
 
+    @GET("agrements/citas/{idProvider}")
+    Call<AgreementResponseDto> obtainAgreements(@Path("idProvider")int idProvider);
+
     @GET("appointment/consulta/{idProvider}")
     Call<AppointmentListResponse> obtenerAppointmntsListAsProvider(@Path("idProvider") int idProvider);
 
@@ -89,4 +92,5 @@ public interface ApiService {
 
     @GET("relational/print/{tableToRelation}/{idUsedOn}/{funcionality}")
     Call<RelationalImagesResponseDto> getRelationalImages(@Path("tableToRelation")String tableToRelation, @Path("idUsedOn")String idUsedOn, @Path("funcionality")String funcionality);
+
 }

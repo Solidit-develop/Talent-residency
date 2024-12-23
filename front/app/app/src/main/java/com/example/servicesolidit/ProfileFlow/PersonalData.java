@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProfileDto;
 import com.example.servicesolidit.R;
 import com.google.android.material.textfield.TextInputEditText;
 

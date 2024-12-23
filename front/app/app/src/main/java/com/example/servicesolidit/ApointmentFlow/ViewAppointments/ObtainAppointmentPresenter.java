@@ -4,19 +4,16 @@ import android.util.Log;
 
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
-import com.example.servicesolidit.Utils.Models.Requests.CancelAppointmentRequestDto;
-import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentItemResponse;
-import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentListResponse;
-import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
-import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProviderProfileResponse;
+import com.example.servicesolidit.Utils.Dtos.Requests.CancelAppointmentRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentItemResponse;
+import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentListResponse;
+import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Feed.ProviderResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProfileDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProfileResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProviderProfileResponse;
 import com.google.gson.Gson;
 
-import java.time.Instant;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import retrofit2.Call;

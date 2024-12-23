@@ -1,8 +1,8 @@
 package com.example.servicesolidit.MessageFlow;
 
-import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.Messages.ConversationDto;
-import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Feed.ProviderResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Messages.ConversationDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProfileDto;
 
 import java.util.List;
 

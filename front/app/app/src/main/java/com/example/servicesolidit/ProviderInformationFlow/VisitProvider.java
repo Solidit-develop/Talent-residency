@@ -18,14 +18,12 @@ import android.widget.TextView;
 
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
-import com.example.servicesolidit.Utils.Models.Requests.RelationalImagesRequestDto;
-import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentItemResponse;
-import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentListResponse;
-import com.example.servicesolidit.Utils.Models.Responses.ImagesRelational.RelationalImagesResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.RelationalImagesRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentItemResponse;
+import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentListResponse;
+import com.example.servicesolidit.Utils.Dtos.Responses.ImagesRelational.RelationalImagesResponseDto;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 
 public class VisitProvider extends Fragment implements VisitProviderView{

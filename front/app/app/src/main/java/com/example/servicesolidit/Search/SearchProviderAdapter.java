@@ -11,11 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.servicesolidit.R;
-import com.example.servicesolidit.Utils.Models.Responses.SearchProvider.SearchProviderResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.SearchProvider.SearchProviderResponseDto;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SearchProviderAdapter extends RecyclerView.Adapter<SearchProviderAdapter.ProviderFoundViewHolder> {
 

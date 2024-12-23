@@ -19,10 +19,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.servicesolidit.R;
-import com.example.servicesolidit.Utils.Models.Requests.CreateAppointmentRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.CreateAppointmentRequestDto;
 
 import java.time.LocalDate;
-import java.time.chrono.HijrahDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 

@@ -17,8 +17,8 @@ import com.example.servicesolidit.FeedFlow.House;
 import com.example.servicesolidit.ProfileFlow.Presenter.RegisterPresenter;
 import com.example.servicesolidit.ProfileFlow.View.RegisterBussinesView;
 import com.example.servicesolidit.R;
-import com.example.servicesolidit.Utils.Models.Requests.UpdateToProviderRequestDto;
-import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.UpdateToProviderRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProfileDto;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;

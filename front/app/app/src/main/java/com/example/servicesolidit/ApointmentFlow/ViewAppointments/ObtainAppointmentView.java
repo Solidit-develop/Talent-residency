@@ -1,9 +1,8 @@
 package com.example.servicesolidit.ApointmentFlow.ViewAppointments;
 
-import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentItemResponse;
-import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentListResponse;
-import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentItemResponse;
+import com.example.servicesolidit.Utils.Dtos.Responses.Feed.ProviderResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProfileDto;
 
 import java.util.ArrayList;
 

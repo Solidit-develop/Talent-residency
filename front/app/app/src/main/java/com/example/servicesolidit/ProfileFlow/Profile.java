@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.example.servicesolidit.FeedFlow.House;
 import com.example.servicesolidit.ProfileFlow.Presenter.ProfilePresenter;
 import com.example.servicesolidit.ProfileFlow.View.ProfileView;
-import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProfileDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
 import com.google.android.material.button.MaterialButtonToggleGroup;

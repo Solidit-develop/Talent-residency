@@ -13,11 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.servicesolidit.R;
-import com.example.servicesolidit.Utils.Models.Responses.SearchProvider.SearchProviderResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.SearchProvider.SearchProviderResponseDto;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

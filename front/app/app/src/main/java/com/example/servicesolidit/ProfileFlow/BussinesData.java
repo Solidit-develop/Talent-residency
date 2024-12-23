@@ -16,7 +16,7 @@ import com.example.servicesolidit.ProfileFlow.Presenter.ProviderPresenter;
 import com.example.servicesolidit.ProfileFlow.View.ProviderView;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
-import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Feed.ProviderResponseDto;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 

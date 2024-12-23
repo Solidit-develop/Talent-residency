@@ -4,8 +4,7 @@ import android.util.Log;
 
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
-import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.SearchProvider.SearchProviderResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.SearchProvider.SearchProviderResponseDto;
 
 import java.util.List;
 

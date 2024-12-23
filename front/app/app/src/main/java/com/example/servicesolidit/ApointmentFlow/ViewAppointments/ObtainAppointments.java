@@ -20,19 +20,15 @@ import android.widget.ProgressBar;
 import com.example.servicesolidit.ApointmentFlow.AgreementsFlow.Agreement;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
-import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentItemResponse;
-import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentListResponse;
-import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentItemResponse;
+import com.example.servicesolidit.Utils.Dtos.Responses.Feed.ProviderResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProfileDto;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class ObtainAppointments extends Fragment implements ObtainAppointmentView, OnUpdateStatusListener {
     private ObtainAppointmentPresenter presenter;
-    private int idLogged;
     private RecyclerView rvAppointmentsList;
     private ArrayList<AppointmentItemResponse> appointmentsList;
     private AppointmentAdapter adapter;
@@ -40,6 +36,7 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
     private ProgressBar progressBar;
 
 
+    // TODO: Need to implements no item view on list appointments
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

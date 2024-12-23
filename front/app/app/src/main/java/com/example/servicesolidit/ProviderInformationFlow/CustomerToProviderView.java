@@ -1,7 +1,7 @@
 package com.example.servicesolidit.ProviderInformationFlow;
 
-import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.Messages.ConversationDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Feed.ProviderResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Messages.ConversationDto;
 
 import java.util.List;
 

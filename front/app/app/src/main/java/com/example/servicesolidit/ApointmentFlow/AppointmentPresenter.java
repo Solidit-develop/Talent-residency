@@ -5,8 +5,8 @@ import android.util.Log;
 
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
-import com.example.servicesolidit.Utils.Models.Requests.CreateAppointmentRequestDto;
-import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.CreateAppointmentRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentResponseDto;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -3,8 +3,8 @@ package com.example.servicesolidit.ProfileFlow.Presenter;
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
 import com.example.servicesolidit.ProfileFlow.View.ProviderView;
-import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProviderProfileResponse;
+import com.example.servicesolidit.Utils.Dtos.Responses.Feed.ProviderResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProviderProfileResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;

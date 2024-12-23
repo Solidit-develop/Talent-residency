@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.servicesolidit.Utils.Models.Requests.RegisterRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.RegisterRequestDto;
 import com.example.servicesolidit.R;
 import com.google.android.material.textfield.TextInputEditText;
 

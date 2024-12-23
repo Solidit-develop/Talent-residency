@@ -21,15 +21,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.servicesolidit.ApointmentFlow.Appointment;
-import com.example.servicesolidit.Utils.Models.Requests.SendMessageRequest;
-import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.Messages.ConversationDto;
-import com.example.servicesolidit.Utils.Models.Responses.Messages.MessageDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.SendMessageRequest;
+import com.example.servicesolidit.Utils.Dtos.Responses.Feed.ProviderResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Messages.ConversationDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Messages.MessageDto;
 import com.example.servicesolidit.R;
-import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoProfileDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProfileDto;
 import com.google.gson.Gson;
 
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -38,7 +37,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 public class Message extends Fragment implements MessageView{
     private RecyclerView recyclerView;

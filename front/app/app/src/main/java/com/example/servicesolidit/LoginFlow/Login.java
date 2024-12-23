@@ -22,7 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.servicesolidit.HomeFlow.Home;
-import com.example.servicesolidit.Utils.Models.Responses.User.UserInfoDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.RegisterFlow.Register;
 import com.example.servicesolidit.Utils.Constants;

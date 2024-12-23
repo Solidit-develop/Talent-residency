@@ -1,6 +1,6 @@
 package com.example.servicesolidit.Search;
 
-import com.example.servicesolidit.Utils.Models.Responses.SearchProvider.SearchProviderResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.SearchProvider.SearchProviderResponseDto;
 
 import java.util.List;
 

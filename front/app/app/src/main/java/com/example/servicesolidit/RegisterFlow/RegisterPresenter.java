@@ -2,8 +2,8 @@ package com.example.servicesolidit.RegisterFlow;
 
 import android.util.Log;
 
-import com.example.servicesolidit.Utils.Models.Requests.RegisterRequestDto;
-import com.example.servicesolidit.Utils.Models.Responses.RegisterResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.RegisterRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.RegisterResponseDto;
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
 

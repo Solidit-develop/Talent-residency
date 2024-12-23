@@ -2,13 +2,10 @@ package com.example.servicesolidit.ConversationFlow;
 
 import android.util.Log;
 
-import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponse;
-import com.example.servicesolidit.Utils.Models.Responses.Conversatoins.ConversationResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Conversatoins.ConversationResponse;
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
 import com.google.gson.Gson;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

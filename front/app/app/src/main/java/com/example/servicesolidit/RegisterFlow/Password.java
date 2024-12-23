@@ -15,7 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.servicesolidit.LoginFlow.Login;
-import com.example.servicesolidit.Utils.Models.Requests.RegisterRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.RegisterRequestDto;
 import com.example.servicesolidit.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;

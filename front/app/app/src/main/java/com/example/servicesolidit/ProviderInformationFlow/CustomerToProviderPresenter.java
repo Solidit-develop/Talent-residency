@@ -2,11 +2,10 @@ package com.example.servicesolidit.ProviderInformationFlow;
 
 import android.util.Log;
 
-import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.Messages.MessagesResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Messages.MessagesResponseDto;
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
-import com.example.servicesolidit.Utils.Models.Responses.User.ProviderProfileInformationDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.User.ProviderProfileInformationDto;
 import com.google.gson.Gson;
 
 import retrofit2.Call;

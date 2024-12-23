@@ -2,11 +2,10 @@ package com.example.servicesolidit.ApointmentFlow.AgreementsFlow;
 
 import android.util.Log;
 
-import com.example.servicesolidit.ApointmentFlow.ViewAppointments.ObtainAppointmentView;
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
-import com.example.servicesolidit.Utils.Models.Requests.CreateAgreementRequest;
-import com.example.servicesolidit.Utils.Models.Responses.Appointment.AppointmentResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.CreateAgreementRequest;
+import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentResponseDto;
 import com.google.gson.Gson;
 
 import retrofit2.Call;

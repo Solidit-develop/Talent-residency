@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.servicesolidit.R;
-import com.example.servicesolidit.Utils.Models.Requests.CreateAgreementRequest;
+import com.example.servicesolidit.Utils.Dtos.Requests.CreateAgreementRequest;
 
 import java.time.Instant;
 import java.time.ZoneOffset;

@@ -16,8 +16,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.servicesolidit.MessageFlow.Message;
-import com.example.servicesolidit.Utils.Models.Responses.Feed.ProviderResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.Messages.ConversationDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Feed.ProviderResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Messages.ConversationDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
 import com.google.android.material.textfield.TextInputLayout;

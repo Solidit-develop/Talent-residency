@@ -18,7 +18,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.servicesolidit.Utils.Models.Requests.RegisterRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.RegisterRequestDto;
 import com.example.servicesolidit.R;
 import com.google.android.material.textfield.TextInputEditText;
 

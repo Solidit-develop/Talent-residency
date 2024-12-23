@@ -1,15 +1,10 @@
 package com.example.servicesolidit.ProfileFlow.Presenter;
 
-import android.util.Log;
-
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
-import com.example.servicesolidit.ProfileFlow.RegisterBussines;
-import com.example.servicesolidit.ProfileFlow.View.ProfileView;
 import com.example.servicesolidit.ProfileFlow.View.RegisterBussinesView;
-import com.example.servicesolidit.Utils.Models.Requests.UpdateToProviderRequestDto;
-import com.example.servicesolidit.Utils.Models.Responses.RegisterResponseDto;
-import com.example.servicesolidit.Utils.Models.Responses.User.UpdateUserToProviderResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.UpdateToProviderRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.RegisterResponseDto;
 import com.google.gson.Gson;
 
 import retrofit2.Call;
