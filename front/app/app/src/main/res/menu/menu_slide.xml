@@ -17,7 +17,7 @@
             android:id="@+id/item_agreements"
             android:icon="@drawable/apreton_de_manos"
             android:title="Acuerdos pendientes"/>
-        <item
+     <!--   <item
             android:id="@+id/item_record"
             android:icon="@drawable/lista"
             android:title="Historial"/>
@@ -29,6 +29,7 @@
             android:id="@+id/item_publish_service"
             android:icon="@drawable/user_corbata"
             android:title="Publicar servicio"/>
+            -->
 
     </group>
 

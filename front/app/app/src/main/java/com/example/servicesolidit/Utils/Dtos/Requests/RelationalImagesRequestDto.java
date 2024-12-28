@@ -1,7 +1,7 @@
 package com.example.servicesolidit.Utils.Dtos.Requests;
 
 public class RelationalImagesRequestDto {
-    private String  table;
+    private String table;
     private String idUsedOn;
     private String funcionalida;
 

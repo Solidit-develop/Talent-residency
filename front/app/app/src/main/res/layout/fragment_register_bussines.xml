@@ -17,9 +17,16 @@
             android:layout_centerHorizontal="true"
             android:visibility="gone"
             />
-        <LinearLayout
+        <!-- Scrollable Content -->
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:paddingBottom="10dp"
@@ -30,6 +37,29 @@
                 android:text="Da a conocer tu negocio"
                 style="@style/Title"
                 tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selecciona una imagen para portada de tu negocio"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />            <!-- Imagen seleccionada -->
+            <ImageView
+                android:id="@+id/imagePreview"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:scaleType="centerCrop"
+                android:background="@android:color/darker_gray"
+                android:src="@drawable/load"/>
+            <!-- Botón para seleccionar imagen -->
+            <Button
+                android:id="@+id/selectImageButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Seleccionar Imagen" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilBussinesNameRegister"
@@ -96,6 +126,6 @@
                 />
 
         </LinearLayout>
-
+        </ScrollView>
     </RelativeLayout>
 </FrameLayout>

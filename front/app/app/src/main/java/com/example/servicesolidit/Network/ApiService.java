@@ -9,13 +9,16 @@ import com.example.servicesolidit.Utils.Dtos.Requests.LoginRequestDto;
 import com.example.servicesolidit.Utils.Dtos.Requests.RegisterRequestDto;
 import com.example.servicesolidit.Utils.Dtos.Requests.SendMessageRequest;
 import com.example.servicesolidit.Utils.Dtos.Requests.UpdateToProviderRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.UploadRelationalImageDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.Agreements.AgreementResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentItemResponse;
 import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentListResponse;
 import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.Conversatoins.ConversationResponse;
 import com.example.servicesolidit.Utils.Dtos.Responses.Feed.FeedResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.ImagesRelational.ProviderImageLoadedResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.ImagesRelational.RelationalImagesResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.ImagesRelational.UploadImageResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.LoginResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.Messages.MessagesResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.Messages.SendMessageResponseDto;
@@ -28,11 +31,14 @@ import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProviderProf
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -57,6 +63,9 @@ public interface ApiService {
     @GET("provider/todos/services/feed")
     Call<FeedResponseDto> feed();
 
+    @POST("provider/imagen/{providerId}")
+    Call<ProviderImageLoadedResponseDto> loadImageRelationalInformationProvider(@Path("providerId") int providerId, @Body UploadRelationalImageDto request);
+
     @POST("appointment/cita/{id_provider}/{id_customer}")
     Call<AppointmentResponseDto> createAppointmnt(@Body CreateAppointmentRequestDto request, @Path("id_provider")int idProvider, @Path("id_customer") int idCustomer);
 
@@ -80,6 +89,10 @@ public interface ApiService {
 
     @GET("provider/provedores/{item}")
     Call<List<SearchProviderResponseDto>> searchProvider(@Path("item")String item);
+
+    @Multipart
+    @POST("images/upload")
+    Call<UploadImageResponseDto> uploadImage(@Part MultipartBody.Part image);
 
     @GET("message/mensajes/{idOrigen}/{idDestino}")
     Call<MessagesResponseDto> getMessages(@Path("idOrigen") int idOrigen, @Path("idDestino") int idDestino);

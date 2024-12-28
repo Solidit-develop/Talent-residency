@@ -113,7 +113,7 @@ public class Home extends AppCompatActivity{
             ObtainAgreements fragment = new ObtainAgreements();
             this.navigateTo(fragment);
         });
-
+/*
         navigationActions.put(R.id.item_record, () -> {
             Toast.makeText(this, "Hola desde historial", Toast.LENGTH_SHORT).show();
         });
@@ -125,6 +125,8 @@ public class Home extends AppCompatActivity{
         navigationActions.put(R.id.item_publish_service, () -> {
             Toast.makeText(this, "Hola desde publicar servicio", Toast.LENGTH_SHORT).show();
         });
+
+ */
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
