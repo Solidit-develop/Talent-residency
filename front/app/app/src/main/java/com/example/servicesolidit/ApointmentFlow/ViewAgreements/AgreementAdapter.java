@@ -38,7 +38,7 @@ public class AgreementAdapter extends RecyclerView.Adapter<AgreementAdapter.Agre
 
         holder.dateAppointment.setText(item.getAppointmentDate());
         holder.locationAppointment.setText(item.getAppointmentLocation());
-        holder.customerName.setText(item.getUser() != null ? item.getUser().getNameUser() : "No name identified");
+        holder.customerName.setText(item.getUser() != null ? item.getUser().getNameUser() + " " + item.getUser().getLastname() : "No name identified");
         holder.customerContact.setText(item.getUser() != null ? item.getUser().getPhoneNumber(): "No contact identified");
         holder.serviceDesription.setText(!item.getAgreements().isEmpty() ? item.getAgreements().get(0).getDescription() : "Sin descripción");
         holder.currentStatus.setText(item.getStatusAppointment());
