@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.servicesolidit.ApointmentFlow.AgreementsFlow.Agreement;
 import com.example.servicesolidit.R;
@@ -34,15 +35,16 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
     private AppointmentAdapter adapter;
     private boolean isProvider;
     private ProgressBar progressBar;
+    private TextView itemNoAppointmentsView;
 
-
-    // TODO: Need to implements no item view on list appointments
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_obtain_appointments, container, false);
         this.rvAppointmentsList = view.findViewById(R.id.recyclerViewAppointments);
+        this.itemNoAppointmentsView = view.findViewById(R.id.idNoAppointmentsView);
         this.progressBar = view.findViewById(R.id.progressBarOnUpdateAppointments);
+
         this.presenter = new ObtainAppointmentPresenter(this);
 
         this.appointmentsList = new ArrayList<>();
@@ -83,10 +85,14 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
         Log.i("ObtainAppointment", "Founded: " + result.size());
         this.appointmentsList.clear();
         if(!result.isEmpty()){
+            this.rvAppointmentsList.setVisibility(View.VISIBLE);
+            this.itemNoAppointmentsView.setVisibility(View.GONE);
             this.appointmentsList.addAll(result);
             Log.i("ObtainAppointment", "Se encontró: " + result.size());
         }else{
-            Log.i("ObtainAppointment", "No se encontraron negocios que coincidan");
+            this.rvAppointmentsList.setVisibility(View.GONE);
+            this.itemNoAppointmentsView.setVisibility(View.VISIBLE);
+            Log.i("ObtainAppointment", "No se encontraron citas que coincidan");
         }
         this.adapter.notifyDataSetChanged();
         this.onHideProgress();

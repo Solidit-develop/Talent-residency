@@ -4,6 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ApointmentFlow.ViewAppointments.ObtainAppointments">
+    <TextView
+        android:id="@+id/idNoAppointmentsView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aun no haz generado una cita con algun proveedor de servicios, contrata uno y dale seguimiento"
+        android:layout_gravity="center"
+        android:padding="16dp"
+        android:textAlignment="center"
+        android:visibility="visible"
+        />
     <ProgressBar
         android:id="@+id/progressBarOnUpdateAppointments"
         android:layout_width="wrap_content"
@@ -17,5 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_appointment_list"
+        android:visibility="gone"
         />
 </FrameLayout>
