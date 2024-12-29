@@ -99,9 +99,11 @@
                     android:text="Comentarios"
                     android:padding="10dp"
                     android:textSize="20dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
 
                 <androidx.fragment.app.FragmentContainerView
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_margin="10dp"
@@ -114,6 +116,7 @@
                     android:textStyle="bold"
                     android:layout_gravity="center"
                     android:text="Deja un comentario"
+                    android:visibility="gone"
                     />
             </LinearLayout>
 

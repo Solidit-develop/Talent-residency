@@ -136,6 +136,7 @@ public class VisitProvider extends Fragment implements VisitProviderView{
         if(result != null){
             if(result.regreso != null){
                 if(result.regreso.isEmpty()){
+                    // TODO: Fix validation of relation between provider and customer
                     Log.i("VisitProvider", "No se encontró un appointment relacionado al user logged: " + idLogged);
                 }else{
                     Gson gson = new Gson();
