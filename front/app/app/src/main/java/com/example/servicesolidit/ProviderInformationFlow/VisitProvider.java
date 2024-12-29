@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.servicesolidit.R;
@@ -34,6 +35,7 @@ public class VisitProvider extends Fragment implements VisitProviderView{
     private Button btnInfProfile;
     private TextView tvNoImagesFound;
     private Button btnTryToStartReview;
+    private ProgressBar progressVisitProvider;
 
     public VisitProvider(int idProviderToLoad) {
         this.idProviderToLoad = idProviderToLoad;
@@ -49,14 +51,16 @@ public class VisitProvider extends Fragment implements VisitProviderView{
         btnTryToStartReview = view.findViewById(R.id.btnTryToStartReview);
         imageExampleOnCarousell = view.findViewById(R.id.imageExampleOnCarousell);
         tvNoImagesFound = view.findViewById(R.id.tvNoImagesFound);
+        this.progressVisitProvider = view.findViewById(R.id.progressVisitProvider);
+
         idLogged = getIdUserLogged();
 
         this.presenter = new VisitProviderPresenter(this);
 
         onShowProgress();
         RelationalImagesRequestDto requestDto = new RelationalImagesRequestDto();
-        requestDto.setTable("providers");
-        requestDto.setFuncionalida("comments");
+        requestDto.setTable("Providers");
+        requestDto.setFuncionalida("cat");
         requestDto.setIdUsedOn(String.valueOf(this.idProviderToLoad));
         this.presenter.getProviderImagesByComments(requestDto);
 
@@ -92,10 +96,13 @@ public class VisitProvider extends Fragment implements VisitProviderView{
         onHideProgress();
         if(response.getImageName() != null){
             //Print image
+            Gson f = new Gson();
+            Log.i("VisitProvider", "Debería imprimir imagen: " + f.toJson(response));
             tvNoImagesFound.setVisibility(View.GONE);
             imageExampleOnCarousell.setVisibility(View.VISIBLE);
+            String url =  !response.getImageName().isEmpty() ? response.getImageName().get(0).getUrlLocation() : "not-found-image";
             Picasso.get()
-                    .load(Constants.BASE_URL + "images/print/"+response.getImageName())
+                    .load(Constants.BASE_URL + "images/print/"+url)
                     .placeholder(R.drawable.load)
                     .error(R.drawable.lost)
                     .into(imageExampleOnCarousell);
@@ -115,13 +122,13 @@ public class VisitProvider extends Fragment implements VisitProviderView{
     @Override
     public void onShowProgress() {
         Log.i("VisitProviderClass","OnShowProgress");
-
+        this.progressVisitProvider.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onHideProgress() {
         Log.i("VisitProviderClass","OnHideProgress");
-
+        this.progressVisitProvider.setVisibility(View.GONE);
     }
 
     @Override
