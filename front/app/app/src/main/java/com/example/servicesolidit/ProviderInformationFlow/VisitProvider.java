@@ -167,4 +167,7 @@ public class VisitProvider extends Fragment implements VisitProviderView{
     public void onErrorObtainResponse(String s) {
         Log.i("VisitProvider", "Error: " + s);
     }
+
+
+
 }

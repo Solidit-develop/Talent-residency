@@ -3,65 +3,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProviderInformationFlow.VisitProvider"
-    android:background="@color/bg_white">
+    android:background="@color/bg_white"
+    tools:context=".ProviderInformationFlow.VisitProvider">
+
     <ProgressBar
         android:id="@+id/progressVisitProvider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/layout_content_head"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:orientation="vertical"
-            android:id="@+id/layout_content_head">
+            android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/img_profile_supplie"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:id="@+id/img_profile_supplie"
                 android:scaleType="center"
-                android:src="@drawable/solid"/>
+                android:src="@drawable/solid" />
 
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
+            style="?attr/materialCardViewElevatedStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="?attr/materialCardViewElevatedStyle"
-            android:elevation="10dp"
-            android:translationZ="6dp"
             android:layout_below="@+id/layout_content_head"
-            android:layout_marginTop="-10dp"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            >
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="-10dp"
+            android:elevation="10dp"
+            android:translationZ="6dp">
 
             <LinearLayout
+                android:id="@+id/content_cards"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/content_cards"
                 android:orientation="vertical">
 
                 <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/btn_inf_profile_provider"
                     style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Informacion de perfil >"
                     android:textAlignment="textStart"
                     android:textSize="20dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
-
+                <!-- Catalog Images Section Provider -->
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -71,62 +70,85 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:visibility="gone"
                             android:id="@+id/tvNoImagesFound"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingHorizontal="25dp"
                             android:text="Aun no se tienen imagenes para los servicios de este proveedor"
                             android:textAlignment="center"
-                            />
+                            android:visibility="gone" />
 
                         <ImageView
-                            android:visibility="gone"
                             android:id="@+id/imageExampleOnCarousell"
+                            style="?attr/materialCardViewElevatedStyle"
                             android:layout_width="250dp"
                             android:layout_height="200dp"
                             android:layout_margin="10dp"
-                            style="?attr/materialCardViewElevatedStyle"
-                            android:backgroundTint="@color/bg_green_Light">
-                        </ImageView>
+                            android:backgroundTint="@color/bg_green_Light"
+                            android:contentDescription="TODO"
+                            android:visibility="gone" />
                     </LinearLayout>
                 </ScrollView>
 
-                <TextView
+                <!-- View Comments Section Provider -->
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Comentarios"
-                    android:padding="10dp"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
-                    android:visibility="gone"/>
+                    android:layout_height="200dp">
+                    <LinearLayout
+                        android:id="@+id/containerViewCommentsSection"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                <androidx.fragment.app.FragmentContainerView
-                    android:visibility="gone"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:text="Comentarios"
+                            android:textSize="20dp"
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:backgroundTint="@color/bg_green_Light"
+                            tools:itemCount="6"
+                            tools:listitem="@layout/item_comment" />
+                    </LinearLayout>
+                </ScrollView>
+
+                <!-- Create Comments Section -->
+                <LinearLayout
+                    android:id="@+id/containerCommentSection"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/radius_frame"
-                    android:backgroundTint="@color/bg_green_Light"/>
-                <Button
-                    android:id="@+id/btnTryToStartReview"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"
-                    android:text="Deja un comentario"
-                    android:visibility="gone"
-                    />
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.7"
+                        android:hint="Qué opinas de este servicio" />
+
+                    <Button
+                        android:id="@+id/btnTryToStartReview"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:text="Comentar"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
             </LinearLayout>
-
         </com.google.android.material.card.MaterialCardView>
 
         <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_container_provider_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/fragment_container_provider_view"
-            android:elevation="10dp"
-            />
+            android:elevation="10dp" />
 
     </RelativeLayout>
 
