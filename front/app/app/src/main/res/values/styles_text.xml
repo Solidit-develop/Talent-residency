@@ -164,17 +164,17 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="boxBackgroundMode">filled</item>
         <item name="boxStrokeColor">@color/dark_normal</item>
-        <item name="hintTextColor">@color/bg_white</item>
-        <item name="android:textColorHint">@color/bg_white</item>
-        <item name="android:textColor">@color/bg_white</item>
+        <item name="hintTextColor">@color/dark_text</item>
+        <item name="android:textColorHint">@color/dark_text</item>
+        <item name="android:textColor">@color/dark_text</item>
         <item name="endIconMode">custom</item>
-        <item name="endIconTint">@color/bg_white</item>
+        <item name="endIconTint">@color/dark_text</item>
     </style>
 
     <style name="TextInput">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/bg_white</item>
+        <item name="android:textColor">@color/dark_text</item>
         <item name="android:inputType">text</item>
     </style>
 

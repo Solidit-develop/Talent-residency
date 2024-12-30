@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Fondo blanco -->
     <item>
         <shape android:shape="rectangle">
-            <gradient
-                android:startColor="#232323"
-                android:endColor="#515151"
-                android:angle="0" />
-            <corners android:radius="4dp" />
+            <solid android:color="#FFFFFF" /> <!-- Color blanco -->
+            <corners android:radius="16dp" /> <!-- Esquinas redondeadas -->
+        </shape>
+    </item>
+
+    <!-- Borde negro -->
+    <item>
+        <shape android:shape="rectangle">
+            <stroke
+                android:width="2dp"
+                android:color="#000000" /> <!-- Borde negro -->
+            <corners android:radius="16dp" /> <!-- Esquinas redondeadas -->
         </shape>
     </item>
 </layer-list>

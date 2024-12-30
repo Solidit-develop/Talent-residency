@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--
     <item android:id="@+id/configuration"
         app:showAsAction="never"
         android:title="Configuracón"/>
@@ -12,8 +14,9 @@
     <item android:id="@+id/item_support"
         android:title="Soporte tecnico"
         app:showAsAction="never"/>
+        -->
 
     <item android:id="@+id/item_log_out"
-        android:title="Salir"
+        android:title="Cerrar sesión"
         app:showAsAction="never"/>
 </menu>

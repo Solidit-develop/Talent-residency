@@ -3,7 +3,7 @@
     <color name="bg_white">#FFFFFF</color>
     <color name="bg_green_Light">#D1D1D1</color>
     <color name="txt_btn_white">#FFFFFF</color>
-    <color name="bg_btn_grey">#E91E63</color> <!-- Change to primary code -->
+    <color name="bg_btn_grey">#3F51B5</color> <!-- Change to primary code -->
     <color name="dark_text">#000000</color>
     <color name="link">#0F1B56</color>
 
@@ -155,4 +155,5 @@
     <color name="md_theme_surfaceContainer_highContrast">#F0EDED</color>
     <color name="md_theme_surfaceContainerHigh_highContrast">#EAE7E7</color>
     <color name="md_theme_surfaceContainerHighest_highContrast">#E4E2E1</color>
+    <color name="blue_transparent">#CB3F51B5</color>
 </resources>

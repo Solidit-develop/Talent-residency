@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="center"
-    android:background="#A93A60"
+    android:background="@color/bg_btn_grey"
     android:layout_margin="3dp">
 
 
