@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.servicesolidit.FeedFlow.CardAdapter;
+import com.example.servicesolidit.ProviderInformationFlow.VisitProvider;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Dtos.Responses.SearchProvider.SearchProviderResponseDto;
 import com.google.gson.Gson;
@@ -22,7 +25,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Search extends Fragment implements SearchProviderView{
+public class Search extends Fragment implements SearchProviderView, CardAdapter.OnCardClickListener {
     private EditText etSearchPriovider;
     private ImageView imgSearchButton;
     private RecyclerView recyclreViewSearch;
@@ -47,7 +50,7 @@ public class Search extends Fragment implements SearchProviderView{
         });
 
         this.providersFound = new ArrayList<>();
-        adapter = new SearchProviderAdapter(this.providersFound);
+        adapter = new SearchProviderAdapter(this.providersFound, this);
         recyclreViewSearch.setAdapter(adapter);
         recyclreViewSearch.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
 
@@ -82,5 +85,15 @@ public class Search extends Fragment implements SearchProviderView{
     @Override
     public void onHideProgress() {
 
+    }
+
+    @Override
+    public void onCardClick(int idProvider) {
+        Log.i("SearchClass", "Seleccionado el provider con id: " + idProvider);
+        VisitProvider visitProvider = new VisitProvider(idProvider);
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_container, visitProvider);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

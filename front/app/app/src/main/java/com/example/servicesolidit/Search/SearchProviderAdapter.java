@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.servicesolidit.FeedFlow.CardAdapter;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Dtos.Responses.SearchProvider.SearchProviderResponseDto;
 import com.squareup.picasso.Picasso;
@@ -19,9 +20,10 @@ import java.util.ArrayList;
 public class SearchProviderAdapter extends RecyclerView.Adapter<SearchProviderAdapter.ProviderFoundViewHolder> {
 
     private ArrayList<SearchProviderResponseDto> providersFound;
-
-    public SearchProviderAdapter (ArrayList<SearchProviderResponseDto> providersFound){
+    private CardAdapter.OnCardClickListener listener;
+    public SearchProviderAdapter (ArrayList<SearchProviderResponseDto> providersFound, CardAdapter.OnCardClickListener listener){
         this.providersFound = providersFound;
+        this.listener = listener;
     }
 
     @NonNull
@@ -45,7 +47,7 @@ public class SearchProviderAdapter extends RecyclerView.Adapter<SearchProviderAd
         holder.workshopPhone.setText(item.getWorkshopPhoneNumber());
         holder.skills.setText("Skillssssss");
         holder.itemView.setOnClickListener(v->{
-            Toast.makeText(v.getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+            listener.onCardClick(item.getIdProvider());
         });
 
     }

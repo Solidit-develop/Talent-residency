@@ -70,6 +70,7 @@ public class ObtainAgreements extends Fragment implements ObtainAgreementsView{
     }
 
     public void getProviderIdByUserId(int userId){
+        onShowProgress();
         this.presenter.information(userId);
     }
 
