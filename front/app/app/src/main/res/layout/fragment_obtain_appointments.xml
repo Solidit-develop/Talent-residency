@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:padding="16dp"
         android:textAlignment="center"
-        android:visibility="visible"
+        android:visibility="gone"
         />
     <ProgressBar
         android:id="@+id/progressBarOnUpdateAppointments"
@@ -22,11 +22,70 @@
         android:visibility="gone"
         />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewAppointments"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/item_appointment_list"
-        android:visibility="gone"
-        />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <!-- Vista si soy Provider -->
+        <LinearLayout
+            android:id="@+id/headerAppointmentsProvider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
+            <TextView
+                android:id="@+id/tvHeaderAppointmentsType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Title"
+                android:textAlignment="center"
+                android:text="Mis citas como proveedor"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+                <Button
+                    android:id="@+id/btnShowWhereImCustomer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:layout_margin="8dp"
+                    android:text="Citas donde soy \n cliente" />
+
+                <Button
+                    android:id="@+id/btnShowWhereImProvider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:layout_margin="8dp"
+                    android:text="Citas donde soy proveedor" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <!-- Vista si soy Customer -->
+        <LinearLayout
+            android:id="@+id/headerAppointmentsCustomer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Title"
+                android:textAlignment="center"
+                android:text="Citas donde soy cliente"/>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewAppointments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_appointment_list"
+            tools:itemCount="6"
+            android:visibility="visible"
+            />
+    </LinearLayout>
 </FrameLayout>

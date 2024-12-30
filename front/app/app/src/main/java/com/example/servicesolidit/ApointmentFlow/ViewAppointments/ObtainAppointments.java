@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -37,6 +39,15 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
     private ProgressBar progressBar;
     private TextView itemNoAppointmentsView;
 
+    //Headers view
+    private Button btnShowAppointmentsAsProvider;
+    private Button btnShowAppointmentsAsCustomer;
+    private LinearLayout headerAsProvider;
+    private LinearLayout headerAsCustomer;
+    private TextView tvHeaderAppointmentsType;
+
+    private UserInfoProfileDto userLoggedDto;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,12 +56,34 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
         this.itemNoAppointmentsView = view.findViewById(R.id.idNoAppointmentsView);
         this.progressBar = view.findViewById(R.id.progressBarOnUpdateAppointments);
 
+        this.btnShowAppointmentsAsCustomer = view.findViewById(R.id.btnShowWhereImCustomer);
+        this.btnShowAppointmentsAsProvider = view.findViewById(R.id.btnShowWhereImProvider);
+
+        this.headerAsCustomer = view.findViewById(R.id.headerAppointmentsCustomer);
+        this.headerAsProvider = view.findViewById(R.id.headerAppointmentsProvider);
+
+        this.tvHeaderAppointmentsType = view.findViewById(R.id.tvHeaderAppointmentsType);
+
         this.presenter = new ObtainAppointmentPresenter(this);
 
         this.appointmentsList = new ArrayList<>();
         this.adapter = new AppointmentAdapter(appointmentsList, this);
         this.rvAppointmentsList.setAdapter(adapter);
         this.rvAppointmentsList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+
+        this.btnShowAppointmentsAsProvider.setOnClickListener(v->{
+            onShowProgress();
+            this.tvHeaderAppointmentsType.setText("Mis citas como proveedor");
+            this.presenter.getProviderInformationFromUserId(this.userLoggedDto.getIdUser());
+        });
+
+        this.btnShowAppointmentsAsCustomer.setOnClickListener(v->{
+            onShowProgress();
+            this.tvHeaderAppointmentsType.setText("Mis citas como cliente");
+            this.presenter.getAppointments(this.userLoggedDto.getIdUser(), "asCustomer");
+
+        });
+
 
         // Validar si soy proveedor o si soy cliente
         getProviderIdByUserId(getLoggedId());
@@ -66,6 +99,7 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
     }
 
     public void getProviderIdByUserId(int userId){
+        onShowProgress();
         this.presenter.information(userId);
     }
 
@@ -121,16 +155,32 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
         if(result != null){
             Gson gson = new Gson();
             Log.i("ObtainAppointmentClass", "Information: " + gson.toJson(result));
+            this.userLoggedDto = result;
             this.isProvider = result.getTypes().isValue();
             if(this.isProvider){
+                // Obtain appointments where i am provider
+                setHeaderView("asProvider");
                 this.presenter.getProviderInformationFromUserId(result.getIdUser());
             }else{
+                // Obtain appointments where i am customer
+                setHeaderView("asCustomer");
                 this.presenter.getAppointments(result.getIdUser(), "asCustomer");
             }
         }else {
             Log.i("ObtainAppointmentClass", "ErrorOnLoadProfileSuccess");
         }
         onHideProgress();
+    }
+
+    private void setHeaderView(String userType) {
+        if(userType.equals("asCustomer")){
+            this.headerAsCustomer.setVisibility(View.VISIBLE);
+            this.headerAsProvider.setVisibility(View.GONE);
+        }
+        if(userType.equals("asProvider")){
+            this.headerAsCustomer.setVisibility(View.GONE);
+            this.headerAsProvider.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
