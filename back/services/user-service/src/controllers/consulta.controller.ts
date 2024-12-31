@@ -15,9 +15,6 @@ import { ResponseModel } from "../models/responseDto";
 import config from "../config";
 import { ProviderService } from "../Services/provider-service";
 
-
-
-
 const repositoriState = AppDataSource.getRepository(State);
 const repositoriTown = AppDataSource.getRepository(Town);
 const repositoriAddress = AppDataSource.getRepository(Address);
@@ -205,8 +202,8 @@ const controllerusuario = {
         if (!usert) {
           console.log(token.passwordhas);
           usert = new users();
-          usert.name_User = token.name_user;
-          usert.lasname = token.lastname;
+          usert.name_user = token.name_user;
+          usert.lastname = token.lastname;
           usert.email = token.email;
           usert.password = token.passwordhas;
           usert.age = token.age;
@@ -346,10 +343,6 @@ const controllerusuario = {
     }
   },
 
-
-
-
-
   prueba: async (req: Request, res: Response): Promise<void> => {
 
     try {
@@ -366,7 +359,6 @@ const controllerusuario = {
   ping: async (req: Request, res: Response): Promise<void> => {
     res.send("pong");
   },
-
   /**
    * TODO: Delete password from fields to return
    */
@@ -398,7 +390,7 @@ const controllerusuario = {
   obtainInformation: async (req: Request, res: Response): Promise<void> => {
     const providerService = new ProviderService();
     const userImagen = new ImagenService();
-    var response;
+    var user;
     var imagen
     var tabla = "users"
     var funcionality ="PerfilUser"
@@ -406,7 +398,7 @@ const controllerusuario = {
     console.log("ID TO FIND: " + userIdToFind);
     
     try {
-      response = await providerService.getUserInfo(userIdToFind)
+      user = await providerService.getUserInfo(userIdToFind)
       imagen = await userImagen.getImageInfo(tabla,userIdToFind,funcionality)
       // imagen = await 
         .then(resp => {
@@ -416,22 +408,25 @@ const controllerusuario = {
         .catch(error => {
           console.log("Error on promise controller: " + error);
         });
-      console.log("Response del service: " + response);
+      console.log("Response del service: " + user);
     } catch (e) {
-      response = e;
-      console.log("Error: " + response);
+      user = e;
+      console.log("Error: " + user);
+      return;
     }
 
-    console.log("Response on finish controller: " + response);
+    console.log("Response on finish controller: " + user);
 
-    const user={
-      ...response,
-      ...imagen
+    const respon={
+        response:{
+          ...user,
+          ...imagen
+        }
+
     }
 
-    res.status(200).json(user);
+    res.status(200).json(ResponseModel.successResponse(respon));
   },
-
 
   insertusuario: async (req: Request, res: Response): Promise<void> => {
     try {
@@ -484,11 +479,11 @@ const controllerusuario = {
         await repositoritypeU.save(estatus)
       }
 
-      let usert = await repositoriuser.findOne({ where: [{ name_User: name_user }, { email: email }] })
+      let usert = await repositoriuser.findOne({ where: [{ name_user: name_user }, { email: email }] })
       if (!usert) {
         usert = new users();
-        usert.name_User = name_user;
-        usert.lasname = lastname;
+        usert.name_user = name_user;
+        usert.lastname = lastname;
         usert.email = email;
         usert.password = password;
         usert.age = age;
@@ -567,9 +562,9 @@ const controllerusuario = {
           direccion.town = ciudad;
           await repositoriAddress.save(direccion);
         }
-        usuario.name_User = name_user;
+        usuario.name_user = name_user;
         usuario.email = email;
-        usuario.lasname = lastname;
+        usuario.lastname = lastname;
         usuario.age = age;
         usuario.phoneNumber = phoneNumber;
         usuario.adress = direccion;

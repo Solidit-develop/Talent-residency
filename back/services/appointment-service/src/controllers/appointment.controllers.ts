@@ -83,29 +83,20 @@ const controllerAppointment ={
     
     cancelar: async (req: Request, res: Response): Promise<void> => {
         try {
-            const { id_provider, id_customer,id_appointment } = req.params;
-            let { creationDate } = req.body;
-
+            const id_provider = req.params.id_provider
+            const { id_customer,id_appointment } = req.body;
             const app = Number(id_appointment)
-    
             const prov = Number(id_provider);
             const cus = Number(id_customer);
-            // creationDate = new Date(creationDate)
+
             console.log("Números de callback:", prov, cus,app);
 
-            if(!creationDate){
-                console.log(creationDate)
-                res.status(400).json("Ingresa la fecha de creacion del appointment")
-                return;
-            }
-    
             const relacion = await repositoryappointment.createQueryBuilder("appointment")
                 .leftJoinAndSelect("appointment.providers", "Providers")
                 .leftJoinAndSelect("appointment.users", "users")
                 .andWhere("appointment.id_appointment =:id_appointment",{id_appointment:app})
                 .where("users.id_user = :id_user", { id_user: cus })
                 .andWhere("Providers.id_provider = :id_provider", { id_provider: prov })
-                .andWhere("CAST(appointment.creationDate AS TEXT) LIKE :fecha", { fecha: `%${creationDate}%` })
                 .getOne();
     
             // console.log("Relación de usuarios:", relacion);
@@ -142,8 +133,8 @@ const controllerAppointment ={
                 apointmentDate:Verificar.apointmentDate,
                 workshopName:Verificar.providers.workshopName,
                 id_user:Verificar.users.id_user,
-                name_User:Verificar.users.name_User,
-                lasname:Verificar.users.lasname,   
+                name_user:Verificar.users.name_user,
+                lastname:Verificar.users.lastname,   
                 update:Verificar.statusAppointment
             }))
         
@@ -166,8 +157,8 @@ const controllerAppointment ={
             .getMany();
 
             let id_user            
-            let name_User          
-            let lasname            
+            let name_user          
+            let lastname            
             let update             
             let id_appintment      
             let AppointmentLocation
@@ -176,13 +167,13 @@ const controllerAppointment ={
             let id_providers        
             let workshopName
             let name_provider
-            let lasname_provider
+            let lastname_provider
 
             for(let i = 0; i< appuser.length;i ++){
 
                 id_user = appuser[i].users.id_user,
-                name_User = appuser[i].users.name_User,
-                lasname = appuser[i].users.lasname,   
+                name_user = appuser[i].users.name_user,
+                lastname = appuser[i].users.lastname,   
                 update = appuser[i].statusAppointment,
                 id_appintment = appuser[i].id_appointment,
                 AppointmentLocation = appuser[i].AppointmentLocation,
@@ -195,8 +186,8 @@ const controllerAppointment ={
                 .leftJoinAndSelect("users.provedor","provedor")
                 .where("provedor.id_provider = :id_provider", { id_provider:id_providers})
                 .getOne();
-                name_provider    = appuser1?.name_User
-                lasname_provider = appuser1?.lasname
+                name_provider    = appuser1?.name_user
+                lastname_provider = appuser1?.lastname
 
                 let testinfo ={
                     id_user,                      
@@ -207,7 +198,7 @@ const controllerAppointment ={
                     apointmentDate,     
                     id_providers,       
                     name_provider,   
-                    lasname_provider,
+                    lastname_provider,
                     workshopName       
                 }
                 usuario.push(testinfo)
