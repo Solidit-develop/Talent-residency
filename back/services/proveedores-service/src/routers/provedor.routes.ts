@@ -14,6 +14,6 @@ router.get('/user/:id', controllerProvider.providerByUserId);
 router.get('/provider/:id/', controllerProvider.providerByProviderId);
 router.get('/provider/:id/:funcionality', controllerProvider.providerByProviderIdParams);
 router.get('/users/profile/:id', controllerProvider.userProfile);
-router.get('/provedores/:busqueda',controllerProvider.busqueda);
+router.get('/provedores/:busqueda',controllerProvider.busqueda2);
 router.post('/imagen/:id_provider',controllerProvider.cargarimagen);
 module.exports = router

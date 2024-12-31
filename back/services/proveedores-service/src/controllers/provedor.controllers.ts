@@ -54,6 +54,65 @@ const controllerProvider = {
         
     },
 
+    busqueda2:async(req:Request, res:Response):Promise <void>=>{
+        try{
+            const busqueda = req.params.busqueda
+
+            const habilidades = await repositoryProviders.createQueryBuilder("providers")
+            .leftJoinAndSelect("providers.skills", "skills")
+            .where("skills.name ILIKE :name or providers.workshopName ILIKE :workshop or providers.descripcion ILIKE :description", 
+            { name: `%${busqueda}%`, workshop: `%${busqueda}%`, description:`%${busqueda}%`}) // Agregar % para el LIKE
+            .getMany();
+            // console.log(habilidades);
+
+            if(habilidades.length<=0){
+                console.log(busqueda)      
+                // const tienda = await repositoryProviders.find({where:{workshopName:ILike(`%${busqueda}%`)},
+                // relations:['skills']
+                // })
+                res.status(400).json({message:"Sin datos"})
+                return;
+            }
+
+             const respon = []
+             const ids = habilidades.map(ids => ({
+                id_provedor:ids.id_provider
+            }))
+
+             const imagenes = new ImagenService()
+
+            for (let i =0;  i<habilidades.length; i++){
+                const provedor = habilidades[i]
+                let id_provedor = String(ids[i].id_provedor);               
+                const imagen = await imagenes.getImageInfo("Providers",id_provedor,"cat");
+
+                console.log("Provedor en la posicion -->" [i])
+                console.log(provedor)
+
+                console.log("id conseguido de ese proveodor -->"[i])
+                console.log(id_provedor)
+
+                console.log("I  magen conseguida")
+                console.log(imagen)
+
+                const response = {
+                    provedor,
+                    ...imagen
+                };
+
+                respon.push(response);
+            }
+
+            console.log(respon)
+        
+            res.status(200).json(ResponseModel.successResponse(respon));
+        }catch(error){
+            console.log(error)
+            res.status(200).json({error:error})
+        }
+        
+    },
+
     // verificar si es Provedor 
 
     statusUsuario: async (req: Request, res: Response): Promise<void> => {

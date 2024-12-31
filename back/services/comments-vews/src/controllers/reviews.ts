@@ -8,11 +8,11 @@ import { Providers } from "../entitis/provedores";
 import { review } from "../entitis/review";
 import { appointment } from "../entitis/appointment";
 
-import {ImagenService} from "../services/imagenService"
+import { ImagenService } from "../services/imagenService"
 // import { images } from "../entitis/images";
 // import { imagesRelation } from "../entitis/imagesRelation";
 
-const repositoryuser= AppDataSource.getRepository(users);
+const repositoryuser = AppDataSource.getRepository(users);
 const repositoryinteraccion = AppDataSource.getRepository(interaccion);
 const repositoryprovedor = AppDataSource.getRepository(Providers);
 const repositoryreview = AppDataSource.getRepository(review);
@@ -20,9 +20,9 @@ const reppsitoryappointment = AppDataSource.getRepository(appointment);
 // const repositoryMessages = AppDataSource.getRepository(images);
 // const repositoryimagenRelacion  = AppDataSource.getRepository(imagesRelation);
 
-const controllersReview={
+const controllersReview = {
 
-    ping: async(req:Request, res:Response): Promise<void> => {
+    ping: async (req: Request, res: Response): Promise<void> => {
         res.send("pong");
     },
 
@@ -34,16 +34,16 @@ const controllersReview={
                 comment, // Corregido de "commentario"
                 urlLocation
             } = req.body;
-    
+
             const id_usuario = Number(id_user);
             const id_provedor = Number(id_prov);
             let table = "review"
-            let funcionality= "comment"
-            
+            let funcionality = "comment"
+
 
 
             console.log("IDs recibidos:", { id_usuario, id_provedor });
-    
+
             console.log("Iniciando consulta...");
             const verificar = await reppsitoryappointment
                 .createQueryBuilder("appointment")
@@ -54,6 +54,127 @@ const controllersReview={
                     { id_logued: id_usuario, id_prov: id_provedor }
                 )
                 .getOne();
+    
+            if (!verificar) {
+                res.status(404).json({ message: "No se encontró un acuerdo válido" });
+                console.log("Consulta fallida: No se encontró appointment");
+                return;
+            }
+    
+            const { id_appointment: id_app, providers } = verificar;
+            const id_prove = providers.id_provider;
+    
+            console.log("ID de appointment encontrado:", id_app);
+            console.log("Proveedor en la consulta:", id_prove, "Proveedor recibido:", id_provedor);
+    
+            let origenComoUser = false;
+    
+            if (id_provedor === id_prove) {
+                origenComoUser = true;
+                console.log("Se registra el comentario como proveedor");
+            }
+    
+            const acuerdo = await reppsitoryappointment.findOne({
+                where: { id_appointment: id_app }
+            });
+    
+            if (!acuerdo) {
+                res.status(400).json({ message: "No se encontró el acuerdo" });
+                console.log("No se encontró el appointment con los IDs relacionados.");
+                return;
+            }
+    
+            console.log("Procesando registro de interacción...");
+    
+            const inter = await AppDataSource.createQueryBuilder()
+                .select("interaccion")
+                .from("interaccion", "interaccion")
+                .where("interaccion.appointmentIdAppointment = :id_appointment", { id_appointment: id_app })
+                .getOne();
+
+                const interaccionEntity = await AppDataSource.getRepository(interaccion).findOne({
+                    where: { id_interaccion: inter?.id_interaccion }
+                });
+    
+            console.log("Resultado de la interacción encontrada:", inter);
+    
+            const comentario = new review();
+            comentario.comment = comment; // Variable corregida
+            comentario.calificacion = calificacion;
+
+
+            const idUsedOn = inter?.id_interaccion
+
+            console.log("Interacciones-..-.-.-.-.-.-.-.-.-.-..-.-.-.-.-.-.-.--.-.-.")
+            console.log(urlLocation,funcionality,idUsedOn)
+
+            console.log(idUsedOn)
+            if(idUsedOn  && urlLocation){
+
+
+            const conexion = new ImagenService();
+             await conexion.PostImage({funcionality,urlLocation,idUsedOn},table)
+             console.log("Se guardó con éxito:", JSON.stringify(conexion));
+            }
+
+            if (interaccionEntity) {
+                comentario.interacciones = [interaccionEntity];
+            }
+    
+            await repositoryreview.save(comentario);
+    
+            if(!inter){
+                const interaction = new interaccion();
+                interaction.origenEmitidoComoUser = origenComoUser;
+                interaction.reviews = [comentario];
+                interaction.appointment = acuerdo;
+                await repositoryinteraccion.save(interaction);
+            }
+           
+    
+            console.log("Registro exitoso, calificación agregada.");
+            res.status(200).json({ message: "Registro con éxito" });
+    
+        } catch (error) {
+            console.error("Error en registro_user:", error);
+            res.status(500).json({ error: "Error interno del servidor", detalles: error });
+        }
+    },
+    
+    registro_user2: async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { id_user, id_prov } = req.params;
+            const {
+                calificacion,
+                comment, // Corregido de "commentario"
+                urlLocation
+            } = req.body;
+
+            const id_usuario = Number(id_user);
+            const id_provedor = Number(id_prov);
+            let table = "review"
+            let funcionality = "comment"
+
+
+
+            console.log("IDs recibidos:", { id_usuario, id_provedor });
+
+            console.log("Iniciando consulta...");
+
+
+
+            const verificar = await reppsitoryappointment
+                .createQueryBuilder("appointment")
+                .leftJoinAndSelect("appointment.providers", "providers")
+                .leftJoin("appointment.users", "users")
+                .where(
+                    "(appointment.users = :id_logued OR appointment.providers = :id_prov) OR (appointment.users = :id_prov OR appointment.providers = :id_logued)",
+                    { id_logued: id_usuario, id_prov: id_provedor }
+                )
+                .getOne();
+
+
+                
     
             if (!verificar) {
                 res.status(404).json({ message: "No se encontró un acuerdo válido" });
@@ -285,6 +406,94 @@ const controllersReview={
         }
     },
 
+    ConsultaTodos2: async (req: Request, res: Response): Promise<void> => {
+        try {
+            const id_user = req.params.id_user;
+            const id_logued = Number(id_user);
+    
+            // Consulta para obtener el ID del proveedor relacionado
+            const id_provedor = await repositoryprovedor.createQueryBuilder("providers")
+                .leftJoinAndSelect("providers.user", "user")
+                .where("user.id_user = :id_user", { id_user: id_logued })
+                .getOne();
+    
+            const id_prov = id_provedor?.id_provider;
+    
+            // Roles
+            const roles = [id_prov, id_logued];
+            console.log("Roles:", roles);
+    
+            const informacion: any[] = [];
+    
+            // Consulta principal
+            const verificar = await AppDataSource.createQueryBuilder()
+                .select("appointment")
+                .from("appointment", "appointment")
+                .leftJoinAndSelect("appointment.providers", "providers")
+                .leftJoinAndSelect("appointment.users", "users")
+                .leftJoinAndSelect("appointment.interaccion", "interaccion")
+                .leftJoinAndSelect("interaccion.reviews", "review")
+                .where("(appointment.usersIdUser = :id_logued OR appointment.providersIdProvider = :id_prov)", {
+                    id_logued,
+                    id_prov,
+                })
+                .andWhere("interaccion.id_interaccion IS NOT NULL")
+                .getMany();
+
+                
+    
+            console.log("Consulta principal ejecutada:", verificar);
+    
+            // Procesamiento de los resultados
+            for (const appointment of verificar) {
+                const { interaccion, users, providers, id_appointment } = appointment;
+              
+                console.log(interaccion)
+                let  id_us = users?.id_user;
+                let  id_pro = providers?.id_provider;
+                const origenComoUser = users?.id_user === id_logued;
+
+
+                const usuario = await repositoryprovedor.findOne({ where: { id_provider: id_pro }, relations:["user"] });// Desestructuración y generación del resultado
+                let id_pro_user = usuario?.user.id_user===id_logued;
+
+
+                console.log("Usuario:", usuario);
+                const datos = {
+                    usuario:{
+                    id_user: usuario?.user.id_user,
+                    name_user: usuario?.user.name_user,
+                    lastname: usuario?.user.lastname,
+                    origenComoUser:id_pro_user,
+                    id_appointment,
+                    },
+                    id_prov: providers?.id_provider,
+                    // id_appointment,
+                    calificacion: {
+                    interaccion: interaccion?.reviews,
+                    },
+                };
+    
+                informacion.push(datos);
+            }
+    
+            // console.log("Tamaño de los comentarios:", verificar.length);
+            // console.log("Información procesada:", informacion);
+    
+            // Respuesta final
+            if (informacion.length === 0) {
+                res.status(200).json({ mensaje: "Sin comentarios" });
+                return;
+            }
+    
+            res.status(200).json(informacion);
+        } catch (error) {
+            console.error("Error interno:", error);
+            res.status(500).json({ mensaje: "Error interno en el servidor" });
+        }
+    },
+    
+
     edit:async(req:Request,res:Response):Promise<void>=>{
         try {
             const { id_user, id_prov } = req.params;
@@ -347,39 +556,65 @@ const controllersReview={
             res.status(500).json({ message: "Error interno en el servidor" });
         }
     },
-    eliminar:async(req:Request,res:Response):Promise<void>=>{
-        try{
-            const {id_interaccion, id_review}=req.params
+    eliminar: async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { id_interaccion, id_review } = req.params
 
             const result = await AppDataSource.createQueryBuilder()
-            .delete()
-            .from("review_interacciones_interaccion")
-            .where("reviewIdReview = :id_review", { id_review })
-            .andWhere("interaccionIdInteraccion = :id_interaccion", { id_interaccion })
-            .execute();
+                .delete()
+                .from("review_interacciones_interaccion")
+                .where("reviewIdReview = :id_review", { id_review })
+                .andWhere("interaccionIdInteraccion = :id_interaccion", { id_interaccion })
+                .execute();
 
-            console.log("Se ellimino con exito los datos de review con el id",id_review);
+            console.log("Se ellimino con exito los datos de review con el id", id_review);
             console.log("Se elimino con exito los datos de interaccion con el id", id_interaccion);
 
 
             await AppDataSource.createQueryBuilder()
-            .delete()
-            .from("review")
-            .where("review.id_review=:id_review",{id_review:id_review})
-            .execute();
+                .delete()
+                .from("review")
+                .where("review.id_review=:id_review", { id_review: id_review })
+                .execute();
 
             if (result.affected === 0) {
                 res.status(404).json({ message: "No se encontró la relación entre la review y la interaccion." });
-                return 
+                return
             }
-           res.status(200).json({ message: "Relación eliminada correctamente." });
-        }catch(error){
+            res.status(200).json({ message: "Relación eliminada correctamente." });
+        } catch (error) {
             console.log(error)
             res.status(500).json("Error interno")
         }
     },
 
- 
+    enable_interaction: async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { id_provider, id_user } = req.params
+
+            const verificar = await reppsitoryappointment
+                .createQueryBuilder("appointment")
+                .leftJoinAndSelect("appointment.providers", "providers")
+                .leftJoin("appointment.users", "users")
+                .where(
+                    "(appointment.users = :id_logued OR appointment.providers = :id_prov) OR (appointment.users = :id_prov OR appointment.providers = :id_logued)",
+                    { id_logued: id_user, id_prov: id_provider }
+                )
+                .getOne();
+
+            if (verificar) {
+                res.status(200).json({ enableToComment: true })
+            } else {
+                res.status(400).json({ enableToComment: false })
+            }
+
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({ message: "Error interno" })
+        }
+    }
+
+
 }
 
 export default controllersReview;

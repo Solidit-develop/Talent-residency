@@ -14,6 +14,7 @@ export class review {
     comment: string
 
     @ManyToMany(() => interaccion, (interaccion) => interaccion.reviews)
+    
     interacciones: interaccion[];
 
 }
