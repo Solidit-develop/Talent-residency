@@ -9,6 +9,7 @@ import { review } from "../entitis/review";
 import { appointment } from "../entitis/appointment";
 
 import { ImagenService } from "../services/imagenService"
+import app from "../app";
 // import { images } from "../entitis/images";
 // import { imagesRelation } from "../entitis/imagesRelation";
 
@@ -406,93 +407,454 @@ const controllersReview = {
         }
     },
 
+    // ConsultaTodos2: async (req: Request, res: Response): Promise<void> => {
+    //     try {
+    //         const id_user = req.params.id_user;
+    //         const id_logued = Number(id_user);
+    
+    //         // Consulta para obtener el ID del proveedor relacionado
+    //         const proveedor = await repositoryprovedor.createQueryBuilder("providers")
+    //             .leftJoinAndSelect("providers.user", "user")
+    //             .where("user.id_user = :id_user", { id_user: id_logued })
+    //             .getOne();
+    
+    //         const id_prov = proveedor?.id_provider;
+    
+    //         console.log("Roles:", { id_prov, id_logued });
+    
+    //         const informacion: any[] = [];
+    
+    //         // Consulta principal: comentarios de usuarios
+    //         const verificar = await AppDataSource.createQueryBuilder()
+    //             .select("appointment")
+    //             .from("appointment", "appointment")
+    //             .leftJoinAndSelect("appointment.providers", "providers")
+    //             .leftJoinAndSelect("appointment.users", "users")
+    //             .leftJoinAndSelect("appointment.interaccion", "interaccion")
+    //             .leftJoinAndSelect("interaccion.reviews", "review")
+    //             .where("appointment.usersIdUser = :id_logued", { id_logued })
+    //             .andWhere("interaccion.id_interaccion IS NOT NULL")
+    //             .getMany();
+    
+    //         // Consulta principal: comentarios respondidos
+    //         const verificar2 = await AppDataSource.createQueryBuilder()
+    //             .select("appointment")
+    //             .from("appointment", "appointment")
+    //             .leftJoinAndSelect("appointment.providers", "providers")
+    //             .leftJoinAndSelect("appointment.users", "users")
+    //             .leftJoinAndSelect("appointment.interaccion", "interaccion")
+    //             .leftJoinAndSelect("interaccion.reviews", "review")
+    //             .where("appointment.providersIdProvider = :id_prov", { id_prov })
+    //             .andWhere("interaccion.id_interaccion IS NOT NULL")
+    //             .getMany();
+    
+    //         console.log("Consulta 1 (usuarios):", verificar);
+    //         console.log("Consulta 2 (proveedores):", verificar2);
+    
+    //         if(verificar.length === 0 && verificar2.length === 0) {
+    //             res.status(200).json({ mensaje: "Sin comentarios" });
+    //             return;
+    //         }
+    //         // Procesamiento de resultados
+    //         for (const appointment of verificar) {
+    //             const { interaccion, users, id_appointment } = appointment;
+    
+    //             for (const appointment2 of verificar2) {
+    //                 const { interaccion: interaccion2, id_appointment: id_appointment2 } = appointment2;
+    //                     console.log("Coincidencia encontrada para appointment:", id_appointment);
+    //                     console.log("Coincidencia encontrada para appointment2:", id_appointment2);
+    //                 if (id_appointment === id_appointment2) {
+    //                     console.log("Coincidencia encontrada para appointment:", id_appointment);
+    
+    //                 }
+                    
+    //                     // Determinar el origen
+    //                     const id_user_origen = users?.id_user;
+    //                     const origenComoUser = id_user_origen === id_logued;
+    
+    //                     // Buscar usuario relacionado al proveedor
+    //                     const proveedorRelacionado = await repositoryprovedor.findOne({
+    //                         where: { id_provider: appointment.providers?.id_provider },
+    //                         relations: ["user"],
+    //                     });
+    
+    //                     const datos = {
+    //                         usuario: {
+    //                             id_user: proveedorRelacionado?.user.id_user || id_user_origen,
+    //                             name_user: proveedorRelacionado?.user.name_user || users?.name_user,
+    //                             lastname: proveedorRelacionado?.user.lastname || users?.lastname,
+    //                             origenComoUser,
+    //                             id_appointment,
+    //                         },
+    //                         id_prov: appointment.providers?.id_provider,
+    //                         calificacion: {
+    //                             interaccion1: interaccion?.reviews,
+    //                             interaccion2: interaccion2?.reviews,
+    //                         },
+    //                     };
+
+    //                 console.log("Datos encontrados:", datos);
+    
+    //                     informacion.push(datos);
+    //                     console.log("Segundo for")
+    //                 }
+    //             console.log("Termino el primer for")
+    //         }
+    
+    //         console.log("Total de comentarios procesados:", informacion.length);
+    
+    //         // Respuesta final
+    //         if (informacion.length === 0) {
+    //             res.status(200).json({ mensaje: "Sin comentarios" });
+    //             return;
+    //         }
+            
+    
+    //         res.status(200).json(informacion);
+    //     } catch (error) {
+    //         console.error("Error interno:", error);
+    //         res.status(500).json({ mensaje: "Error interno en el servidor" });
+    //     }
+    // },
+
+    // ConsultaTodos2: async (req: Request, res: Response): Promise<void> => {
+    //     try {
+    //         const id_user = req.params.id_user;
+    //         const id_logued = Number(id_user);
+    
+    //         // Consulta para obtener el ID del proveedor relacionado
+    //         const proveedor = await repositoryprovedor.createQueryBuilder("providers")
+    //             .leftJoinAndSelect("providers.user", "user")
+    //             .where("user.id_user = :id_user", { id_user: id_logued })
+    //             .getOne();
+    
+    //         const id_prov = proveedor?.id_provider;
+    
+    //         console.log("Roles:", { id_prov, id_logued });
+    
+    //         const informacion: any[] = [];
+    
+    //         // Consulta principal: comentarios de usuarios
+    //         const verificar = await AppDataSource.createQueryBuilder()
+    //             .select("appointment")
+    //             .from("appointment", "appointment")
+    //             .leftJoinAndSelect("appointment.providers", "providers")
+    //             .leftJoinAndSelect("appointment.users", "users")
+    //             .leftJoinAndSelect("appointment.interaccion", "interaccion")
+    //             .leftJoinAndSelect("interaccion.reviews", "review")
+    //             .where("appointment.usersIdUser = :id_logued", { id_logued })
+    //             .andWhere("interaccion.id_interaccion IS NOT NULL")
+    //             .getMany();
+    
+    //         // Consulta principal: comentarios respondidos
+    //         const verificar2 = await AppDataSource.createQueryBuilder()
+    //             .select("appointment")
+    //             .from("appointment", "appointment")
+    //             .leftJoinAndSelect("appointment.providers", "providers")
+    //             .leftJoinAndSelect("appointment.users", "users")
+    //             .leftJoinAndSelect("appointment.interaccion", "interaccion")
+    //             .leftJoinAndSelect("interaccion.reviews", "review")
+    //             .where("appointment.providersIdProvider = :id_prov", { id_prov })
+    //             .andWhere("interaccion.id_interaccion IS NOT NULL")
+    //             .getMany();
+    
+    //         console.log("Consulta 1 (usuarios):", verificar.length);
+    //         console.log("Consulta 2 (proveedores):", verificar2.length);
+            
+    //                 //saber cual es el arreglo mas grande
+    //         const arraylentgh = verificar.length >= verificar2.length ? verificar.length : verificar2.length;
+    //         console.log("Este es el arreglo mas grande",arraylentgh)
+    
+
+    //         if(verificar.length >0 && verificar2.length > 0) {
+    //             //condicion para que se tomen en cuneta ambos arreglos
+
+    //            // Procesamiento de resultados
+    //             for (const appointment of verificar) {
+    //                 const { interaccion, users, id_appointment } = appointment;
+        
+    //                 // console.log(verificar);
+    //                 console.log("Contenido de verificar - id_appointment:", id_appointment);//verificar2[0].interaccion?.id_interaccion);
+    //                 console.log("Criterio de búsqueda verificar2 - id_appointment:", verificar2[0].appointment?.id_appointment);
+    //                 console.log(verificar2)
+
+    //                 // Buscar coincidencias en verificar2 basado en id_interaccion
+    //                 let match= verificar2.find((element) => element.interaccion?.id_interaccion === interaccion?.id_interaccion);
+
+    //                 console.log("Coincidencia encontrada para match:", match);
+        
+    //                 if (match) {
+    //                     const { interaccion: interaccion2 } = match;
+        
+    //                     // Determinar el origen
+    //                     const id_user_origen = users?.id_user;
+    //                     const origenComoUser = id_user_origen === id_logued;
+        
+    //                     // Buscar usuario relacionado al proveedor
+    //                     const proveedorRelacionado = await repositoryprovedor.findOne({
+    //                         where: { id_provider: appointment.providers?.id_provider },
+    //                         relations: ["user"],
+    //                     });
+        
+    //                     const datos = {
+    //                         usuario: {
+    //                             id_user: proveedorRelacionado?.user?.id_user || id_user_origen || null,
+    //                             name_user: proveedorRelacionado?.user?.name_user || users?.name_user || "Sin nombre",
+    //                             lastname: proveedorRelacionado?.user?.lastname || users?.lastname || "Sin apellido",
+    //                             origenComoUser,
+    //                             id_appointment,
+    //                         },
+    //                         id_prov: appointment.providers?.id_provider || null,
+    //                         calificacion: {
+    //                             interaccion1: interaccion?.reviews || null,
+    //                             interaccion2: interaccion2?.reviews || null,
+    //                         },
+    //                     };
+        
+    //                     console.log("Datos procesados:", datos);
+        
+    //                     informacion.push(datos);
+    //                 } else {
+    //                     console.log(`Sin coincidencias para id_interaccion: ${interaccion?.id_interaccion}`);
+    //                 }
+    //             }
+    //         }else{
+    //             console.log("Tamaño de verificar 1:", verificar.length);
+    //             console.log("Tamaño de verificar 2:", verificar2.length);
+    //             console.log("termino de la condicion else") ;
+    //             res.status(200).json({ mensaje: "Sin comentarios" });
+    //             return; 
+    //         }
+    
+    //         console.log("Total de comentarios procesados:", informacion.length);
+    
+    //         // Respuesta final
+    //         if (informacion.length === 0) {
+    //             res.status(200).json({ mensaje: "Sin comentarios" });
+    //             console.log("Sin comentarios en el arreglo final");
+    //             return;
+    //         }
+    
+    //         res.status(200).json(informacion);
+    //     } catch (error) {
+    //         console.error("Error interno:", error);
+    //         res.status(500).json({ mensaje: "Error interno en el servidor" });
+    //     }
+    // },
+    
+    
+    // ConsultaTodos2: async (req: Request, res: Response): Promise<void> => {
+    //     try {
+    //         const id_user = req.params.id_user;
+    //         const id_logued = Number(id_user);
+    
+    //         // Obtener el ID del proveedor relacionado
+    //         const proveedor = await repositoryprovedor.createQueryBuilder("providers")
+    //             .leftJoinAndSelect("providers.user", "user")
+    //             .where("user.id_user = :id_user", { id_user: id_logued })
+    //             .getOne();
+    
+    //         const id_prov = proveedor?.id_provider;
+    
+    //         console.log("Roles:", { id_prov, id_logued });
+    
+    //         // Consultar comentarios de usuarios
+    //         const verificar = await AppDataSource.createQueryBuilder()
+    //             .select("appointment")
+    //             .from("appointment", "appointment")
+    //             .leftJoinAndSelect("appointment.providers", "providers")
+    //             .leftJoinAndSelect("appointment.users", "users")
+    //             .leftJoinAndSelect("appointment.interaccion", "interaccion")
+    //             .leftJoinAndSelect("interaccion.reviews", "review")
+    //             .where("appointment.usersIdUser = :id_logued", { id_logued })
+    //             .andWhere("interaccion.id_interaccion IS NOT NULL")
+    //             .getMany();
+    
+    //         // Consultar comentarios respondidos
+    //         const verificar2 = await AppDataSource.createQueryBuilder()
+    //             .select("appointment")
+    //             .from("appointment", "appointment")
+    //             .leftJoinAndSelect("appointment.providers", "providers")
+    //             .leftJoinAndSelect("appointment.users", "users")
+    //             .leftJoinAndSelect("appointment.interaccion", "interaccion")
+    //             .leftJoinAndSelect("interaccion.reviews", "review")
+    //             .where("appointment.providersIdProvider = :id_prov", { id_prov })
+    //             .andWhere("interaccion.id_interaccion IS NOT NULL")
+    //             .getMany();
+    
+    //         console.log("Consulta 1 (usuarios):", verificar.length);
+    //         console.log("Consulta 2 (proveedores):", verificar2.length);
+    
+    //         if (verificar.length === 0 && verificar2.length === 0) {
+    //             res.status(200).json({ mensaje: "Sin comentarios" });
+    //             return;
+    //         }
+    
+    //         const informacion: any[] = [];
+    
+    //         // Procesar coincidencias en `appointment`
+    //         for (const appointment of verificar) {
+    //             const { id_appointment } = appointment;
+    
+    //             // Buscar coincidencias en `verificar2` basado en `id_appointment`
+    //             const match = verificar2.find(
+    //                 (element) => element.id_appointment === id_appointment
+    //             );
+
+    //             console.log(match)
+    
+    //             if (match) {
+    //                 const datos = {
+    //                     appointmentId: id_appointment,
+    //                     usuario: {
+    //                         id_user: appointment.users?.id_user || null,
+    //                         name_user: appointment.users?.name_user || "Sin nombre",
+    //                         lastname: appointment.users?.lastname || "Sin apellido",
+    //                     },
+    //                     proveedor: {
+    //                         id_provider: match.providers?.id_provider || null,
+    //                         nombre: match.providers?.nombre || "Sin nombre",
+    //                     },
+    //                     comentarios: {
+    //                         interaccion1: appointment.interaccion?.reviews || null,
+    //                         interaccion2: match.interaccion?.reviews || null,
+    //                     },
+    //                 };
+    
+    //                 console.log("Coincidencia encontrada:", datos);
+    //                 informacion.push(datos);
+    //             } else {
+    //                 console.log(`Sin coincidencias para id_appointment: ${id_appointment}`);
+    //             }
+    //         }
+    
+    //         console.log("Total de comentarios procesados:", informacion.length);
+    
+    //         if (informacion.length === 0) {
+    //             res.status(200).json({ mensaje: "Sin comentarios" });
+    //         } else {
+    //             res.status(200).json(informacion);
+    //         }
+    //     } catch (error) {
+    //         console.error("Error interno:", error);
+    //         res.status(500).json({ mensaje: "Error interno en el servidor" });
+    //     }
+    // },
     ConsultaTodos2: async (req: Request, res: Response): Promise<void> => {
-        try {
+        try{
             const id_user = req.params.id_user;
             const id_logued = Number(id_user);
     
-            // Consulta para obtener el ID del proveedor relacionado
-            const id_provedor = await repositoryprovedor.createQueryBuilder("providers")
+            // Obtener el ID del proveedor relacionado
+            const proveedor = await repositoryprovedor.createQueryBuilder("providers")
                 .leftJoinAndSelect("providers.user", "user")
                 .where("user.id_user = :id_user", { id_user: id_logued })
                 .getOne();
-    
-            const id_prov = id_provedor?.id_provider;
-    
-            // Roles
-            const roles = [id_prov, id_logued];
-            console.log("Roles:", roles);
-    
-            const informacion: any[] = [];
-    
-            // Consulta principal
-            const verificar = await AppDataSource.createQueryBuilder()
-                .select("appointment")
-                .from("appointment", "appointment")
-                .leftJoinAndSelect("appointment.providers", "providers")
-                .leftJoinAndSelect("appointment.users", "users")
-                .leftJoinAndSelect("appointment.interaccion", "interaccion")
-                .leftJoinAndSelect("interaccion.reviews", "review")
-                .where("(appointment.usersIdUser = :id_logued OR appointment.providersIdProvider = :id_prov)", {
-                    id_logued,
-                    id_prov,
-                })
-                .andWhere("interaccion.id_interaccion IS NOT NULL")
-                .getMany();
 
-                
+            if(proveedor){             
+                const id_prov = proveedor?.id_provider;
+                console.log("Roles:", { id_prov, id_logued });
+        
+                // Consultar comentarios de usuarios
+                const verificar = await AppDataSource.createQueryBuilder()
+                    .select("appointment")
+                    .from("appointment", "appointment")
+                    .leftJoinAndSelect("appointment.providers", "providers")
+                    .leftJoinAndSelect("appointment.users", "users")
+                    .leftJoinAndSelect("appointment.interaccion", "interaccion")
+                    .leftJoinAndSelect("interaccion.reviews", "review")
+                    .where("appointment.usersIdUser = :id_logued", { id_logued })
+                    .andWhere("interaccion.id_interaccion IS NOT NULL")
+                    .getMany();
+        
+                // Consultar comentarios respondidos
+                const verificar2 = await AppDataSource.createQueryBuilder()
+                    .select("appointment")
+                    .from("appointment", "appointment")
+                    .leftJoinAndSelect("appointment.providers", "providers")
+                    .leftJoinAndSelect("appointment.users", "users")
+                    .leftJoinAndSelect("appointment.interaccion", "interaccion")
+                    .leftJoinAndSelect("interaccion.reviews", "review")
+                    .where("appointment.providersIdProvider = :id_prov", { id_prov })
+                    .andWhere("interaccion.id_interaccion IS NOT NULL")
+                    .getMany();
+
+                console.log("Consulta 1 (usuarios):", verificar.length);
+                console.log("Consulta 2 (proveedores):", verificar2.length);
+
+                //validar el arreglo mas grande
+                const arraylentgh = verificar.length >= verificar2.length ? verificar.length : verificar2.length;
+
+                console.log("Este es el tamaño del arreglo")
+                console.log(arraylentgh)
+
+                //validacio para saber si ambos arreglos tienen datos
+                if(verificar.length >0 && verificar2.length > 0) {
+                    
+                    for (let i = 0; i < arraylentgh; i++) {
+
+                        const appointment = verificar[i];
+                        const appointment2 = verificar2[i];
     
-            console.log("Consulta principal ejecutada:", verificar);
+                        console.log("Coincidencia encontrada para appointment:", appointment.id_appointment);
+                        console.log("Coincidencia encontrada para appointment2:", appointment2.id_appointment);
+                   
+                        
+                        const datos = {
+                            appointmentId: appointment.id_appointment,
+                            appointmentId2: appointment2.id_appointment,
+                            usuario: {
+                                id_user: appointment.users?.id_user ||appointment2.users?.id_user,
+                                name_user: appointment.users?.name_user || appointment2.users?.name_user,
+                                lastname: appointment.users?.lastname ||appointment2.users?.lastname,
+                            },
+                            proveedor: {
+                                id_provider: appointment.providers?.id_provider || appointment2.providers?.id_provider,
+                                nombre: appointment.providers?.nombre || appointment2.providers?.nombre,
+                            },
+                            comentarios: {
+                                interaccion1: appointment.interaccion?.reviews || null,
+                                interaccion2: appointment2.interaccion?.reviews || null,
+                            },
+                        };
+                        res.status(200).json({ response:datos});
     
-            // Procesamiento de los resultados
-            for (const appointment of verificar) {
-                const { interaccion, users, providers, id_appointment } = appointment;
-              
-                console.log(interaccion)
-                let  id_us = users?.id_user;
-                let  id_pro = providers?.id_provider;
-                const origenComoUser = users?.id_user === id_logued;
+                        if (appointment.id_appointment === appointment2.id_appointment) {
+                            console.log("Coincidencia encontrada para appointment:", appointment.id_appointment);
+                        }
+                    }
+                }else{
+                    res.json({message:"No hay datos en algun de los arreglos"})
 
+                    //hacer las consultas por separado
+                }
 
-                const usuario = await repositoryprovedor.findOne({ where: { id_provider: id_pro }, relations:["user"] });// Desestructuración y generación del resultado
-                let id_pro_user = usuario?.user.id_user===id_logued;
+            }else{
+                res.json({message:"No se encontro el proveedor"})
 
-
-                console.log("Usuario:", usuario);
-                const datos = {
-                    usuario:{
-                    id_user: usuario?.user.id_user,
-                    name_user: usuario?.user.name_user,
-                    lastname: usuario?.user.lastname,
-                    origenComoUser:id_pro_user,
-                    id_appointment,
-                    },
-                    id_prov: providers?.id_provider,
-                    // id_appointment,
-                    calificacion: {
-                    interaccion: interaccion?.reviews,
-                    },
-                };
-    
-                informacion.push(datos);
+                //hacer las consultas por id_usuario
             }
+        
     
-            // console.log("Tamaño de los comentarios:", verificar.length);
-            // console.log("Información procesada:", informacion);
+            // if (verificar.length === 0 && verificar2.length === 0) {
+            //     res.status(200).json({ mensaje: "Sin comentarios" });
+            //     return;
+            // }
     
-            // Respuesta final
-            if (informacion.length === 0) {
-                res.status(200).json({ mensaje: "Sin comentarios" });
-                return;
-            }
+            // const informacion: any[] = [];
     
-            res.status(200).json(informacion);
-        } catch (error) {
-            console.error("Error interno:", error);
-            res.status(500).json({ mensaje: "Error interno en el servidor" });
+            // // Procesar coincidencias en `appointment`
+            // for (const appointment of verificar) {
+            //     const { id_appointment } = appointment;
+    
+            //     // Buscar coincidencias en `verificar2` basado en `id_appointment`
+             
+            // }
+        }catch(error){
+            console.log(error)
+            res.status(500).json({message:"Error interno en el servidor"})
         }
     },
-    
 
     edit:async(req:Request,res:Response):Promise<void>=>{
         try {
