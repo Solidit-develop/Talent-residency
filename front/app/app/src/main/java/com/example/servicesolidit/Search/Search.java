@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.servicesolidit.FeedFlow.CardAdapter;
 import com.example.servicesolidit.ProviderInformationFlow.VisitProvider;
 import com.example.servicesolidit.R;
+import com.example.servicesolidit.Utils.Dtos.Responses.SearchProvider.SearchProviderDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.SearchProvider.SearchProviderResponseDto;
 import com.google.gson.Gson;
 
@@ -32,7 +33,7 @@ public class Search extends Fragment implements SearchProviderView, CardAdapter.
     private SearchPresenter presenter;
     private SearchProviderAdapter adapter;
 
-    private ArrayList<SearchProviderResponseDto> providersFound;
+    private ArrayList<SearchProviderDto> providersFound;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,12 +60,12 @@ public class Search extends Fragment implements SearchProviderView, CardAdapter.
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
-    public void onResultFound(List<SearchProviderResponseDto> response) {
+    public void onResultFound(SearchProviderResponseDto response) {
         Gson gson = new Gson();
         this.providersFound.clear();
-        if(!response.isEmpty()){
-            this.providersFound.addAll(response);
-            Log.i("SearchClass", "Se encontró: " + response.size());
+        if(!response.getResponse().isEmpty()){
+            this.providersFound.addAll(response.getResponse());
+            Log.i("SearchClass", "Se encontró: " + response.getResponse().size());
         }else{
             Log.i("SearchClass", "No se encontraron negocios que coincidan");
         }

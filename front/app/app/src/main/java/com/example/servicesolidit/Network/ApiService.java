@@ -89,7 +89,7 @@ public interface ApiService {
     Call<ArrayList<AppointmentItemResponse>> obtenerAppointmntsListAsCustomer(@Path("idUser") int idUser);
 
     @GET("provider/provedores/{item}")
-    Call<List<SearchProviderResponseDto>> searchProvider(@Path("item")String item);
+    Call<SearchProviderResponseDto> searchProvider(@Path("item")String item);
 
     @Multipart
     @POST("images/upload")

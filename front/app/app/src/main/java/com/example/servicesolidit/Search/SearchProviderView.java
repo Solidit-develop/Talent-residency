@@ -5,7 +5,7 @@ import com.example.servicesolidit.Utils.Dtos.Responses.SearchProvider.SearchProv
 import java.util.List;
 
 public interface SearchProviderView {
-    void onResultFound(List<SearchProviderResponseDto> response);
+    void onResultFound(SearchProviderResponseDto response);
     void onErrorResult(String error);
     void onShowProgress();
     void onHideProgress();

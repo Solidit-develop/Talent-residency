@@ -22,13 +22,13 @@ public class SearchPresenter {
     }
 
     public void searchProvider(String item){
-        Call<List<SearchProviderResponseDto>> call = service.searchProvider(item);
-        call.enqueue(new Callback<List<SearchProviderResponseDto>>() {
+        Call<SearchProviderResponseDto> call = service.searchProvider(item);
+        call.enqueue(new Callback<SearchProviderResponseDto>() {
             @Override
-            public void onResponse(Call<List<SearchProviderResponseDto>> call, Response<List<SearchProviderResponseDto>> response) {
+            public void onResponse(Call<SearchProviderResponseDto> call, Response<SearchProviderResponseDto> response) {
                 if(response.isSuccessful() && response.body()!=null){
-                    List<SearchProviderResponseDto> result = response.body();
-                    Log.i("SearchPresenter", "Se encontraron " + result.size() + " resultados");
+                    SearchProviderResponseDto result = response.body();
+                    Log.i("SearchPresenter", "Se encontraron " + result.getResponse().size() + " resultados");
                     view.onResultFound(result);
                 }else{
                     Log.i("SearchPresenter", "Ocurrió un error" + response.isSuccessful());
@@ -36,7 +36,7 @@ public class SearchPresenter {
             }
 
             @Override
-            public void onFailure(Call<List<SearchProviderResponseDto>> call, Throwable t) {
+            public void onFailure(Call<SearchProviderResponseDto> call, Throwable t) {
                 view.onErrorResult(t.getMessage());
             }
         });
