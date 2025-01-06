@@ -14,6 +14,7 @@ import com.example.servicesolidit.Utils.Dtos.Responses.Agreements.AgreementRespo
 import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentItemResponse;
 import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentListResponse;
 import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Comments.EnableToCommentResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.Conversatoins.ConversationResponse;
 import com.example.servicesolidit.Utils.Dtos.Responses.Feed.FeedResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.ImagesRelational.ProviderImageLoadedResponseDto;
@@ -106,4 +107,6 @@ public interface ApiService {
     @GET("relational/print/{tableToRelation}/{idUsedOn}/{funcionality}")
     Call<RelationalImagesResponseDto> getRelationalImages(@Path("tableToRelation")String tableToRelation, @Path("idUsedOn")String idUsedOn, @Path("funcionality")String funcionality);
 
+    @GET("comments-vews/enable_comment/{idUser}/{idProvider}")
+    Call<EnableToCommentResponseDto> enableToComentSection(@Path("idUser")int idLogged, @Path("idProvider") int idProviderToLoad);
 }

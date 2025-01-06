@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -37,6 +38,8 @@ public class VisitProvider extends Fragment implements VisitProviderView{
     private Button btnTryToStartReview;
     private ProgressBar progressVisitProvider;
 
+    private LinearLayout containerCommentSection;
+
     public VisitProvider(int idProviderToLoad) {
         this.idProviderToLoad = idProviderToLoad;
     }
@@ -52,6 +55,7 @@ public class VisitProvider extends Fragment implements VisitProviderView{
         imageExampleOnCarousell = view.findViewById(R.id.imageExampleOnCarousell);
         tvNoImagesFound = view.findViewById(R.id.tvNoImagesFound);
         this.progressVisitProvider = view.findViewById(R.id.progressVisitProvider);
+        this.containerCommentSection = view.findViewById(R.id.containerCommentSection);
 
         idLogged = getIdUserLogged();
 
@@ -64,10 +68,8 @@ public class VisitProvider extends Fragment implements VisitProviderView{
         requestDto.setIdUsedOn(String.valueOf(this.idProviderToLoad));
         this.presenter.getProviderImagesByComments(requestDto);
 
-        this.presenter.getAppointments(idLogged);
-
         Log.i("VisitProvider", "Intenta buscar una interacción entre logged: " + idLogged + " y el provider selected: " + idProviderToLoad);
-            //this.presenter.tryToStartReview();
+        this.enableCommentsSection(idLogged, idProviderToLoad);
 
 
         btnInfProfile.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +85,11 @@ public class VisitProvider extends Fragment implements VisitProviderView{
         Log.i("VisitProviderClass", "idProvider recibido:  " + idProviderToLoad);
 
         return view;
+    }
+
+    private void enableCommentsSection(int idLogged, int idProviderToLoad) {
+        onShowProgress();
+        this.presenter.enableCommentsSection(idLogged, idProviderToLoad);
     }
 
     public int getIdUserLogged(){
@@ -132,42 +139,20 @@ public class VisitProvider extends Fragment implements VisitProviderView{
     }
 
     @Override
-    public void onSuccessObtainResponse(AppointmentListResponse result) {
-        if(result != null){
-            if(result.regreso != null){
-                if(result.regreso.isEmpty()){
-                    // TODO: Fix validation of relation between provider and customer
-                    Log.i("VisitProvider", "No se encontró un appointment relacionado al user logged: " + idLogged);
-                }else{
-                    Gson gson = new Gson();
-                    Log.i("VisitProvider", "Se econtró lo siguiente: " + gson.toJson(result));
-                    boolean showButton = validateIfThereIsAppointmentBetweenLoggedAndSelected(result, idLogged, idProviderToLoad);
-                    if(showButton){
-                        this.btnTryToStartReview.setVisibility(View.VISIBLE);
-                    }else{
-                        this.btnTryToStartReview.setVisibility(View.GONE);
-                    }
-                }
-            }
-        }
-    }
-
-    private boolean validateIfThereIsAppointmentBetweenLoggedAndSelected(AppointmentListResponse regreso, int idLogged, int idProviderToLoad) {
-        boolean result = false;
-        for (AppointmentItemResponse item : regreso.getRegreso()) {
-            if(item.getIdProvider() == idProviderToLoad){
-                result = true;
-                break;
-            }
-        }
-        return result;
+    public void onErrorEnableCommentsSection(String ocurrioUnError) {
+        Log.i("VisitProvider", "ErrorOnEnableCommentsSection: " + ocurrioUnError);
+        onHideProgress();
     }
 
     @Override
-    public void onErrorObtainResponse(String s) {
-        Log.i("VisitProvider", "Error: " + s);
+    public void enableCommentsSection(boolean enableToComment) {
+        if(enableToComment){
+            this.containerCommentSection.setVisibility(View.VISIBLE);
+        }else {
+            this.containerCommentSection.setVisibility(View.GONE);
+        }
+        onHideProgress();
     }
-
 
 
 }

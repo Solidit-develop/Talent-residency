@@ -8,6 +8,6 @@ public interface VisitProviderView {
     void onErrorGetImageInformation(String error);
     void onShowProgress();
     void onHideProgress();
-    void onSuccessObtainResponse(AppointmentListResponse result);
-    void onErrorObtainResponse(String s);
+    void onErrorEnableCommentsSection(String error);
+    void enableCommentsSection(boolean enableToComment);
 }
