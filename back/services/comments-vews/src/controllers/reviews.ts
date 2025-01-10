@@ -741,7 +741,6 @@ const controllersReview = {
     //     }
     // },
 
-    /* Generado por mi
     ObtenerComentariosPorProveedor: async (req: Request, res: Response): Promise<void> =>{
         try{
             const idProvider = req.params.id_provider;
@@ -809,8 +808,7 @@ const controllersReview = {
         }
     },
 
-    */
-
+/*
     // Optimizado por GPT
     ObtenerComentariosPorProveedor: async (req: Request, res: Response): Promise<void> => {
         console.log("Test de logeeo tambien");
@@ -859,7 +857,7 @@ const controllersReview = {
         }
     },
     
-
+*/
     ConsultaTodos2: async (req: Request, res: Response): Promise<void> => {
         console.log("Test de logeeo tambien");
         try {
