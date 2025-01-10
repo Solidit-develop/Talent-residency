@@ -785,12 +785,17 @@ const controllersReview = {
                         })
                     });
 
+                    console.log("Interacciones donde las citas son del proveedor " + idProvider + " Interacciones: " + interactionList.length);
+
                     var reviews = await repositoryreview.createQueryBuilder("review")
-                                                            .getMany();
+                                                        .leftJoinAndSelect("review.interacciones", "interaccion") // Carga las interacciones relacionadas con la review
+                                                        .getMany();
 
                     var comments : review[] = new Array();
 
                     if(interactionListClean.length !=0){
+                        console.log("Interacciones clean encontradas:", JSON.stringify(interactionListClean, null, 2));
+
                         interactionListClean.forEach(interactItem => {
                             reviews.forEach(reviewItem => {
                                 var commentsRelated = interactItem.reviews;
