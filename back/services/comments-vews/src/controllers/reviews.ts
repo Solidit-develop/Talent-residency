@@ -800,16 +800,19 @@ const controllersReview = {
                         console.log("Interacciones clean encontradas:", JSON.stringify(interactionListClean, null, 2));
                         console.log("Reviews encontradas: " + JSON.stringify(reviews, null, 2));
                         
-                        interactionListClean.forEach(interactItem => {
-                            reviews.forEach(reviewItem => {
-                                var commentsRelated = interactItem.reviews;
-                                commentsRelated.forEach(comment =>{
-                                    if(comment.id_review = reviewItem.id_review){
-                                        comments.push(comment);
+
+                        interactionListClean.forEach(interactionItem => {
+                            interactionItem.reviews.forEach(reviewFromInteraction => {
+                                reviews.forEach(reviewItem => {
+                                    if(reviewItem.id_review == reviewFromInteraction.id_review){
+                                        comments.push(reviewItem);
                                     }
                                 })
                             })
                         })
+
+                        console.log("Comentarios relacionados: ", JSON.stringify(comments, null, 2))
+                
                     }
 
                     var commentsToReturn = Array();
@@ -821,7 +824,7 @@ const controllersReview = {
                         })
                     })
 
-                    res.status(200).json({response: comments})
+                    res.status(200).json({response: commentsToReturn})
                 }
                 else{
                     console.log("No se encontraron citas o interacciones");
