@@ -861,118 +861,49 @@ const controllersReview = {
     
 
     ConsultaTodos2: async (req: Request, res: Response): Promise<void> => {
-        try{
-            const id_user = req.params.id_user;
-            const id_logued = Number(id_user);
-    
-            // Obtener el ID del proveedor relacionado
-            const proveedor = await repositoryprovedor.createQueryBuilder("providers")
-                .leftJoinAndSelect("providers.user", "user")
-                .where("user.id_user = :id_user", { id_user: id_logued })
-                .getOne();
-
-            if(proveedor){             
-                const id_prov = proveedor?.id_provider;
-                console.log("Roles:", { id_prov, id_logued });
-        
-                // Consultar comentarios de usuarios
-                const verificar = await AppDataSource.createQueryBuilder()
-                    .select("appointment")
-                    .from("appointment", "appointment")
-                    .leftJoinAndSelect("appointment.providers", "providers")
-                    .leftJoinAndSelect("appointment.users", "users")
-                    .leftJoinAndSelect("appointment.interaccion", "interaccion")
-                    .leftJoinAndSelect("interaccion.reviews", "review")
-                    .where("appointment.usersIdUser = :id_logued", { id_logued })
-                    .andWhere("interaccion.id_interaccion IS NOT NULL")
-                    .getMany();
-        
-                // Consultar comentarios respondidos
-                const verificar2 = await AppDataSource.createQueryBuilder()
-                    .select("appointment")
-                    .from("appointment", "appointment")
-                    .leftJoinAndSelect("appointment.providers", "providers")
-                    .leftJoinAndSelect("appointment.users", "users")
-                    .leftJoinAndSelect("appointment.interaccion", "interaccion")
-                    .leftJoinAndSelect("interaccion.reviews", "review")
-                    .where("appointment.providersIdProvider = :id_prov", { id_prov })
-                    .andWhere("interaccion.id_interaccion IS NOT NULL")
-                    .getMany();
-
-                console.log("Consulta 1 (usuarios):", verificar.length);
-                console.log("Consulta 2 (proveedores):", verificar2.length);
-
-                //validar el arreglo mas grande
-                const arraylentgh = verificar.length >= verificar2.length ? verificar.length : verificar2.length;
-
-                console.log("Este es el tamaño del arreglo")
-                console.log(arraylentgh)
-
-                //validacio para saber si ambos arreglos tienen datos
-                if(verificar.length >0 && verificar2.length > 0) {
-                    
-                    for (let i = 0; i < arraylentgh; i++) {
-
-                        const appointment = verificar[i];
-                        const appointment2 = verificar2[i];
-    
-                        console.log("Coincidencia encontrada para appointment:", appointment.id_appointment);
-                        console.log("Coincidencia encontrada para appointment2:", appointment2.id_appointment);
-                   
-                        
-                        const datos = {
-                            appointmentId: appointment.id_appointment,
-                            appointmentId2: appointment2.id_appointment,
-                            usuario: {
-                                id_user: appointment.users?.id_user ||appointment2.users?.id_user,
-                                name_user: appointment.users?.name_user || appointment2.users?.name_user,
-                                lastname: appointment.users?.lastname ||appointment2.users?.lastname,
-                            },
-                            proveedor: {
-                                id_provider: appointment.providers?.id_provider || appointment2.providers?.id_provider,
-                                nombre: appointment.providers?.nombre || appointment2.providers?.nombre,
-                            },
-                            comentarios: {
-                                interaccion1: appointment.interaccion?.reviews || null,
-                                interaccion2: appointment2.interaccion?.reviews || null,
-                            },
-                        };
-                        res.status(200).json({ response:datos});
-    
-                        if (appointment.id_appointment === appointment2.id_appointment) {
-                            console.log("Coincidencia encontrada para appointment:", appointment.id_appointment);
-                        }
-                    }
-                }else{
-                    res.json({message:"No hay datos en algun de los arreglos"})
-
-                    //hacer las consultas por separado
-                }
-
-            }else{
-                res.json({message:"No se encontro el proveedor"})
-
-                //hacer las consultas por id_usuario
+        console.log("Test de logeeo tambien");
+        try {
+            const idProvider = parseInt(req.params.id_provider, 10);
+            console.log("Se obtiene el idProvider: ", idProvider);
+            if (isNaN(idProvider)) {
+                res.status(400).json({ message: "El parámetro id_provider debe ser un número válido." });
             }
-        
     
-            // if (verificar.length === 0 && verificar2.length === 0) {
-            //     res.status(200).json({ mensaje: "Sin comentarios" });
-            //     return;
-            // }
+            const proveedor = await repositoryprovedor
+                .createQueryBuilder("providers")
+                .where("providers.id_provider = :id_provider", { id_provider: idProvider })
+                .getOne();
     
-            // const informacion: any[] = [];
+            if (!proveedor) {
+                console.log("No se encontró proveedor");
+                res.status(404).json({ message: "No se encontró el proveedor" });
+            }
     
-            // // Procesar coincidencias en `appointment`
-            // for (const appointment of verificar) {
-            //     const { id_appointment } = appointment;
+            // Obtén los comentarios directamente desde la base de datos
+            const comments = await repositoryreview
+                .createQueryBuilder("review")
+                .innerJoin("review.interaccion", "interaccion")
+                .innerJoin("interaccion.appointment", "appointment")
+                .innerJoin("appointment.providers", "providers")
+                .where("providers.id_provider = :id_provider", { id_provider: idProvider })
+                .select(["review.comment", "review.calificacion"])
+                .getRawMany();
     
-            //     // Buscar coincidencias en `verificar2` basado en `id_appointment`
-             
-            // }
-        }catch(error){
-            console.log(error)
-            res.status(500).json({message:"Error interno en el servidor"})
+            if (comments.length === 0) {
+                console.log("No se encontraron comentarios");
+                res.status(200).json({ message: "No hay comentarios para este proveedor", comments: [] });
+            }
+    
+            // Estructura final
+            const formattedComments = comments.map(comment => ({
+                comentario: comment.comment,
+                calificacion: comment.calificacion,
+            }));
+    
+            res.status(200).json({ comments: formattedComments });
+        } catch (error) {
+            console.error("Error al obtener comentarios:", error);
+            res.status(500).json({ message: "Error interno en el servidor" });
         }
     },
 
