@@ -757,48 +757,61 @@ const controllersReview = {
                                                                 .where("providers.id_provider = :id_provider", {id_provider:proveedor.id_provider})
                                                                 .getMany();
 
+                console.log("Citas encontradas: " + appointmentsList);
+
                 // Obtiene las interacciones
                 var interactionList = await repositoryinteraccion.createQueryBuilder("interaccion")
                                                                     .getMany();
+
+                console.log("Interacciones encontradas: " + interactionList);
+
                 var interactionListClean: interaccion[] = new Array();
 
                 // Se queda solo con las interacciones que hacen match con las citas del proveedor
-                interactionList.forEach(interaccionItem => {
-                    appointmentsList.forEach(appItem => {
-                        if(interaccionItem.appointment.id_appointment == appItem.id_appointment){
-                            interactionListClean.push(interaccionItem);
-                        }
-                    })
-                });
+                if(appointmentsList.length != 0 && interactionList.length != 0){
+                    console.log("Sí hay citas")
+                    interactionList.forEach(interaccionItem => {
+                        appointmentsList.forEach(appItem => {
+                            if(interaccionItem.appointment.id_appointment == appItem.id_appointment){
+                                interactionListClean.push(interaccionItem);
+                            }
+                        })
+                    });
 
-                var reviews = await repositoryreview.createQueryBuilder("review")
-                                                        .getMany();
+                    var reviews = await repositoryreview.createQueryBuilder("review")
+                                                            .getMany();
 
-                var comments : review[] = new Array();
+                    var comments : review[] = new Array();
 
-                if(interactionListClean.length !=0){
-                    interactionListClean.forEach(interactItem => {
-                        reviews.forEach(reviewItem => {
-                            var commentsRelated = interactItem.reviews;
-                            commentsRelated.forEach(comment =>{
-                                if(comment.id_review = reviewItem.id_review){
-                                    comments.push(comment);
-                                }
+                    if(interactionListClean.length !=0){
+                        interactionListClean.forEach(interactItem => {
+                            reviews.forEach(reviewItem => {
+                                var commentsRelated = interactItem.reviews;
+                                commentsRelated.forEach(comment =>{
+                                    if(comment.id_review = reviewItem.id_review){
+                                        comments.push(comment);
+                                    }
+                                })
                             })
                         })
+                    }
+
+                    var commentsToReturn = Array();
+
+                    comments.forEach(comment => {
+                        commentsToReturn.push({
+                            comentario: comment.comment,
+                            calificacion: comment.calificacion
+                        })
                     })
+
+                    res.status(200).json({response: comments})
                 }
-
-                var commentsToReturn = Array();
-
-                comments.forEach(comment => {
-                    commentsToReturn.push({
-                        comentario: comment.comment,
-                        calificacion: comment.calificacion
-                    })
-                })
-
-                res.status(200).json({response: comments})
+                else{
+                    console.log("No se encontraron citas o interacciones");
+                    console.log("Citas: " + appointmentsList.length + " Interacciones: " + interactionList.length);
+                    res.status(404).json({message: "No se encontraron comentarios con el proveedor " + idProvider});
+                }
 
             }else{
                 // No se encontró el proveedor
