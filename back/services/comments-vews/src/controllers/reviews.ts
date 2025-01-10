@@ -762,7 +762,6 @@ const controllersReview = {
                 var interactionList = await repositoryinteraccion.createQueryBuilder("interaccion")
                                                                     .leftJoinAndSelect("interaccion.appointment", "appointment") // Incluye appointments
                                                                     .leftJoinAndSelect("interaccion.reviews", "review") // Incluye reviews relacionadas
-                                                                    .where("appointment.id_appointment = :id_appointment", { id_appointment: 7 }) // Filtra por una cita específica
                                                                     .getMany();
 
                
