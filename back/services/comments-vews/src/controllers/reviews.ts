@@ -744,11 +744,14 @@ const controllersReview = {
     ObtenerComentariosPorProveedor: async (req: Request, res: Response): Promise<void> =>{
         try{
             const idProvider = req.params.id_provider;
+            console.log("Buscar proveedor ", idProvider);
             const proveedor = await repositoryprovedor.createQueryBuilder("providers")
                                                         .where("providers.id_provider = :id_provider", {id_provider:idProvider})
                                                         .getOne();
             if(proveedor){
                 // Obtiene las citas de un proveedor
+                console.log("Buscar citas");
+
                 var appointmentsList = await reppsitoryappointment.createQueryBuilder("appointment")
                                                                 .leftJoinAndSelect("appointment.providers", "providers")
                                                                 .where("providers.id_provider = :id_provider", {id_provider:proveedor.id_provider})
@@ -804,6 +807,7 @@ const controllersReview = {
             }
                                                 
         }catch(error){
+            console.log("CatchError " , error);
             res.status(500).json({message:"Error interno en el servidor"})
         }
     },
