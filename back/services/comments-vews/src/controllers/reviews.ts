@@ -760,6 +760,7 @@ const controllersReview = {
                 
                 // Obtiene las interacciones
                 var interactionList = await repositoryinteraccion.createQueryBuilder("interaccion")
+                                                                    .leftJoinAndSelect("interaccion.appointment", "appointment") // Carga la relación con appointment
                                                                     .getMany();
 
                
