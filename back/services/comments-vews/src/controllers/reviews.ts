@@ -780,7 +780,7 @@ const controllersReview = {
 
                     interactionList.forEach(interaccionItem => {
                         appointmentsList.forEach(appItem => {
-                            if(interaccionItem.appointment.id_appointment == appItem.id_appointment){
+                            if(interaccionItem.appointment.id_appointment == appItem.id_appointment && appItem.providers.id_provider == Number(idProvider)){
                                 interactionListClean.push(interaccionItem);
                             }
                         })
