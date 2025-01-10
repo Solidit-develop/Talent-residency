@@ -1,11 +1,16 @@
 package com.example.servicesolidit.ProviderInformationFlow;
 
+import android.util.Log;
+
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
+import com.example.servicesolidit.Utils.Dtos.Requests.CreateCommentRequest;
 import com.example.servicesolidit.Utils.Dtos.Requests.RelationalImagesRequestDto;
-import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentListResponse;
+import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.Comments.EnableToCommentResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Comments.CommentsResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.ImagesRelational.RelationalImagesResponseDto;
+import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,6 +61,53 @@ public class VisitProviderPresenter {
             @Override
             public void onFailure(Call<EnableToCommentResponseDto> call, Throwable t) {
                 view.onErrorEnableCommentsSection("Ocurrió un error: " + t.getMessage());
+            }
+        });
+    }
+
+    public void getComments(int idProviderToLoad) {
+        view.onShowProgress();
+        Call<CommentsResponseDto> call = this.service.getCommentsByProvider(idProviderToLoad);
+
+        call.enqueue(new Callback<CommentsResponseDto>() {
+            @Override
+            public void onResponse(Call<CommentsResponseDto> call, Response<CommentsResponseDto> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    CommentsResponseDto result = response.body();
+                    view.onSuccessObtainComments(result.getResponse());
+                }else{
+                    view.onErrorObtainComments("Ocurrió un error al obtener los comentarios");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommentsResponseDto> call, Throwable t) {
+                view.onErrorObtainComments("Ocurrió un error al obtener los comentarios: " + t.getMessage());
+            }
+        });
+    }
+
+    public void createComment(int idLogged, int idProviderToLoad, CreateCommentRequest request) {
+        Gson f = new Gson();
+        Log.i("VisitProvider", "Request: " + f.toJson(request));
+        Call<AppointmentResponseDto> call = this.service.createComment(idLogged, idProviderToLoad, request);
+        call.enqueue(new Callback<AppointmentResponseDto>() {
+            @Override
+            public void onResponse(Call<AppointmentResponseDto> call, Response<AppointmentResponseDto> response) {
+                if(response.isSuccessful() && response.body()!=null){
+                    AppointmentResponseDto result = response.body();
+                    Log.i("VisitProvider", "Error aqui");
+                    view.onCommentCreatedSuccess(result.getMessage());
+                }else{
+                    Log.i("VisitProvider", "Error acá");
+                    view.onCommentCreatedError("Ocurrió un error");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AppointmentResponseDto> call, Throwable t) {
+                Log.i("VisitProvider", "Error hasta acá");
+                view.onCommentCreatedError("Ocurrió un error: " + t.getMessage());
             }
         });
     }

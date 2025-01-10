@@ -5,6 +5,7 @@ package com.example.servicesolidit.Network;
 import com.example.servicesolidit.Utils.Dtos.Requests.CancelAppointmentRequestDto;
 import com.example.servicesolidit.Utils.Dtos.Requests.CreateAgreementRequest;
 import com.example.servicesolidit.Utils.Dtos.Requests.CreateAppointmentRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.CreateCommentRequest;
 import com.example.servicesolidit.Utils.Dtos.Requests.LoginRequestDto;
 import com.example.servicesolidit.Utils.Dtos.Requests.RegisterRequestDto;
 import com.example.servicesolidit.Utils.Dtos.Requests.SendMessageRequest;
@@ -15,6 +16,7 @@ import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentIt
 import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentListResponse;
 import com.example.servicesolidit.Utils.Dtos.Responses.Appointment.AppointmentResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.Comments.EnableToCommentResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Comments.CommentsResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.Conversatoins.ConversationResponse;
 import com.example.servicesolidit.Utils.Dtos.Responses.Feed.FeedResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.ImagesRelational.ProviderImageLoadedResponseDto;
@@ -30,7 +32,6 @@ import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProfileRespo
 import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProviderProfileResponse;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -109,4 +110,10 @@ public interface ApiService {
 
     @GET("comments-vews/enable_comment/{idUser}/{idProvider}")
     Call<EnableToCommentResponseDto> enableToComentSection(@Path("idUser")int idLogged, @Path("idProvider") int idProviderToLoad);
+
+    @GET("comments-vews/obtain-comments/{idProvider}")
+    Call<CommentsResponseDto> getCommentsByProvider(@Path("idProvider")int idProviderToLoad);
+
+    @POST("comments-vews/comment_user/{idLogged}/{idProviderToLoad}")
+    Call<AppointmentResponseDto> createComment(@Path("idLogged")int idLogged, @Path("idProviderToLoad") int idProviderToLoad, @Body CreateCommentRequest request);
 }

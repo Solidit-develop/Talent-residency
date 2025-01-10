@@ -56,7 +56,8 @@
                 android:id="@+id/btn_forgot"
                 style="@style/ButtonText"
                 android:layout_marginStart="48dp"
-                android:text="@string/value_forgot_password" />
+                android:text="@string/value_forgot_password"
+                android:visibility="gone"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_login"

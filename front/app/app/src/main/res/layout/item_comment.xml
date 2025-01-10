@@ -19,6 +19,7 @@
             android:text="Anónimo"/>
 
         <TextView
+            android:id="@+id/item_commentario"
             android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
