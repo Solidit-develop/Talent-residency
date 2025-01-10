@@ -813,6 +813,7 @@ const controllersReview = {
 
     // Optimizado por GPT
     ObtenerComentariosPorProveedor: async (req: Request, res: Response): Promise<void> => {
+        console.log("Test de logeeo tambien");
         try {
             const idProvider = parseInt(req.params.id_provider, 10);
             console.log("Se obtiene el idProvider: ", idProvider);
@@ -1070,6 +1071,7 @@ const controllersReview = {
     },
 
     enable_interaction: async (req: Request, res: Response): Promise<void> => {
+        console.log("Test de loggeo");
         try {
             const { id_provider, id_user } = req.params
 
