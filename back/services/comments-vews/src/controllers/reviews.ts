@@ -757,19 +757,25 @@ const controllersReview = {
                                                                 .where("providers.id_provider = :id_provider", {id_provider:proveedor.id_provider})
                                                                 .getMany();
 
-                console.log("Citas encontradas: " + appointmentsList);
-
+                
                 // Obtiene las interacciones
                 var interactionList = await repositoryinteraccion.createQueryBuilder("interaccion")
                                                                     .getMany();
 
-                console.log("Interacciones encontradas: " + interactionList);
+               
+                console.log("Citas encontradas:", JSON.stringify(appointmentsList, null, 2));
+                console.log("Interacciones encontradas:", JSON.stringify(interactionList, null, 2));
+
 
                 var interactionListClean: interaccion[] = new Array();
 
                 // Se queda solo con las interacciones que hacen match con las citas del proveedor
                 if(appointmentsList.length != 0 && interactionList.length != 0){
-                    console.log("Sí hay citas")
+                    console.log("Sí hay citas con interacciones")
+
+                    console.log("Citas encontradas:", JSON.stringify(appointmentsList, null, 2));
+                    console.log("Interacciones encontradas:", JSON.stringify(interactionList, null, 2));
+
                     interactionList.forEach(interaccionItem => {
                         appointmentsList.forEach(appItem => {
                             if(interaccionItem.appointment.id_appointment == appItem.id_appointment){
