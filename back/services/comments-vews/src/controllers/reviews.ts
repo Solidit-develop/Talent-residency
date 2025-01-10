@@ -740,6 +740,123 @@ const controllersReview = {
     //         res.status(500).json({ mensaje: "Error interno en el servidor" });
     //     }
     // },
+
+    /* Generado por mi
+    ObtenerComentariosPorProveedor: async (req: Request, res: Response): Promise<void> =>{
+        try{
+            const idProvider = req.params.id_provider;
+            const proveedor = await repositoryprovedor.createQueryBuilder("providers")
+                                                        .where("providers.id_provider = :id_provider", {id_provider:idProvider})
+                                                        .getOne();
+            if(proveedor){
+                // Obtiene las citas de un proveedor
+                var appointmentsList = await reppsitoryappointment.createQueryBuilder("appointment")
+                                                                .leftJoinAndSelect("appointment.providers", "providers")
+                                                                .where("providers.id_provider = :id_provider", {id_provider:proveedor.id_provider})
+                                                                .getMany();
+
+                // Obtiene las interacciones
+                var interactionList = await repositoryinteraccion.createQueryBuilder("interaccion")
+                                                                    .getMany();
+                var interactionListClean: interaccion[] = new Array();
+
+                // Se queda solo con las interacciones que hacen match con las citas del proveedor
+                interactionList.forEach(interaccionItem => {
+                    appointmentsList.forEach(appItem => {
+                        if(interaccionItem.appointment.id_appointment == appItem.id_appointment){
+                            interactionListClean.push(interaccionItem);
+                        }
+                    })
+                });
+
+                var reviews = await repositoryreview.createQueryBuilder("review")
+                                                        .getMany();
+
+                var comments : review[] = new Array();
+
+                if(interactionListClean.length !=0){
+                    interactionListClean.forEach(interactItem => {
+                        reviews.forEach(reviewItem => {
+                            var commentsRelated = interactItem.reviews;
+                            commentsRelated.forEach(comment =>{
+                                if(comment.id_review = reviewItem.id_review){
+                                    comments.push(comment);
+                                }
+                            })
+                        })
+                    })
+                }
+
+                var commentsToReturn = Array();
+
+                comments.forEach(comment => {
+                    commentsToReturn.push({
+                        comentario: comment.comment,
+                        calificacion: comment.calificacion
+                    })
+                })
+
+                res.status(200).json({response: comments})
+
+            }else{
+                // No se encontró el proveedor
+                res.status(500).json({message:"No se encontró el proveedor"})
+
+            }
+                                                
+        }catch(error){
+            res.status(500).json({message:"Error interno en el servidor"})
+        }
+    },
+
+    */
+
+    // Optimizado por GPT
+    ObtenerComentariosPorProveedor: async (req: Request, res: Response): Promise<void> => {
+        try {
+            const idProvider = parseInt(req.params.id_provider, 10);
+    
+            if (isNaN(idProvider)) {
+                res.status(400).json({ message: "El parámetro id_provider debe ser un número válido." });
+            }
+    
+            const proveedor = await repositoryprovedor
+                .createQueryBuilder("providers")
+                .where("providers.id_provider = :id_provider", { id_provider: idProvider })
+                .getOne();
+    
+            if (!proveedor) {
+                res.status(404).json({ message: "No se encontró el proveedor" });
+            }
+    
+            // Obtén los comentarios directamente desde la base de datos
+            const comments = await repositoryreview
+                .createQueryBuilder("review")
+                .innerJoin("review.interaccion", "interaccion")
+                .innerJoin("interaccion.appointment", "appointment")
+                .innerJoin("appointment.providers", "providers")
+                .where("providers.id_provider = :id_provider", { id_provider: idProvider })
+                .select(["review.comment", "review.calificacion"])
+                .getRawMany();
+    
+            if (comments.length === 0) {
+                res.status(200).json({ message: "No hay comentarios para este proveedor", comments: [] });
+            }
+    
+            // Estructura final
+            const formattedComments = comments.map(comment => ({
+                comentario: comment.comment,
+                calificacion: comment.calificacion,
+            }));
+    
+            res.status(200).json({ comments: formattedComments });
+        } catch (error) {
+            console.error("Error al obtener comentarios:", error);
+            res.status(500).json({ message: "Error interno en el servidor" });
+        }
+    },
+    
+
     ConsultaTodos2: async (req: Request, res: Response): Promise<void> => {
         try{
             const id_user = req.params.id_user;
