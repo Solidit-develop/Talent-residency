@@ -785,17 +785,19 @@ const controllersReview = {
                         })
                     });
 
-                    console.log("Interacciones donde las citas son del proveedor " + idProvider + " Interacciones: " + interactionList.length);
+                    console.log("Interacciones donde las citas son del proveedor " + idProvider + " Interacciones clean: " + interactionListClean.length);
 
                     var reviews = await repositoryreview.createQueryBuilder("review")
                                                         .leftJoinAndSelect("review.interacciones", "interaccion") // Carga las interacciones relacionadas con la review
                                                         .getMany();
-
+                    
+                    console.log("Reviews encontradas: " + reviews.length);
                     var comments : review[] = new Array();
 
-                    if(interactionListClean.length !=0){
+                    if(interactionListClean.length !=0 && reviews.length != 0){
                         console.log("Interacciones clean encontradas:", JSON.stringify(interactionListClean, null, 2));
-
+                        console.log("Reviews encontradas: " + JSON.stringify(reviews, null, 2));
+                        
                         interactionListClean.forEach(interactItem => {
                             reviews.forEach(reviewItem => {
                                 var commentsRelated = interactItem.reviews;
