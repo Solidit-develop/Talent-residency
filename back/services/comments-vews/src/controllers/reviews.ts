@@ -815,7 +815,7 @@ const controllersReview = {
     ObtenerComentariosPorProveedor: async (req: Request, res: Response): Promise<void> => {
         try {
             const idProvider = parseInt(req.params.id_provider, 10);
-    
+            console.log("Se obtiene el idProvider: ", idProvider);
             if (isNaN(idProvider)) {
                 res.status(400).json({ message: "El parámetro id_provider debe ser un número válido." });
             }
@@ -826,6 +826,7 @@ const controllersReview = {
                 .getOne();
     
             if (!proveedor) {
+                console.log("No se encontró proveedor");
                 res.status(404).json({ message: "No se encontró el proveedor" });
             }
     
@@ -840,6 +841,7 @@ const controllersReview = {
                 .getRawMany();
     
             if (comments.length === 0) {
+                console.log("No se encontraron comentarios");
                 res.status(200).json({ message: "No hay comentarios para este proveedor", comments: [] });
             }
     
