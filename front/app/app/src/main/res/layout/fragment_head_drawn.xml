@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/radius_frame">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,6 +16,7 @@
         android:backgroundTint="@color/link">
 
         <ImageView
+            android:id="@+id/imgProfileHeaderNav"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/logoimagen"

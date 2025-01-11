@@ -177,6 +177,7 @@ public class VisitProvider extends Fragment implements VisitProviderView{
 
     @Override
     public void enableCommentsSection(boolean enableToComment) {
+        Log.i("VisitProvider", "enableCommentsSection: " + enableToComment);
         if(enableToComment){
             this.containerCommentSection.setVisibility(View.VISIBLE);
         }else {

@@ -8,6 +8,7 @@ import com.example.servicesolidit.Utils.Dtos.Requests.CreateAppointmentRequestDt
 import com.example.servicesolidit.Utils.Dtos.Requests.CreateCommentRequest;
 import com.example.servicesolidit.Utils.Dtos.Requests.LoginRequestDto;
 import com.example.servicesolidit.Utils.Dtos.Requests.RegisterRequestDto;
+import com.example.servicesolidit.Utils.Dtos.Requests.ResetPasswordRequest;
 import com.example.servicesolidit.Utils.Dtos.Requests.SendMessageRequest;
 import com.example.servicesolidit.Utils.Dtos.Requests.UpdateToProviderRequestDto;
 import com.example.servicesolidit.Utils.Dtos.Requests.UploadRelationalImageDto;
@@ -19,6 +20,7 @@ import com.example.servicesolidit.Utils.Dtos.Responses.Comments.EnableToCommentR
 import com.example.servicesolidit.Utils.Dtos.Responses.Comments.CommentsResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.Conversatoins.ConversationResponse;
 import com.example.servicesolidit.Utils.Dtos.Responses.Feed.FeedResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.GenerarMessageResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.ImagesRelational.ProviderImageLoadedResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.ImagesRelational.RelationalImagesResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.ImagesRelational.UploadImageResponseDto;
@@ -68,6 +70,9 @@ public interface ApiService {
     @POST("provider/imagen/{providerId}")
     Call<ProviderImageLoadedResponseDto> loadImageRelationalInformationProvider(@Path("providerId") int providerId, @Body UploadRelationalImageDto request);
 
+    @POST("users/imagen/{userid}")
+    Call<GenerarMessageResponseDto> loadImageRelationalInformationUserProfile(@Path("userid") int userid, @Body UploadRelationalImageDto request);
+
     @POST("appointment/cita/{id_provider}/{id_customer}")
     Call<AppointmentResponseDto> createAppointmnt(@Body CreateAppointmentRequestDto request, @Path("id_provider")int idProvider, @Path("id_customer") int idCustomer);
 
@@ -116,4 +121,7 @@ public interface ApiService {
 
     @POST("comments-vews/comment_user/{idLogged}/{idProviderToLoad}")
     Call<AppointmentResponseDto> createComment(@Path("idLogged")int idLogged, @Path("idProviderToLoad") int idProviderToLoad, @Body CreateCommentRequest request);
+
+    @PUT("users/resetPassword")
+    Call<GenerarMessageResponseDto> resetPassword(@Body ResetPasswordRequest emailTxt);
 }

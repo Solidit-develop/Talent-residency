@@ -1,4 +1,4 @@
-package com.example.servicesolidit.HomeFlow;
+package com.example.servicesolidit.FeedFlow;
 
 import com.example.servicesolidit.Utils.Dtos.Responses.Feed.ProviderImageFeedResponseDto;
 

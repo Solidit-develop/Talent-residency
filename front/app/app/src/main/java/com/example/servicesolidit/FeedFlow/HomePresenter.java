@@ -1,4 +1,4 @@
-package com.example.servicesolidit.HomeFlow;
+package com.example.servicesolidit.FeedFlow;
 
 import android.util.Log;
 

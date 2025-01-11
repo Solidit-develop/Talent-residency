@@ -18,8 +18,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.servicesolidit.HomeFlow.HomePresenter;
-import com.example.servicesolidit.HomeFlow.HomeView;
 import com.example.servicesolidit.Utils.Dtos.Responses.Feed.ProviderImageFeedResponseDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;

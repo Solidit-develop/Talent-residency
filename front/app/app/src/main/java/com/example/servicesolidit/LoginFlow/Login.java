@@ -22,6 +22,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.servicesolidit.HomeFlow.Home;
+import com.example.servicesolidit.ResetPassword.ResetPassword;
+import com.example.servicesolidit.ResetPassword.ResetPasswordPresenter;
 import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.RegisterFlow.Register;
@@ -36,7 +38,7 @@ public class Login extends Fragment implements LoginView {
     private TextInputLayout etPasswordLayout;
     private Boolean passwordToggleEnabled = false;
     private LoginPresenter presenter;
-    private Button btnForgot;
+    private Button btnResetPassword;
     private Button btnLogin;
     private Button btnRegister;
     private ProgressBar loadingItem;
@@ -50,7 +52,7 @@ public class Login extends Fragment implements LoginView {
         edtUser = view.findViewById(R.id.edtxt_User);
         edtPassword = view.findViewById(R.id.edtxt_Password);
         etPasswordLayout = view.findViewById(R.id.txt_password_layout);
-        btnForgot = view.findViewById(R.id.btn_forgot);
+        btnResetPassword = view.findViewById(R.id.btnResetPassword);
         btnLogin = view.findViewById(R.id.btn_login);
         btnRegister = view.findViewById(R.id.btnGoToRegister);
         loadingItem = view.findViewById(R.id.loading_item_login);
@@ -82,10 +84,10 @@ public class Login extends Fragment implements LoginView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        btnForgot.setOnClickListener(new View.OnClickListener() {
+        btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Implementar funcionalidad de recuperación de contraseña
+                GoToResetPassword();
             }
         });
 
@@ -213,6 +215,21 @@ public class Login extends Fragment implements LoginView {
     public void GoToRegister(){
         try {
             Register registerFragment = new Register();
+            FragmentTransaction transactionRegister = getParentFragmentManager().beginTransaction();
+            transactionRegister.replace(R.id.fragmentLogin, registerFragment);
+            transactionRegister.addToBackStack(null);
+            transactionRegister.commit();
+        }catch (Exception e){
+            Log.i("LoginClass", "Error on go to register fragment: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Method to replace login fragment to reset password fragment
+     */
+    public void GoToResetPassword(){
+        try {
+            ResetPassword registerFragment = new ResetPassword();
             FragmentTransaction transactionRegister = getParentFragmentManager().beginTransaction();
             transactionRegister.replace(R.id.fragmentLogin, registerFragment);
             transactionRegister.addToBackStack(null);

@@ -53,11 +53,10 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_forgot"
+                android:id="@+id/btnResetPassword"
                 style="@style/ButtonText"
                 android:layout_marginStart="48dp"
-                android:text="@string/value_forgot_password"
-                android:visibility="gone"/>
+                android:text="@string/value_forgot_password" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_login"
