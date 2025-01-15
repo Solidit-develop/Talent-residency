@@ -2,10 +2,12 @@ package com.example.servicesolidit.ProviderInformationFlow;
 
 import android.util.Log;
 
+import com.example.servicesolidit.Utils.Dtos.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.Messages.MessagesResponseDto;
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
 import com.example.servicesolidit.Utils.Dtos.Responses.User.ProviderProfileInformationDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProviderProfileResponse;
 import com.google.gson.Gson;
 
 import retrofit2.Call;
@@ -52,8 +54,9 @@ public class CustomerToProviderPresenter {
         call.enqueue(new Callback<ProviderProfileInformationDto>() {
             @Override
             public void onResponse(Call<ProviderProfileInformationDto> call, Response<ProviderProfileInformationDto> response) {
-                Log.i("CTP", "response: " + response.body());
+                Gson g = new Gson();
                 if(response.isSuccessful() && response.body() != null){
+                    Log.i("CTP", "response: " + g.toJson(response.body()));
                     ProviderProfileInformationDto result = response.body();
                     Gson respuesta = new Gson();
 
@@ -71,6 +74,4 @@ public class CustomerToProviderPresenter {
             }
         });
     }
-
-
 }

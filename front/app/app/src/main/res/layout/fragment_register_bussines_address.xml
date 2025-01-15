@@ -4,15 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".RegisterFlow.Address">
+    tools:context=".ProfileFlow.RegisterBussinesAddress">
 
-    <ProgressBar
-        android:id="@+id/progressbar_address_register_custeomr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="visible"
-        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,7 +23,6 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txt_zip_code_layout"
             style="@style/BoxTextLayoutSmall"
-            android:visibility="gone"
             android:hint="@string/value_edtxt_zip_code">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -40,9 +32,8 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/containerSpinnerStates"
+            android:id="@+id/container1"
             android:hint="@string/value_edtxt_state"
-            android:enabled="false"
             style="@style/TextExtendLayout">
 
             <AutoCompleteTextView
@@ -52,9 +43,8 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/containerSpinnerCities"
+            android:id="@+id/container2"
             android:hint="@string/value_edtxt_city"
-            android:enabled="false"
             style="@style/TextExtendLayout">
 
             <AutoCompleteTextView
@@ -105,5 +95,6 @@
             />
 
     </LinearLayout>
+
 
 </FrameLayout>

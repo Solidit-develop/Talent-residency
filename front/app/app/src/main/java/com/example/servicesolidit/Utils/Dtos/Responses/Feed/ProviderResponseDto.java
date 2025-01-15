@@ -25,7 +25,7 @@ public class ProviderResponseDto {
     @SerializedName("workshopPhoneNumber")
     private String workshopPhoneNumber;
 
-    @SerializedName("address")
+    @SerializedName("adress")
     private AddressResponseDto address;
 
     @SerializedName("user")

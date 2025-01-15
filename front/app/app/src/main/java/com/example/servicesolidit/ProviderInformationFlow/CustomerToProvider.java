@@ -21,6 +21,7 @@ import com.example.servicesolidit.Utils.Dtos.Responses.Messages.ConversationDto;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class CustomerToProvider extends Fragment implements CustomerToProviderVi
     private Button btnGoToMessages;
     private Button btnStartNewConversation;
     private TextInputLayout tilEmailProvider;
+    private TextInputLayout tilUbication;
 
     public CustomerToProvider(int idProviderToLoad) {
         Log.i("CTP", "Recibe en constructor el provider id: " + idProviderToLoad);
@@ -49,6 +51,7 @@ public class CustomerToProvider extends Fragment implements CustomerToProviderVi
         btnStartNewConversation = view.findViewById(R.id.btnStartNewMessage);
         btnGoToMessages = view.findViewById(R.id.btnGoToConversation);
         tilEmailProvider = view.findViewById(R.id.tilEmailProvider);
+        tilUbication = view.findViewById(R.id.tilLocationInfoProvider);
 
         this.idUserLogged = getIdUserLogged();
         this.presenter = new CustomerToProviderPresenter(this);
@@ -111,8 +114,12 @@ public class CustomerToProvider extends Fragment implements CustomerToProviderVi
     @Override
     public void onInforProviderLoaded(ProviderResponseDto response) {
         if(response.getUserInfoRelated().getEmail() != null){
+            Gson g = new Gson();
+            Log.i("CTP", g.toJson(response));
             this.tilEmailProvider.getEditText().setText(response.getUserInfoRelated().getEmail());
             this.idUserOfProviderSelected = response.getUserInfoRelated().getIdUser();
+            String location = response.getAddress().getTown().getNameTown() + " " + response.getAddress().getLocalidad();
+            this.tilUbication.getEditText().setText(location);
             Log.i("CTP", "id Provider: " + this.idProviderToLoad);
             Log.i("CTP", "id user of Provider: " + this.idUserOfProviderSelected);
             this.presenter.drawViewToStartConversation(idUserLogged, this.idUserOfProviderSelected);

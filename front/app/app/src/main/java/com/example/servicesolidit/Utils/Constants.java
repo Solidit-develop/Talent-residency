@@ -11,4 +11,7 @@ public abstract class Constants {
     public static String GET_LOGGED_USER_ID = "LoggedUserId";
     public static String GET_EMAIL_USER = "LoggedUserEmail";
     public static String GET_NAME_USER = "LoggedUserName";
+
+    public static String bearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJiYWhlbGU5NzI0QHN1Z2dldHMuY29tIiwiYXBpX3Rva2VuIjoiNk50RURuRW5haUdaSW5sSkZKWG9UQUk3X1BuMU1tRXZYdHZzWU1YUmJ6eW9QeTZCWWFkQm9MQmVuRU5tRUFvN3FSSSJ9LCJleHAiOjE3MzY5ODgyODd9.qUn77pj7vSkJsWpU45rY2Oppc4vbwafbSO6zASCtr3Q";
+
 }

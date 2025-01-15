@@ -190,7 +190,7 @@ public class RegisterBussines extends Fragment implements RegisterBussinesView {
             requestDto.setNameTown("Localidad");
             requestDto.setStr1("Localidad");
             requestDto.setStr2("Localidad");
-            requestDto.setZipCode("Localidad");
+            requestDto.setZipCode("0000");
             requestDto.setDescription("DescriptionField");
 
 
