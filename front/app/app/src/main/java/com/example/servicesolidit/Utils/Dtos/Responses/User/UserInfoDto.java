@@ -9,7 +9,7 @@ public class UserInfoDto {
     @SerializedName("name_user")
     private String nameUser;
 
-    @SerializedName("lasname")
+    @SerializedName("lastname")
     private String lastname;
 
     @SerializedName("email")

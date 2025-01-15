@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProfileDto;
 import com.example.servicesolidit.R;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 
 public class PersonalData extends Fragment {
     private TextView txtPrueba;
@@ -33,13 +34,13 @@ public class PersonalData extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_personal_data, container, false);
-        Log.i("PersonalDataClass", "User info correct: "+ personalUserInfo.getNameUser());
+        Gson f = new Gson();
+        Log.i("PersonalDataClass", "User info correct: "+ f.toJson(personalUserInfo));
         name = view.findViewById(R.id.tiet_name);
         lastname = view.findViewById(R.id.tiet_lastname);
         phone = view.findViewById(R.id.tiet_phoneNumber);
         email = view.findViewById(R.id.tiet_email);
         city = view.findViewById(R.id.tiet_city);
-        town = view.findViewById(R.id.tiet_town);
 
         setUserData();
         return view;
@@ -50,7 +51,7 @@ public class PersonalData extends Fragment {
         lastname.setText(personalUserInfo.getLastname());
         phone.setText(personalUserInfo.getPhoneNumber());
         email.setText(personalUserInfo.getEmail());
-        city.setText(personalUserInfo.getIdAddress().getLocalidad());
-        town.setText(personalUserInfo.getIdAddress().getTown().getNameTown());
+        String location = personalUserInfo.getIdAddress().getLocalidad() + personalUserInfo.getIdAddress().getTown().getNameTown();
+        city.setText(location);
     }
 }

@@ -144,14 +144,6 @@ public class Address extends Fragment implements AddressView {
     private boolean validarCampos() {
         boolean esValido = true;
 
-        // Validar código postal
-        if (edtxtZipCode.getText().toString().trim().isEmpty()) {
-            edtxtZipCode.setError("El código postal es obligatorio");
-            esValido = false;
-        } else {
-            edtxtZipCode.setError(null);
-        }
-
         // Validar estado
         if (spinnerState.getText().toString().trim().isEmpty()) {
             spinnerState.setError("El estado es obligatorio");

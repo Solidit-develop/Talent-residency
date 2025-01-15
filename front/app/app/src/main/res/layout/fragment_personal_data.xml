@@ -7,7 +7,6 @@
     tools:context=".ProfileFlow.PersonalData"
     android:padding="10dp">
 
-    <!-- TODO: Update blank fragment layout -->
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -34,6 +33,7 @@
                 android:id="@+id/txt_filled_name"
                 android:hint="@string/value_edtxt_Name"
                 android:paddingTop="10dp"
+                android:enabled="false"
                 app:endIconDrawable="@drawable/edit">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -50,13 +50,13 @@
                 style="@style/FilledTextField"
                 android:id="@+id/txt_filled_lastname"
                 android:hint="@string/value_edtxt_lastname"
+                android:enabled="false"
                 android:paddingTop="10dp"
                 app:endIconDrawable="@drawable/edit"                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInput"
                     android:id="@+id/tiet_lastname"
-                    android:editable="false"
                     android:background="@drawable/filled_text_field_gradient"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -80,12 +80,12 @@
                 android:id="@+id/txt_filled_phone_number"
                 android:hint="Numero de telefono."
                 android:paddingTop="10dp"
+                android:enabled="false"
                 app:endIconDrawable="@drawable/edit">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInput"
                     android:id="@+id/tiet_phoneNumber"
-                    android:editable="false"
                     android:background="@drawable/filled_text_field_gradient"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -96,6 +96,7 @@
                 style="@style/FilledTextField"
                 android:id="@+id/txt_filled_email"
                 android:hint="@string/value_edtxt_email"
+                android:enabled="false"
                 android:paddingTop="10dp"
                 app:endIconDrawable="@drawable/edit">
 
@@ -119,26 +120,10 @@
                 android:textSize="20dp"
                 android:textColor="@color/dark_text"/>
 
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/FilledTextField"
-                android:id="@+id/txt_filled_location"
-                android:hint="Ubicación"
-                android:paddingTop="10dp"
-                app:endIconDrawable="@drawable/edit">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    style="@style/TextInput"
-                    android:id="@+id/tiet_town"
-                    android:editable="false"
-                    android:background="@drawable/filled_text_field_gradient"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/FilledTextField"
                 android:id="@+id/prueba"
+                android:enabled="false"
                 android:hint="Ubicación"
                 android:paddingTop="10dp"
                 app:endIconDrawable="@drawable/edit">
