@@ -21,7 +21,9 @@
             android:hint="Busca el servicio que te hace falta"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:inputType="text"
+            android:maxLines="1"
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/buttonSearch"
