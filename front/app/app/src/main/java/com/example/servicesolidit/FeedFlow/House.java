@@ -123,7 +123,7 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
                 Log.i("HouseClass", "Info cargada: " + gson.toJson(item));
                 modelFromResponse.setLocation(item.getProvedor().getAddress() != null && item.getProvedor().getAddress().getLocalidad() != null
                         ? item.getProvedor().getAddress().getLocalidad()
-                        : "Sin ubicación");
+                        : "Negocio de confianza");
                 modelFromResponse.setNameBussines(item.getProvedor().getWorkshopName());
                 modelFromResponse.setDescription("Con " + item.getProvedor().getExperienceYears() + " años de experiencia");
                 modelFromResponse.setIdProvider(item.getProvedor().getIdProvider());

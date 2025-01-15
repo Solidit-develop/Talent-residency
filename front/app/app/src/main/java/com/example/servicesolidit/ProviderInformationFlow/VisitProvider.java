@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.servicesolidit.FullScreenImageDialog;
 import com.example.servicesolidit.R;
 import com.example.servicesolidit.Utils.Constants;
 import com.example.servicesolidit.Utils.Dtos.Requests.CreateCommentRequest;
@@ -32,7 +33,9 @@ import com.example.servicesolidit.Utils.Dtos.Responses.ImagesRelational.Relation
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class VisitProvider extends Fragment implements VisitProviderView{
@@ -50,6 +53,7 @@ public class VisitProvider extends Fragment implements VisitProviderView{
     private LinearLayout containerCommentSection;
     private ArrayList<CommentsDto> commentatiorList = new ArrayList<>();
     private TextView itemNoCommentsView;
+    private String URL_TO_PRINT_IMAGE;
 
     public VisitProvider(int idProviderToLoad) {
         this.idProviderToLoad = idProviderToLoad;
@@ -114,7 +118,13 @@ public class VisitProvider extends Fragment implements VisitProviderView{
             }
         });
         Log.i("VisitProviderClass", "idProvider recibido:  " + idProviderToLoad);
-
+        imageExampleOnCarousell.setOnClickListener(v -> {
+            // Lanza el diálogo con la imagen
+            if(this.URL_TO_PRINT_IMAGE != "not-image"){
+                FullScreenImageDialog dialog = FullScreenImageDialog.newInstance(this.URL_TO_PRINT_IMAGE);
+                dialog.show(requireActivity().getSupportFragmentManager(), "FullscreenImageDialog");
+            }
+        });
         return view;
     }
 
@@ -144,6 +154,8 @@ public class VisitProvider extends Fragment implements VisitProviderView{
                     .placeholder(R.drawable.load)
                     .error(R.drawable.lost)
                     .into(imageExampleOnCarousell);
+
+            this.URL_TO_PRINT_IMAGE = Constants.BASE_URL + "images/print/"+url;
         }else{
             tvNoImagesFound.setVisibility(View.VISIBLE);
             imageExampleOnCarousell.setVisibility(View.GONE);
