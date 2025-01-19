@@ -64,7 +64,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             holder.btnUpdate.setVisibility(View.VISIBLE);
 
             holder.btnUpdate.setOnClickListener(v->{
-                Toast.makeText(v.getContext(), "Trying to update the appointment with id: " + item.getIdAppointment() + " to " + holder.spinnerEstatusAppointment.getText().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "Actualizando a " + holder.spinnerEstatusAppointment.getText().toString(), Toast.LENGTH_SHORT).show();
                 if (updateStatusListener != null) {
                     updateStatusListener.onUpdateStatus(
                             item.getIdAppointment(),

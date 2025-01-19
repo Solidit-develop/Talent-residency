@@ -38,6 +38,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.servicesolidit.ApointmentFlow.ViewAgreements.ObtainAgreements;
 import com.example.servicesolidit.ApointmentFlow.ViewAppointments.ObtainAppointments;
 import com.example.servicesolidit.ConversationFlow.Conversation;
+import com.example.servicesolidit.FullScreenImageDialog;
 import com.example.servicesolidit.HeadDrawn;
 import com.example.servicesolidit.FeedFlow.House;
 import com.example.servicesolidit.MainActivity;
@@ -88,6 +89,7 @@ public class Home extends AppCompatActivity implements ActivityView{
             android.Manifest.permission.READ_MEDIA_IMAGES
     };
     private boolean alreadyLoaded = false;
+    private String url;
 
     private ActivityPresenter presenter;
     @Override
@@ -137,6 +139,11 @@ public class Home extends AppCompatActivity implements ActivityView{
         profileImage.setOnClickListener(v->{
             if(!alreadyLoaded) {
                 handleImageSelection();
+            }else{
+                if(this.url != "not-found-image"){
+                    FullScreenImageDialog dialog = FullScreenImageDialog.newInstance(Constants.BASE_URL + "images/print/"+this.url);
+                    dialog.show(this.getSupportFragmentManager(), "FullscreenImageDialog");
+                }
             }
         });
 
@@ -393,7 +400,7 @@ public class Home extends AppCompatActivity implements ActivityView{
 
     @Override
     public void onLoadProfileSuccess(UserInfoProfileDto result) {
-        String url =  !result.getImageName().isEmpty() ? result.getImageName().get(0).getUrlLocation() : "not-found-image";
+        url =  !result.getImageName().isEmpty() ? result.getImageName().get(0).getUrlLocation() : "not-found-image";
         Picasso.get()
                 .load(Constants.BASE_URL + "images/print/"+url)
                 .placeholder(R.drawable.load)

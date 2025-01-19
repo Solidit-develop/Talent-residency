@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.servicesolidit.ApointmentFlow.AgreementsFlow.Agreement;
 import com.example.servicesolidit.R;
@@ -81,7 +82,6 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
             onShowProgress();
             this.tvHeaderAppointmentsType.setText("Citas donde soy cliente");
             this.presenter.getAppointments(this.userLoggedDto.getIdUser(), "asCustomer");
-
         });
 
 
@@ -190,6 +190,7 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
 
     @Override
     public void onAppointmentUpdated(String actualizadoCorrectamente) {
+        onHideProgress();
         getProviderIdByUserId(getLoggedId());
     }
 
@@ -203,13 +204,22 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
         onShowProgress();
         switch (newStatus) {
             case "Cancelar": {
+                Log.i("ObtainAppointment", "Seleccionó cancelar");
                 this.presenter.updateAppointment(appointmentId, newStatus, idProvider, idCustomer);
                 break;
             }
             case "Aprobar": {
                 // Redirect to create agreement
+                Log.i("ObtainAppointment", "Seleccionó aprobar");
+                onHideProgress();
                 Agreement fragment = new Agreement(idProvider, idCustomer, appointmentId);
                 navigateTo(fragment);
+            }
+            default:{
+                Log.i("ObtainAppointment", "Seleccionó otra cosa");
+                onHideProgress();
+
+                Toast.makeText(requireContext(), "Usted solo puede aprobar o cancelar las citas", Toast.LENGTH_SHORT).show();
             }
         }
     }
