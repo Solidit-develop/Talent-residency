@@ -92,6 +92,7 @@
                 app:startIconDrawable="@drawable/phone">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etBussinesPhoneNumber"
                     style="@style/EditTextNormal"
                     android:inputType="text|number"/>
             </com.google.android.material.textfield.TextInputLayout>

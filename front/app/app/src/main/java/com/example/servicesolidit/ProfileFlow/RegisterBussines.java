@@ -20,6 +20,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +39,7 @@ import com.example.servicesolidit.Utils.Dtos.Requests.UpdateToProviderRequestDto
 import com.example.servicesolidit.Utils.Dtos.Requests.UploadRelationalImageDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.Feed.ProviderResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProfileDto;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
@@ -65,6 +68,7 @@ public class RegisterBussines extends Fragment implements RegisterBussinesView {
 
 
     private TextInputLayout tilBussinesName, tilSkills, tilPhoneNumber, tilExperiencia, tilEmailUser;
+    private TextInputEditText etBussinesPhoneNumber;
     private Button btnRegister;
     private final UserInfoProfileDto user;
     private RegisterPresenter presenter;
@@ -93,6 +97,7 @@ public class RegisterBussines extends Fragment implements RegisterBussinesView {
         btnRegister = view.findViewById(R.id.btnRegisterBussines);
         imagePreview = view.findViewById(R.id.imagePreview);
         selectImageButton = view.findViewById(R.id.selectImageButton);
+        etBussinesPhoneNumber = view.findViewById(R.id.etBussinesPhoneNumber);
 
         selectImageButton.setOnClickListener(v -> handleImageSelection());
 
@@ -100,7 +105,55 @@ public class RegisterBussines extends Fragment implements RegisterBussinesView {
         tilEmailUser.getEditText().setText(this.user.getEmail());
         tilEmailUser.getEditText().setEnabled(false);
 
-        // Set up permission request launcher
+        etBussinesPhoneNumber.addTextChangedListener(new TextWatcher() {
+            private static final String PHONE_PATTERN = "### ### ####";
+            private boolean isUpdating = false;
+            private final StringBuilder currentText = new StringBuilder();
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+             if (isUpdating) {
+                 return;
+             }
+
+             isUpdating = true;
+
+             // quita cualquier espacio o caracter no numerico;
+             String cleanText = s.toString().replaceAll("[^\\d]", "");
+
+             if (cleanText.length() > 10) {
+                 cleanText = cleanText.substring(0, 10);
+             }
+
+             // Aplicar el fomato ### ### ####
+             StringBuilder formattedText = new StringBuilder();
+             int length = cleanText.length();
+             for (int i = 0; i < length; i++) {
+                 formattedText.append(cleanText.charAt(i));
+                 if ((i == 2 || i == 5) && i < length - 1) {
+                     formattedText.append(" ");
+                 }
+             }
+
+             currentText.replace(0, currentText.length(), formattedText.toString());
+             etBussinesPhoneNumber.setText(currentText.toString());
+             etBussinesPhoneNumber.setSelection(currentText.length());  // mueve el cursos al final
+
+             isUpdating = false;
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+            // Set up permission request launcher
         setupPermissionLauncher();
 
         // Set up image picker launcher
