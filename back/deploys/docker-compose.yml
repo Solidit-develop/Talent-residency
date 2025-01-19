@@ -182,7 +182,7 @@ services:
 
   locations:
     build:
-      context: ../services/locations
+      context: ../services/locations-service
     environment:
       - TOKEN_URL_LOCATIONS=https://www.universal-tutorial.com/api/getaccesstoken
       - TOKEN_LOCATIONS_USER=bahele9724@suggets.com
