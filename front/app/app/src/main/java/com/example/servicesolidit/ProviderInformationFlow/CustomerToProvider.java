@@ -96,6 +96,11 @@ public class CustomerToProvider extends Fragment implements CustomerToProviderVi
             btnGoToMessages.setVisibility(View.VISIBLE);
             btnStartNewConversation.setVisibility(View.GONE);
         }
+
+        if(this.idUserOfProviderSelected == this.idUserLogged){
+            this.btnGoToMessages.setEnabled(false);
+            this.btnStartNewConversation.setEnabled(false);
+        }
     }
 
     public void GoToMessage (int origen, int destino){
@@ -122,6 +127,8 @@ public class CustomerToProvider extends Fragment implements CustomerToProviderVi
             this.tilUbication.getEditText().setText(location);
             Log.i("CTP", "id Provider: " + this.idProviderToLoad);
             Log.i("CTP", "id user of Provider: " + this.idUserOfProviderSelected);
+            Log.i("CTP", "id user logged: " + this.idUserLogged);
+
             this.presenter.drawViewToStartConversation(idUserLogged, this.idUserOfProviderSelected);
 
         }else{
