@@ -73,13 +73,13 @@ public class ObtainAppointments extends Fragment implements ObtainAppointmentVie
 
         this.btnShowAppointmentsAsProvider.setOnClickListener(v->{
             onShowProgress();
-            this.tvHeaderAppointmentsType.setText("Mis citas como proveedor");
+            this.tvHeaderAppointmentsType.setText("Citas donde soy proveedor");
             this.presenter.getProviderInformationFromUserId(this.userLoggedDto.getIdUser());
         });
 
         this.btnShowAppointmentsAsCustomer.setOnClickListener(v->{
             onShowProgress();
-            this.tvHeaderAppointmentsType.setText("Mis citas como cliente");
+            this.tvHeaderAppointmentsType.setText("Citas donde soy cliente");
             this.presenter.getAppointments(this.userLoggedDto.getIdUser(), "asCustomer");
 
         });

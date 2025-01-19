@@ -54,7 +54,7 @@ public class PersonalData extends Fragment {
         lastname.setText(personalUserInfo.getLastname());
         phone.setText(personalUserInfo.getPhoneNumber());
         email.setText(personalUserInfo.getEmail());
-        String location = personalUserInfo.getIdAddress().getLocalidad() + personalUserInfo.getIdAddress().getTown().getNameTown();
+        String location = personalUserInfo.getIdAddress().getLocalidad() + " " + personalUserInfo.getIdAddress().getTown().getNameTown();
         city.setText(location);
     }
 }

@@ -184,7 +184,7 @@ public class Address extends Fragment implements AddressView {
      */
     private void cargarOpcionesSpinners() {
         // Opciones de estado
-        String[] estados = new String[] {"Hidalgo", "Ciudad de México", "Jalisco"};
+        String[] estados = new String[] {};
         ArrayAdapter<String> adapterEstados = new ArrayAdapter<>(
                 requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
@@ -193,7 +193,7 @@ public class Address extends Fragment implements AddressView {
         spinnerState.setAdapter(adapterEstados);
 
         // Opciones de ciudad (ejemplo para ciudades de Hidalgo)
-        String[] ciudades = new String[] {"Pachuca", "Tulancingo", "Tula"};
+        String[] ciudades = new String[] {};
         ArrayAdapter<String> adapterCiudades = new ArrayAdapter<>(
                 requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,

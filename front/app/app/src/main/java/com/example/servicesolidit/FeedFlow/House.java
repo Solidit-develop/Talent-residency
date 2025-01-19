@@ -121,11 +121,11 @@ public class House extends Fragment implements HomeView, CardAdapter.OnCardClick
                 CardModel modelFromResponse = new CardModel();
                 Gson gson = new Gson();
                 Log.i("HouseClass", "Info cargada: " + gson.toJson(item));
-                modelFromResponse.setLocation(item.getProvedor().getAddress() != null && item.getProvedor().getAddress().getLocalidad() != null
-                        ? item.getProvedor().getAddress().getLocalidad()
+                modelFromResponse.setLocation(item.getProvedor().getAddressToFeed() != null && item.getProvedor().getAddressToFeed().getLocalidad() != null
+                        ? item.getProvedor().getAddressToFeed().getLocalidad()
                         : "Negocio de confianza");
                 modelFromResponse.setNameBussines(item.getProvedor().getWorkshopName());
-                modelFromResponse.setDescription("Con " + item.getProvedor().getExperienceYears() + " años de experiencia");
+                modelFromResponse.setDescription("Con " + item.getProvedor().getExperienceYearsToFeed() + " años de experiencia");
                 modelFromResponse.setIdProvider(item.getProvedor().getIdProvider());
                 String photoToPrint = getPhotoToPrintOnFeed(item.getImagen().getImageName());
                 modelFromResponse.setImageUrl(Constants.BASE_URL + "images/print/" + photoToPrint);

@@ -185,11 +185,11 @@ public class RegisterBussines extends Fragment implements RegisterBussinesView {
             requestDto.setWorkshopPhone(phoneNumber);
             requestDto.setExperience(experiencia);
             requestDto.setEmail(emailUserLogged);
-            requestDto.setLocalidad("");
+            requestDto.setLocalidad(this.user.getIdAddress().getLocalidad());
             requestDto.setNameState("");
-            requestDto.setNameTown("");
-            requestDto.setStr1("");
-            requestDto.setStr2("");
+            requestDto.setNameTown(this.user.getIdAddress().getTown().getNameTown());
+            requestDto.setStr1(this.user.getIdAddress().getStreet1());
+            requestDto.setStr2(this.user.getIdAddress().getStreet2());
             requestDto.setZipCode("0000");
             requestDto.setDescription("");
 

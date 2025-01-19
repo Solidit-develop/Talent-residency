@@ -102,7 +102,10 @@ public class Profile extends Fragment implements ProfileView {
                 Log.i("ProfileClass", "Flow to convert into provider");
                 Gson gson = new Gson();
                 Log.i("ProfileClass", "Se obtiene: " + gson.toJson(gson));
-                RegisterBussines registerBussines = new RegisterBussines(this.userProfileLoaded);
+                RegisterBussines registerBussines = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                    registerBussines = new RegisterBussines(this.userProfileLoaded);
+                }
                 transaction.replace(R.id.fragment_container,registerBussines);
             }
             transaction.addToBackStack(null);

@@ -16,8 +16,19 @@ public class ProviderResponseDto {
     @SerializedName("id_provedores")
     private int idProvidersss;
 
-    @SerializedName("experienceYears")
+    @SerializedName("experiencias")
     private String experienceYears;
+
+    public String getExperienceYearsToFeed() {
+        return experienceYearsToFeed;
+    }
+
+    public void setExperienceYearsToFeed(String experienceYearsToFeed) {
+        this.experienceYearsToFeed = experienceYearsToFeed;
+    }
+
+    @SerializedName("experienceYears")
+    private String experienceYearsToFeed;
 
     @SerializedName("workshopName")
     private String workshopName;
@@ -27,6 +38,25 @@ public class ProviderResponseDto {
 
     @SerializedName("adress")
     private AddressResponseDto address;
+
+    @SerializedName("address")
+    private AddressResponseDto addressToFeed;
+
+    public AddressResponseDto getAddressToFeed() {
+        return addressToFeed;
+    }
+
+    public void setAddressToFeed(AddressResponseDto addressToFeed) {
+        this.addressToFeed = addressToFeed;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
     @SerializedName("user")
     private UserInfoDto userInfoRelated;
