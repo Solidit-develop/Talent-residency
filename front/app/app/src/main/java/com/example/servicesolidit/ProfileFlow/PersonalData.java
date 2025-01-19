@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoProfileDto;
@@ -34,6 +35,7 @@ public class PersonalData extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_personal_data, container, false);
+
         Gson f = new Gson();
         Log.i("PersonalDataClass", "User info correct: "+ f.toJson(personalUserInfo));
         name = view.findViewById(R.id.tiet_name);
@@ -41,10 +43,11 @@ public class PersonalData extends Fragment {
         phone = view.findViewById(R.id.tiet_phoneNumber);
         email = view.findViewById(R.id.tiet_email);
         city = view.findViewById(R.id.tiet_city);
-
         setUserData();
+
         return view;
     }
+
 
     private void setUserData() {
         name.setText(personalUserInfo.getNameUser());

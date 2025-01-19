@@ -34,7 +34,7 @@
                 android:hint="@string/value_edtxt_Name"
                 android:paddingTop="10dp"
                 android:enabled="false"
-                app:endIconDrawable="@drawable/edit">
+                app:endIconDrawable="@drawable/candado">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInput"
@@ -52,7 +52,7 @@
                 android:hint="@string/value_edtxt_lastname"
                 android:enabled="false"
                 android:paddingTop="10dp"
-                app:endIconDrawable="@drawable/edit"                >
+                app:endIconDrawable="@drawable/candado"                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInput"
@@ -81,7 +81,7 @@
                 android:hint="Numero de telefono."
                 android:paddingTop="10dp"
                 android:enabled="false"
-                app:endIconDrawable="@drawable/edit">
+                app:endIconDrawable="@drawable/candado">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInput"
@@ -98,7 +98,7 @@
                 android:hint="@string/value_edtxt_email"
                 android:enabled="false"
                 android:paddingTop="10dp"
-                app:endIconDrawable="@drawable/edit">
+                app:endIconDrawable="@drawable/candado">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInput"
@@ -126,7 +126,7 @@
                 android:enabled="false"
                 android:hint="Ubicación"
                 android:paddingTop="10dp"
-                app:endIconDrawable="@drawable/edit">
+                app:endIconDrawable="@drawable/candado">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInput"
