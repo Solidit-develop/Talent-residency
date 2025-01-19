@@ -1,7 +1,10 @@
 package com.example.servicesolidit.Utils.Dtos.Responses.Feed;
 
+import com.example.servicesolidit.Utils.Dtos.Responses.SearchProvider.Skills;
 import com.example.servicesolidit.Utils.Dtos.Responses.User.UserInfoDto;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 
 public class ProviderResponseDto {
     /**
@@ -35,6 +38,17 @@ public class ProviderResponseDto {
 
     @SerializedName("workshopPhoneNumber")
     private String workshopPhoneNumber;
+
+    public ArrayList<Skills> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(ArrayList<Skills> skills) {
+        this.skills = skills;
+    }
+
+    @SerializedName("skills")
+    private ArrayList<Skills> skills;
 
     @SerializedName("adress")
     private AddressResponseDto address;

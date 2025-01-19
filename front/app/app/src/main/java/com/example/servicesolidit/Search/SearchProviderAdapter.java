@@ -47,7 +47,7 @@ public class SearchProviderAdapter extends RecyclerView.Adapter<SearchProviderAd
 
         holder.workshopName.setText(item.getProvedor().getWorkshopName());
         holder.workshopPhone.setText(item.getProvedor().getWorkshopPhoneNumber());
-        holder.skills.setText("Skillssssss");
+        holder.skills.setText(item.getProvedor().getSkills().size() > 0 ? item.getProvedor().getSkills().get(0).getName() : "Negocio de confianza");
         holder.itemView.setOnClickListener(v->{
             listener.onCardClick(item.getProvedor().getIdProvider());
         });
