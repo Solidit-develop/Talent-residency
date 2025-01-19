@@ -1,52 +1,58 @@
 {
-    "services": {
-        "users": {
-            "apiName": "users",
-            "host": "http://userservice",
-            "port": "4001",
-            "url_local": "http://localhost"
-        },
-        "provider": {
-            "apiName": "provider",
-            "host": "http://providerservice",
-            "port": "4002",
-            "url_local": "http://localhost"
-        },
-        "message":{
-            "apiName": "message",
-            "host": "http://messageservice",
-            "port": "4004",
-            "url_local": "http://localhost"
-        },
-        "appointment":{
-            "apiName": "appointment",
-            "host": "http://appointment",
-            "port": "4007",
-            "url_local": "http://localhost"
-        },
-        "relational":{
-            "apiName": "relational",
-            "host": "http://relationalservice",
-            "port": "4008",
-            "url_local": "http://localhost"
-        },
-        "images":{
-            "apiName": "images",
-            "host": "http://imagesservice",
-            "port": "4009",
-            "url_local": "http://localhost"
-        },
-        "agrements":{
-            "apiName": "agrements",
-            "host": "http://agrements",
-            "port": "4010",
-            "url_local": "http://localhost"
-        },
-        "comments-vews":{
-            "apiName": "comments-vews",
-            "host": "http://comments-vews",
-            "port": "4011",
-            "url_local": "http://localhost"
-        }
+  "services": {
+    "agrements": {
+      "apiName": "agrements",
+      "host": "http://agrements",
+      "port": "4010",
+      "url_local": "http://localhost"
+    },
+    "appointment": {
+      "apiName": "appointment",
+      "host": "http://appointment",
+      "port": "4007",
+      "url_local": "http://localhost"
+    },
+    "comments-vews": {
+      "apiName": "comments-vews",
+      "host": "http://comments-vews",
+      "port": "4011",
+      "url_local": "http://localhost"
+    },
+    "images": {
+      "apiName": "images",
+      "host": "http://imagesservice",
+      "port": "4009",
+      "url_local": "http://localhost"
+    },
+    "locations": {
+      "apiName": "locations",
+      "host": "http://locations",
+      "port": "4012",
+      "url_local": "http://localhost"
+    },
+    "message": {
+      "apiName": "message",
+      "host": "http://messageservice",
+      "port": "4004",
+      "url_local": "http://localhost"
+    },
+    "provider": {
+      "apiName": "provider",
+      "host": "http://providerservice",
+      "port": "4002",
+      "url_local": "http://localhost"
+    },
+    "relational": {
+      "apiName": "relational",
+      "host": "http://relationalservice",
+      "port": "4008",
+      "url_local": "http://localhost"
+    },
+    "users": {
+      "apiName": "users",
+      "host": "http://userservice",
+      "port": "4001",
+      "url_local": "http://localhost"
     }
+  }
 }
