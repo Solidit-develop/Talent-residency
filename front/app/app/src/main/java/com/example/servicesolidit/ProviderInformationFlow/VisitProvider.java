@@ -51,7 +51,7 @@ public class VisitProvider extends Fragment implements VisitProviderView{
     private RecyclerView rvObtainComments;
     private VisitProviderAdapter adapter;
     private LinearLayout containerCommentSection;
-    private ArrayList<CommentsDto> commentatiorList = new ArrayList<>();
+    private ArrayList<CommentsDto> commentatiosList = new ArrayList<>();
     private TextView itemNoCommentsView;
     private String URL_TO_PRINT_IMAGE;
 
@@ -72,10 +72,10 @@ public class VisitProvider extends Fragment implements VisitProviderView{
         this.btnTryToStartReview = view.findViewById(R.id.btnTryToStartReview);
         this.etCreateCommetn = view.findViewById(R.id.etCreateCommetn);
 
-        adapter = new VisitProviderAdapter(commentatiorList);
+        adapter = new VisitProviderAdapter(commentatiosList);
         rvObtainComments = view.findViewById(R.id.rvObtainComments);
-        rvObtainComments.setAdapter(adapter);
         rvObtainComments.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        rvObtainComments.setAdapter(adapter);
 
         this.progressVisitProvider = view.findViewById(R.id.progressVisitProvider);
         this.containerCommentSection = view.findViewById(R.id.containerCommentSection);
@@ -204,13 +204,17 @@ public class VisitProvider extends Fragment implements VisitProviderView{
         Gson g = new Gson();
         Log.i("VisitProvider", "Comentarios: " +g.toJson(response));
         if(!response.isEmpty()){
-            this.rvObtainComments.setVisibility(View.VISIBLE);
             this.itemNoCommentsView.setVisibility(View.GONE);
-            this.commentatiorList = response;
-            adapter.notifyDataSetChanged();
+            this.rvObtainComments.setVisibility(View.VISIBLE);
+            this.commentatiosList.clear();
+            this.commentatiosList = response;
+            adapter = new VisitProviderAdapter(this.commentatiosList);
+            this.rvObtainComments.setAdapter(adapter);
+            Log.i("VisitProvider", "Comentarios deberían verse ");
         }else{
             this.rvObtainComments.setVisibility(View.GONE);
             this.itemNoCommentsView.setVisibility(View.VISIBLE);
+            Log.i("VisitProvider", "Comentarios NO deberían verse ");
         }
         adapter.notifyDataSetChanged();
         onHideProgress();
