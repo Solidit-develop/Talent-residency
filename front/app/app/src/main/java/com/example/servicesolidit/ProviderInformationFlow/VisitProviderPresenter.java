@@ -50,11 +50,13 @@ public class VisitProviderPresenter {
         call.enqueue(new Callback<EnableToCommentResponseDto>() {
             @Override
             public void onResponse(Call<EnableToCommentResponseDto> call, Response<EnableToCommentResponseDto> response) {
-                if(response.isSuccessful() && response.body() != null){
+                Gson gf = new Gson();
+                Log.i("VPP", "onResponse: " + gf.toJson(response.body()));
+                if(response.body() != null){
                   EnableToCommentResponseDto result = response.body();
                   view.enableCommentsSection(result.isEnableToComment());
                 }else{
-                    view.onErrorEnableCommentsSection("Ocurrió un error");
+                    view.enableCommentsSection(false);
                 }
             }
 

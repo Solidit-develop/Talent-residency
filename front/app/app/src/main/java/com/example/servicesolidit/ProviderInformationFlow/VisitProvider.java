@@ -130,6 +130,7 @@ public class VisitProvider extends Fragment implements VisitProviderView{
 
     private void enableCommentsSection(int idLogged, int idProviderToLoad) {
         onShowProgress();
+        Log.i("VisitProvider", "onEnableCommentSelection entre " + idLogged + " y " + idProviderToLoad);
         this.presenter.enableCommentsSection(idLogged, idProviderToLoad);
     }
 
@@ -230,6 +231,8 @@ public class VisitProvider extends Fragment implements VisitProviderView{
     @Override
     public void onCommentCreatedSuccess(String message) {
         Toast.makeText(requireContext(), "Comentario enviado....", Toast.LENGTH_SHORT).show();
+        onShowProgress();
+        this.presenter.getComments(this.idProviderToLoad);
         this.etCreateCommetn.setText("");
     }
 
