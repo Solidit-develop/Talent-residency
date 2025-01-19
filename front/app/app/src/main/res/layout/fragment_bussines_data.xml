@@ -42,7 +42,8 @@
                 android:id="@+id/tieBussinesName"
                 android:hint="@string/value_edtxt_Name"
                 android:paddingTop="10dp"
-                app:endIconDrawable="@drawable/edit">
+                android:enabled="false"
+                app:endIconDrawable="@drawable/candado">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInput"
@@ -69,7 +70,8 @@
                 android:id="@+id/tieBussinesPhone"
                 android:hint="Numero de telefono."
                 android:paddingTop="10dp"
-                app:endIconDrawable="@drawable/edit">
+                android:enabled="false"
+                app:endIconDrawable="@drawable/candado">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInput"
@@ -91,7 +93,8 @@
                 android:id="@+id/tieBussinesExperience"
                 android:hint="Experienca"
                 android:paddingTop="10dp"
-                app:endIconDrawable="@drawable/edit">
+                android:enabled="false"
+                app:endIconDrawable="@drawable/candado">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInput"
@@ -118,7 +121,8 @@
                 android:id="@+id/tieBussinesUbication"
                 android:hint="Ubicación"
                 android:paddingTop="10dp"
-                app:endIconDrawable="@drawable/edit">
+                android:enabled="false"
+                app:endIconDrawable="@drawable/candado">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInput"
