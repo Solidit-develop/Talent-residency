@@ -24,6 +24,8 @@ import com.example.servicesolidit.Utils.Dtos.Responses.GenerarMessageResponseDto
 import com.example.servicesolidit.Utils.Dtos.Responses.ImagesRelational.ProviderImageLoadedResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.ImagesRelational.RelationalImagesResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.ImagesRelational.UploadImageResponseDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Locations.CitiesDto;
+import com.example.servicesolidit.Utils.Dtos.Responses.Locations.StatesDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.LoginResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.Messages.MessagesResponseDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.Messages.SendMessageResponseDto;
@@ -124,4 +126,10 @@ public interface ApiService {
 
     @PUT("users/resetPassword")
     Call<GenerarMessageResponseDto> resetPassword(@Body ResetPasswordRequest emailTxt);
+
+    @GET("locations/states")
+    Call<ArrayList<StatesDto>> obtainStates();
+
+    @GET("locations/states/{state}/cities")
+    Call<ArrayList<CitiesDto>> obtainCitiesByState(@Path("state") String state);
 }

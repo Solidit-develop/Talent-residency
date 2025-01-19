@@ -1,9 +1,7 @@
 package com.example.servicesolidit.RegisterFlow;
 
-import com.example.servicesolidit.Network.ApiLocationsService;
 import com.example.servicesolidit.Network.ApiService;
 import com.example.servicesolidit.Network.RetrofitClient;
-import com.example.servicesolidit.Network.RetrofitLocationsClient;
 import com.example.servicesolidit.Utils.Constants;
 import com.example.servicesolidit.Utils.Dtos.Responses.Locations.CitiesDto;
 import com.example.servicesolidit.Utils.Dtos.Responses.Locations.StatesDto;
@@ -16,15 +14,15 @@ import retrofit2.Response;
 
 public class AddressPresenter {
     private AddressView view;
-    private ApiLocationsService service;
+    private ApiService service;
 
     public AddressPresenter(AddressView view) {
         this.view = view;
-        this.service = RetrofitLocationsClient.getClient(Constants.bearerToken).create(ApiLocationsService.class);
+        this.service = RetrofitClient.getClient().create(ApiService.class);
     }
 
     public void obtainStates(){
-        Call<ArrayList<StatesDto>> call = this.service.ObtainStates();
+        Call<ArrayList<StatesDto>> call = this.service.obtainStates();
         call.enqueue(new Callback<ArrayList<StatesDto>>() {
             @Override
             public void onResponse(Call<ArrayList<StatesDto>> call, Response<ArrayList<StatesDto>> response) {
@@ -44,7 +42,7 @@ public class AddressPresenter {
     }
 
     public void obtainCities(String selectedItem) {
-        Call<ArrayList<CitiesDto>> call = this.service.ObtainCities(selectedItem);
+        Call<ArrayList<CitiesDto>> call = this.service.obtainCitiesByState(selectedItem);
         call.enqueue(new Callback<ArrayList<CitiesDto>>() {
             @Override
             public void onResponse(Call<ArrayList<CitiesDto>> call, Response<ArrayList<CitiesDto>> response) {
