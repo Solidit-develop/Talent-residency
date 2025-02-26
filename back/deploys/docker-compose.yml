@@ -182,11 +182,17 @@ services:
 
   locations:
     build:
-      context: ../services/locations-service
+      context: ../services/addresses-service
     environment:
-      - TOKEN_URL_LOCATIONS=https://www.universal-tutorial.com/api/getaccesstoken
-      - TOKEN_LOCATIONS_USER=bahele9724@suggets.com
-      - TOKEN_LOCATIONS_PASSWORD=6NtEDnEnaiGZInlJFJXoTAI7_Pn1MmEvXtvsYMXRbzyoPy6BYadBoLBenENmEAo7qRI
+      - PORT=4012
+      - HOST=localhost
+      - DB_HOST=postgres
+      - DB_TYP=postgres
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+      - DB=mydatabase
+      - DB_PORT=5432
+      - BaseAddress=http://86.38.204.102:4000/api/v1/images
     ports:
       - "4012:4012"
     depends_on:
