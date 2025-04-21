@@ -29,7 +29,7 @@
             android:textStyle="bold"
             android:textColor="@color/bg_white"
             android:textSize="20dp"
-            android:background="@color/blue_transparent"
+            android:background="@color/grey_blue_inf"
             android:padding="10dp"
             android:layout_marginBottom="-10dp"/>
 

@@ -99,7 +99,7 @@
                 android:textSize="25sp"
                 android:textStyle="bold"
                 android:textAlignment="center"
-                android:background="@color/blue_transparent"
+                android:background="@color/grey_blue_inf"
                 android:padding="10dp"
                 android:textColor="@color/bg_white"/>
         </RelativeLayout>

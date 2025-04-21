@@ -144,7 +144,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
                     android:text="Subir"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:backgroundTint="@color/bg_btn_grey"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>

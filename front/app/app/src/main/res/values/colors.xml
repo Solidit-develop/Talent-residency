@@ -3,9 +3,11 @@
     <color name="bg_white">#FFFFFF</color>
     <color name="bg_green_Light">#D1D1D1</color>
     <color name="txt_btn_white">#FFFFFF</color>
-    <color name="bg_btn_grey">#3F51B5</color> <!-- Change to primary code -->
+    <color name="bg_btn_grey">#2F3649</color> <!-- Change to primary code -->
     <color name="dark_text">#000000</color>
     <color name="link">#0F1B56</color>
+    <color name="grey_blue_inf">#E01B2136</color>
+    <color name="blue_head">#2B2D30</color>
 
     <color name="dark_normal">#000000</color>
     <color name="grey_light_bakground">#DDDDDD</color> <!--barra-->
