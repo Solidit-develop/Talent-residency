@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="#9B9B9B"
+            android:background="@color/bg_btn_grey"
             android:orientation="horizontal"
             android:gravity="center"
             android:id="@+id/ly_superior">
