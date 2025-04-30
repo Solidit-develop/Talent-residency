@@ -4,13 +4,17 @@ import nodemailer,{Transporter} from 'nodemailer'
 
 const transporter: Transporter = nodemailer.createTransport({
     host:'smtp.gmail.com',
-    port:465,
+    port:587,
     secure:true,
+    tls:{
+        rejectUnauthorized:true,
+        minVersion: "TLSv1.2"
+    },
     auth:{
     user: 'devsolidit@gmail.com',
     pass: 'qqdc mnwm blph lwwf'
     }
-      
+
 });
 
 transporter.verify()
@@ -24,3 +28,4 @@ transporter.verify()
 
 export default transporter;
 
+//comentario1
