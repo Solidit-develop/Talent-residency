@@ -34,7 +34,8 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".RegisterFlow.Register"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

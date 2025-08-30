@@ -10,8 +10,8 @@ android {
         applicationId = "com.solidit.fixit"
         minSdk = 26
         targetSdk = 34
-        versionCode = 500
-        versionName = "5.0.0"
+        versionCode = 28000001
+        versionName = "6.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
