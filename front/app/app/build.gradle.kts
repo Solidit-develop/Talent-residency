@@ -9,9 +9,9 @@ android {
     defaultConfig {
         applicationId = "com.solidit.fixit"
         minSdk = 26
-        targetSdk = 34
-        versionCode = 28000001
-        versionName = "6.0.0"
+        targetSdk = 35
+        versionCode = 28000002
+        versionName = "6.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
